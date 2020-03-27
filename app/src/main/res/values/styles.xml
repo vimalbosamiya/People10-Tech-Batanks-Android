@@ -1,0 +1,31 @@
+<resources>
+
+    <style name="AppTheme_ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#1D2125</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">#777777</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:editTextColor">#ffffff</item>
+    </style>
+
+    <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#1D2125</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">#777777</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme_ActionBar" parent="android:Theme.Light">
+        <item name="colorPrimary">#1D2125</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">#1D2125</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>-->
+</resources>
