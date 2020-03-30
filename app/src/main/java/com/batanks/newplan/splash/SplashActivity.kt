@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.batanks.newplan.R
-import com.batanks.newplan.signin.SigninActivity
+import com.batanks.newplan.signing.SigninActivity
 
 class SplashActivity : AppCompatActivity() {
 

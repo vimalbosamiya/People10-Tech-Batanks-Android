@@ -1,4 +1,4 @@
-package com.batanks.newplan.signin
+package com.batanks.newplan.signing
 
 import android.content.Intent
 import android.os.Bundle

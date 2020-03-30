@@ -10,6 +10,9 @@
         <item name="android:textColorPrimary">#ffffff</item>
         <item name="android:textColorSecondary">#ffffff</item>
         <item name="android:editTextColor">#ffffff</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.NoActionBar">

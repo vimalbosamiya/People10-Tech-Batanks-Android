@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.batanks.newplan.R
-import com.batanks.newplan.signin.SigninActivity
+import com.batanks.newplan.signing.SigninActivity
 
 class Registration : AppCompatActivity() {
 
