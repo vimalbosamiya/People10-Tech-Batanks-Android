@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/swaggermodel/Batanks-swaggermodel.iml" filepath="$PROJECT_DIR$/swaggermodel/Batanks-swaggermodel.iml" group="New Plan/swaggermodel" />
       <module fileurl="file://$PROJECT_DIR$/New Plan.iml" filepath="$PROJECT_DIR$/New Plan.iml" group="New Plan" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="New Plan/app" />
+      <module fileurl="file://$PROJECT_DIR$/swaggermodel/swaggermodel.iml" filepath="$PROJECT_DIR$/swaggermodel/swaggermodel.iml" group="New Plan/swaggermodel" />
     </modules>
   </component>
 </project>

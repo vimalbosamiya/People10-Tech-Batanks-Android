@@ -1,2 +1,3 @@
-rootProject.name='New Plan'
+rootProject.name = 'New Plan'
 include ':app'
+include ':swaggermodel'
