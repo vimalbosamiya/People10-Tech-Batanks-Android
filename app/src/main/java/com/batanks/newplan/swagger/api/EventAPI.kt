@@ -1,5 +1,6 @@
 package com.batanks.newplan.swagger.api
 
+import ActivitySubscribe
 import com.batanks.newplan.swagger.model.*
 import retrofit2.Call
 import retrofit2.http.*

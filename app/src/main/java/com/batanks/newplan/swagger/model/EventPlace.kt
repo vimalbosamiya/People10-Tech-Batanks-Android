@@ -1,6 +1,6 @@
 package com.batanks.newplan.swagger.model
 
-class EventPlace(
+data class EventPlace(
         val id: Int,
         val place: Place,
         val name: String,

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.batanks.newplan">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.BatanksApplication"
         android:allowBackup="true"

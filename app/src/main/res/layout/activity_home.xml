@@ -12,7 +12,7 @@
         android:background="#454444"
         app:layout_constraintTop_toTopOf="parent"
         app:logo="@drawable/ic_next_plan_logo_small"
-        app:title="My Plans" />
+        app:title="@string/myplans" />
 
     <ImageView
         android:id="@+id/settings"
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="News"
+        android:text="@string/news"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/filterIcon"
         app:layout_constraintLeft_toLeftOf="parent"

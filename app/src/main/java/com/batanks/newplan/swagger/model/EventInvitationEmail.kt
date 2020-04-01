@@ -1,6 +1,5 @@
 package com.batanks.newplan.swagger.model
 
-class EventInvitationEmail(
+data class EventInvitationEmail(
         val name: String,
-        val email: String
-)
+        val email: String)

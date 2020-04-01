@@ -11,4 +11,7 @@
     <string name="email">email</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="registration">Registration</string>
+    <string name="news">News</string>
+    <string name="myplans">My Plans</string>
 </resources>

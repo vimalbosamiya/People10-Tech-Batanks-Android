@@ -14,7 +14,7 @@ class Registration : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Registration"
+        supportActionBar?.title = getString(R.string.registration)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

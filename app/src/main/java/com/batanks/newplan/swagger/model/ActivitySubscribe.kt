@@ -11,5 +11,4 @@ data class ActivitySubscribe(
         val price_currency: String,
         val perPerson: Boolean,
         val duration: Long,
-        val participants: MutableList<Int>
-)
+        val participants: MutableList<Int>)

@@ -1,6 +1,6 @@
 package com.batanks.newplan.swagger.model
 
-class InlineResponse2004(
+data class InlineResponse2004(
         val count: Int,
         val next: String,
         val previous: String,

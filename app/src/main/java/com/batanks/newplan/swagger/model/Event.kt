@@ -21,5 +21,4 @@ data class Event(
         val created: String,
         val modified: String,
         val vote_place_closed: Boolean,
-        val vote_date_closed: Boolean
-)
+        val vote_date_closed: Boolean)
