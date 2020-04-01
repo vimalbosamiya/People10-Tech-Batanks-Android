@@ -1,0 +1,12 @@
+package com.batanks.newplan.swagger.model
+
+class EventPlace(
+        val id: Int,
+        val place: Place,
+        val name: String,
+        val address: String,
+        val zipcode: String,
+        val city: String,
+        val country: String,
+        val map: Boolean,
+        val votes: List<Int>)
