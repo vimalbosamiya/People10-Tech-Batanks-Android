@@ -33,6 +33,8 @@
 
         <activity android:name=".signing.SigninActivity" />
 
-        <activity android:name=".registration.Registration" />
+        <activity
+            android:name=".registration.Registration"
+            android:theme="@style/AppTheme_Registration" />
     </application>
 </manifest>

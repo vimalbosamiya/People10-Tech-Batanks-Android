@@ -15,4 +15,9 @@
     <string name="news">News</string>
     <string name="myplans">My Plans</string>
     <string name="signing_in_please_wait">Signing-in.., Please wait,..</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="password_condition">Password should contain at least 1 lower case and 1 upper case letter.</string>
+    <string name="password_doesnt_match">Password &amp; Confirm password doesn\'t match.</string>
+    <string name="not_valid_email">Email is not valid.</string>
 </resources>

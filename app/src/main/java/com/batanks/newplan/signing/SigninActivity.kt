@@ -62,8 +62,8 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     }
 
     fun loginEditTextValidation(): Boolean {
-        if (loginEditText.text.toString().isEmpty() || loginEditText.text.toString().length > 15) {
-            loginEditText.error = "Length should be more than one character & less than 15 character"
+        if (loginEditText.text.toString().isEmpty()) {
+            loginEditText.error = "Password should contain at least 1 letter."
         } else {
             loginEditText.error = null
             return true
@@ -72,8 +72,8 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     }
 
     fun passwordEditTextValidation(): Boolean {
-        if (passwordEditText.text.toString().isEmpty() || passwordEditText.text.toString().length > 15) {
-            passwordEditText.error = "Length should be more than one character & less than 15 character"
+        if (passwordEditText.text.toString().isEmpty()) {
+            passwordEditText.error = "Password should contain at least 1 letter."
         } else {
             passwordEditText.error = null
             return true

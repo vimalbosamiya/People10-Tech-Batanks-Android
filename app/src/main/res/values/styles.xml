@@ -15,6 +15,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme_Registration" parent="AppTheme_ActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
     <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>

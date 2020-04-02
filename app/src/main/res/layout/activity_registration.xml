@@ -18,6 +18,7 @@
             android:background="@drawable/ic_edittext_background"
             android:hint="@string/name"
             android:inputType="textPersonName"
+            android:maxLength="150"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -35,6 +36,7 @@
             android:background="@drawable/ic_edittext_background"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
+            android:maxLength="30"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -69,9 +71,10 @@
             android:background="@drawable/ic_edittext_background"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:maxLength="15"
             android:maxLines="1"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingEnd="58dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -81,7 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:src="@drawable/ic_eye"
+            android:src="@drawable/ic_eye_off"
+            app:layout_constraintBottom_toBottomOf="@+id/passwordEditText"
             app:layout_constraintEnd_toEndOf="@+id/passwordEditText"
             app:layout_constraintLeft_toRightOf="@+id/passwordEditText"
             app:layout_constraintRight_toRightOf="@+id/passwordEditText"
@@ -97,9 +101,10 @@
             android:background="@drawable/ic_edittext_background"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
+            android:maxLength="15"
             android:maxLines="1"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingEnd="58dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
@@ -109,7 +114,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
-            android:src="@drawable/ic_eye"
+            android:src="@drawable/ic_eye_off"
+            app:layout_constraintBottom_toBottomOf="@+id/confirmPasswordEditText"
             app:layout_constraintEnd_toEndOf="@+id/confirmPasswordEditText"
             app:layout_constraintLeft_toRightOf="@+id/confirmPasswordEditText"
             app:layout_constraintRight_toRightOf="@+id/confirmPasswordEditText"
@@ -134,7 +140,7 @@
             app:layout_constraintLeft_toRightOf="@+id/stayLoggedIn"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
+        <Button
             android:id="@+id/signIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
