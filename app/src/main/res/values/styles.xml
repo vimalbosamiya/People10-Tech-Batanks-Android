@@ -22,6 +22,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
+        <item name="android:color">#82bc00</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:duration">5</item>
+    </style>
+
     <!-- Base application theme. -->
     <!--<style name="AppTheme_ActionBar" parent="android:Theme.Light">
         <item name="colorPrimary">#1D2125</item>
