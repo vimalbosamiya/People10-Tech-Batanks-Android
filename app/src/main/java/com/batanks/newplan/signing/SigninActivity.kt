@@ -13,10 +13,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.batanks.newplan.R
+import com.batanks.newplan.common.dialogBuilder
+import com.batanks.newplan.common.dismissKeyboard
 import com.batanks.newplan.common.getLoadingDialog
+import com.batanks.newplan.home.HomePlanPreview
 import com.batanks.newplan.registration.Registration
 import com.batanks.newplan.signing.contract.SigninContract
 import com.batanks.newplan.signing.presenter.SigninPresenter
+import com.batanks.newplan.swagger.model.Login
 import kotlinx.android.synthetic.main.activity_signin.*
 
 class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchListener, View.OnClickListener {
@@ -31,8 +35,7 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
         presenter = SigninPresenter()
         presenter?.onAttach(this)
 
-        loadingDialog = getLoadingDialog(0, R.string.signing_in_please_wait)
-        loadingDialog?.setCancelable(false)
+        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
 
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
@@ -100,7 +103,14 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     }
 
     override fun showMessage(message: String) {
-
+        hideLoader()
+        this.dialogBuilder(
+                title = message,
+                positive = getString(android.R.string.yes),
+                negative = getString(android.R.string.no),
+                cancelable = false,
+                theme = R.style.AlertDialogCustom
+        ).create().show()
     }
 
     override fun showMessage(message: String, title: String, showPositiveButton: Boolean) {
@@ -136,10 +146,20 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.login -> {
+                dismissKeyboard()
                 if (loginEditTextValidation() && passwordEditTextValidation()) {
-
+                    showLoader()
+                    val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
+                    presenter?.performLogin(login)
                 }
             }
         }
+    }
+
+    override fun processResponse() {
+        hideLoader()
+        val intent = Intent(this, HomePlanPreview::class.java)
+        startActivity(intent)
+        finish()
     }
 }

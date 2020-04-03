@@ -9,14 +9,14 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/userName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/ic_edittext_background"
-            android:hint="@string/name"
+            android:hint="@string/username"
             android:inputType="textPersonName"
             android:maxLength="150"
             android:maxLines="1"
@@ -42,7 +42,25 @@
             android:paddingRight="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+        <EditText
+            android:id="@+id/lastName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/ic_edittext_background"
+            android:hint="@string/last_name"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
         <EditText
             android:id="@+id/email"
@@ -59,7 +77,7 @@
             android:paddingRight="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstName" />
+            app:layout_constraintTop_toBottomOf="@+id/lastName" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -121,14 +139,32 @@
             app:layout_constraintRight_toRightOf="@+id/confirmPasswordEditText"
             app:layout_constraintTop_toTopOf="@+id/confirmPasswordEditText" />
 
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/ic_edittext_background"
+            android:digits="+0123456789"
+            android:hint="@string/phone_number"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+
         <TextView
             android:id="@+id/stayLoggedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/stay_loggedin_in"
-            app:layout_constraintStart_toStartOf="@+id/confirmPasswordEditText"
-            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+            app:layout_constraintStart_toStartOf="@+id/phoneNumber"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -136,7 +172,7 @@
             android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/stayLoggedIn"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/confirmPasswordEditText"
+            app:layout_constraintEnd_toEndOf="@+id/phoneNumber"
             app:layout_constraintLeft_toRightOf="@+id/stayLoggedIn"
             app:layout_constraintRight_toRightOf="parent" />
 

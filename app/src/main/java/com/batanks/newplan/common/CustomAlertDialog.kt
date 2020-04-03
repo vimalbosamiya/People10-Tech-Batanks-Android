@@ -1,6 +1,8 @@
 package com.batanks.newplan.common
 
+import android.app.Activity
 import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.CheckResult
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
@@ -73,10 +75,11 @@ fun Context.getLoadingDialog(
         @StringRes message: Int = 0,
         @StringRes positive: Int = 0,
         @StringRes negative: Int = 0,
-        cancelable: Boolean = true,
+        cancelable: Boolean = false,
         touchOutside: Boolean = false,
         onPositive: (() -> Unit)? = null,
-        onNegative: (() -> Unit)? = null
+        onNegative: (() -> Unit)? = null,
+        @StyleRes theme: Int = 0
 ): AlertDialog {
     val builder = this.dialogBuilder(
             title = title,
@@ -85,10 +88,17 @@ fun Context.getLoadingDialog(
             negative = negative,
             cancelable = cancelable,
             onPositive = onPositive,
-            onNegative = onNegative
+            onNegative = onNegative,
+            theme = theme
     )
     builder.setView(R.layout.progress_layout)
     val dialog = builder.create()
     dialog.setCanceledOnTouchOutside(touchOutside)
     return dialog
+}
+
+fun Activity.dismissKeyboard() {
+    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    if (inputMethodManager.isAcceptingText)
+        inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 }
