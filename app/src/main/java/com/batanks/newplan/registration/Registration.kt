@@ -3,8 +3,6 @@ package com.batanks.newplan.registration
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
@@ -24,6 +22,10 @@ import com.batanks.newplan.registration.contract.RegistrationContract
 import com.batanks.newplan.registration.presenter.RegistrationPresenter
 import com.batanks.newplan.signing.SigninActivity
 import com.batanks.newplan.swagger.model.RegisterUser
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Observable
+import io.reactivex.functions.Function7
+import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_registration.*
 import java.util.regex.Pattern
 
@@ -31,6 +33,7 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
 
     private var presenter: RegistrationPresenter? = null
     private var loadingDialog: AlertDialog? = null
+    private var observable: Observable<Boolean>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,122 +52,90 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
         passwordEyeIcon.setOnTouchListener(this)
         confirmPasswordEyeIcon.setOnTouchListener(this)
 
-        userName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                userNameValidation()
-            }
-        })
-
-        firstName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                firstNameValidation()
-            }
-        })
-
-        lastName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                lastNameValidation()
-            }
-        })
-
-        email.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                if (emailValidation()) {
-                    email.error = null
-                } else {
-                    email.error = "Enter valid email id."
-                }
-            }
-        })
-
-        passwordEditText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                passwordEditTextValidation()
-            }
-        })
-
-        confirmPasswordEditText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                confirmPasswordEditTextValidation()
-            }
-        })
-
-        phoneNumber.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-
-            }
-        })
-    }
-
-    private fun userNameValidation(): Boolean {
-        if (userName.text.toString().isEmpty()) {
-            userName.error = "UserName should contain at least 1 letter."
-        } else {
-            userName.error = null
-            return true
+        val userNameObservable: Observable<String> = RxTextView.textChanges(userName).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
-    }
-
-    private fun firstNameValidation(): Boolean {
-        if (firstName.text.toString().isEmpty()) {
-            firstName.error = "FirstName should contain at least 1 letter."
-        } else {
-            firstName.error = null
-            return true
+        val firstNameObservable: Observable<String> = RxTextView.textChanges(firstName).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
-    }
-
-    private fun lastNameValidation(): Boolean {
-        if (lastName.text.toString().isEmpty()) {
-            lastName.error = "LastName should contain at least 1 letter."
-        } else {
-            lastName.error = null
-            return true
+        val lastNameObservable: Observable<String> = RxTextView.textChanges(lastName).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
-    }
-
-    private fun emailValidation(): Boolean {
-        if (isEmailValid(email.text)) {
-            return true
+        val emailObservable: Observable<String> = RxTextView.textChanges(email).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
-    }
-
-    private fun passwordEditTextValidation(): Boolean {
-        if (passwordEditText.text.toString().isEmpty() || !isValidPassword(passwordEditText.text.toString())) {
-            passwordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
-        } else {
-            passwordEditText.error = null
-            return true
+        val passwordEditTextObservable: Observable<String> = RxTextView.textChanges(passwordEditText).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
-    }
-
-    private fun confirmPasswordEditTextValidation(): Boolean {
-        if (confirmPasswordEditText.text.toString().isEmpty() || !isValidPassword(confirmPasswordEditText.text.toString())) {
-            confirmPasswordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
-        } else {
-            confirmPasswordEditText.error = null
-            return true
+        val confirmPasswordEditTextObservable: Observable<String> = RxTextView.textChanges(confirmPasswordEditText).skip(1).map { charSequence ->
+            charSequence.toString()
         }
-        return false
+        val phoneNumberObservable: Observable<String> = RxTextView.textChanges(phoneNumber).skip(1).map { charSequence ->
+            charSequence.toString()
+        }
+
+        observable = Observable.combineLatest(
+                userNameObservable,
+                firstNameObservable,
+                lastNameObservable,
+                emailObservable,
+                passwordEditTextObservable,
+                confirmPasswordEditTextObservable,
+                phoneNumberObservable,
+                Function7<String?, String?, String?, String?, String?, String?, String?, Boolean?> { s1, s2, s3, s4, s5, s6, s7 ->
+                    /*UserName*/
+                    val validUserName = s1.isNotEmpty()
+                    if (!validUserName) {
+                        userName.error = "UserName should contain at least 1 letter."
+                    }
+                    /*FirstName*/
+                    val validFirstName = s2.isNotEmpty()
+                    if (!validFirstName) {
+                        firstName.error = "FirstName should contain at least 1 letter."
+                    }
+                    /*LastName*/
+                    val validLastName = s3.isNotEmpty()
+                    if (!validLastName) {
+                        lastName.error = "LastName should contain at least 1 letter."
+                    }
+                    /*EmailID*/
+                    val validEmail = s4.isNotEmpty() && isEmailValid(s4)
+                    if (!validEmail) {
+                        email.error = "Enter valid email id."
+                    }
+                    /*Password*/
+                    val validPass = s5.isNotEmpty() && isValidPassword(s5)
+                    if (!validPass) {
+                        passwordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                    }
+                    /*Password & ConfirmPassword*/
+                    val samePassword = s5.equals(s6, false)
+                    if (!samePassword) {
+                        confirmPasswordEditText.error = "Password field & Confirm Password are different."
+                    }
+                    /*ConfirmPassword*/
+                    val validConfirmPass = s6.isNotEmpty() && isValidPassword(s6)
+                    if (!validConfirmPass) {
+                        confirmPasswordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                    }
+                    /*PhoneNumber*/
+                    val validPhone = s7.isNotEmpty() && s7.length == 10
+                    if (!validPhone) {
+                        phoneNumber.error = "Phone Number should be of 10 digits."
+                    }
+
+                    validUserName && validFirstName && validLastName && validEmail && validPass && validConfirmPass && samePassword && validPhone
+                })
+
+        observable?.subscribe(object : DisposableObserver<Boolean>() {
+
+            override fun onNext(validFlag: Boolean) {
+                signIn.isEnabled = validFlag
+            }
+
+            override fun onError(e: Throwable) {}
+            override fun onComplete() {}
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -208,9 +179,7 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
         ).create().show()
     }
 
-    override fun showMessage(message: String, title: String, showPositiveButton: Boolean) {
-
-    }
+    override fun showMessage(message: String, title: String, showPositiveButton: Boolean) {}
 
     override fun context(): Context {
         return this
@@ -251,54 +220,23 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
         dismissKeyboard()
         when (v?.id) {
             R.id.signIn -> {
-                /*if (passwordEditTextValidation() || confirmPasswordEditTextValidation()) {
-                    this.dialogBuilder(
-                            title = getString(R.string.password_condition),
-                            positive = getString(android.R.string.yes),
-                            negative = getString(android.R.string.no),
-                            cancelable = false,
-                            theme = R.style.AlertDialogCustom_Register
-                    ).create().show()
-                } else*/ if (passwordEditText.text.toString() != confirmPasswordEditText.text.toString()) {
-                    this.dialogBuilder(
-                            title = getString(R.string.password_doesnt_match),
-                            positive = getString(android.R.string.yes),
-                            negative = getString(android.R.string.no),
-                            cancelable = false,
-                            theme = R.style.AlertDialogCustom_Register
-                    ).create().show()
-                } else if (!isEmailValid(email.text)) {
-                    this.dialogBuilder(
-                            title = getString(R.string.not_valid_email),
-                            positive = getString(android.R.string.yes),
-                            negative = getString(android.R.string.no),
-                            cancelable = false,
-                            theme = R.style.AlertDialogCustom_Register
-                    ).create().show()
-                } else {
-                    showLoader()
-                    val user = RegisterUser(
-                            username = userName.text.toString(),
-                            first_name = firstName.text.toString(),
-                            last_name = lastName.text.toString(),
-                            email = email.text.toString(),
-                            password1 = passwordEditText.text.toString(),
-                            password2 = confirmPasswordEditText.text.toString(),
-                            phone_number = phoneNumber.text.toString()
-                    )
-                    presenter?.createUser(user)
-                }
+                showLoader()
+                val user = RegisterUser(
+                        username = userName.text.toString(),
+                        first_name = firstName.text.toString(),
+                        last_name = lastName.text.toString(),
+                        email = email.text.toString(),
+                        password1 = passwordEditText.text.toString(),
+                        password2 = confirmPasswordEditText.text.toString(),
+                        phone_number = ccp.selectedCountryCodeWithPlus + phoneNumber.text.toString()
+                )
+                presenter?.createUser(user)
             }
         }
     }
 
-    private fun isEmailValid(email: CharSequence?): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    private fun isValidPassword(textToCheck: String?): Boolean {
-        return textPattern.matcher(textToCheck).matches()
-    }
+    private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
 
     override fun processResponse() {
         Toast.makeText(this, "User account is created", Toast.LENGTH_SHORT).show()

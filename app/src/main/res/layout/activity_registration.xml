@@ -26,6 +26,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/userName"
+            app:layout_constraintRight_toRightOf="@+id/userName"
+            app:layout_constraintTop_toBottomOf="@+id/userName" />
+
         <EditText
             android:id="@+id/firstName"
             android:layout_width="0dp"
@@ -43,6 +51,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/firstName"
+            app:layout_constraintRight_toRightOf="@+id/firstName"
+            app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
         <EditText
             android:id="@+id/lastName"
@@ -62,6 +78,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/lastName"
+            app:layout_constraintRight_toRightOf="@+id/lastName"
+            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
         <EditText
             android:id="@+id/email"
             android:layout_width="0dp"
@@ -78,6 +102,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/email"
+            app:layout_constraintRight_toRightOf="@+id/email"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -96,6 +128,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/passwordEditText"
+            app:layout_constraintRight_toRightOf="@+id/passwordEditText"
+            app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
         <ImageView
             android:id="@+id/passwordEyeIcon"
@@ -128,6 +168,14 @@
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
         <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/confirmPasswordEditText"
+            app:layout_constraintRight_toRightOf="@+id/confirmPasswordEditText"
+            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+
+        <ImageView
             android:id="@+id/confirmPasswordEyeIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,31 +187,54 @@
             app:layout_constraintRight_toRightOf="@+id/confirmPasswordEditText"
             app:layout_constraintTop_toTopOf="@+id/confirmPasswordEditText" />
 
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ccp_contentColor="#ffffff"
+            app:ccp_defaultNameCode="FR"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneNumber"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/phoneNumber"
+            app:layout_constraintStart_toStartOf="@+id/confirmPasswordEditText"
+            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText"
+            app:layout_constraintTop_toTopOf="@+id/phoneNumber" />
+
         <EditText
             android:id="@+id/phoneNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/ic_edittext_background"
-            android:digits="+0123456789"
+            android:digits="0123456789"
             android:hint="@string/phone_number"
             android:inputType="phone"
+            android:maxLength="10"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_weight="90"
+            app:layout_constraintLeft_toRightOf="@+id/ccp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="@+id/phoneNumber"
+            app:layout_constraintRight_toRightOf="@+id/phoneNumber"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
         <TextView
             android:id="@+id/stayLoggedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="24dp"
             android:text="@string/stay_loggedin_in"
-            app:layout_constraintStart_toStartOf="@+id/phoneNumber"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
         <CheckBox
@@ -181,7 +252,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@drawable/ic_create_account_background"
+            android:background="@drawable/ic_login_button_selector"
+            android:enabled="false"
             android:gravity="center"
             android:text="@string/sign_in"
             app:layout_constraintLeft_toLeftOf="parent"
