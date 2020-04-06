@@ -74,6 +74,8 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
             charSequence.toString()
         }
 
+        ccp.registerCarrierNumberEditText(phoneNumber)
+
         observable = Observable.combineLatest(
                 userNameObservable,
                 firstNameObservable,
@@ -119,9 +121,9 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
                         confirmPasswordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
                     }
                     /*PhoneNumber*/
-                    val validPhone = s7.isNotEmpty() && s7.length == 10
+                    val validPhone = s7.isNotEmpty() && ccp.isValidFullNumber
                     if (!validPhone) {
-                        phoneNumber.error = "Phone Number should be of 10 digits."
+                        phoneNumber.error = "Please enter a vaild phone number."
                     }
 
                     validUserName && validFirstName && validLastName && validEmail && validPass && validConfirmPass && samePassword && validPhone
