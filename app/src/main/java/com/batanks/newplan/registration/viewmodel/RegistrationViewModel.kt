@@ -7,7 +7,7 @@ import com.batanks.newplan.swagger.api.AuthenticationAPI
 class RegistrationViewModel : ViewModel() {
 
     private fun performLoginRequest() {
-        val authApi = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)
+        /*val authApi = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)*/
         /*authApi?.apiAuthenticationLoginCreate()*/
     }
 }

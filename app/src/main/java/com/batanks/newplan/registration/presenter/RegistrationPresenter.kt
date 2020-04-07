@@ -30,7 +30,7 @@ class RegistrationPresenter constructor() : RegistrationContract.IPresenter {
     }
 
     override fun createUser(user: RegisterUser) {
-        val retrofitClient = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)?.apiAuthenticationRegisterCreate(user)
+        val retrofitClient = view?.context()?.let { RetrofitClient.getRetrofitInstance(it)?.create(AuthenticationAPI::class.java)?.apiAuthenticationRegisterCreate(user) }
         retrofitClient?.enqueue(object : Callback, retrofit2.Callback<RegisterUser> {
 
             override fun onResponse(call: retrofit2.Call<RegisterUser>, response: retrofit2.Response<RegisterUser>) {

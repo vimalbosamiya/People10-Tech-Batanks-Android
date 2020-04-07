@@ -27,7 +27,7 @@ class SigninPresenter constructor() : SigninContract.IPresenter {
     }
 
     override fun performLogin(login: Login) {
-        val retrofitClient = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)?.apiAuthenticationLoginCreate(login)
+        val retrofitClient = view?.context()?.let { RetrofitClient.getRetrofitInstance(it)?.create(AuthenticationAPI::class.java)?.apiAuthenticationLoginCreate(login) }
         retrofitClient?.enqueue(object : Callback, retrofit2.Callback<Login> {
 
             override fun onResponse(call: retrofit2.Call<Login>, response: retrofit2.Response<Login>) {

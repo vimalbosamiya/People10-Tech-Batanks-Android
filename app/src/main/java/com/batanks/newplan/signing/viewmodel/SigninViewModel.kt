@@ -18,7 +18,7 @@ class SigninViewModel : ViewModel() {
     }
 
     private fun performLoginRequest() {
-        val authApi = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)
+        /*val authApi = RetrofitClient.getRetrofitInstance()?.create(AuthenticationAPI::class.java)*/
         /*authApi?.apiAuthenticationLoginCreate()*/
     }
 }
