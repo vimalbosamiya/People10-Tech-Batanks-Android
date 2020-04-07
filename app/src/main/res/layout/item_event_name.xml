@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="#232323">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/eventTimelineHighlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:src="@drawable/ic_event_timeline_highlight"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/eventPrivateCategoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_event_private_category"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="30dp"
+            android:text="Private Event Name"
+            app:layout_constraintLeft_toLeftOf="@+id/eventPrivateCategoryIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/datePeriodIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_date_period"
+            app:layout_constraintStart_toStartOf="@+id/eventName"
+            app:layout_constraintTop_toBottomOf="@+id/eventName" />
+
+        <TextView
+            android:id="@+id/fromTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="From"
+            app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
+            app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
+            app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
+
+        <TextView
+            android:id="@+id/fromResponseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="From Response"
+            app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
+            app:layout_constraintLeft_toRightOf="@+id/fromTextView"
+            app:layout_constraintTop_toTopOf="@+id/fromTextView" />
+
+        <TextView
+            android:id="@+id/toTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="To"
+            app:layout_constraintStart_toStartOf="@+id/fromTextView"
+            app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+
+        <TextView
+            android:id="@+id/toResponseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="To Response"
+            app:layout_constraintBottom_toBottomOf="@+id/toTextView"
+            app:layout_constraintLeft_toRightOf="@+id/toTextView"
+            app:layout_constraintTop_toTopOf="@+id/toTextView" />
+
+        <ImageView
+            android:id="@+id/mapPlaceIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_map_place"
+            app:layout_constraintStart_toStartOf="@+id/datePeriodIcon"
+            app:layout_constraintTop_toBottomOf="@+id/datePeriodIcon" />
+
+        <TextView
+            android:id="@+id/placeResponseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLines="2"
+            android:text="Bangalore"
+            app:layout_constraintBottom_toBottomOf="@+id/mapPlaceIcon"
+            app:layout_constraintLeft_toRightOf="@+id/mapPlaceIcon"
+            app:layout_constraintTop_toTopOf="@+id/mapPlaceIcon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

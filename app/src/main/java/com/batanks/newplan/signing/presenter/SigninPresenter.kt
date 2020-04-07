@@ -5,8 +5,10 @@ import com.batanks.newplan.signing.contract.SigninContract
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.net.HttpURLConnection
-import javax.security.auth.callback.Callback
 
 class SigninPresenter constructor() : SigninContract.IPresenter {
 
@@ -28,9 +30,9 @@ class SigninPresenter constructor() : SigninContract.IPresenter {
 
     override fun performLogin(login: Login) {
         val retrofitClient = view?.context()?.let { RetrofitClient.getRetrofitInstance(it)?.create(AuthenticationAPI::class.java)?.apiAuthenticationLoginCreate(login) }
-        retrofitClient?.enqueue(object : Callback, retrofit2.Callback<Login> {
+        retrofitClient?.enqueue(object : Callback<Login> {
 
-            override fun onResponse(call: retrofit2.Call<Login>, response: retrofit2.Response<Login>) {
+            override fun onResponse(call: Call<Login>, response: Response<Login>) {
                 if (response.isSuccessful && response.code() == HttpURLConnection.HTTP_OK) {
                     view?.processResponse()
                 } else {
@@ -38,7 +40,7 @@ class SigninPresenter constructor() : SigninContract.IPresenter {
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<Login>, t: Throwable) {
+            override fun onFailure(call: Call<Login>, t: Throwable) {
                 view?.showMessage(t.message.toString())
             }
         })

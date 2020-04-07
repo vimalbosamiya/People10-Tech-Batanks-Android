@@ -1,6 +1,8 @@
 package com.batanks.newplan.network
 
 import android.content.Context
+import com.batanks.newplan.network.cookie.CookieJarImplementation
+import com.batanks.newplan.network.cookie.JsonFileCookieStore
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

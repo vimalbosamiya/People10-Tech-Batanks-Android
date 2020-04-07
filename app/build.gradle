@@ -70,7 +70,9 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
 
     implementation 'com.hbb20:ccp:2.3.8'
-    implementation "com.squareup.okio:okio:2.2.2"
+    implementation "com.squareup.okio:okio:2.4.3"
+
+    implementation "androidx.cardview:cardview:1.0.0"
 }
 
 repositories {

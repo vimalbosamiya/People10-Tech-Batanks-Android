@@ -8,8 +8,10 @@ import com.google.gson.Gson
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.net.HttpURLConnection
-import javax.security.auth.callback.Callback
 
 class RegistrationPresenter constructor() : RegistrationContract.IPresenter {
 
@@ -31,9 +33,9 @@ class RegistrationPresenter constructor() : RegistrationContract.IPresenter {
 
     override fun createUser(user: RegisterUser) {
         val retrofitClient = view?.context()?.let { RetrofitClient.getRetrofitInstance(it)?.create(AuthenticationAPI::class.java)?.apiAuthenticationRegisterCreate(user) }
-        retrofitClient?.enqueue(object : Callback, retrofit2.Callback<RegisterUser> {
+        retrofitClient?.enqueue(object : Callback<RegisterUser> {
 
-            override fun onResponse(call: retrofit2.Call<RegisterUser>, response: retrofit2.Response<RegisterUser>) {
+            override fun onResponse(call: Call<RegisterUser>, response: Response<RegisterUser>) {
                 if (response.isSuccessful && response.code() == HttpURLConnection.HTTP_OK) {
                     view?.processResponse()
                 } else {
@@ -41,7 +43,7 @@ class RegistrationPresenter constructor() : RegistrationContract.IPresenter {
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<RegisterUser>, t: Throwable) {
+            override fun onFailure(call: Call<RegisterUser>, t: Throwable) {
                 view?.showMessage(t.message.toString())
             }
         })
