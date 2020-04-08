@@ -13,14 +13,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseContract
 import com.batanks.newplan.common.dialogBuilder
 import com.batanks.newplan.common.dismissKeyboard
 import com.batanks.newplan.common.getLoadingDialog
+import com.batanks.newplan.arch.response.Status
+import com.batanks.newplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.newplan.home.HomePlanPreview
-import com.batanks.newplan.registration.contract.RegistrationContract
-import com.batanks.newplan.registration.presenter.RegistrationPresenter
+import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.signing.SigninActivity
+import com.batanks.newplan.signing.viewmodel.RegistrationViewModel
+import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.RegisterUser
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
@@ -29,11 +35,18 @@ import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_registration.*
 import java.util.regex.Pattern
 
-class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTouchListener, View.OnClickListener {
+class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnTouchListener, View.OnClickListener {
 
-    private var presenter: RegistrationPresenter? = null
     private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
+
+    private val registrationViewModel: RegistrationViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
+                RegistrationViewModel(it)
+            }
+        }).get(RegistrationViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +55,25 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.registration)
 
-        presenter = RegistrationPresenter()
-        presenter?.onAttach(this)
+        registrationViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    Toast.makeText(this, "User account is created", Toast.LENGTH_SHORT).show()
+                    hideLoader()
+                    val intent = Intent(this, HomePlanPreview::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
 
         loadingDialog = this.getLoadingDialog(0, R.string.creating_user_please_wait, theme = R.style.AlertDialogCustom)
 
@@ -190,8 +220,6 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
     override fun onDestroy() {
         super.onDestroy()
         hideLoader()
-        presenter?.onDetach()
-        presenter = null
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -232,21 +260,13 @@ class Registration : AppCompatActivity(), RegistrationContract.IView, View.OnTou
                         password2 = confirmPasswordEditText.text.toString(),
                         phone_number = ccp.selectedCountryCodeWithPlus + phoneNumber.text.toString()
                 )
-                presenter?.createUser(user)
+                registrationViewModel.createUser(user)
             }
         }
     }
 
     private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
-
-    override fun processResponse() {
-        Toast.makeText(this, "User account is created", Toast.LENGTH_SHORT).show()
-        hideLoader()
-        val intent = Intent(this, HomePlanPreview::class.java)
-        startActivity(intent)
-        finish()
-    }
 
     companion object {
         val textPattern: Pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$")

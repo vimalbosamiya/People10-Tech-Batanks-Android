@@ -11,18 +11,19 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
+import androidx.lifecycle.ViewModelProvider
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseContract
 import com.batanks.newplan.common.dialogBuilder
 import com.batanks.newplan.common.dismissKeyboard
 import com.batanks.newplan.common.getLoadingDialog
 import com.batanks.newplan.home.HomePlanPreview
 import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.registration.Registration
-import com.batanks.newplan.signing.contract.SigninContract
-import com.batanks.newplan.signing.presenter.SigninPresenter
+import com.batanks.newplan.arch.viewmodel.GenericViewModelFactory
+import com.batanks.newplan.signing.viewmodel.RegistrationViewModel
+import com.batanks.newplan.arch.response.Status
 import com.batanks.newplan.signing.viewmodel.SigninViewModel
-import com.batanks.newplan.signing.viewmodel.Status
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -31,19 +32,22 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_signin.*
 
-class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchListener, View.OnClickListener {
+class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnTouchListener, View.OnClickListener {
 
-    private var presenter: SigninPresenter? = null
     private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
 
-    lateinit var signinViewModel: SigninViewModel
+    private val signinViewModel: SigninViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
+                SigninViewModel(it)
+            }
+        }).get(SigninViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
-
-        signinViewModel = NewInstanceFactory().create(SigninViewModel::class.java)
 
         signinViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -63,8 +67,6 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
                 }
             }
         })
-        presenter = SigninPresenter()
-        presenter?.onAttach(this)
 
         loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
 
@@ -148,8 +150,6 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     override fun onDestroy() {
         super.onDestroy()
         hideLoader()
-        presenter?.onDetach()
-        presenter = null
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -171,21 +171,9 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
         when (v?.id) {
             R.id.login -> {
                 dismissKeyboard()
-
-                /*showLoader()
                 val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
-                presenter?.performLogin(login)*/
-
-                val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
-                RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let { signinViewModel.performSignIn(login, it) }
+                signinViewModel.performSignIn(login)
             }
         }
-    }
-
-    override fun processResponse() {
-        hideLoader()
-        val intent = Intent(this, HomePlanPreview::class.java)
-        startActivity(intent)
-        finish()
     }
 }

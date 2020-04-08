@@ -42,4 +42,7 @@ interface AuthenticationAPI {
 
     @POST("api/authentication/register/")
     fun apiAuthenticationRegisterCreate(@Body user: RegisterUser): Call<RegisterUser>
+
+    @POST("api/authentication/register/")
+    fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<RegisterUser>
 }

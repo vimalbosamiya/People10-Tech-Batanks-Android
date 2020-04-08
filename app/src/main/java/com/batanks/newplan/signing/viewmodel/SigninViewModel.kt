@@ -2,19 +2,20 @@ package com.batanks.newplan.signing.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.batanks.newplan.arch.response.ApiResponse
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class SigninViewModel : ViewModel() {
+class SigninViewModel(private val authApi: AuthenticationAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
 
-    fun performSignIn(login: Login, auth: AuthenticationAPI) {
-        disposables.add(auth.apiAuthenticationLoginCreateSingle(login)
+    fun performSignIn(login: Login) {
+        disposables.add(authApi.apiAuthenticationLoginCreateSingle(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
