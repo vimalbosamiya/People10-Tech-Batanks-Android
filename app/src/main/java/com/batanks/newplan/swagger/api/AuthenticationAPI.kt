@@ -1,6 +1,7 @@
 package com.batanks.newplan.swagger.api
 
 import com.batanks.newplan.swagger.model.*
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -21,6 +22,9 @@ interface AuthenticationAPI {
     @POST("api/authentication/login/")
     fun apiAuthenticationLoginCreate(@Body login: Login): Call<Login>
 
+    @POST("api/authentication/login/")
+    fun apiAuthenticationLoginCreateSingle(@Body login: Login): Observable<Login>
+
     @POST("api/authentication/logout/")
     fun apiAuthenticationLogoutCreate(): Call<Void>
 
@@ -38,4 +42,7 @@ interface AuthenticationAPI {
 
     @POST("api/authentication/register/")
     fun apiAuthenticationRegisterCreate(@Body user: RegisterUser): Call<RegisterUser>
+
+    @POST("api/authentication/register/")
+    fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<RegisterUser>
 }
