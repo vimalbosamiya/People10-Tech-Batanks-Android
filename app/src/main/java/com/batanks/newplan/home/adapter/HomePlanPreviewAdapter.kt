@@ -14,7 +14,7 @@ class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Ad
         return MyViewHolder(view)
     }
 
-    override fun getItemCount() = myList.size
+    override fun getItemCount() = /*myList.size*/ 5
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val itemView = holder.itemView
@@ -24,7 +24,5 @@ class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Ad
         itemView.placeResponseTextView.text = "Place from Adapter"
     }
 
-    class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-
-    }
+    class MyViewHolder(item: View) : RecyclerView.ViewHolder(item)
 }

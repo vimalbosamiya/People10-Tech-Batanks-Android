@@ -21,7 +21,6 @@ import com.batanks.newplan.home.HomePlanPreview
 import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.registration.Registration
 import com.batanks.newplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.newplan.signing.viewmodel.RegistrationViewModel
 import com.batanks.newplan.arch.response.Status
 import com.batanks.newplan.signing.viewmodel.SigninViewModel
 import com.batanks.newplan.swagger.api.AuthenticationAPI
