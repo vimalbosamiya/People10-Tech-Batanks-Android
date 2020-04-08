@@ -6,6 +6,7 @@ import com.batanks.newplan.network.cookie.JsonFileCookieStore
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient private constructor() {
@@ -27,9 +28,18 @@ class RetrofitClient private constructor() {
                         .baseUrl(BASE_URL)
                         .client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build()
             }
             return retrofit
         }
     }
 }
+
+/*
+sealed class ResponseResult<out T : Any> {
+    data class Success<out T : Any>(val data: T) : ResponseResult<T>()
+    data class ThrowableError(val throwable: Throwable) : ResponseResult<Nothing>()
+    data class ExceptionError(val exception: Exception) : ResponseResult<Nothing>()
+    object InProgress : ResponseResult<Nothing>()
+}*/

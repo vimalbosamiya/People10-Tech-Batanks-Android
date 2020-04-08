@@ -10,14 +10,20 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
 import com.batanks.newplan.R
 import com.batanks.newplan.common.dialogBuilder
 import com.batanks.newplan.common.dismissKeyboard
 import com.batanks.newplan.common.getLoadingDialog
 import com.batanks.newplan.home.HomePlanPreview
+import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.registration.Registration
 import com.batanks.newplan.signing.contract.SigninContract
 import com.batanks.newplan.signing.presenter.SigninPresenter
+import com.batanks.newplan.signing.viewmodel.SigninViewModel
+import com.batanks.newplan.signing.viewmodel.Status
+import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
@@ -31,10 +37,32 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
     private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
 
+    lateinit var signinViewModel: SigninViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
+        signinViewModel = NewInstanceFactory().create(SigninViewModel::class.java)
+
+        signinViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+                    val intent = Intent(this, HomePlanPreview::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
         presenter = SigninPresenter()
         presenter?.onAttach(this)
 
@@ -143,9 +171,13 @@ class SigninActivity : AppCompatActivity(), SigninContract.IView, View.OnTouchLi
         when (v?.id) {
             R.id.login -> {
                 dismissKeyboard()
-                showLoader()
+
+                /*showLoader()
                 val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
-                presenter?.performLogin(login)
+                presenter?.performLogin(login)*/
+
+                val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
+                RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let { signinViewModel.performSignIn(login, it) }
             }
         }
     }
