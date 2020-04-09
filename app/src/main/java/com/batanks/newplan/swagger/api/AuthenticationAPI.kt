@@ -24,7 +24,7 @@ interface AuthenticationAPI {
     fun apiAuthenticationLoginCreate(@Body login: Login): Call<Login>
 
     @POST("api/authentication/login/")
-    fun apiAuthenticationLoginCreateSingle(@Body login: Login): Observable<Login>
+    fun apiAuthenticationLoginCreateSingle(@Body login: Login): Observable<User>
 
     @POST("api/authentication/logout/")
     fun apiAuthenticationLogoutCreate(): Call<Void>
@@ -48,5 +48,5 @@ interface AuthenticationAPI {
     fun apiAuthenticationRegisterCreate(@Body user: RegisterUser): Call<RegisterUser>
 
     @POST("api/authentication/register/")
-    fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<RegisterUser>
+    fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<User>
 }

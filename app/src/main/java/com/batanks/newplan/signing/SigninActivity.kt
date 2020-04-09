@@ -2,6 +2,7 @@ package com.batanks.newplan.signing
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -23,6 +24,7 @@ import com.batanks.newplan.registration.Registration
 import com.batanks.newplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.newplan.arch.response.Status
 import com.batanks.newplan.signing.viewmodel.SigninViewModel
+import com.batanks.newplan.splash.SplashActivity
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -170,6 +172,8 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
         when (v?.id) {
             R.id.login -> {
                 dismissKeyboard()
+                RetrofitClient.cookieJar?.clear()
+                getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
                 val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
                 signinViewModel.performSignIn(login)
             }

@@ -26,6 +26,7 @@ import com.batanks.newplan.home.HomePlanPreview
 import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.signing.SigninActivity
 import com.batanks.newplan.signing.viewmodel.RegistrationViewModel
+import com.batanks.newplan.splash.SplashActivity
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.RegisterUser
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -33,6 +34,10 @@ import io.reactivex.Observable
 import io.reactivex.functions.Function7
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_registration.*
+import kotlinx.android.synthetic.main.activity_registration.passwordEditText
+import kotlinx.android.synthetic.main.activity_registration.passwordEyeIcon
+import kotlinx.android.synthetic.main.activity_registration.stayLoggedInCheckBox
+import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.regex.Pattern
 
 class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnTouchListener, View.OnClickListener {
@@ -251,6 +256,8 @@ class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.On
         when (v?.id) {
             R.id.signIn -> {
                 showLoader()
+                RetrofitClient.cookieJar?.clear()
+                getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
                 val user = RegisterUser(
                         username = userName.text.toString(),
                         first_name = firstName.text.toString(),
