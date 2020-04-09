@@ -9,18 +9,23 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitClient private constructor() {
+class RetrofitClient constructor() {
 
     companion object {
-        const val BASE_URL = "http://93.90.204.56/"
 
+        private const val BASE_URL = "http://93.90.204.56/"
         private var retrofit: Retrofit? = null
+        var cookieJar: CookieJarImplementation? = null
 
         fun getRetrofitInstance(context: Context): Retrofit? {
 
+            if (cookieJar == null) {
+                cookieJar = CookieJarImplementation(JsonFileCookieStore(context))
+            }
+
             val okHttpClient = OkHttpClient.Builder()
                     .addNetworkInterceptor(StethoInterceptor())
-                    .cookieJar(CookieJarImplementation(JsonFileCookieStore(context)))
+                    .cookieJar(cookieJar)
                     .build()
 
             if (retrofit == null) {
@@ -35,11 +40,3 @@ class RetrofitClient private constructor() {
         }
     }
 }
-
-/*
-sealed class ResponseResult<out T : Any> {
-    data class Success<out T : Any>(val data: T) : ResponseResult<T>()
-    data class ThrowableError(val throwable: Throwable) : ResponseResult<Nothing>()
-    data class ExceptionError(val exception: Exception) : ResponseResult<Nothing>()
-    object InProgress : ResponseResult<Nothing>()
-}*/

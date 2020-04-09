@@ -3,6 +3,7 @@ package com.batanks.newplan.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
 import kotlinx.android.synthetic.main.item_event_name.view.*
@@ -17,12 +18,17 @@ class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Ad
     override fun getItemCount() = /*myList.size*/ 5
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val itemView = holder.itemView
 
-        itemView.fromResponseTextView.text = "From from Adapter"
-        itemView.toResponseTextView.text = "To from Adapter"
-        itemView.placeResponseTextView.text = "Place from Adapter"
+        holder.from.text = "From from Adapter"
+        holder.to.text = "From from Adapter"
+        holder.place.text = "From from Adapter"
     }
 
-    class MyViewHolder(item: View) : RecyclerView.ViewHolder(item)
+    class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        val from: TextView = item.fromResponseTextView
+        val to: TextView = item.toResponseTextView
+        val place: TextView = item.placeResponseTextView
+    }
 }

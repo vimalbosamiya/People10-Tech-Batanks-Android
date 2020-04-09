@@ -3,6 +3,7 @@ package com.batanks.newplan.signing.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.newplan.arch.response.ApiResponse
+import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,10 +21,8 @@ class SigninViewModel(private val authApi: AuthenticationAPI) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     responseLiveData.setValue(ApiResponse.loading())
-                }
-                .doOnNext {
-                    println(it)
-                }.subscribe({ result ->
+                }.doOnNext {}.subscribe({ result ->
+                    RetrofitClient.cookieJar?.persist()
                     responseLiveData.setValue(ApiResponse.success(result))
                 }) { throwable ->
                     responseLiveData.setValue(ApiResponse.error(throwable))

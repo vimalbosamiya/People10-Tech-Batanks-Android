@@ -3,6 +3,7 @@ package com.batanks.newplan.swagger.api
 import com.batanks.newplan.swagger.model.*
 import io.reactivex.Observable
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface AuthenticationAPI {
@@ -36,6 +37,9 @@ interface AuthenticationAPI {
 
     @GET("api/authentication/profile/")
     fun apiAuthenticationProfileRead(): Call<User>
+
+    @GET("api/authentication/profile/")
+    fun apiAuthenticationProfileReadObservable(): Observable<User>
 
     @PUT("api/authentication/profile/")
     fun apiAuthenticationProfileUpdate(@Body user: User): Call<User>
