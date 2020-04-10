@@ -13,8 +13,8 @@ class TabsPagerAdapter(fragmentManager: FragmentManager)
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> PrivatePlanFragment()
-            1 -> PublicPlanFragment()
+            0 -> PublicPlanFragment()
+            1 -> PrivatePlanFragment()
             else -> PrivatePlanFragment()
         }
     }
