@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,31 +19,86 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/loginEditText"
-            android:layout_width="0dp"
+        <!--<android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <EditText
+                android:id="@+id/loginEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/ic_edittext_background"
+                android:hint="@string/user_name"
+                android:inputType="textEmailAddress"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+        </android.support.design.widget.TextInputLayout>-->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/loginTextField"
+            style="@style/TextInputLayoutAppearance"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginRight="32dp"
-            android:background="@drawable/ic_edittext_background"
-            android:hint="@string/user_name"
-            android:inputType="textEmailAddress"
-            android:maxLength="15"
-            android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:hint="UserName"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:hintTextColor="#34CBFE"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textCursorDrawable="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- <EditText
+             android:id="@+id/loginEditText"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="32dp"
+             android:layout_marginTop="24dp"
+             android:layout_marginRight="32dp"
+             android:background="@drawable/ic_edittext_background"
+             android:hint="@string/user_name"
+             android:inputType="textEmailAddress"
+             android:maxLength="15"
+             android:maxLines="1"
+             android:paddingLeft="16dp"
+             android:paddingRight="16dp"
+             app:layout_constraintLeft_toLeftOf="parent"
+             app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/imageView" />-->
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_divider"
-            app:layout_constraintLeft_toLeftOf="@+id/loginEditText"
-            app:layout_constraintRight_toRightOf="@+id/loginEditText"
-            app:layout_constraintTop_toBottomOf="@+id/loginEditText" />
+            app:layout_constraintLeft_toLeftOf="@+id/loginTextField"
+            app:layout_constraintRight_toRightOf="@+id/loginTextField"
+            app:layout_constraintTop_toBottomOf="@+id/loginTextField" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -60,7 +116,7 @@
             android:paddingEnd="58dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/loginTextField" />
 
         <ImageView
             android:layout_width="0dp"
@@ -82,7 +138,7 @@
             app:layout_constraintRight_toRightOf="@+id/passwordEditText"
             app:layout_constraintTop_toTopOf="@+id/passwordEditText" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/stayLoggedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,7 +148,7 @@
             app:layout_constraintStart_toStartOf="@+id/createAccount"
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/stayLoggedInCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,34 +157,42 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/login"
             app:layout_constraintLeft_toRightOf="@+id/stayLoggedIn"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:useMaterialThemeColors="false" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/createAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="184dp"
+            android:layout_height="48dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/ic_create_account_background_disabled"
             android:gravity="center"
             android:text="@string/create_account"
+            android:textColor="#ffffff"
+            app:cornerRadius="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/login"
-            app:layout_constraintTop_toBottomOf="@+id/stayLoggedIn" />
+            app:layout_constraintTop_toBottomOf="@+id/stayLoggedIn"
+            app:strokeColor="#34CBFE" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_login_button_selector"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="104dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@drawable/ic_login_button_selector"
             android:enabled="false"
             android:gravity="center"
             android:text="@string/login"
+            android:textColor="@drawable/ic_login_button_selector"
+            android:textCursorDrawable="@color/white"
+            app:cornerRadius="20dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/createAccount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/createAccount"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

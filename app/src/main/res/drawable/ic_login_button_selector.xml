@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_login_button_background_enabled" android:state_pressed="true" />
-    <item android:drawable="@drawable/ic_login_button_background_enabled" android:state_enabled="true" />
-    <item android:drawable="@drawable/ic_login_button_background_disabled" android:state_enabled="false" />
-    <item android:drawable="@drawable/ic_login_button_background_disabled" android:state_focused="true" />
-    <item android:drawable="@drawable/ic_login_button_background_disabled" />
+    <item android:color="@color/colorAccent" android:drawable="@color/colorAccent" android:state_pressed="true" />
+    <item android:color="@color/colorAccent" android:drawable="@color/colorAccent" android:state_enabled="true" />
+    <item android:color="@color/white" android:drawable="@color/white" android:state_enabled="false" />
+    <item android:color="@color/white" android:drawable="@color/white" android:state_focused="true" />
+    <item android:color="@color/white" android:drawable="@color/white" />
+
+
+    <!--<item android:color="#34CBFE" android:state_pressed="true" />
+    <item android:color="#34CBFE" android:state_enabled="true" />
+    <item android:color="#ffffff" android:state_enabled="false" />
+    <item android:color="#ffffff" android:state_focused="true" />
+    <item android:color="#ffffff" />-->
 </selector>

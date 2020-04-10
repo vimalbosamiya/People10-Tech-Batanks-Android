@@ -2,15 +2,10 @@ package com.batanks.newplan.signing
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
-import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.newplan.R
@@ -27,13 +22,13 @@ import com.batanks.newplan.signing.viewmodel.SigninViewModel
 import com.batanks.newplan.splash.SplashActivity
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.Login
-import com.jakewharton.rxbinding2.widget.RxTextView
+import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_signin.*
 
-class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnTouchListener, View.OnClickListener {
+class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnClickListener {
 
     private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
@@ -77,24 +72,24 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
             finish()
         }
 
-        val loginEditTextObservable: Observable<String> = RxTextView.textChanges(loginEditText).skip(1).map { charSequence ->
+        val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
 
-        val passwordEditTextObservable: Observable<String> = RxTextView.textChanges(passwordEditText).skip(1).map { charSequence ->
+       /* val passwordEditTextObservable: Observable<String>? = passwordTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
 
         observable = Observable.combineLatest(loginEditTextObservable, passwordEditTextObservable, BiFunction<String, String, Boolean> { t1, t2 ->
-            /*UserName*/
+            *//*UserName*//*
             val validName = t1.isNotEmpty()
             if (!validName) {
-                loginEditText.error = "Password should contain at least 1 letter."
+                loginTextField?.editText?.error = "Password should contain at least 1 letter."
             }
-            /*Password*/
+            *//*Password*//*
             val validPass = t2.isNotEmpty()
             if (!validPass) {
-                passwordEditText.error = "Password should contain at least 1 letter."
+                passwordTextField?.editText?.error = "Password should contain at least 1 letter."
             }
             validName && validPass
         })
@@ -109,8 +104,7 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
             override fun onComplete() {}
         })
 
-        passwordEyeIcon.setOnTouchListener(this)
-        login.setOnClickListener(this)
+        login.setOnClickListener(this)*/
     }
 
     override fun showLoader() {
@@ -153,29 +147,14 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
         hideLoader()
     }
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        when (v?.id) {
-            R.id.passwordEyeIcon -> {
-                if (passwordEditText.transformationMethod == PasswordTransformationMethod.getInstance()) {
-                    passwordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_on))
-                    passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                } else {
-                    passwordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_off))
-                    passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                }
-            }
-        }
-        return false
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.login -> {
                 dismissKeyboard()
-                RetrofitClient.cookieJar?.clear()
+                /*RetrofitClient.cookieJar?.clear()
                 getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
-                val login = Login(login = loginEditText.text.toString(), password = passwordEditText.text.toString())
-                signinViewModel.performSignIn(login)
+                val login = Login(login = loginTextField?.editText?.text.toString(), password = passwordTextField?.editText?.text.toString())
+                signinViewModel.performSignIn(login)*/
             }
         }
     }

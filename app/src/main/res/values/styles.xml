@@ -1,6 +1,7 @@
 <resources>
 
-    <style name="AppTheme_ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--Theme.MaterialComponents.Light.DarkActionBar-->
+    <style name="AppTheme_ActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="android:colorBackground">#777777</item>
@@ -62,5 +63,42 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+<<<<<<< HEAD
     <color name="black">#000000</color>
+=======
+    <style name="AppTheme_2" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="colorPrimary">#1D2125</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">#777777</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:editTextColor">#ffffff</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <!-- reference our hint & error styles -->
+        <item name="hintTextAppearance">@style/HintText</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">@color/pressed_bg</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
+    <style name="ErrorText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#ffff0000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+>>>>>>> Adding material design
 </resources>
