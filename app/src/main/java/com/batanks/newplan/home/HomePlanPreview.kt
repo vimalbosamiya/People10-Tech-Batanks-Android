@@ -17,6 +17,7 @@ import com.batanks.newplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.newplan.common.dialogBuilder
 import com.batanks.newplan.common.getLoadingDialog
 import com.batanks.newplan.home.adapter.HomePlanPreviewAdapter
+import com.batanks.newplan.home.fragment.CreatePlanFragment
 import com.batanks.newplan.network.RetrofitClient
 import com.batanks.newplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.newplan.swagger.api.AuthenticationAPI
@@ -51,8 +52,8 @@ class HomePlanPreview : AppCompatActivity(), BaseContract.BasicLoadingView, View
 
         recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
 
-        showLoader()
-        homePlanPreviewViewModel.getHomePlanEvent()
+        /*showLoader()
+        homePlanPreviewViewModel.getHomePlanEvent()*/
 
         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -82,7 +83,10 @@ class HomePlanPreview : AppCompatActivity(), BaseContract.BasicLoadingView, View
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.extFab -> {
-                
+                frameLayout.visibility = View.VISIBLE
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.frameLayout, CreatePlanFragment())
+                        .addToBackStack(CreatePlanFragment.TAG).commit()
             }
         }
     }

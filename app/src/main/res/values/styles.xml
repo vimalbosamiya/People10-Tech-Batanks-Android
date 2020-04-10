@@ -61,4 +61,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <color name="black">#000000</color>
 </resources>
