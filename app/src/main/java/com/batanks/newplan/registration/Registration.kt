@@ -3,16 +3,12 @@ package com.batanks.newplan.registration
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.newplan.R
@@ -29,18 +25,15 @@ import com.batanks.newplan.signing.viewmodel.RegistrationViewModel
 import com.batanks.newplan.splash.SplashActivity
 import com.batanks.newplan.swagger.api.AuthenticationAPI
 import com.batanks.newplan.swagger.model.RegisterUser
-import com.jakewharton.rxbinding2.widget.RxTextView
+import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.functions.Function7
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_registration.*
-import kotlinx.android.synthetic.main.activity_registration.passwordEditText
-import kotlinx.android.synthetic.main.activity_registration.passwordEyeIcon
 import kotlinx.android.synthetic.main.activity_registration.stayLoggedInCheckBox
-import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.regex.Pattern
 
-class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnTouchListener, View.OnClickListener {
+class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnClickListener {
 
     private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
@@ -84,32 +77,29 @@ class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.On
 
         signIn.setOnClickListener(this)
 
-        passwordEyeIcon.setOnTouchListener(this)
-        confirmPasswordEyeIcon.setOnTouchListener(this)
-
-        val userNameObservable: Observable<String> = RxTextView.textChanges(userName).skip(1).map { charSequence ->
+        val userNameObservable: Observable<String>? = userNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val firstNameObservable: Observable<String> = RxTextView.textChanges(firstName).skip(1).map { charSequence ->
+        val firstNameObservable: Observable<String>? = firstNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val lastNameObservable: Observable<String> = RxTextView.textChanges(lastName).skip(1).map { charSequence ->
+        val lastNameObservable: Observable<String>? = lastNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val emailObservable: Observable<String> = RxTextView.textChanges(email).skip(1).map { charSequence ->
+        val emailObservable: Observable<String>? = emailTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val passwordEditTextObservable: Observable<String> = RxTextView.textChanges(passwordEditText).skip(1).map { charSequence ->
+        val passwordEditTextObservable: Observable<String>? = passwordTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val confirmPasswordEditTextObservable: Observable<String> = RxTextView.textChanges(confirmPasswordEditText).skip(1).map { charSequence ->
+        val confirmPasswordEditTextObservable: Observable<String>? = confirmPasswordTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-        val phoneNumberObservable: Observable<String> = RxTextView.textChanges(phoneNumber).skip(1).map { charSequence ->
+        val phoneNumberObservable: Observable<String>? = phoneNumberTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
 
-        ccp.registerCarrierNumberEditText(phoneNumber)
+        ccp.registerCarrierNumberEditText(phoneNumberTextField?.editText)
 
         observable = Observable.combineLatest(
                 userNameObservable,
@@ -123,42 +113,42 @@ class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.On
                     /*UserName*/
                     val validUserName = s1.isNotEmpty()
                     if (!validUserName) {
-                        userName.error = "UserName should contain at least 1 letter."
+                        userNameTextField?.editText?.error = "UserName should contain at least 1 letter."
                     }
                     /*FirstName*/
                     val validFirstName = s2.isNotEmpty()
                     if (!validFirstName) {
-                        firstName.error = "FirstName should contain at least 1 letter."
+                        firstNameTextField?.editText?.error = "FirstName should contain at least 1 letter."
                     }
                     /*LastName*/
                     val validLastName = s3.isNotEmpty()
                     if (!validLastName) {
-                        lastName.error = "LastName should contain at least 1 letter."
+                        lastNameTextField?.editText?.error = "LastName should contain at least 1 letter."
                     }
                     /*EmailID*/
                     val validEmail = s4.isNotEmpty() && isEmailValid(s4)
                     if (!validEmail) {
-                        email.error = "Enter valid email id."
+                        emailTextField?.editText?.error = "Enter valid email id."
                     }
                     /*Password*/
                     val validPass = s5.isNotEmpty() && isValidPassword(s5)
                     if (!validPass) {
-                        passwordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        passwordTextField?.editText?.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
                     }
                     /*Password & ConfirmPassword*/
                     val samePassword = s5.equals(s6, false)
                     if (!samePassword) {
-                        confirmPasswordEditText.error = "Password field & Confirm Password are different."
+                        confirmPasswordTextField?.editText?.error = "Password field & Confirm Password are different."
                     }
                     /*ConfirmPassword*/
                     val validConfirmPass = s6.isNotEmpty() && isValidPassword(s6)
                     if (!validConfirmPass) {
-                        confirmPasswordEditText.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        confirmPasswordTextField?.editText?.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
                     }
                     /*PhoneNumber*/
                     val validPhone = s7.isNotEmpty() && ccp.isValidFullNumber
                     if (!validPhone) {
-                        phoneNumber.error = "Please enter a vaild phone number."
+                        phoneNumberTextField?.editText?.error = "Please enter a vaild phone number."
                     }
 
                     validUserName && validFirstName && validLastName && validEmail && validPass && validConfirmPass && samePassword && validPhone
@@ -227,30 +217,6 @@ class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.On
         hideLoader()
     }
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        when (v?.id) {
-            R.id.passwordEyeIcon -> {
-                if (passwordEditText.transformationMethod == PasswordTransformationMethod.getInstance()) {
-                    passwordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_on))
-                    passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                } else {
-                    passwordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_off))
-                    passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                }
-            }
-            R.id.confirmPasswordEyeIcon -> {
-                if (confirmPasswordEditText.transformationMethod == PasswordTransformationMethod.getInstance()) {
-                    confirmPasswordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_on))
-                    confirmPasswordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                } else {
-                    confirmPasswordEyeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_eye_off))
-                    confirmPasswordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                }
-            }
-        }
-        return false
-    }
-
     override fun onClick(v: View?) {
         dismissKeyboard()
         when (v?.id) {
@@ -259,13 +225,13 @@ class Registration : AppCompatActivity(), BaseContract.BasicLoadingView, View.On
                 RetrofitClient.cookieJar?.clear()
                 getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
                 val user = RegisterUser(
-                        username = userName.text.toString(),
-                        first_name = firstName.text.toString(),
-                        last_name = lastName.text.toString(),
-                        email = email.text.toString(),
-                        password1 = passwordEditText.text.toString(),
-                        password2 = confirmPasswordEditText.text.toString(),
-                        phone_number = ccp.selectedCountryCodeWithPlus + phoneNumber.text.toString()
+                        username = userNameTextField?.editText?.text.toString(),
+                        first_name = firstNameTextField?.editText?.text.toString(),
+                        last_name = lastNameTextField?.editText?.text.toString(),
+                        email = emailTextField?.editText?.text.toString(),
+                        password1 = passwordTextField?.editText?.text.toString(),
+                        password2 = confirmPasswordTextField?.editText?.text.toString(),
+                        phone_number = ccp.selectedCountryCodeWithPlus + phoneNumberTextField?.editText?.text.toString()
                 )
                 registrationViewModel.createUser(user)
             }

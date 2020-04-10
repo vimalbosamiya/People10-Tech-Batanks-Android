@@ -75,21 +75,20 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
         val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
-
-       /* val passwordEditTextObservable: Observable<String>? = passwordTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
+        val passwordEditTextObservable: Observable<String>? = passTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
 
         observable = Observable.combineLatest(loginEditTextObservable, passwordEditTextObservable, BiFunction<String, String, Boolean> { t1, t2 ->
-            *//*UserName*//*
+            /*UserName*/
             val validName = t1.isNotEmpty()
             if (!validName) {
                 loginTextField?.editText?.error = "Password should contain at least 1 letter."
             }
-            *//*Password*//*
+            /*Password*/
             val validPass = t2.isNotEmpty()
             if (!validPass) {
-                passwordTextField?.editText?.error = "Password should contain at least 1 letter."
+                passTextField?.editText?.error = "Password should contain at least 1 letter."
             }
             validName && validPass
         })
@@ -104,7 +103,7 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
             override fun onComplete() {}
         })
 
-        login.setOnClickListener(this)*/
+        login.setOnClickListener(this)
     }
 
     override fun showLoader() {
@@ -151,10 +150,10 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
         when (v?.id) {
             R.id.login -> {
                 dismissKeyboard()
-                /*RetrofitClient.cookieJar?.clear()
+                RetrofitClient.cookieJar?.clear()
                 getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
-                val login = Login(login = loginTextField?.editText?.text.toString(), password = passwordTextField?.editText?.text.toString())
-                signinViewModel.performSignIn(login)*/
+                val login = Login(login = loginTextField?.editText?.text.toString(), password = passTextField?.editText?.text.toString())
+                signinViewModel.performSignIn(login)
             }
         }
     }
