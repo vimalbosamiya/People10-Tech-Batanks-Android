@@ -63,9 +63,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-<<<<<<< HEAD
     <color name="black">#000000</color>
-=======
+
     <style name="AppTheme_2" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
@@ -100,5 +99,4 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">14sp</item>
     </style>
->>>>>>> Adding material design
 </resources>
