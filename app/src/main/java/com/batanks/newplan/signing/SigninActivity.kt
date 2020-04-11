@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.newplan.R
-import com.batanks.newplan.arch.BaseContract
-import com.batanks.newplan.common.dialogBuilder
+import com.batanks.newplan.arch.BaseAppCompatActivity
 import com.batanks.newplan.common.dismissKeyboard
 import com.batanks.newplan.common.getLoadingDialog
 import com.batanks.newplan.home.HomePlanPreview
@@ -28,9 +25,8 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_signin.*
 
-class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.OnClickListener {
+class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
 
-    private var loadingDialog: AlertDialog? = null
     private var observable: Observable<Boolean>? = null
 
     private val signinViewModel: SigninViewModel by lazy {
@@ -104,46 +100,6 @@ class SigninActivity : AppCompatActivity(), BaseContract.BasicLoadingView, View.
         })
 
         login.setOnClickListener(this)
-    }
-
-    override fun showLoader() {
-        val progress = loadingDialog
-        if (progress != null && !progress.isShowing) {
-            progress.show()
-        }
-    }
-
-    override fun hideLoader() {
-        val progress = loadingDialog
-        if (!isFinishing && progress != null && progress.isShowing) {
-            progress.dismiss()
-        }
-    }
-
-    override fun handleError(error: Throwable) {
-
-    }
-
-    override fun showMessage(message: String) {
-        hideLoader()
-        this.dialogBuilder(
-                title = message,
-                positive = getString(android.R.string.yes),
-                negative = getString(android.R.string.no),
-                cancelable = false,
-                theme = R.style.AlertDialogCustom
-        ).create().show()
-    }
-
-    override fun showMessage(message: String, title: String, showPositiveButton: Boolean) {}
-
-    override fun context(): Context {
-        return this
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        hideLoader()
     }
 
     override fun onClick(v: View?) {
