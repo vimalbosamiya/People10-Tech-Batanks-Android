@@ -14,12 +14,12 @@
         android:theme="@style/AppTheme_ActionBar"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".splash.SplashActivity">
+        <!--<activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity android:name=".MainActivity" />
 
@@ -32,10 +32,10 @@
         <activity
             android:name=".home.HomePlanPreview"
             android:theme="@style/AppTheme_Home">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
 
     </application>

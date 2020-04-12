@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveDraftButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="156dp"
+        android:layout_height="48dp"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="SAVE DRAFT"
+        android:textColor="#ffffff"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/createPlanButton"
+        app:strokeColor="#34CBFE" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createPlanButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="164dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@drawable/ic_login_button_selector"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="CREATE PLAN"
+        android:textColor="@color/colorBlack"
+        android:textCursorDrawable="@color/colorWhite"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/saveDraftButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:strokeColor="#34CBFE" />
+</androidx.constraintlayout.widget.ConstraintLayout>

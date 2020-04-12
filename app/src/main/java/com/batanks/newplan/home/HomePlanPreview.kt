@@ -73,6 +73,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.extFab -> {
                 frameLayout.visibility = View.VISIBLE
+                extFab.visibility = View.GONE
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, CreatePlanFragment())
                         .addToBackStack(CreatePlanFragment.TAG).commit()
