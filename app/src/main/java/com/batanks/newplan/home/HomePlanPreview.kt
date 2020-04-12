@@ -47,8 +47,8 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
 
-        showLoader()
-        homePlanPreviewViewModel.getHomePlanEvent()
+        /*showLoader()
+        homePlanPreviewViewModel.getHomePlanEvent()*/
 
         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
 
