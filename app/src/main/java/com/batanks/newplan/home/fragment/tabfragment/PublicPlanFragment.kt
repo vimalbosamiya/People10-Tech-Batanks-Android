@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.batanks.newplan.R
+import com.batanks.newplan.home.fragment.spinner.CustomArrayAdapter
+import com.batanks.newplan.home.fragment.spinner.SpinnerModel
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 
 class PublicPlanFragment : Fragment() {
@@ -23,8 +24,16 @@ class PublicPlanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val items = listOf("Material", "Design", "Components", "Android")
-        val adapter = ArrayAdapter(requireContext(), R.layout.auto_complete_text_view, items)
-        (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        populateCategory()
+    }
+
+    private fun populateCategory() {
+        val customSpinner = CustomArrayAdapter(requireContext(), listOf(
+                SpinnerModel("Trip", R.drawable.ic_category_trip),
+                SpinnerModel("Professional", R.drawable.ic_category_professional),
+                SpinnerModel("Leisure", R.drawable.ic_category_leisure),
+                SpinnerModel("Institutional", R.drawable.ic_category_institutional),
+                SpinnerModel("Other", R.drawable.ic_category_others)))
+        (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
     }
 }

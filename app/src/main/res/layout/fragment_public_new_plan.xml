@@ -92,6 +92,7 @@
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
             app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/colorWhite"
             app:helperText="Enter a category of your event"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
@@ -106,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:editable="true"
+                android:editable="false"
                 android:gravity="center_vertical"
                 android:inputType="none"
                 android:text="item" />
