@@ -63,6 +63,39 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme_Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">#1D2125</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="android:colorBackground">#777777</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:editTextColor">#ffffff</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorSurface">#353535</item>
+        <item name="android:windowSoftInputMode">stateHidden|adjustResize</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialogText</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="background">@drawable/ic_popup_background</item>
+        <item name="android:windowBackground">@drawable/ic_popup_background</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="MaterialAlertDialogText" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
     <style name="AppTheme_2" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
