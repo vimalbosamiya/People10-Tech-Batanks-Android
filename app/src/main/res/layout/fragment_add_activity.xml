@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_popup_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/addActivityHeader"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_margin="16dp"
+            android:gravity="center_vertical"
+            android:text="Add Activity"
+            android:textSize="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addActivityHeader" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activityNameTextField"
+            style="@style/TextInputLayoutAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Activity name *"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="A name for the activity is mandatory"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addActivityHeader">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/whenLayout"
+            layout="@layout/fragment_add_activity_when"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/activityNameTextField" />
+
+        <include
+            android:id="@+id/whereLayout"
+            layout="@layout/fragment_add_activity_where"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/whenLayout" />
+
+        <include
+            android:id="@+id/howMuchLayout"
+            layout="@layout/fragment_add_activity_how_much"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/whereLayout" />
+
+        <include
+            android:id="@+id/whoWithLayout"
+            layout="@layout/fragment_add_activity_who_with"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/howMuchLayout" />
+
+        <View
+            android:id="@+id/footerDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/whoWithLayout" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ok"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingBottom="24dp"
+            android:text="OK"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingBottom="24dp"
+            android:text="CANCEL"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintRight_toLeftOf="@+id/ok"
+            app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

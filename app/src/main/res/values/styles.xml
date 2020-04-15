@@ -61,6 +61,8 @@
         <item name="android:editTextColor">#ffffff</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <!--<item name="materialCalendarTheme">@style/ThemeMaterialCalendar</item>-->
     </style>
 
     <style name="AppTheme_Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -113,5 +115,27 @@
     <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textColorHint">#ffffff</item>
+    </style>
+    <!--//-->
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/ThemeMaterialCalendarButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/ThemeMaterialCalendarButton</item>
+        <item name="materialButtonStyle">@style/ThemeMaterialCalendarTextButton</item>
+        <item name="materialCalendarHeaderLayout">@style/ThemeMaterialCalendarTextButton1</item>
+    </style>
+
+    <style name="ThemeMaterialCalendarButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="ThemeMaterialCalendarTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="iconTint">@color/colorAccent</item>
+    </style>
+
+    <!--//-->
+    <style name="ThemeMaterialCalendarTextButton1" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
+        <item name="android:background">@color/colorBlack</item>
+        <item name="iconTint">@color/colorBlack</item>
     </style>
 </resources>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_popup_background">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/howMuchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="How much ?"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/footerDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/howMuchText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/costOfTheActionTextField"
+        style="@style/TextInputLayoutAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="Cost of the action"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="#34CBFE"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="How much does this action cost?"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footerDivider">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@color/colorWhite" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/totalCostTextField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="The nature of the cost"
+        android:paddingBottom="16dp"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="#34CBFE"
+        app:endIconMode="dropdown_menu"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="Cost per person or Total cost ?"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintTextColor="@color/colorWhite"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costOfTheActionTextField"
+        app:startIconTint="#ffffff">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:editable="false"
+            android:gravity="center_vertical"
+            android:inputType="none"
+            android:text="Total cost" />
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
