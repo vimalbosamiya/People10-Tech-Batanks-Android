@@ -10,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
-import com.batanks.newplan.home.fragment.AddActionFragment
-import com.batanks.newplan.home.fragment.AddPeriodFragment
-import com.batanks.newplan.home.fragment.AddPlaceFragment
+import com.batanks.newplan.home.fragment.action.AddActionFragment
+import com.batanks.newplan.home.fragment.period.AddPeriodFragment
+import com.batanks.newplan.home.fragment.period.AddPeriodRecyclerView
+import com.batanks.newplan.home.fragment.period.CalenderModel
+import com.batanks.newplan.home.fragment.place.AddPlaceFragment
 import com.batanks.newplan.home.fragment.spinner.CustomArrayAdapter
 import com.batanks.newplan.home.fragment.spinner.SpinnerModel
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
@@ -21,9 +25,14 @@ import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
+
+    var periodRecyclerView: RecyclerView? = null
+    private var choosenDateTime = ArrayList<CalenderModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +51,11 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
         addActionButton.setOnClickListener(this)
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
+
+        periodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
+        periodRecyclerView?.setHasFixedSize(true)
+        periodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        periodRecyclerView?.adapter = AddPeriodRecyclerView(choosenDateTime)
     }
 
     private fun populateCategory() {
@@ -67,6 +81,7 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
                 addActivityClicked()
             }
             R.id.addPeriodButton -> {
+
                 val mCal = Calendar.getInstance()
                 val mDay = mCal.get(Calendar.DAY_OF_MONTH)
                 val mMonth = mCal.get(Calendar.MONTH)
@@ -74,27 +89,39 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
                 val mHour = mCal.get(Calendar.HOUR_OF_DAY)
                 val mMin = mCal.get(Calendar.MINUTE)
 
-                val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
-
-                }, mHour, mMin, false)
-
-                val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
-                    toTime.show()
-                }, mHour, mMin, false)
-
-                val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
-                    fromTime.show()
-                }, mYear, mMonth, mDay)
-                toDate.datePicker.minDate = System.currentTimeMillis()
-                toDate.setCanceledOnTouchOutside(false)
-
                 val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
+                    val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
+                        val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
+                            val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
+
+                                val cal = Calendar.getInstance()
+                                cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
+
+                                /*FromDate*/
+                                val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
+                                val chosenFromDateString = dateFormatter.format(cal.time)
+                                println(chosenFromDateString)
+
+                                /*ToDate*/
+                                cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
+                                val chosenToDateString = dateFormatter.format(cal.time)
+                                println(chosenToDateString)
+
+                                choosenDateTime.add(CalenderModel(fromDate = chosenFromDateString, toDate = chosenToDateString))
+
+                                periodRecyclerView?.adapter?.notifyDataSetChanged()
+                            }, mHour, mMin, false)
+                            toTime.show()
+                        }, mHour, mMin, false)
+                        fromTime.show()
+                    }, mYear, mMonth, mDay)
+                    toDate.datePicker.minDate = System.currentTimeMillis()
+                    toDate.setCanceledOnTouchOutside(false)
                     toDate.show()
                 }, mYear, mMonth, mDay)
                 fromDate.datePicker.minDate = System.currentTimeMillis()
                 fromDate.setCanceledOnTouchOutside(false)
                 fromDate.show()
-
             }
         }
     }

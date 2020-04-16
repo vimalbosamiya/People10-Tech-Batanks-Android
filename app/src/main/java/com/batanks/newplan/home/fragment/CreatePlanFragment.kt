@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.batanks.newplan.R
+import com.batanks.newplan.home.fragment.tabfragment.TabsPagerAdapter
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
 
 class CreatePlanFragment : Fragment() {

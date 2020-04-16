@@ -1,4 +1,4 @@
-package com.batanks.newplan.home.fragment
+package com.batanks.newplan.home.fragment.action
 
 import android.os.Bundle
 import android.view.LayoutInflater
