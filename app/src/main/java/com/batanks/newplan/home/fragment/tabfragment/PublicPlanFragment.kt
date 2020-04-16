@@ -29,9 +29,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
+class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack {
 
-    var periodRecyclerView: RecyclerView? = null
+    var addPeriodRecyclerView: RecyclerView? = null
     private var choosenDateTime = ArrayList<CalenderModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +52,10 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
 
-        periodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
-        periodRecyclerView?.setHasFixedSize(true)
-        periodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        periodRecyclerView?.adapter = AddPeriodRecyclerView(choosenDateTime)
+        addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
+        addPeriodRecyclerView?.setHasFixedSize(true)
+        addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, choosenDateTime)
     }
 
     private fun populateCategory() {
@@ -108,8 +108,9 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
                                 println(chosenToDateString)
 
                                 choosenDateTime.add(CalenderModel(fromDate = chosenFromDateString, toDate = chosenToDateString))
+                                addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                                addPeriodButton.text = "ADD AN OTHER PERIOD"
 
-                                periodRecyclerView?.adapter?.notifyDataSetChanged()
                             }, mHour, mMin, false)
                             toTime.show()
                         }, mHour, mMin, false)
@@ -151,7 +152,11 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener {
                 .commitAllowingStateLoss()
     }
 
-    override fun addPeopleClicked() {
+    override fun addPeopleClicked() {}
 
+    override fun addPeriodItemListener(pos: Int) {
+        addPeriodButton.text = "ADD A PERIOD"
+        addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+        /*val address = Geocoder(requireContext()).getFromLocationName("Kongu school,638182", 5)*/
     }
 }
