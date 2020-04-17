@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
 import com.batanks.newplan.home.fragment.action.AddActionFragment
-import com.batanks.newplan.home.fragment.period.AddPeriodFragment
 import com.batanks.newplan.home.fragment.period.AddPeriodRecyclerView
-import com.batanks.newplan.home.fragment.period.CalenderModel
+import com.batanks.newplan.home.fragment.period.PeriodModel
 import com.batanks.newplan.home.fragment.place.AddPlaceFragment
+import com.batanks.newplan.home.fragment.place.AddPlaceRecyclerView
+import com.batanks.newplan.home.fragment.place.PlaceModel
 import com.batanks.newplan.home.fragment.spinner.CustomArrayAdapter
 import com.batanks.newplan.home.fragment.spinner.SpinnerModel
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
@@ -29,10 +30,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack {
+class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener,
+        AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
+        AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack {
 
-    var addPeriodRecyclerView: RecyclerView? = null
-    private var choosenDateTime = ArrayList<CalenderModel>()
+    private var addPeriodRecyclerView: RecyclerView? = null
+    private var addPlaceRecyclerView: RecyclerView? = null
+
+    private var choosenDateTimeAddPeriod = ArrayList<PeriodModel>()
+    private var choosenAddPlace = ArrayList<PlaceModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +58,8 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, Add
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
 
-        addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
-        addPeriodRecyclerView?.setHasFixedSize(true)
-        addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, choosenDateTime)
+        populateAddPeriodRecyclerViewIfAny()
+        populateAddPlaceRecyclerViewIfAny()
     }
 
     private fun populateCategory() {
@@ -81,54 +85,56 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, Add
                 addActivityClicked()
             }
             R.id.addPeriodButton -> {
-
-                val mCal = Calendar.getInstance()
-                val mDay = mCal.get(Calendar.DAY_OF_MONTH)
-                val mMonth = mCal.get(Calendar.MONTH)
-                val mYear = mCal.get(Calendar.YEAR)
-                val mHour = mCal.get(Calendar.HOUR_OF_DAY)
-                val mMin = mCal.get(Calendar.MINUTE)
-
-                val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
-                    val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
-                        val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
-                            val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
-
-                                val cal = Calendar.getInstance()
-                                cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
-
-                                /*FromDate*/
-                                val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
-                                val chosenFromDateString = dateFormatter.format(cal.time)
-                                println(chosenFromDateString)
-
-                                /*ToDate*/
-                                cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
-                                val chosenToDateString = dateFormatter.format(cal.time)
-                                println(chosenToDateString)
-
-                                choosenDateTime.add(CalenderModel(fromDate = chosenFromDateString, toDate = chosenToDateString))
-                                addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
-                                addPeriodButton.text = "ADD AN OTHER PERIOD"
-
-                            }, mHour, mMin, false)
-                            toTime.show()
-                        }, mHour, mMin, false)
-                        fromTime.show()
-                    }, mYear, mMonth, mDay)
-                    toDate.datePicker.minDate = System.currentTimeMillis()
-                    toDate.setCanceledOnTouchOutside(false)
-                    toDate.show()
-                }, mYear, mMonth, mDay)
-                fromDate.datePicker.minDate = System.currentTimeMillis()
-                fromDate.setCanceledOnTouchOutside(false)
-                fromDate.show()
+                addPeriodClicked()
             }
         }
     }
 
     override fun addPeriodClicked() {
-        fragmentManager?.let { AddPeriodFragment().show(it, AddPeriodFragment::class.java.simpleName) }
+
+        /*fragmentManager?.let { AddPeriodFragment().show(it, AddPeriodFragment::class.java.simpleName) }*/
+
+        val mCal = Calendar.getInstance()
+        val mDay = mCal.get(Calendar.DAY_OF_MONTH)
+        val mMonth = mCal.get(Calendar.MONTH)
+        val mYear = mCal.get(Calendar.YEAR)
+        val mHour = mCal.get(Calendar.HOUR_OF_DAY)
+        val mMin = mCal.get(Calendar.MINUTE)
+
+        val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
+            val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
+                val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
+                    val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
+
+                        val cal = Calendar.getInstance()
+                        cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
+
+                        /*FromDate*/
+                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
+                        val chosenFromDateString = dateFormatter.format(cal.time)
+                        println(chosenFromDateString)
+
+                        /*ToDate*/
+                        cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
+                        val chosenToDateString = dateFormatter.format(cal.time)
+                        println(chosenToDateString)
+
+                        choosenDateTimeAddPeriod.add(PeriodModel(fromDate = chosenFromDateString, toDate = chosenToDateString))
+                        addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                        addPeriodButton.text = "ADD AN OTHER PERIOD"
+
+                    }, mHour, mMin, false)
+                    toTime.show()
+                }, mHour, mMin, false)
+                fromTime.show()
+            }, mYear, mMonth, mDay)
+            toDate.datePicker.minDate = System.currentTimeMillis()
+            toDate.setCanceledOnTouchOutside(false)
+            toDate.show()
+        }, mYear, mMonth, mDay)
+        fromDate.datePicker.minDate = System.currentTimeMillis()
+        fromDate.setCanceledOnTouchOutside(false)
+        fromDate.show()
     }
 
     override fun addPlaceClicked() {
@@ -136,6 +142,8 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, Add
                 .beginTransaction()
                 .add(AddPlaceFragment(), AddPlaceFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
+
+        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
     override fun addActionClicked() {
@@ -154,9 +162,30 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener, Add
 
     override fun addPeopleClicked() {}
 
-    override fun addPeriodItemListener(pos: Int) {
+    override fun closeButtonAddPeriodItemListener(pos: Int) {
         addPeriodButton.text = "ADD A PERIOD"
         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
-        /*val address = Geocoder(requireContext()).getFromLocationName("Kongu school,638182", 5)*/
+    }
+
+    private fun populateAddPeriodRecyclerViewIfAny() {
+        addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
+        addPeriodRecyclerView?.setHasFixedSize(true)
+        addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, choosenDateTimeAddPeriod)
+    }
+
+    private fun populateAddPlaceRecyclerViewIfAny() {
+
+        choosenAddPlace.add(PlaceModel("Hi", "Ji"))
+
+        addPlaceRecyclerView = requireActivity().findViewById(R.id.placeRecyclerView)
+        addPlaceRecyclerView?.setHasFixedSize(true)
+        addPlaceRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this, choosenAddPlace)
+    }
+
+    override fun closeButtonAddPlaceItemListener(pos: Int) {
+        addPlaceButton.text = "ADD A PERIOD"
+        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 }
