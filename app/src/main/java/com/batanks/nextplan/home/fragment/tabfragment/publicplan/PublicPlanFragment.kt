@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
@@ -21,6 +22,7 @@ import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapter
 import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
 import com.batanks.nextplan.swagger.model.EventDate
 import com.batanks.nextplan.swagger.model.Place
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
@@ -30,17 +32,18 @@ import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
-        AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack {
+        AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack,
+        AddPlaceFragment.AddPlaceFragmentListener {
 
     private var addPeriodRecyclerView: RecyclerView? = null
     private var addPlaceRecyclerView: RecyclerView? = null
 
-    private var eventDate = ArrayList<EventDate>()
-    private var place = ArrayList<Place>()
+    private val publicPlanViewModel: PublicPlanViewModel by lazy {
+        ViewModelProvider(this)[PublicPlanViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +124,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                         val endDate = dateFormatter.format(cal.time)
                         println(endDate)
 
-                        eventDate.add(EventDate(id = eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
+                        publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         addPeriodButton.text = "ADD AN OTHER PERIOD"
 
@@ -142,7 +145,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     override fun addPlaceClicked() {
         requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(AddPlaceFragment(), AddPlaceFragment::class.java.canonicalName)
+                .add(AddPlaceFragment(this), AddPlaceFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
 
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
@@ -173,7 +176,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
         addPeriodRecyclerView?.setHasFixedSize(true)
         addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, eventDate)
+        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate)
     }
 
     private fun populateAddPlaceRecyclerViewIfAny() {
@@ -181,11 +184,20 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addPlaceRecyclerView = requireActivity().findViewById(R.id.placeRecyclerView)
         addPlaceRecyclerView?.setHasFixedSize(true)
         addPlaceRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this)
+        addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this, publicPlanViewModel.place)
     }
 
     override fun closeButtonAddPlaceItemListener(pos: Int) {
         addPlaceButton.text = "ADD A PERIOD"
+        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun addPlaceFragmentAddressFetch(place: Place) {
+        (requireActivity().supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
+                as? AddPlaceFragment)?.dismiss()
+
+        addPlaceButton.text = "ADD A ANOTHER PERIOD"
+        publicPlanViewModel.place.add(place)
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 }

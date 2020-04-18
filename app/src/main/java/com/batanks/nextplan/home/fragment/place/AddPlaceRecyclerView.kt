@@ -8,24 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.EventPlace
+import com.batanks.nextplan.swagger.model.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_add_plan_add_place_card.view.*
 
-class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack
-                           )
-    : RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
-
-    private val modelList = ArrayList<EventPlace>()
+class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<Place>) : RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_add_plan_add_place_card, parent, false)
         return MyViewHolder(view)
     }
 
-    override fun getItemCount() = /*modelList.size*/ 5
+    override fun getItemCount() = modelList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
@@ -33,17 +30,16 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack
             modelList.removeAt(position)
             callBack.closeButtonAddPlaceItemListener(position)
         }
-        /*holder.placeName.text = modelList[position].placeName
-        holder.placeAddress.text = modelList[position].placeAddress*/
+        holder.placeName.text = modelList[position].name
+        holder.placeAddress.text = modelList[position].address
         holder.map.apply {
             onCreate(null)
             getMapAsync {
-                val SYDNEY = LatLng(-33.862, 151.21)
-                val ZOOM_LEVEL = 13f
+                val LATLNG = LatLng(modelList[position].latitude, modelList[position].longitude)
                 with(it) {
                     onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(SYDNEY, ZOOM_LEVEL))
-                    addMarker(MarkerOptions().position(SYDNEY))
+                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                    addMarker(MarkerOptions().position(LATLNG))
                 }
             }
         }

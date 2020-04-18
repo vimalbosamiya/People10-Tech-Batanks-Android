@@ -1,6 +1,7 @@
 package com.batanks.nextplan.arch
 
 import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,7 +19,7 @@ open class BaseDialogFragment : DialogFragment(), BaseContract.BasicLoadingView 
 
     override fun hideLoader() {
         val progress = loadingDialog
-        if (!this.isAdded && progress != null && progress.isShowing) {
+        if (this.isAdded && progress != null && progress.isShowing) {
             progress.dismiss()
         }
     }
@@ -43,4 +44,9 @@ open class BaseDialogFragment : DialogFragment(), BaseContract.BasicLoadingView 
 
     override fun showMessage(message: String, title: String, showPositiveButton: Boolean) {}
     override fun context(): Context = requireContext()
+
+    fun dismissKeyboard() {
+        val imm = context()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 }

@@ -7,5 +7,5 @@ data class Place(
         val city: String,
         val country: String,
         val map: Boolean,
-        val latitude: String,
-        val longitude: String)
+        var latitude: Double,
+        var longitude: Double)

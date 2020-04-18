@@ -18,7 +18,7 @@ open class BaseFragment : Fragment(), BaseContract.BasicLoadingView {
 
     override fun hideLoader() {
         val progress = loadingDialog
-        if (!this.isAdded && progress != null && progress.isShowing) {
+        if (this.isAdded && progress != null && progress.isShowing) {
             progress.dismiss()
         }
     }
