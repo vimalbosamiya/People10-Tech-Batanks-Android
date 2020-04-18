@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.batanks.newplan">
+    package="com.batanks.nextplan">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.BatanksApplication"
+        android:name="com.batanks.nextplan.application.BatanksApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,23 +14,23 @@
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".splash.SplashActivity">
+        <activity android:name="com.batanks.nextplan.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.batanks.nextplan.MainActivity" />
 
-        <activity android:name=".signing.SigninActivity" />
+        <activity android:name="com.batanks.nextplan.signing.SigninActivity" />
 
         <activity
-            android:name=".registration.Registration"
+            android:name="com.batanks.nextplan.registration.Registration"
             android:theme="@style/App_Registration_Theme" />
 
         <activity
-            android:name=".home.HomePlanPreview"
+            android:name="com.batanks.nextplan.home.HomePlanPreview"
             android:theme="@style/App_HomePlanPreview_Theme" />
 
         <meta-data
