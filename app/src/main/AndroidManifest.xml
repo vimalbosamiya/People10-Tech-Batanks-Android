@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme_ActionBar"
+        android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
 
         <!--<activity android:name=".splash.SplashActivity">
@@ -27,11 +27,11 @@
 
         <activity
             android:name=".registration.Registration"
-            android:theme="@style/AppTheme_Registration" />
+            android:theme="@style/App_Registration_Theme" />
 
         <activity
             android:name=".home.HomePlanPreview"
-            android:theme="@style/AppTheme_Home">
+            android:theme="@style/App_HomePlanPreview_Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

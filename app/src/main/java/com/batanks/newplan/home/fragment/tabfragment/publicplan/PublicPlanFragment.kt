@@ -1,4 +1,4 @@
-package com.batanks.newplan.home.fragment.tabfragment
+package com.batanks.newplan.home.fragment.tabfragment.publicplan
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
 import com.batanks.newplan.home.fragment.action.AddActionFragment
 import com.batanks.newplan.home.fragment.period.AddPeriodRecyclerView
-import com.batanks.newplan.home.fragment.period.PeriodModel
 import com.batanks.newplan.home.fragment.place.AddPlaceFragment
 import com.batanks.newplan.home.fragment.place.AddPlaceRecyclerView
-import com.batanks.newplan.home.fragment.place.PlaceModel
 import com.batanks.newplan.home.fragment.spinner.CustomArrayAdapter
 import com.batanks.newplan.home.fragment.spinner.SpinnerModel
+import com.batanks.newplan.home.fragment.tabfragment.AddActivityFragment
+import com.batanks.newplan.home.fragment.tabfragment.ButtonContract
+import com.batanks.newplan.swagger.model.EventDate
+import com.batanks.newplan.swagger.model.Place
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
@@ -37,8 +39,8 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener,
     private var addPeriodRecyclerView: RecyclerView? = null
     private var addPlaceRecyclerView: RecyclerView? = null
 
-    private var choosenDateTimeAddPeriod = ArrayList<PeriodModel>()
-    private var choosenAddPlace = ArrayList<PlaceModel>()
+    private var eventDate = ArrayList<EventDate>()
+    private var place = ArrayList<Place>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,15 +113,15 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener,
 
                         /*FromDate*/
                         val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
-                        val chosenFromDateString = dateFormatter.format(cal.time)
-                        println(chosenFromDateString)
+                        val startDate = dateFormatter.format(cal.time)
+                        println(startDate)
 
                         /*ToDate*/
                         cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
-                        val chosenToDateString = dateFormatter.format(cal.time)
-                        println(chosenToDateString)
+                        val endDate = dateFormatter.format(cal.time)
+                        println(endDate)
 
-                        choosenDateTimeAddPeriod.add(PeriodModel(fromDate = chosenFromDateString, toDate = chosenToDateString))
+                        eventDate.add(EventDate(id = eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         addPeriodButton.text = "ADD AN OTHER PERIOD"
 
@@ -171,17 +173,15 @@ class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener,
         addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
         addPeriodRecyclerView?.setHasFixedSize(true)
         addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, choosenDateTimeAddPeriod)
+        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, eventDate)
     }
 
     private fun populateAddPlaceRecyclerViewIfAny() {
 
-        choosenAddPlace.add(PlaceModel("Hi", "Ji"))
-
         addPlaceRecyclerView = requireActivity().findViewById(R.id.placeRecyclerView)
         addPlaceRecyclerView?.setHasFixedSize(true)
         addPlaceRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this, choosenAddPlace)
+        addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this)
     }
 
     override fun closeButtonAddPlaceItemListener(pos: Int) {

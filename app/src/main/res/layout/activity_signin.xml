@@ -20,7 +20,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/loginTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -52,7 +52,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"

@@ -32,7 +32,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/planNameTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -69,7 +69,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addressTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -106,7 +106,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/zipCodeTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -144,7 +144,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/townTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

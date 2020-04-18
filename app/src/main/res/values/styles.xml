@@ -1,7 +1,6 @@
 <resources>
 
-    <!--Theme.MaterialComponents.Light.DarkActionBar-->
-    <style name="AppTheme_ActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="App_Application_Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="android:colorBackground">#777777</item>
@@ -11,22 +10,18 @@
         <item name="android:textColorPrimary">#ffffff</item>
         <item name="android:textColorSecondary">#ffffff</item>
         <item name="android:editTextColor">#ffffff</item>
-
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme_Registration" parent="AppTheme_ActionBar">
+    <!--//-->
+
+    <style name="App_Registration_Theme" parent="App_Application_Theme">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
     </style>
 
-    <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#1D2125</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="android:colorBackground">#777777</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <!--//-->
 
     <style name="CustomProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
         <item name="android:color">#82bc00</item>
@@ -34,22 +29,17 @@
         <item name="android:duration">5</item>
     </style>
 
+    <!--//-->
+
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:background">#ffffff</item>
     </style>
 
-    <style name="AlertDialogCustom_Register" parent="AlertDialogCustom">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="android:background">#ffffff</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:textColorHint">#000000</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
-    </style>
+    <!--//-->
 
-    <style name="AppTheme_Home" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="App_HomePlanPreview_Theme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="android:colorBackground">#777777</item>
@@ -61,11 +51,11 @@
         <item name="android:editTextColor">#ffffff</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-        <!--<item name="materialCalendarTheme">@style/ThemeMaterialCalendar</item>-->
     </style>
 
-    <style name="AppTheme_Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <!--//-->
+
+    <style name="App_DialogFragment_Theme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">#1D2125</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="android:colorBackground">#777777</item>
@@ -98,30 +88,22 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
-    <style name="AppTheme_2" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-        <item name="colorPrimary">#1D2125</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="android:colorBackground">#777777</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!--//-->
+
+    <style name="MaterialTextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textColorHint">#ffffff</item>
-        <item name="android:textColorPrimary">#ffffff</item>
-        <item name="android:textColorSecondary">#ffffff</item>
-        <item name="android:editTextColor">#ffffff</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textColorHint">#ffffff</item>
-    </style>
     <!--//-->
+
     <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="materialButtonStyle">@style/ThemeMaterialCalendarTextButton</item>
-        <item name="materialCalendarHeaderLayout">@style/ThemeMaterialCalendarTextButton1</item>
+        <item name="materialCalendarHeaderLayout">
+            @style/ThemeMaterialCalendarTextButtonHeaderSelection
+        </item>
     </style>
 
     <style name="ThemeMaterialCalendarButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -133,9 +115,9 @@
         <item name="iconTint">@color/colorAccent</item>
     </style>
 
-    <!--//-->
-    <style name="ThemeMaterialCalendarTextButton1" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
+    <style name="ThemeMaterialCalendarTextButtonHeaderSelection" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
         <item name="android:background">@color/colorBlack</item>
         <item name="iconTint">@color/colorBlack</item>
     </style>
+    <!--//-->
 </resources>

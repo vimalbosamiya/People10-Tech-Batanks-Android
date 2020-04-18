@@ -3,8 +3,8 @@ package com.batanks.newplan.home.fragment.tabfragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.batanks.newplan.home.fragment.tabfragment.PrivatePlanFragment
-import com.batanks.newplan.home.fragment.tabfragment.PublicPlanFragment
+import com.batanks.newplan.home.fragment.tabfragment.privateplan.PrivatePlanFragment
+import com.batanks.newplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
 
 class TabsPagerAdapter(fragmentManager: FragmentManager)
     : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

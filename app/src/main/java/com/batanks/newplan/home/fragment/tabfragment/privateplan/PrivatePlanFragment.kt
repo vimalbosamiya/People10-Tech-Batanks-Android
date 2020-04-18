@@ -1,4 +1,4 @@
-package com.batanks.newplan.home.fragment.tabfragment
+package com.batanks.newplan.home.fragment.tabfragment.privateplan
 
 import android.os.Bundle
 import android.view.LayoutInflater

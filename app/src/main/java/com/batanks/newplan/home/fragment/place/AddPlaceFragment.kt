@@ -8,25 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseDialogFragment
+import com.batanks.newplan.common.getLoadingDialog
+import com.batanks.newplan.swagger.model.Place
 import kotlinx.android.synthetic.main.fragment_add_place.*
 import java.lang.StringBuilder
 
-class AddPlaceFragment : DialogFragment(), View.OnClickListener {
-
-    /*override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view: View = requireActivity().layoutInflater.inflate(R.layout.fragment_add_place, null)
-        return MaterialAlertDialogBuilder(requireActivity(), R.style.AppTheme_Dialog)
-                .setTitle("Add Place")
-                .setPositiveButton("Ok", DialogInterface.OnClickListener { _, _ -> })
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener { _, _ -> })
-                .setCancelable(false)
-                .setView(view)
-                .create()
-    }*/
+class AddPlaceFragment : BaseDialogFragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.AppTheme_Dialog)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.App_DialogFragment_Theme)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,26 +26,44 @@ class AddPlaceFragment : DialogFragment(), View.OnClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadingDialog = requireContext().getLoadingDialog(0, R.string.creating_user_please_wait, theme = R.style.AlertDialogCustom)
         ok.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.ok -> {
+                showLoader()
+                val place = Place(name = planNameTextField?.editText?.text.toString(),
+                        address = addressTextField?.editText?.text.toString(),
+                        zipcode = zipCodeTextField?.editText?.text.toString(),
+                        city = townTextField?.editText?.text.toString(),
+                        country = countryTextField?.editText?.text.toString(),
+                        map = false,
+                        latitude = "33",
+                        longitude = "43")
+
                 val stringBuilder = StringBuilder()
-                        .append(planNameTextField?.editText?.text)
+                        .append(place.name)
                         .append("+")
-                        .append(addressTextField?.editText?.text)
+                        .append(place.address)
                         .append("+")
-                        .append(townTextField?.editText?.text)
+                        .append(place.city)
                         .append("+")
-                        .append(countryTextField?.editText?.text)
+                        .append(place.country)
                         .append("+")
-                        .append(zipCodeTextField?.editText?.text)
+                        .append(place.zipcode)
 
                 val result: List<Address> = Geocoder(v.context).getFromLocationName(stringBuilder.toString(), 5)
+                (result.size)
                 println(result.size)
+                hideLoader()
             }
         }
     }
+}
+
+interface AddPlaceFragmentClickEvents {
+    fun addPlaceOkayButtonClicked()
+    fun addPlaceCancelButtonClicked()
 }

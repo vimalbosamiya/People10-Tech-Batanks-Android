@@ -10,7 +10,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userNameTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -42,7 +42,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/firstNameTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -74,7 +74,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lastNameTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -106,7 +106,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -137,7 +137,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -171,7 +171,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmPasswordTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
@@ -219,7 +219,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phoneNumberTextField"
-            style="@style/TextInputLayoutAppearance"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"

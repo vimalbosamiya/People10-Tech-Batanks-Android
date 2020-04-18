@@ -7,10 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
+import com.batanks.newplan.swagger.model.EventDate
 import kotlinx.android.synthetic.main.layout_add_plan_add_period_card.view.*
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
-                            private val modelList: ArrayList<PeriodModel>)
+                            private val modelList: ArrayList<EventDate>)
     : RecyclerView.Adapter<AddPeriodRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -28,8 +29,8 @@ class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
             modelList.removeAt(position)
             callBack.closeButtonAddPeriodItemListener(position)
         }
-        holder.from.text = modelList[position].fromDate
-        holder.to.text = modelList[position].toDate
+        holder.from.text = modelList[position].start
+        holder.to.text = modelList[position].end
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
