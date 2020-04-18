@@ -9,10 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseFragment
 import com.batanks.newplan.home.fragment.action.AddActionFragment
 import com.batanks.newplan.home.fragment.period.AddPeriodRecyclerView
 import com.batanks.newplan.home.fragment.place.AddPlaceFragment
@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PublicPlanFragment : Fragment(), ButtonContract, View.OnClickListener,
+class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
         AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack {
 

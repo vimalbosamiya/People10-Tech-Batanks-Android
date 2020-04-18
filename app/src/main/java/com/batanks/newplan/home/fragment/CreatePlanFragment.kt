@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseFragment
 import com.batanks.newplan.home.fragment.tabfragment.TabsPagerAdapter
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
 
-class CreatePlanFragment : Fragment() {
+class CreatePlanFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

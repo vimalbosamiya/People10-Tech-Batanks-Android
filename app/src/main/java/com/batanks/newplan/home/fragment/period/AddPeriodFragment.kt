@@ -3,14 +3,12 @@ package com.batanks.newplan.home.fragment.period
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.batanks.newplan.R
+import com.batanks.newplan.arch.BaseDialogFragment
 
-class AddPeriodFragment : DialogFragment() {
+class AddPeriodFragment : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
