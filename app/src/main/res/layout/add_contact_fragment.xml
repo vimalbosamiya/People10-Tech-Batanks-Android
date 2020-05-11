@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_popup_background">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/addcontactHeader"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_margin="16dp"
+            android:gravity="center_vertical"
+            android:text="Add Contact"
+            android:textSize="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addcontactHeader" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addcontactSearchTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Search for..."
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="Enter a name or category of plans"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addcontactHeader">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <RelativeLayout
+            android:id="@+id/rl_select_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#1E1E1E"
+            app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField">
+            <ImageView
+                android:id="@+id/img_contacts_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_add_person"/>
+            <TextView
+                android:id="@+id/add_contacts_contacts_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contacts"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img_contacts_icon"/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/select_contacts_contacts_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_contacts_down_arrow_icon"
+                app:useMaterialThemeColors="false" />
+            <ImageView
+                android:id="@+id/img_contacts_down_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_select_contact_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#1E1E1E"
+            app:layout_constraintTop_toBottomOf="@+id/rl_select_contact">
+            <ImageView
+                android:id="@+id/img_contacts_groups_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_add_person"/>
+            <TextView
+                android:id="@+id/add_contacts_group_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Groups"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img_contacts_groups_icon"/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/select_contacts_group_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_contacts_group_down_arrow_icon"
+                app:useMaterialThemeColors="false" />
+            <ImageView
+                android:id="@+id/img_contacts_group_down_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_select_contact_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#1E1E1E"
+            app:layout_constraintTop_toBottomOf="@+id/rl_select_contact_groups">
+            <ImageView
+                android:id="@+id/img_contacts_users_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_add_person"/>
+            <TextView
+                android:id="@+id/add_contacts_users_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Users"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img_contacts_users_icon"/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/select_contacts_users_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_contacts_users_down_arrow_icon"
+                app:useMaterialThemeColors="false" />
+            <ImageView
+                android:id="@+id/img_contacts_users_down_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"/>
+        </RelativeLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addcontactinviteEmail"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Invite by mail"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="Enter an e-mail"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rl_select_contact_users">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rl_select_contact_phone_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#1E1E1E"
+            app:layout_constraintTop_toBottomOf="@+id/addcontactinviteEmail">
+            <ImageView
+                android:id="@+id/img_contacts_phone_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_add_person"/>
+            <TextView
+                android:id="@+id/add_contacts_phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Contacts"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img_contacts_phone_icon"/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/select_contacts_phone_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_contacts_phone_down_arrow_icon"
+                app:useMaterialThemeColors="false" />
+            <ImageView
+                android:id="@+id/img_contacts_phone_down_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"/>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/phone_contacts_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/rl_select_contact_phone_contacts" />
+
+        <View
+            android:id="@+id/footerDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone_contacts_RecyclerView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ok"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingBottom="24dp"
+            android:text="OK"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:paddingBottom="24dp"
+            android:text="CANCEL"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintRight_toLeftOf="@+id/ok"
+            app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

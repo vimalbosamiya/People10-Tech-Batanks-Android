@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
+import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
 import com.batanks.nextplan.home.fragment.period.AddPeriodRecyclerView
 import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
 import com.batanks.nextplan.home.fragment.place.AddPlaceRecyclerView
@@ -28,6 +29,7 @@ import com.batanks.nextplan.swagger.model.Place
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
+import kotlinx.android.synthetic.main.layout_add_plan_add_people.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
 import java.text.SimpleDateFormat
@@ -62,6 +64,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addActionButton.setOnClickListener(this)
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
+        addPeopleButton.setOnClickListener(this)
+
 
         populateAddPeriodRecyclerViewIfAny()
         populateAddPlaceRecyclerViewIfAny()
@@ -91,6 +95,9 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             }
             R.id.addPeriodButton -> {
                 addPeriodClicked()
+            }
+            R.id.addPeopleButton -> {
+                addPeopleClicked()
             }
         }
     }
@@ -165,7 +172,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 .commitAllowingStateLoss()
     }
 
-    override fun addPeopleClicked() {}
+    override fun addPeopleClicked() {
+        requireActivity().supportFragmentManager
+                .beginTransaction()
+                .add(AddContactsFragment(), AddContactsFragment::class.java.canonicalName)
+                .commitAllowingStateLoss()
+    }
 
     override fun closeButtonAddPeriodItemListener(pos: Int) {
         addPeriodButton.text = "ADD A PERIOD"
