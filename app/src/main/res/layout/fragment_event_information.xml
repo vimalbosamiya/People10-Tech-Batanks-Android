@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/eventinfobackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_event_details_event_info_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/hotTubIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="18dp"
+        android:background="@drawable/ic_event_details_hot_tub_icon"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toTopOf="@+id/eventinfobackground"/>
+
+    <TextView
+        android:id="@+id/textViewEventNameOfPerPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dégustation de vin blanc"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="18.03dp"
+        app:layout_constraintStart_toEndOf="@+id/hotTubIcon"
+        app:layout_constraintTop_toTopOf="@+id/eventinfobackground"/>
+
+    <ImageView
+        android:id="@+id/personCostDropDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="24.02dp"
+        android:background="@drawable/ic_event_details_expand_less"
+        app:layout_constraintEnd_toEndOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toTopOf="@+id/eventinfobackground" />
+
+    <ImageView
+        android:id="@+id/placeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35.02dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/ic_event_details_place_icon"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/hotTubIcon"/>
+
+    <TextView
+        android:id="@+id/locationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dans le jardin du voisin"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="72dp"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventNameOfPerPerson"/>
+
+    <TextView
+    android:id="@+id/fullLocation"
+    android:layout_width="212dp"
+    android:layout_height="wrap_content"
+    android:text="29 rue Jacques vache 93200 Saint-Denis France"
+    android:textSize="14sp"
+    android:textColor="#DEFFFFFF" android:layout_marginStart="72dp"
+    app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+    app:layout_constraintTop_toBottomOf="@+id/locationName"/>
+
+    <ImageView
+        android:id="@+id/hideMapImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/ic_event_details_hide_map_background"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/fullLocation"/>
+
+    <ImageView
+        android:id="@+id/hideMapIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/ic_event_details_hide_map_icon"
+        app:layout_constraintEnd_toEndOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/fullLocation"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="11dp"
+        android:background="@drawable/ic_event_details_map"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>
+
+    <ImageView
+        android:id="@+id/eventInfoDivider1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ic_event_details_event_info_divider"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintEnd_toEndOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/map" />
+
+    <ImageView
+        android:id="@+id/eventInfoStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/ic_event_details_event_info_start_date"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider1" />
+
+    <TextView
+        android:id="@+id/textViewEventStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sat, Mar 15 2019 - 08:00 pm"
+        android:textSize="14sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="72dp"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider1"/>
+
+    <ImageView
+        android:id="@+id/eventInfoTimeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/ic_event_details_event_info_time_icon"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfoStartDate" />
+
+    <TextView
+        android:id="@+id/textViewEventTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01h 30mn"
+        android:textSize="14sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="72dp"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventStartDate"/>
+
+    <ImageView
+        android:id="@+id/eventInfoDivider2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_event_details_event_info_divider"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintEnd_toEndOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventTime" />
+
+    <ImageView
+        android:id="@+id/everybodyCome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21.02dp"
+        android:layout_marginStart="16.98dp"
+        android:background="@drawable/ic_event_details_everybody_come_icon"
+        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2" />
+
+    <TextView
+        android:id="@+id/textViewCostPerPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost Per Person"
+        android:textSize="14sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginTop="31dp"
+        android:layout_marginStart="18dp"
+        app:layout_constraintStart_toEndOf="@+id/dollarPerPersonLowerHalfIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/eventinfobackground"/>
+
+    <TextView
+        android:id="@+id/textViewCostPerPersonAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10,00 €"
+        android:textSize="20sp"
+        android:textColor="#FFE082"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/eventinfobackground"
+        app:layout_constraintBottom_toBottomOf="@+id/eventinfobackground"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/dateBackgroundMultiple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/ic_event_details_date_and_place_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/dateThumbsUpDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_event_details_thumbs_up_down"
+        app:layout_constraintStart_toStartOf="@+id/dateBackgroundMultiple"
+        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
+
+    <TextView
+        android:id="@+id/textviewVoteFor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vote for date"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
+        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple"/>
+
+    <ImageView
+        android:id="@+id/dateDropDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="24.58dp"
+        android:background="@drawable/ic_event_details_expand_more"
+        app:layout_constraintEnd_toEndOf="@+id/dateBackgroundMultiple"
+        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
+
+    <ImageView
+        android:id="@+id/dateAndVoteBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+        app:layout_constraintStart_toStartOf="@+id/dateBackgroundMultiple"
+        app:layout_constraintTop_toBottomOf="@+id/textviewVoteFor" />
+
+    <ImageView
+        android:id="@+id/calenderIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_event_details_vote_for_date_calender"
+        app:layout_constraintStart_toStartOf="@+id/dateAndVoteBackground"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground" />
+
+    <TextView
+        android:id="@+id/firstDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="16sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/calenderIcon"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/firstDateVotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="999"
+        android:textSize="14sp"
+        android:textColor="#90CAF9"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/firstDate"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/secondDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textSize="16sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/firstDateVotes"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/secondDateVotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="999"
+        android:textSize="14sp"
+        android:textColor="#90CAF9"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/secondDate"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/thirdDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textSize="16sp"
+        android:textColor="#DEFFFFFF"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/secondDateVotes"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/thirdDateVotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="999"
+        android:textSize="14sp"
+        android:textColor="#90CAF9"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/thirdDate"
+        app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+    <TextView
+        android:id="@+id/textViewInVoting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In Voting..."
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/dateAndVoteBackground"
+        app:layout_constraintTop_toBottomOf="@+id/dateAndVoteBackground"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

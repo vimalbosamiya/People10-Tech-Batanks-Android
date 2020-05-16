@@ -1,8 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#1D2125">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1D2125">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/planNameTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Plan name"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:helperText="Enter a name for your event"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/detailDescriptionTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Detail &amp; Description"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:helperText="Tell more about your plan"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/planNameTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="Enter a category of your event"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
+            app:startIconDrawable="@drawable/ic_category"
+            app:startIconTint="#ffffff">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:editable="false"
+                android:gravity="center_vertical"
+                android:inputType="none"
+                android:text="item" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/addPeriodLayout"
+            layout="@layout/layout_add_plan_add_period"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/categoryTextField"
+            app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
+
+        <include
+            android:id="@+id/addPlaceLayout"
+            layout="@layout/layout_add_plan_add_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addPeriodLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPeriodLayout" />
+
+        <include
+            android:id="@+id/addActionLayout"
+            layout="@layout/layout_add_plan_add_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addPlaceLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPlaceLayout" />
+
+        <include
+            android:id="@+id/addActivityLayout"
+            layout="@layout/layout_add_plan_add_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addActionLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addActionLayout" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/howOftenTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="24dp"
+            android:text="How often ?"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/whenTextView"
+            app:layout_constraintTop_toBottomOf="@+id/addActivityLayout" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/howOftenDividerIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenTextView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/howOftenTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:endIconMode="dropdown_menu"
+            app:helperText="Enter a frequency of your event"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenDividerIcon">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:editable="true"
+                android:gravity="center_vertical"
+                android:inputType="none"
+                android:text="once" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/howMuchTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="24dp"
+            android:text="How much ?"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/whenTextView"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenTextField" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/howMuchDividerIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_divider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howMuchTextView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/rateTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Rate"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="#34CBFE"
+            app:helperText="Say how much will cost your event"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howMuchDividerIcon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/addPeopleLayout"
+            layout="@layout/layout_add_plan_add_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/rateTextField"
+            app:layout_constraintTop_toBottomOf="@+id/rateTextField" />
+
+        <include
+            android:id="@+id/addFooterLayout"
+            layout="@layout/layout_add_plan_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addPeopleLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPeopleLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
