@@ -9,76 +9,89 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#121212">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainConstraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#121212"
             tools:context=".eventdetails.EventDetailView"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent">-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/customToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="#121212"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/backArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="19.98dp"
-                android:src="@drawable/ic_back_arrow"
-                app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/toolbarConstraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/favourite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18.02dp"
-                android:src="@drawable/ic_star"
-                app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/backArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="19.98dp"
+                        android:src="@drawable/ic_back_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/toolbarConstraintLayout"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="37.02dp"
-                android:src="@drawable/ic_share"
-                app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-                app:layout_constraintEnd_toStartOf="@+id/favourite"
-                app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/favourite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18.02dp"
+                        android:src="@drawable/ic_star"
+                        app:layout_constraintBottom_toBottomOf="@+id/toolbarConstraintLayout"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/bodyBackgroundView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_plan_preview_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+                    <ImageView
+                        android:id="@+id/share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="37.02dp"
+                        android:src="@drawable/ic_share"
+                        app:layout_constraintBottom_toBottomOf="@+id/toolbarConstraintLayout"
+                        app:layout_constraintEnd_toStartOf="@+id/favourite"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/userIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/ic_event_details_user_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/bodyBackgroundView"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--
+            </androidx.appcompat.widget.Toolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bodyBackgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_plan_preview_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customToolBar">
+
+        <ImageView
+            android:id="@+id/userIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/ic_event_details_user_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bodyBackgroundView" />
+
+            <!--
             <ImageView
                 android:id="@+id/userGreenBackground"
                 android:layout_width="wrap_content"
@@ -109,51 +122,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/userBlackBackground" />-->
 
-            <TextView
-                android:id="@+id/organizer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Organizer Name"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userIcon"/>
+        <TextView
+            android:id="@+id/organizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Organizer Name"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userIcon" />
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/ic_divider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/organizer"/>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/organizer" />
 
-            <TextView
-                android:id="@+id/eventName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grosse Raclette Party"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:layout_marginTop="13dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider"/>
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="Grosse Raclette Party"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-            <View
-                android:id="@+id/tripHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/ic_darkgrey_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventName"/>
+        <View
+            android:id="@+id/tripHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/ic_darkgrey_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventName" />
 
- <!--           <ImageView
+            <!--           <ImageView
                 android:id="@+id/flightBlackBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,576 +187,1272 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/flightBlackBackground" />-->
 
-            <ImageView
-                android:id="@+id/tripIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_event_details_trip_icon"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"
-                app:layout_constraintBottom_toBottomOf="@+id/tripHolder"/>
+        <ImageView
+            android:id="@+id/tripIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/ic_event_details_trip_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/tripHolder"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="TRIP"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tripHolder"
+            app:layout_constraintStart_toEndOf="@+id/tripIcon"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+        <!--<ImageView
+            android:id="@+id/privateTextViewBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/ic_event_details_private_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:background="@drawable/ic_event_detail_private_lock_img"
+            app:layout_constraintStart_toStartOf="@+id/privateTextViewBackground"
+            app:layout_constraintTop_toTopOf="@+id/privateTextViewBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/privateTextViewBackground"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="PRIVATE"
+            android:textSize="12sp"
+            android:textColor="#90CAF9"
+            app:layout_constraintStart_toStartOf="@+id/privateTextViewBackground"
+            app:layout_constraintTop_toTopOf="@+id/privateTextViewBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/privateTextViewBackground"/>-->
+
+        <ImageView
+            android:id="@+id/privateIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/ic_event_details_private_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+        <!--<ImageView
+            android:id="@+id/eventIconBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/ic_event_icon_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder"/>-->
+
+        <ImageView
+            android:id="@+id/tripCalenderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/ic_event_details_trip_calender_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+
+        <ImageView
+            android:id="@+id/peopleOutline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="59.02dp"
+            android:background="@drawable/ic_event_details_people_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
+
+        <TextView
+            android:id="@+id/noOfGuests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16.98dp"
+            android:layout_marginTop="54dp"
+            android:text="9999"
+            android:textColor="#90CAF9"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/peopleOutline"
+            app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
+
+        <ImageView
+            android:id="@+id/participantsImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="59.02dp"
+            android:layout_marginEnd="16.98dp"
+            android:background="@drawable/ic_event_details_participants_image"
+            app:layout_constraintRight_toLeftOf="@+id/noOfParticipants"
+            app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
+
+        <TextView
+            android:id="@+id/noOfParticipants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="43dp"
+            android:text="9999"
+            android:textColor="#A5D6A7"
+            android:textSize="18sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
+
+        <TextView
+            android:id="@+id/textviewGuests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="21.02dp"
+            android:text="GUESTS"
+            android:textColor="#90CAF9"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/peopleOutline" />
+
+        <TextView
+            android:id="@+id/textviewParticipants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21.02dp"
+            android:layout_marginEnd="43dp"
+            android:text="PARTICIPANTS"
+            android:textColor="#A5D6A7"
+            android:textSize="12sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/participantsImage" />
+
+        <View
+            android:id="@+id/dividerWhite"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="43dp"
+            android:background="@drawable/ic_event_details_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textviewGuests" />
+
+        <ImageView
+            android:id="@+id/dollarBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="112dp"
+            android:background="@drawable/ic_event_details_dollar_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/privateIcon" />
+
+        <ImageView
+            android:id="@+id/dollarUpperHalf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_event_details_dollar_upper_half"
+            app:layout_constraintEnd_toEndOf="@+id/dollarBackground"
+            app:layout_constraintStart_toStartOf="@+id/dollarBackground"
+            app:layout_constraintTop_toTopOf="@+id/dollarBackground" />
+
+        <ImageView
+            android:id="@+id/dollarLowerHalf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3.6dp"
+            android:layout_marginTop="7.0dp"
+            android:layout_marginEnd="2.1dp"
+            android:background="@drawable/ic_event_details_dollar_lower_half"
+            app:layout_constraintEnd_toEndOf="@+id/dollarBackground"
+            app:layout_constraintStart_toStartOf="@+id/dollarBackground"
+            app:layout_constraintTop_toTopOf="@+id/dollarBackground" />
+
+        <TextView
+            android:id="@+id/costPerPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="999 999, 99 €"
+            android:textColor="#FFE082"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dollarBackground" />
+
+        <TextView
+            android:id="@+id/textviewperPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="PER PERSON"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/costPerPerson" />
+
+        <TextView
+            android:id="@+id/eventDescription"
+            android:layout_width="296dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="43dp"
+            android:text="Détails description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
+            android:textColor="#99FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textviewperPerson" />
 
             <TextView
+                android:id="@+id/textViewWhen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TRIP"
-                android:textSize="12sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/tripIcon"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"
-                app:layout_constraintBottom_toBottomOf="@+id/tripHolder" />
-
-            <!--<ImageView
-                android:id="@+id/privateTextViewBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:background="@drawable/ic_event_details_private_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:background="@drawable/ic_event_detail_private_lock_img"
-                app:layout_constraintStart_toStartOf="@+id/privateTextViewBackground"
-                app:layout_constraintTop_toTopOf="@+id/privateTextViewBackground"
-                app:layout_constraintBottom_toBottomOf="@+id/privateTextViewBackground"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="PRIVATE"
-                android:textSize="12sp"
-                android:textColor="#90CAF9"
-                app:layout_constraintStart_toStartOf="@+id/privateTextViewBackground"
-                app:layout_constraintTop_toTopOf="@+id/privateTextViewBackground"
-                app:layout_constraintBottom_toBottomOf="@+id/privateTextViewBackground"/>-->
-
-            <ImageView
-                android:id="@+id/privateIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:background="@drawable/ic_event_details_private_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"/>
-
-            <!--<ImageView
-                android:id="@+id/eventIconBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="35dp"
-                android:background="@drawable/ic_event_icon_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"/>-->
-
-            <ImageView
-                android:id="@+id/tripCalenderIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="18dp"
-                android:background="@drawable/ic_event_details_trip_calender_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tripHolder"/>
-
-
-            <ImageView
-                android:id="@+id/peopleOutline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="59.02dp"
                 android:layout_marginStart="43dp"
-                android:background="@drawable/ic_event_details_people_outline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tripHolder"/>
-
-            <TextView
-                android:id="@+id/noOfGuests"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="9999"
-                android:textColor="#90CAF9"
+                android:layout_marginTop="45dp"
+                android:text="When ?"
+                android:textColor="#DEFFFFFF"
                 android:textSize="18sp"
-                android:layout_marginTop="54dp"
-                android:layout_marginStart="16.98dp"
-                app:layout_constraintStart_toEndOf="@+id/peopleOutline"
-                app:layout_constraintTop_toBottomOf="@+id/tripHolder"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
 
             <ImageView
-                android:id="@+id/participantsImage"
+                android:id="@+id/dateSettingsIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="59.02dp"
-                android:layout_marginEnd="16.98dp"
-                android:background="@drawable/ic_event_details_participants_image"
-                app:layout_constraintRight_toLeftOf="@+id/noOfParticipants"
-                app:layout_constraintTop_toBottomOf="@+id/tripHolder"/>
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/ic_event_details_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
 
-            <TextView
-                android:id="@+id/noOfParticipants"
+            <ImageView
+                android:id="@+id/dateDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9999"
-                android:textColor="#A5D6A7"
-                android:textSize="18sp"
-                android:layout_marginTop="54dp"
-                android:layout_marginEnd="43dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tripHolder"/>
-
-            <TextView
-                android:id="@+id/textviewGuests"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GUESTS"
-                android:textColor="#90CAF9"
-                android:textSize="12sp"
-                android:layout_marginTop="21.02dp"
-                android:layout_marginStart="43dp"
-                app:layout_constraintTop_toBottomOf="@+id/peopleOutline"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/textviewParticipants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PARTICIPANTS"
-                android:textColor="#A5D6A7"
-                android:textSize="12sp"
-                android:layout_marginTop="21.02dp"
-                android:layout_marginEnd="43dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/participantsImage"/>
-
-            <View
-                android:id="@+id/dividerWhite"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="43dp"
-                android:layout_marginEnd="43dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/ic_event_details_divider"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_event_details_date_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textviewGuests"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewWhen" />
 
-            <ImageView
-                android:id="@+id/dollarBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="112dp"
-                android:background="@drawable/ic_event_details_dollar_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/privateIcon"/>
 
-            <ImageView
-                android:id="@+id/dollarUpperHalf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/ic_event_details_dollar_upper_half"
-                app:layout_constraintEnd_toEndOf="@+id/dollarBackground"
-                app:layout_constraintStart_toStartOf="@+id/dollarBackground"
-                app:layout_constraintTop_toTopOf="@+id/dollarBackground"/>
+        <!--<FrameLayout
+            android:id="@+id/dateFrameBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateDivider" />-->
 
-            <ImageView
-                android:id="@+id/dollarLowerHalf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3.6dp"
-                android:layout_marginEnd="2.1dp"
-                android:layout_marginTop="7.0dp"
-                android:background="@drawable/ic_event_details_dollar_lower_half"
-                app:layout_constraintEnd_toEndOf="@+id/dollarBackground"
-                app:layout_constraintStart_toStartOf="@+id/dollarBackground"
-                app:layout_constraintTop_toTopOf="@+id/dollarBackground" />
-
-            <TextView
-                android:id="@+id/costPerPerson"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999 999, 99 €"
-                android:textColor="#FFE082"
-                android:textSize="34sp"
-                android:layout_marginTop="6dp"
-                app:layout_constraintTop_toBottomOf="@+id/dollarBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/textviewperPerson"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PER PERSON"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@+id/costPerPerson"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/eventDescription"
-                android:layout_width="296dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="43dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="43dp"
-                android:text="Détails description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
-                android:textColor="#99FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textviewperPerson" />
-
-            <FrameLayout
-                android:id="@+id/dateFrameBackground"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dateConstraintViewHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/dateDivider">
 
-            <!--<ImageView
-                android:id="@+id/dateThumbsUpDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_thumbs_up_down"
-                app:layout_constraintStart_toStartOf="@+id/dateBackground"
-                app:layout_constraintTop_toTopOf="@+id/dateBackground" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dateBackground"
+                    android:layout_width="328dp"
+                    android:layout_height="72dp"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_shape_rectangle_card"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/datePeriodIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_date_period"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/closeButtonIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_close_button"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/fromTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="From"
+                        app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
+                        app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
+                        app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
+
+                    <TextView
+                        android:id="@+id/fromResponseTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="From Response"
+                        app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
+                        app:layout_constraintLeft_toRightOf="@+id/fromTextView"
+                        app:layout_constraintTop_toTopOf="@+id/fromTextView" />
+
+                    <TextView
+                        android:id="@+id/toTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="To"
+                        app:layout_constraintStart_toStartOf="@+id/fromTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+
+                    <TextView
+                        android:id="@+id/toResponseTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To Response"
+                        app:layout_constraintBottom_toBottomOf="@+id/toTextView"
+                        app:layout_constraintLeft_toRightOf="@+id/toTextView"
+                        app:layout_constraintStart_toStartOf="@+id/fromResponseTextView"
+                        app:layout_constraintTop_toTopOf="@+id/toTextView" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dateBackgroundMultiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginEnd="27dp"
+                    android:background="@drawable/ic_event_details_date_and_place_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/dateThumbsUpDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/ic_event_details_thumbs_up_down"
+                        app:layout_constraintStart_toStartOf="@+id/dateBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
+
+                    <TextView
+                        android:id="@+id/textviewVoteFor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vote for date"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
+                        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple"/>
+
+                    <ImageView
+                        android:id="@+id/dateDropDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.58dp"
+                        android:background="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintEnd_toEndOf="@+id/dateBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/dateAndVoteBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+                        app:layout_constraintStart_toStartOf="@+id/dateBackgroundMultiple"
+                        app:layout_constraintEnd_toEndOf="@+id/dateBackgroundMultiple"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewVoteFor" >
+
+                        <ImageView
+                            android:id="@+id/calenderIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="19dp"
+                            android:background="@drawable/ic_event_details_vote_for_date_calender"
+                            app:layout_constraintStart_toStartOf="@+id/dateAndVoteBackground"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"
+                            app:layout_constraintBottom_toBottomOf="@+id/dateAndVoteBackground" />
+
+                        <TextView
+                            android:id="@+id/firstDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="27dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/calenderIcon"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/firstDateVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/firstDate"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/secondDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/firstDateVotes"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/secondDateVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/secondDate"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/thirdDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/secondDateVotes"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/thirdDateVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="31dp"
+                            app:layout_constraintStart_toEndOf="@+id/thirdDate"
+                            app:layout_constraintEnd_toEndOf="@+id/dateAndVoteBackground"
+                            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textViewInVoting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="In Voting..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/dateAndVoteBackground"
+                        app:layout_constraintTop_toBottomOf="@+id/dateAndVoteBackground"
+                        app:layout_constraintBottom_toBottomOf="@+id/dateBackgroundMultiple"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dateDropDownBackgroundMultiple"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imgDateMultiLoader"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/dateThumbsUpDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/ic_event_details_thumbs_up_down"
+                        app:layout_constraintStart_toStartOf="@+id/dateDropDownBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
+
+                    <TextView
+                        android:id="@+id/textviewVoteForMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vote for date"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDownMulti"
+                        app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple"/>
+
+                    <ImageView
+                        android:id="@+id/dateDropDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.58dp"
+                        android:background="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/VoteForDateMultipleRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="In Voting..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@+id/VoteForDateMultipleRecyclerView"
+                        app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"
+                        app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<ImageView
+            android:id="@+id/dateThumbsUpDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_thumbs_up_down"
+            app:layout_constraintStart_toStartOf="@+id/dateBackground"
+            app:layout_constraintTop_toTopOf="@+id/dateBackground" />
+
+        <TextView
+            android:id="@+id/textviewVoteFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vote for date"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
+            app:layout_constraintTop_toTopOf="@+id/dateBackground"/>
+
+        <ImageView
+            android:id="@+id/dateDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:layout_marginTop="24.58dp"
+            android:background="@drawable/ic_event_details_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/dateBackground"
+            app:layout_constraintTop_toTopOf="@+id/dateBackground" />
+
+        <ImageView
+            android:id="@+id/dateAndVoteBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+            app:layout_constraintStart_toStartOf="@+id/dateBackground"
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteFor" />
+
+        <ImageView
+            android:id="@+id/calenderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ic_event_details_place_icon"
+            app:layout_constraintStart_toStartOf="@+id/dateAndVoteBackground"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground" />
+
+        <TextView
+            android:id="@+id/firstDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="27dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/calenderIcon"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/firstDateVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/firstDate"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/secondDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/firstDateVotes"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/secondDateVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/secondDate"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/thirdDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/secondDateVotes"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/thirdDateVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/thirdDate"
+            app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/textViewInVoting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In Voting..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/dateAndVoteBackground"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndVoteBackground"/>-->
+
+        <!--<FrameLayout
+            android:id="@+id/placeFrameBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateFrameBackground" />-->
 
             <TextView
-                android:id="@+id/textviewVoteFor"
+                android:id="@+id/textViewWhere"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vote for date"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
-                app:layout_constraintTop_toTopOf="@+id/dateBackground"/>
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="40dp"
+                android:text="Where ?"
+                android:textColor="#DEFFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateConstraintViewHolder" />
 
             <ImageView
-                android:id="@+id/dateDropDown"
+                android:id="@+id/placeSettingsIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:layout_marginTop="24.58dp"
-                android:background="@drawable/ic_event_details_expand_more"
-                app:layout_constraintEnd_toEndOf="@+id/dateBackground"
-                app:layout_constraintTop_toTopOf="@+id/dateBackground" />
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/ic_event_details_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateConstraintViewHolder" />
 
             <ImageView
-                android:id="@+id/dateAndVoteBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_date_and_vote_summary_background"
-                app:layout_constraintStart_toStartOf="@+id/dateBackground"
-                app:layout_constraintTop_toBottomOf="@+id/textviewVoteFor" />
-
-            <ImageView
-                android:id="@+id/calenderIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/ic_event_details_place_icon"
-                app:layout_constraintStart_toStartOf="@+id/dateAndVoteBackground"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground" />
-
-            <TextView
-                android:id="@+id/firstDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="27dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/calenderIcon"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/firstDateVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/firstDate"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/secondDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/firstDateVotes"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/secondDateVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/secondDate"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/thirdDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/secondDateVotes"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/thirdDateVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/thirdDate"
-                app:layout_constraintTop_toTopOf="@+id/dateAndVoteBackground"/>
-
-            <TextView
-                android:id="@+id/textViewInVoting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="In Voting..."
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/dateAndVoteBackground"
-                app:layout_constraintTop_toBottomOf="@+id/dateAndVoteBackground"/>-->
-
-            <FrameLayout
-                android:id="@+id/placeFrameBackground"
+                android:id="@+id/placeDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/ic_event_details_date_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateFrameBackground" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewWhere" />
 
-            <!--<ImageView
-                android:id="@+id/placeThumbsUpDown"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/placeConstraintViewHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_thumbs_up_down"
-                app:layout_constraintStart_toStartOf="@+id/placeBackground"
-                app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+                android:layout_marginTop="21dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/placeDivider">
 
-            <TextView
-                android:id="@+id/textviewPlaceVoteFor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vote for place"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDown"
-                app:layout_constraintTop_toTopOf="@+id/placeBackground"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/placeBackground"
+                    android:layout_width="328dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_shape_rectangle_card"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/placeDropDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:layout_marginTop="24.58dp"
-                android:background="@drawable/ic_event_details_expand_more"
-                app:layout_constraintEnd_toEndOf="@+id/placeBackground"
-                app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+                    <ImageView
+                        android:id="@+id/placePeriodIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_map_place"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/placeAndVoteBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_date_and_vote_summary_background"
-                app:layout_constraintStart_toStartOf="@+id/placeBackground"
-                app:layout_constraintTop_toBottomOf="@+id/textviewPlaceVoteFor" />
+                    <ImageView
+                        android:id="@+id/closeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_close_button"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/locationIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/ic_event_details_place_icon"
-                app:layout_constraintStart_toStartOf="@+id/placeAndVoteBackground"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground" />
+                    <TextView
+                        android:id="@+id/placeNameTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Chez Nello"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="@+id/placePeriodIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                        app:layout_constraintStart_toEndOf="@+id/placePeriodIcon"
+                        app:layout_constraintTop_toTopOf="@+id/placePeriodIcon" />
 
-            <TextView
-                android:id="@+id/firstplace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="21.03dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/locationIcon"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                    <TextView
+                        android:id="@+id/placeAddressTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF"
+                        android:text="27 rue Jacques vache 93200 Saint-Denis France"
+                        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+                        app:layout_constraintStart_toStartOf="@+id/placeNameTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/placeNameTextView" />
 
-            <TextView
-                android:id="@+id/firstPlaceVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/firstplace"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/placeAddressTextView"
+                        app:liteMode="true" />
 
-            <TextView
-                android:id="@+id/secondPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/firstPlaceVotes"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/secondPlaceVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/secondPlace"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/placeBackgroundMulti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:background="@drawable/ic_event_details_date_and_place_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
 
-            <TextView
-                android:id="@+id/thirdPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:textSize="16sp"
-                android:textColor="#DEFFFFFF"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/secondPlaceVotes"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                    <ImageView
+                        android:id="@+id/placeThumbsUpDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/ic_event_details_thumbs_up_down"
+                        app:layout_constraintStart_toStartOf="@+id/placeBackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/placeBackgroundMulti" />
 
-            <TextView
-                android:id="@+id/thirdPlaceVotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="14sp"
-                android:textColor="#90CAF9"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toEndOf="@+id/thirdPlace"
-                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+                    <TextView
+                        android:id="@+id/textviewPlaceVoteFor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vote for place"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDown"
+                        app:layout_constraintTop_toTopOf="@+id/placeBackgroundMulti"/>
 
-            <TextView
-                android:id="@+id/textViewPlaceInVoting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="In Voting..."
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
-                app:layout_constraintTop_toBottomOf="@+id/placeAndVoteBackground"/>-->
+                    <ImageView
+                        android:id="@+id/placeDropDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.58dp"
+                        android:background="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintEnd_toEndOf="@+id/placeBackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/placeBackgroundMulti" />
 
-            <FrameLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/placeAndVoteBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+                        app:layout_constraintStart_toStartOf="@+id/placeBackgroundMulti"
+                        app:layout_constraintEnd_toEndOf="@+id/placeBackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewPlaceVoteFor" >
+
+                        <ImageView
+                            android:id="@+id/locationIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="21dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="19dp"
+                            android:background="@drawable/ic_event_details_place_icon"
+                            app:layout_constraintStart_toStartOf="@+id/placeAndVoteBackground"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"
+                            app:layout_constraintBottom_toBottomOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/firstplace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="21.03dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/locationIcon"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/firstPlaceVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/firstplace"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/secondPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/firstPlaceVotes"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/secondPlaceVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/secondPlace"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/thirdPlace"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textSize="16sp"
+                            android:textColor="#DEFFFFFF"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintStart_toEndOf="@+id/secondPlaceVotes"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                        <TextView
+                            android:id="@+id/thirdPlaceVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999"
+                            android:textSize="14sp"
+                            android:textColor="#90CAF9"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="31dp"
+                            app:layout_constraintStart_toEndOf="@+id/thirdPlace"
+                            app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
+                            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textViewPlaceInVoting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="In Voting..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
+                        app:layout_constraintTop_toBottomOf="@+id/placeAndVoteBackground"
+                        app:layout_constraintBottom_toBottomOf="@+id/placeBackgroundMulti"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/placeDropDownBackgroundMultiple"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imgPlaceMultiLoader"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/placeThumbsUpDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/ic_event_details_thumbs_up_down"
+                        app:layout_constraintStart_toStartOf="@+id/placeDropDownBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple" />
+
+                    <TextView
+                        android:id="@+id/textviewVoteForPlace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vote for place"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDownMulti"
+                        app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple"/>
+
+                    <ImageView
+                        android:id="@+id/placeDropDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.58dp"
+                        android:background="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"
+                        app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/VoteForPlaceMultipleRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="In Voting..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@+id/VoteForPlaceMultipleRecyclerView"
+                        app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"
+                        app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--<ImageView
+            android:id="@+id/placeThumbsUpDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_thumbs_up_down"
+            app:layout_constraintStart_toStartOf="@+id/placeBackground"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+
+        <TextView
+            android:id="@+id/textviewPlaceVoteFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vote for place"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDown"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground"/>
+
+        <ImageView
+            android:id="@+id/placeDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:layout_marginTop="24.58dp"
+            android:background="@drawable/ic_event_details_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/placeBackground"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+
+        <ImageView
+            android:id="@+id/placeAndVoteBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+            app:layout_constraintStart_toStartOf="@+id/placeBackground"
+            app:layout_constraintTop_toBottomOf="@+id/textviewPlaceVoteFor" />
+
+        <ImageView
+            android:id="@+id/locationIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/ic_event_details_place_icon"
+            app:layout_constraintStart_toStartOf="@+id/placeAndVoteBackground"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground" />
+
+        <TextView
+            android:id="@+id/firstplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="21.03dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/locationIcon"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/firstPlaceVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/firstplace"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/secondPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/firstPlaceVotes"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/secondPlaceVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/secondPlace"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/thirdPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="16sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/secondPlaceVotes"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/thirdPlaceVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:textSize="14sp"
+            android:textColor="#90CAF9"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/thirdPlace"
+            app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+
+        <TextView
+            android:id="@+id/textViewPlaceInVoting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In Voting..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
+            app:layout_constraintTop_toBottomOf="@+id/placeAndVoteBackground"/>-->
+
+        <!--<FrameLayout
+            android:id="@+id/descriptionFrameBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder"/>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/descriptionFrameBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placeFrameBackground">
+                app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/totalCostBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
                     android:background="@drawable/ic_event_details_total_cost_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placeFrameBackground">
+                    app:layout_constraintTop_toTopOf="@+id/descriptionFrameBackground">
 
                     <ImageView
                         android:id="@+id/rowingIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16.98dp"
                         android:layout_marginStart="19.98dp"
+                        android:layout_marginTop="16.98dp"
                         android:background="@drawable/ic_event_details_rowing_icon"
                         app:layout_constraintStart_toStartOf="@+id/totalCostBackground"
-                        app:layout_constraintTop_toTopOf="@+id/totalCostBackground"/>
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
 
                     <TextView
                         android:id="@+id/textViewEventName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Acheter du fromage"
-                        android:textSize="16sp"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginTop="16dp"
                         android:layout_marginStart="19dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Acheter du fromage"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@+id/rowingIcon"
-                        app:layout_constraintTop_toTopOf="@+id/totalCostBackground"/>
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
 
                     <ImageView
                         android:id="@+id/totalCostDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="22dp"
                         android:layout_marginTop="24.58dp"
+                        android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
                         app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
@@ -754,49 +1463,177 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="56dp"
                         android:background="@drawable/ic_event_details_divider_total_cost"
-                        app:layout_constraintStart_toStartOf="@+id/totalCostBackground"
                         app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackground"
                         app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
 
                     <ImageView
                         android:id="@+id/dollarIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="19.98dp"
                         android:layout_marginStart="18.02dp"
+                        android:layout_marginTop="19.98dp"
                         android:background="@drawable/ic_event_details_dollar_icon"
                         app:layout_constraintStart_toStartOf="@+id/totalCostBackground"
-                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider" />
 
                     <TextView
                         android:id="@+id/textViewTotalCost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Cost"
-                        android:textSize="14sp"
-                        android:textColor="#99FFFFFF"
-                        android:layout_marginTop="20dp"
                         android:layout_marginStart="18.02dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Total Cost"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@+id/dollarIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider" />
 
                     <TextView
                         android:id="@+id/textViewTotalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100,00 €"
-                        android:textSize="20sp"
-                        android:textColor="#FFE082"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="100,00 €"
+                        android:textColor="#FFE082"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
-                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/totalCostDivider"
+                        app:layout_constraintBottom_toBottomOf="@+id/totalCostBackground"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </FrameLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/totalCostBackgroundFull"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_event_details_description_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-            <FrameLayout
+                    <ImageView
+                        android:id="@+id/rowingIconMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16.98dp"
+                        android:layout_marginStart="19.98dp"
+                        android:background="@drawable/ic_event_details_rowing_icon"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull"/>
+
+                    <TextView
+                        android:id="@+id/textViewEventNameMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Acheter du fromage"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="19dp"
+                        app:layout_constraintStart_toEndOf="@+id/rowingIconMulti"
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull"/>
+
+                    <ImageView
+                        android:id="@+id/totalCostDropDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.02dp"
+                        android:background="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />
+
+                    <TextView
+                        android:id="@+id/textViewEventDescription"
+                        android:layout_width="212dp"
+                        android:layout_height="140dp"
+                        android:layout_marginStart="56dp"
+                        android:layout_marginEnd="60dp"
+                        android:text="Un de chaque saveur Description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
+                        android:textColor="#DEFFFFFF"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEventNameMulti" />
+
+
+                    <ImageView
+                        android:id="@+id/participantsBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_participant_background"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>
+                    <!--<ImageView
+                        android:id="@+id/totalCostDivider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="56dp"
+                        android:background="@drawable/ic_event_details_divider_total_cost"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />-->
+
+                    <ImageView
+                        android:id="@+id/dollarIconMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="27.98dp"
+                        android:layout_marginStart="18.02dp"
+                        android:background="@drawable/ic_event_details_dollar_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+                        app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull" />
+
+                    <TextView
+                        android:id="@+id/textViewTotalCostMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginStart="18.02dp"
+                        android:text="Total Cost"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+                        app:layout_constraintStart_toEndOf="@+id/dollarIconMulti" />
+
+                    <TextView
+                        android:id="@+id/textViewTotalAmountMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="100,00 €"
+                        android:textColor="#FFE082"
+                        android:textSize="20sp"
+                        app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+                        app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
+                        app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <!--<FrameLayout
+            android:id="@+id/eventInfoFrameBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionFrameBackground"/>-->
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/eventInfoFrameBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -809,39 +1646,40 @@
                     android:id="@+id/eventInfoBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="visible"
                     android:background="@drawable/ic_event_details_total_cost_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placeFrameBackground">
+                    app:layout_constraintTop_toTopOf="@+id/eventInfoFrameBackground">
 
                     <ImageView
                         android:id="@+id/hotTubIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="19dp"
                         android:layout_marginStart="18dp"
+                        android:layout_marginTop="19dp"
                         android:background="@drawable/ic_event_details_hot_tub_icon"
                         app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-                        app:layout_constraintTop_toTopOf="@+id/eventInfoBackground"/>
+                        app:layout_constraintTop_toTopOf="@+id/eventInfoBackground" />
 
                     <TextView
                         android:id="@+id/textViewEventNameOfPerPerson"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dégustation de vin blanc"
-                        android:textSize="16sp"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginTop="16dp"
                         android:layout_marginStart="18.03dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Dégustation de vin blanc"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toEndOf="@+id/hotTubIcon"
-                        app:layout_constraintTop_toTopOf="@+id/eventInfoBackground"/>
+                        app:layout_constraintTop_toTopOf="@+id/eventInfoBackground" />
 
                     <ImageView
                         android:id="@+id/personCostDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="22dp"
                         android:layout_marginTop="24.58dp"
+                        android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
                         app:layout_constraintTop_toTopOf="@+id/eventInfoBackground" />
@@ -852,8 +1690,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="42.02dp"
                         android:background="@drawable/ic_event_details_divider_total_cost"
-                        app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
                         app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
                         app:layout_constraintTop_toBottomOf="@+id/textViewEventNameOfPerPerson" />
 
                     <ImageView
@@ -870,204 +1708,896 @@
                         android:id="@+id/dollarPerPersonUpperHalfIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="29dp"
                         android:layout_marginStart="18dp"
+                        android:layout_marginTop="29dp"
                         android:background="@drawable/ic_event_details_dollar_per_person_icon_upper_half"
                         app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
 
                     <ImageView
                         android:id="@+id/dollarPerPersonLowerHalfIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="34.07dp"
                         android:layout_marginStart="19.35dp"
+                        android:layout_marginTop="34.07dp"
                         android:background="@drawable/ic_event_details_dollar_per_person_icon_lower_half"
                         app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
 
                     <TextView
                         android:id="@+id/textViewCostPerPerson"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cost Per Person"
-                        android:textSize="14sp"
-                        android:textColor="#DEFFFFFF"
-                        android:layout_marginTop="31dp"
                         android:layout_marginStart="18dp"
+                        android:layout_marginTop="31dp"
+                        android:text="Cost Per Person"
+                        android:textColor="#DEFFFFFF"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@+id/dollarPerPersonLowerHalfIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
 
                     <TextView
                         android:id="@+id/textViewCostPerPersonAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10,00 €"
-                        android:textSize="20sp"
-                        android:textColor="#FFE082"
                         android:layout_marginTop="27dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="10,00 €"
+                        android:textColor="#FFE082"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
-                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"/>
+                        app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"
+                        app:layout_constraintBottom_toBottomOf="@+id/eventInfoBackground"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </FrameLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/eventInfobackgroundMulti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_event_details_info_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
 
-            <ImageView
-                android:id="@+id/participantsListBackground"
+                    <ImageView
+                        android:id="@+id/imgInfoMultiLoader"
+                        android:layout_width="328dp"
+                        android:layout_height="60dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/hotTubIconMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="19dp"
+                        android:layout_marginStart="18dp"
+                        android:background="@drawable/ic_event_details_hot_tub_icon"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/eventInfobackgroundMulti"/>
+
+                    <TextView
+                        android:id="@+id/textViewEventNameOfPerPersonMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dégustation de vin blanc"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="18.03dp"
+                        app:layout_constraintStart_toEndOf="@+id/hotTubIconMulti"
+                        app:layout_constraintTop_toTopOf="@+id/eventInfobackgroundMulti"/>
+
+                    <ImageView
+                        android:id="@+id/personCostDropDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="24.02dp"
+                        android:background="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/eventInfobackgroundMulti" />
+
+                    <ImageView
+                        android:id="@+id/placeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37.02dp"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/ic_event_details_place_icon"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/hotTubIconMulti"/>
+
+                    <TextView
+                        android:id="@+id/locationName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dans le jardin du voisin"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="33dp"
+                        android:layout_marginStart="72dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEventNameOfPerPersonMulti"/>
+
+                    <TextView
+                        android:id="@+id/fullLocation"
+                        android:layout_width="212dp"
+                        android:layout_height="wrap_content"
+                        android:text="29 rue Jacques vache 93200 Saint-Denis France"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF" android:layout_marginStart="72dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/locationName"/>
+
+                    <ImageView
+                        android:id="@+id/hideMapImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/ic_event_details_hide_map_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/fullLocation"/>
+
+                    <ImageView
+                        android:id="@+id/hideMapIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37dp"
+                        android:layout_marginEnd="35dp"
+                        android:background="@drawable/ic_event_details_hide_map_icon"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/fullLocation"/>
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="19dp"
+                        android:layout_marginStart="11dp"
+                        android:background="@drawable/ic_event_details_map"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>
+
+                    <ImageView
+                        android:id="@+id/eventInfoDivider1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ic_event_details_event_info_divider"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/map" />
+
+                    <ImageView
+                        android:id="@+id/eventInfoStartDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/ic_event_details_event_info_start_date"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider1" />
+
+                    <TextView
+                        android:id="@+id/textViewEventStartDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sat, Mar 15 2019 - 08:00 pm"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="72dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider1"/>
+
+                    <ImageView
+                        android:id="@+id/eventInfoTimeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/ic_event_details_event_info_time_icon"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoStartDate" />
+
+                    <TextView
+                        android:id="@+id/textViewEventTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01h 30mn"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="72dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEventStartDate"/>
+
+                    <ImageView
+                        android:id="@+id/eventInfoDivider2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ic_event_details_event_info_divider"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEventTime" />
+
+                    <ImageView
+                        android:id="@+id/everybodyCome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="21.02dp"
+                        android:layout_marginStart="16.98dp"
+                        android:background="@drawable/ic_event_details_everybody_come_icon"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2" />
+
+                    <TextView
+                        android:id="@+id/everybodyComeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Everybody come"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2"/>
+
+                    <TextView
+                        android:id="@+id/comingVotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="999"
+                        android:textSize="16sp"
+                        android:textColor="#A5D6A7"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginStart="191dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2"/>
+
+                    <TextView
+                        android:id="@+id/votesSeperator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textSize="16sp"
+                        android:textColor="#DEFFFFFF"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginStart="220dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2"/>
+
+                    <TextView
+                        android:id="@+id/totalNoOfVotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="999"
+                        android:textSize="16sp"
+                        android:textColor="#90CAF9"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginStart="229dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2"/>
+
+                    <ImageView
+                        android:id="@+id/hideEverybodyCome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24.02dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2"/>
+
+                    <!--<androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/eventContactList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="30dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />-->
+
+                    <ImageView
+                        android:id="@+id/contactBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
+
+                    <ImageView
+                        android:id="@+id/contactStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_not_confirmed"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
+
+                    <TextView
+                        android:id="@+id/contactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Graphiste"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactBackground"
+                        app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+                    <ImageView
+                        android:id="@+id/contactSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactBackground"
+                        app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+
+                    <ImageView
+                        android:id="@+id/contactConfirmed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/contactBackground"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_confirmed"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dev Back"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactConfirmed"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactConfirmed"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+
+                    <ImageView
+                        android:id="@+id/contactDeclined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/contactConfirmed"/>
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_declined"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclined" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dev Front"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactDeclined"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactDeclined"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>
+
+                    <ImageView
+                        android:id="@+id/eventInfoDivider3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="54dp"
+                        android:background="@drawable/ic_event_details_event_info_divider"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/contactDeclined" />
+
+                    <ImageView
+                        android:id="@+id/participateToActivityIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/ic_participate_to_activity_icon"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/contactDeclined"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/ic_event_details_contact_dollar"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon"/>
+
+
+                    <TextView
+                        android:id="@+id/textViewCostPerPersonMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cost Per Person"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon"/>
+
+                    <TextView
+                        android:id="@+id/textViewCostPerPersonAmountMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10,00 €"
+                        android:textSize="20sp"
+                        android:textColor="#FFE082"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="12dp"
+                        app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon"
+                        app:layout_constraintBottom_toBottomOf="@+id/eventInfobackgroundMulti"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/everyBodyComeBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_participants_list_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventInfoFrameBackground"/>
+                app:layout_constraintTop_toBottomOf="@+id/eventInfoFrameBackground">
 
-            <ImageView
-                android:id="@+id/participantsIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="21.02dp"
-                android:layout_marginStart="16.98dp"
-                android:background="@drawable/ic_event_details_participants_icon"
-                app:layout_constraintStart_toStartOf="@+id/participantsListBackground"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/participantsListBackground"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:background="@drawable/ic_event_details_participants_list_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/everyBodyComeBackground">
 
-            <TextView
-                android:id="@+id/textViewEverybodyCome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Everybody come"
-                android:textSize="14sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="16.98dp"
-                app:layout_constraintStart_toEndOf="@+id/participantsIcon"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground"/>
+                    <ImageView
+                        android:id="@+id/participantsIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16.98dp"
+                        android:layout_marginTop="21.02dp"
+                        android:layout_marginBottom="21.02dp"
+                        android:background="@drawable/ic_event_details_participants_icon"
+                        app:layout_constraintStart_toStartOf="@+id/participantsListBackground"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground"
+                        app:layout_constraintBottom_toBottomOf="@+id/participantsListBackground" />
 
-            <TextView
-                android:id="@+id/textViewAttending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="16sp"
-                android:textColor="#A5D6A7"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toStartOf="@+id/textViewSlash"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground"/>
+                    <TextView
+                        android:id="@+id/textViewEverybodyCome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16.98dp"
+                        android:layout_marginTop="18dp"
+                        android:text="Everybody come"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/participantsIcon"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
-            <TextView
-                android:id="@+id/textViewSlash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toStartOf="@+id/textViewTotalParticipants"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground"/>
+                    <TextView
+                        android:id="@+id/textViewAttending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="999"
+                        android:textColor="#A5D6A7"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewSlash"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
-            <TextView
-                android:id="@+id/textViewTotalParticipants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999"
-                android:textSize="16sp"
-                android:textColor="#90CAF9"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="26dp"
-                app:layout_constraintEnd_toStartOf="@+id/totalParticipantsDropDown"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground"/>
+                    <TextView
+                        android:id="@+id/textViewSlash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="/"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewTotalParticipants"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
-            <ImageView
-                android:id="@+id/totalParticipantsDropDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:layout_marginTop="24.58dp"
-                android:background="@drawable/ic_event_details_expand_more"
-                app:layout_constraintEnd_toEndOf="@+id/participantsListBackground"
-                app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
+                    <TextView
+                        android:id="@+id/textViewTotalParticipants"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="26dp"
+                        android:text="999"
+                        android:textColor="#90CAF9"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/totalParticipantsDropDown"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
-            <ImageView
-                android:id="@+id/commentsBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_event_details_participants_list_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/participantsListBackground"/>
+                    <ImageView
+                        android:id="@+id/totalParticipantsDropDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24.58dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintEnd_toEndOf="@+id/participantsListBackground"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
-            <ImageView
-                android:id="@+id/commentsIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18.02dp"
-                android:layout_marginStart="18.02dp"
-                android:background="@drawable/ic_event_details_comment_icon"
-                app:layout_constraintStart_toStartOf="@+id/commentsBackground"
-                app:layout_constraintTop_toTopOf="@+id/commentsBackground"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/textViewComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Comments"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="18.02dp"
-                app:layout_constraintStart_toEndOf="@+id/commentsIcon"
-                app:layout_constraintTop_toTopOf="@+id/commentsBackground"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/participantsListBackgroundMulti"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_event_details_participants_multi_list_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/everyBodyComeBackground">
 
-            <TextView
-                android:id="@+id/textViewTotalComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24"
-                android:textSize="18sp"
-                android:textColor="#90CAF9"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="26dp"
-                app:layout_constraintEnd_toStartOf="@+id/totalCommentsDropDown"
-                app:layout_constraintTop_toTopOf="@+id/commentsBackground"/>
+                    <ImageView
+                        android:id="@+id/imgParticipantsMultiLoader"
+                        android:layout_width="328dp"
+                        android:layout_height="55dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
-                android:id="@+id/totalCommentsDropDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:layout_marginTop="24.58dp"
-                android:background="@drawable/ic_event_details_expand_more"
-                app:layout_constraintEnd_toEndOf="@+id/commentsBackground"
-                app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+                    <ImageView
+                        android:id="@+id/participantsIconMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16.98dp"
+                        android:layout_marginTop="21.02dp"
+                        android:background="@drawable/ic_event_details_participants_icon"
+                        app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
 
-            <ImageView
-                android:id="@+id/closeIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="41.02dp"
-                android:layout_marginStart="93dp"
-                android:background="@drawable/ic_event_details_close_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/commentsBackground"/>
+                    <TextView
+                        android:id="@+id/textViewEverybodyComeMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16.98dp"
+                        android:layout_marginTop="18dp"
+                        android:text="Everybody come"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/participantsIconMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
 
-            <TextView
-                android:id="@+id/declineInvitationTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DECLINE INVITATION"
-                android:textColor="#90CAF9"
-                android:textSize="16sp"
-                android:layout_marginTop="36dp"
-                android:layout_marginStart="17.02dp"
-                app:layout_constraintStart_toEndOf="@+id/closeIcon"
-                app:layout_constraintTop_toBottomOf="@+id/commentsBackground"/>
-<!--
+                    <TextView
+                        android:id="@+id/textViewAttendingMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="999"
+                        android:textColor="#A5D6A7"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewSlashMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
+
+                    <TextView
+                        android:id="@+id/textViewSlashMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="/"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewTotalParticipantsMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
+
+                    <TextView
+                        android:id="@+id/textViewTotalParticipantsMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="26dp"
+                        android:text="999"
+                        android:textColor="#90CAF9"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/totalParticipantsDropDownMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
+
+                    <ImageView
+                        android:id="@+id/totalParticipantsDropDownMulti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24.58dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintEnd_toEndOf="@+id/participantsListBackgroundMulti"
+                        app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
+
+                    <ImageView
+                        android:id="@+id/contactBackgroundTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"/>
+
+                    <ImageView
+                        android:id="@+id/contactStatusTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_not_confirmed"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"/>
+
+                    <TextView
+                        android:id="@+id/contactNameTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Graphiste"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactBackgroundTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactBackgroundTemp"/>
+
+                    <ImageView
+                        android:id="@+id/contactSettingsTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactBackgroundTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactBackgroundTemp"/>
+
+
+                    <ImageView
+                        android:id="@+id/contactConfirmedTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/contactBackgroundTemp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_confirmed"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmedTemp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dev Back"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactConfirmedTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmedTemp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactConfirmedTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactConfirmedTemp"/>
+
+
+                    <ImageView
+                        android:id="@+id/contactDeclinedTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/contactConfirmedTemp"/>
+
+                    <ImageView
+                        android:id="@+id/imageView2Temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/ic_event_details_contact_declined"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclinedTemp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dev Front"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintStart_toStartOf="@+id/contactDeclinedTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclinedTemp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_event_details_settings"
+                        app:layout_constraintEnd_toEndOf="@+id/contactDeclinedTemp"
+                        app:layout_constraintTop_toTopOf="@+id/contactDeclinedTemp"/>
+
+                    <ImageView
+                        android:id="@+id/tempimg1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/ic_temp_contact"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/contactDeclinedTemp"/>
+
+                    <ImageView
+                        android:id="@+id/tempimg2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/ic_temp_contact"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/tempimg1"/>
+
+                    <ImageView
+                        android:id="@+id/tempimg3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/ic_temp_contact"
+                        app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+                        app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="72dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/ic_event_details_add_people_icon"
+                        app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/tempimg3"
+                        app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        <ImageView
+            android:id="@+id/commentsBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_participants_list_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/everyBodyComeBackground" />
+
+        <ImageView
+            android:id="@+id/commentsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18.02dp"
+            android:background="@drawable/ic_event_details_comment_icon"
+            app:layout_constraintStart_toStartOf="@+id/commentsBackground"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <TextView
+            android:id="@+id/textViewComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18dp"
+            android:text="Comments"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/commentsIcon"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <TextView
+            android:id="@+id/textViewTotalComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="26dp"
+            android:text="24"
+            android:textColor="#90CAF9"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/totalCommentsDropDown"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <ImageView
+            android:id="@+id/totalCommentsDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24.58dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/ic_event_details_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/commentsBackground"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <ImageView
+            android:id="@+id/closeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="93dp"
+            android:layout_marginTop="41.02dp"
+            android:layout_marginBottom="41.02dp"
+            android:background="@drawable/ic_event_details_close_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/bodyBackgroundView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentsBackground" />
+
+        <TextView
+            android:id="@+id/declineInvitationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17.02dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="36dp"
+            android:text="DECLINE INVITATION"
+            android:textColor="#90CAF9"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/bodyBackgroundView"
+            app:layout_constraintStart_toEndOf="@+id/closeIcon"
+            app:layout_constraintTop_toBottomOf="@+id/commentsBackground" />
+            <!--
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/DateMultipleRecyclerView"
                 android:layout_width="wrap_content"
@@ -1077,14 +2607,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/declineInvitationTextView" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/takePartConstraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainConstraint">
+            app:layout_constraintTop_toBottomOf="@+id/bodyBackgroundView">
 
             <ImageView
                 android:id="@+id/takePartBackground"
@@ -1111,11 +2641,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="19dp"
+                android:layout_marginTop="16dp"
                 android:text="TAKE PART"
-                android:textSize="16sp"
                 android:textColor="#121212"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/takePartCalenderIcon"
                 app:layout_constraintTop_toTopOf="@+id/takePartBackground"/>
 

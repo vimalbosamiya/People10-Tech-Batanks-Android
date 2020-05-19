@@ -133,11 +133,11 @@
         android:id="@+id/seeOnMapIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="37dp"
         android:background="@drawable/ic_event_details_right_arrow"
         app:layout_constraintEnd_toEndOf="@+id/placeDisplayBackground"
-        app:layout_constraintTop_toTopOf="@+id/placeDisplayBackground" />
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <ImageView
         android:id="@+id/placeDivider"
@@ -153,7 +153,7 @@
         android:id="@+id/placePersonIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24.98dp"
+        android:layout_marginTop="22.98dp"
         android:layout_marginStart="59.98dp"
         android:background="@drawable/ic_date_display_person_outline"
         app:layout_constraintStart_toStartOf="@+id/placeDisplayBackground"
@@ -166,7 +166,7 @@
         android:text="999"
         android:textSize="14sp"
         android:textColor="#90CAF9"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="21dp"
         android:layout_marginStart="3.98dp"
         app:layout_constraintStart_toEndOf="@+id/placePersonIcon"
         app:layout_constraintTop_toBottomOf="@+id/placeDivider" />

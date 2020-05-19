@@ -23,7 +23,7 @@ class CreateVoteForDateMultipleListFragment : Fragment() {
             Toast.makeText(context,"CreateVoteForDateMultipleListFragment",Toast.LENGTH_LONG).show()
         }*/
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.VoteForDateMultipleRecyclerView) as RecyclerView
+        /*val recyclerView = view.findViewById<RecyclerView>(R.id.VoteForDateMultipleRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         val dates = ArrayList<MultipleDateDisplay>()
@@ -34,12 +34,12 @@ class CreateVoteForDateMultipleListFragment : Fragment() {
                 "Wed, Mar 17 2019 06:00 pm",20))
         dates.add(MultipleDateDisplay(3,"Third date","Sat, Mar 17 2019","Thu, Mar 17 2019 09:00 am",
                 "Wed, Mar 18 2019 06:00 pm",30))
-       /* dates.add(MultipleDateDisplay(4,"Fourth date","Sun, Mar 19 2019","Thu, Mar 19 2019 09:00 am",
-                "Wed, Mar 20 2019 06:00 pm",40))*/
+       *//* dates.add(MultipleDateDisplay(4,"Fourth date","Sun, Mar 19 2019","Thu, Mar 19 2019 09:00 am",
+                "Wed, Mar 20 2019 06:00 pm",40))*//*
 
         val adapter = VoteForDateMultipleListAdapter(dates,view.context)
 
-        recyclerView?.adapter = adapter
+        recyclerView?.adapter = adapter*/
 
         return view
     }

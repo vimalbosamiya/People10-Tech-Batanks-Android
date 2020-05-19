@@ -19,7 +19,7 @@ class CreateVoteForPlaceMultipleListFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_vote_for_place_multiple_list, container, false)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+       /* val recyclerView = view.findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         val places = ArrayList<MultiplePlaceDisplay>()
@@ -30,12 +30,12 @@ class CreateVoteForPlaceMultipleListFragment : Fragment() {
                 20))
         places.add(MultiplePlaceDisplay(3,"Third Place","Hyderabad","People10 Hyderabad",
                 30))
-         /*places.add(MultiplePlaceDisplay(4,"Fourth Place","Mumbai","People10 Mumbai",
-                 40))*/
+         *//*places.add(MultiplePlaceDisplay(4,"Fourth Place","Mumbai","People10 Mumbai",
+                 40))*//*
 
         val adapter = VoteForPlaceMultipleListAdapter(places,view.context)
 
-        recyclerView?.adapter = adapter
+        recyclerView?.adapter = adapter*/
 
 
         return view

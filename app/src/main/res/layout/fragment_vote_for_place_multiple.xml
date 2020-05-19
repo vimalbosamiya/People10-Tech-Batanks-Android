@@ -4,150 +4,161 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/placeBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:background="@drawable/ic_event_details_date_and_place_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateFrameBackground" />
+        app:layout_constraintTop_toTopOf="parent" >
 
-    <ImageView
-        android:id="@+id/placeThumbsUpDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_event_details_thumbs_up_down"
-        app:layout_constraintStart_toStartOf="@+id/placeBackground"
-        app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+        <ImageView
+            android:id="@+id/placeThumbsUpDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_thumbs_up_down"
+            app:layout_constraintStart_toStartOf="@+id/placeBackground"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground" />
 
-    <TextView
-        android:id="@+id/textviewPlaceVoteFor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vote for place"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDown"
-        app:layout_constraintTop_toTopOf="@+id/placeBackground"/>
+        <TextView
+            android:id="@+id/textviewPlaceVoteFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vote for place"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/placeThumbsUpDown"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground"/>
 
-    <ImageView
-        android:id="@+id/placeDropDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="24.58dp"
-        android:background="@drawable/ic_event_details_expand_more"
-        app:layout_constraintEnd_toEndOf="@+id/placeBackground"
-        app:layout_constraintTop_toTopOf="@+id/placeBackground" />
+        <ImageView
+            android:id="@+id/placeDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:layout_marginTop="24.58dp"
+            android:background="@drawable/ic_event_details_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/placeBackground"
+            app:layout_constraintTop_toTopOf="@+id/placeBackground" />
 
-    <ImageView
-        android:id="@+id/placeAndVoteBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_event_details_date_and_vote_summary_background"
-        app:layout_constraintStart_toStartOf="@+id/placeBackground"
-        app:layout_constraintTop_toBottomOf="@+id/textviewPlaceVoteFor" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/placeAndVoteBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_event_details_date_and_vote_summary_background"
+            app:layout_constraintStart_toStartOf="@+id/placeBackground"
+            app:layout_constraintEnd_toEndOf="@+id/placeBackground"
+            app:layout_constraintTop_toBottomOf="@+id/textviewPlaceVoteFor" >
 
-    <ImageView
-        android:id="@+id/locationIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/ic_event_details_place_icon"
-        app:layout_constraintStart_toStartOf="@+id/placeAndVoteBackground"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground" />
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="19dp"
+                android:background="@drawable/ic_event_details_place_icon"
+                app:layout_constraintStart_toStartOf="@+id/placeAndVoteBackground"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/firstplace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textSize="16sp"
-        android:textColor="#DEFFFFFF"
-        android:layout_marginStart="21.03dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/locationIcon"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/firstplace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="21.03dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/locationIcon"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/firstPlaceVotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="999"
-        android:textSize="14sp"
-        android:textColor="#90CAF9"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/firstplace"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/firstPlaceVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="14sp"
+                android:textColor="#90CAF9"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/firstplace"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/secondPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2"
-        android:textSize="16sp"
-        android:textColor="#DEFFFFFF"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/firstPlaceVotes"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/secondPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="16sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/firstPlaceVotes"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/secondPlaceVotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="999"
-        android:textSize="14sp"
-        android:textColor="#90CAF9"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/secondPlace"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/secondPlaceVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="14sp"
+                android:textColor="#90CAF9"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/secondPlace"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/thirdPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-        android:textSize="16sp"
-        android:textColor="#DEFFFFFF"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/secondPlaceVotes"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/thirdPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="16sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/secondPlaceVotes"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/thirdPlaceVotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="999"
-        android:textSize="14sp"
-        android:textColor="#90CAF9"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/thirdPlace"
-        app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
+            <TextView
+                android:id="@+id/thirdPlaceVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="14sp"
+                android:textColor="#90CAF9"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="31dp"
+                app:layout_constraintStart_toEndOf="@+id/thirdPlace"
+                app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
+                app:layout_constraintTop_toTopOf="@+id/placeAndVoteBackground"/>
 
-    <TextView
-        android:id="@+id/textViewPlaceInVoting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="In Voting..."
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
-        app:layout_constraintTop_toBottomOf="@+id/placeAndVoteBackground"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textViewPlaceInVoting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In Voting..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/placeAndVoteBackground"
+            app:layout_constraintTop_toBottomOf="@+id/placeAndVoteBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/placeBackground"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

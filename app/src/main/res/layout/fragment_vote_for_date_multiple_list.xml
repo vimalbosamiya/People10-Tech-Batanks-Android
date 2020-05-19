@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/dateThumbsUpDown"
+            android:id="@+id/dateThumbsUpDownMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
 
         <TextView
-            android:id="@+id/textviewVoteFor"
+            android:id="@+id/textviewVoteForMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vote for date"
@@ -43,11 +43,11 @@
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
+            app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDownMulti"
             app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple"/>
 
         <ImageView
-            android:id="@+id/dateDropDown"
+            android:id="@+id/dateDropDownMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="22dp"
@@ -63,7 +63,7 @@
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textviewVoteFor" />
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti" />
 
         <TextView
             android:layout_width="wrap_content"
