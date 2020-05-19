@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dateDropDownBackgroundMultiple"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/dateThumbsUpDownMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_thumbs_up_down"
+            app:layout_constraintStart_toStartOf="@+id/dateDropDownBackgroundMultiple"
+            app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
+
+        <TextView
+            android:id="@+id/textviewVoteForMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vote for date"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDownMulti"
+            app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple"/>
+
+        <ImageView
+            android:id="@+id/dateDropDownMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:layout_marginTop="24.58dp"
+            android:background="@drawable/ic_event_details_expand_less"
+            app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"
+            app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/VoteForDateMultipleRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="In Voting..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/VoteForDateMultipleRecyclerView"
+            app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"
+            app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,16 @@
 package com.batanks.nextplan.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.Settings
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
@@ -67,6 +70,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         })
 
         extFab.setOnClickListener(this)
+        img_settings.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -77,6 +81,10 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, CreatePlanFragment())
                         .addToBackStack(CreatePlanFragment.TAG).commit()
+            }
+            R.id.img_settings -> {
+                intent = Intent(this, Settings :: class.java)
+                startActivity(intent)
             }
         }
     }
