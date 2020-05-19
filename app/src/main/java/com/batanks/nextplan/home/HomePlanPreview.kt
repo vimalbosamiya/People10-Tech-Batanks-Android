@@ -45,7 +45,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         recyclerView?.layoutManager = LinearLayoutManager(this)
 
 
-        recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
+        recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>(),this)
 
         /*showLoader()
         homePlanPreviewViewModel.getHomePlanEvent()*/

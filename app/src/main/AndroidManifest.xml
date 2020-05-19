@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.batanks.nextplan.application.BatanksApplication"
+        android:name=".application.BatanksApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,29 +13,25 @@
         android:supportsRtl="true"
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name="com.batanks.nextplan.splash.SplashActivity">
+        <activity android:name=".eventdetails.EventDetailView"></activity>
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.batanks.nextplan.MainActivity" />
-
-        <activity android:name="com.batanks.nextplan.signing.SigninActivity" />
-
+        <activity android:name=".MainActivity" />
+        <activity android:name=".signing.SigninActivity" />
         <activity
-            android:name="com.batanks.nextplan.registration.Registration"
+            android:name=".registration.Registration"
             android:theme="@style/App_Registration_Theme" />
-
         <activity
-            android:name="com.batanks.nextplan.home.HomePlanPreview"
-            android:theme="@style/App_HomePlanPreview_Theme" />
-
-        <!--Get a MAP key from People10, as of now Vinoth is the owner to this key-->
+            android:name=".home.HomePlanPreview"
+            android:theme="@style/App_HomePlanPreview_Theme" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
+
 </manifest>
