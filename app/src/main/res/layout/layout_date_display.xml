@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="26dp">
+
+    <ImageView
+        android:id="@+id/dateDisplayBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/ic_date_display_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dateDisplayCountBackground" />
+
+    <ImageView
+        android:id="@+id/dateDisplayCountBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_date_display_count_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateDisplayCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="16sp"
+        android:textColor="#DEFFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/dateDisplayCountBackground"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayCountBackground"
+        app:layout_constraintTop_toTopOf="@+id/dateDisplayCountBackground" />
+
+    <TextView
+        android:id="@+id/dateDisplayTextCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First date"
+        android:textSize="14sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/dateDisplayBackground"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toTopOf="@+id/dateDisplayBackground" />
+
+    <ImageView
+        android:id="@+id/dateCalenderIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/ic_date_display_calender_icon"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toTopOf="@+id/dateDisplayBackground" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thu, Mar 13 2019"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="19dp"
+        app:layout_constraintStart_toEndOf="@+id/dateCalenderIcon"
+        app:layout_constraintTop_toBottomOf="@+id/dateDisplayTextCountTextView" />
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From"
+        android:textSize="14sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="57dp"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+
+    <TextView
+        android:id="@+id/fromTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thu, Mar 13 2019 09:00 am"
+        android:textSize="14sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/from"
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+
+    <TextView
+        android:id="@+id/to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="to"
+        android:textSize="14sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="57dp"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toBottomOf="@+id/from" />
+
+    <TextView
+        android:id="@+id/toTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wed, Mar 14 2019 06:00 pm"
+        android:textSize="14sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/to"
+        app:layout_constraintTop_toBottomOf="@+id/fromTextview" />
+
+    <ImageView
+        android:id="@+id/dateDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/ic_date_display_divider"
+        app:layout_constraintEnd_toEndOf="@+id/dateDisplayBackground"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toBottomOf="@+id/toTextview" />
+
+    <ImageView
+        android:id="@+id/datePersonIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24.98dp"
+        android:layout_marginStart="59.98dp"
+        android:background="@drawable/ic_date_display_person_outline"
+        app:layout_constraintStart_toStartOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toBottomOf="@+id/dateDivider" />
+
+    <TextView
+        android:id="@+id/noOfVotesTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="999"
+        android:textSize="14sp"
+        android:textColor="#90CAF9"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="3.98dp"
+        app:layout_constraintStart_toEndOf="@+id/datePersonIcon"
+        app:layout_constraintTop_toBottomOf="@+id/dateDivider" />
+
+    <ImageView
+        android:id="@+id/dateFavouriteIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24.98dp"
+        android:layout_marginEnd="22dp"
+        android:background="@drawable/ic_date_display_favourite_border"
+        app:layout_constraintEnd_toEndOf="@+id/dateDisplayBackground"
+        app:layout_constraintTop_toBottomOf="@+id/dateDivider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

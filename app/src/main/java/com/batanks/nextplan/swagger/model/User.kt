@@ -1,5 +1,7 @@
 package com.batanks.nextplan.swagger.model
 
+import java.io.Serializable
+
 data class User(
         val id: Int,
         val username: String,
@@ -15,4 +17,4 @@ data class User(
         val notify_email: Boolean,
         val notify_sms: Boolean,
         val notify_push: Boolean,
-        val notify_comment: Boolean)
+        val notify_comment: Boolean) : Serializable
