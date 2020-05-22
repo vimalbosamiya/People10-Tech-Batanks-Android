@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,6 +80,10 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 SpinnerModel("Institutional", R.drawable.ic_category_institutional),
                 SpinnerModel("Other", R.drawable.ic_category_others)))
         (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
+        (categoryTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener() { parent, _, position, id ->
+            val obj = parent.adapter.getItem(position) as SpinnerModel?
+            actv_category.setText(obj?.title)
+        }
     }
 
     @SuppressLint("NewApi")

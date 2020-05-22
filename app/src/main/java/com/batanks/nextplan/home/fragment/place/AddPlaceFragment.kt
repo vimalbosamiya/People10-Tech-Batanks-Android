@@ -54,7 +54,6 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                         .append(place.zipcode)
 
                 val result: List<Address> = Geocoder(view.context).getFromLocationName(stringBuilder.toString(), 5)
-                hideLoader()
                 if (result.isEmpty()) {
                     showMessage("We are unable to find the location info, Please enter a different location.")
                 } else {
@@ -62,6 +61,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                     place.longitude = result[0].longitude
                     listener.addPlaceFragmentAddressFetch(place)
                 }
+                hideLoader()
             }
         }
     }

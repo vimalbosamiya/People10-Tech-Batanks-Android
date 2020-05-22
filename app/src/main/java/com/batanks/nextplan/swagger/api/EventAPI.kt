@@ -2,6 +2,7 @@ package com.batanks.nextplan.swagger.api
 
 import ActivitySubscribe
 import com.batanks.nextplan.swagger.model.*
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -44,7 +45,7 @@ interface EventAPI {
     fun apiEventCreate(@Body data: Event?): Call<Event>
 
     @GET("api/event/created/")
-    fun apiEventCreatedList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Call<InlineResponse2002>
+    fun apiEventCreatedList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2002>
 
     @POST("api/event/{id}/date/")
     fun apiEventDateCreate(@Path("id") id: String?, @Body data: EventDate?): Call<EventDate>
