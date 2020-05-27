@@ -208,7 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="false"
+            android:enabled="true"
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="OK"
@@ -217,7 +217,7 @@
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel"
+            android:id="@+id/add_action_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
