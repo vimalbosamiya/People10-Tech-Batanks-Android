@@ -72,7 +72,7 @@ interface EventAPI {
     fun apiEventInvitationPartialUpdate(@Path("id") id: String?, @Path("invitation_pk") invitationPk: String?, @Body data: Invitation?): Call<Invitation>
 
     @PUT("api/event/{id}/invitation/{invitation_pk}/")
-    fun apiEventInvitationUpdate(@Path("id") id: String?, @Path("invitation_pk") invitationPk: String?, @Body data: Invitation?): Call<Invitation>
+    fun apiEventInvitationUpdate(@Path("id") id: String?, @Path("invitation_pk") invitationPk: String?, @Body data: Invitation?): Observable<Invitation>
 
     @GET("api/event/")
     fun apiEventList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Call<InlineResponse2002>
@@ -117,10 +117,10 @@ interface EventAPI {
     fun apiEventTaskUpdate(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: Task?): Call<Task>
 
     @PUT("api/event/{id}/")
-    fun apiEventUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event>
+    fun apiEventUpdate(@Path("id") id: String?, @Body data: Event?): Observable<Event>
 
     @POST("api/event/{id}/vote_date/")
-    fun apiEventVoteDateCreate(@Path("id") id: String?, @Body data: VoteDate?): Call<VoteDate>
+    fun apiEventVoteDateCreate(@Path("id") id: String?, @Body data: VoteDate?): Observable<VoteDate>
 
     @POST("api/event/{id}/vote_place/")
     fun apiEventVotePlaceCreate(@Path("id") id: String?, @Body data: VotePlace?): Call<VotePlace>
@@ -132,7 +132,7 @@ interface EventAPI {
     fun eventPartialUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event>
 
     @GET("event/{id}/")
-    fun eventRead(@Path("id") id: String?): Call<Event>
+    fun eventRead(@Path("id") id: String?): Observable<Event>
 
     @PUT("event/{id}/")
     fun eventUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event>

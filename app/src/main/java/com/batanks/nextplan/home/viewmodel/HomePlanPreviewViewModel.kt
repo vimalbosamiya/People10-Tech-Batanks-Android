@@ -15,7 +15,9 @@ class HomePlanPreviewViewModel(private val authApi: EventAPI) : ViewModel() {
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
 
     fun getHomePlanEvent() {
-        disposables.add(authApi.apiEventCreatedList(1,1)
+
+        disposables.add(authApi.apiAuthenticationProfileReadObservable()
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
