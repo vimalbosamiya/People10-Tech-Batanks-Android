@@ -17,9 +17,7 @@ class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Ad
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_event_name, parent, false)
 
         view.setOnClickListener {
-
             //Log.i("PrivateEvent","Event was Clicked")
-
             //Toast.makeText(context,"Event Clicked",Toast.LENGTH_LONG).show()
             val intent = Intent(parent.context, EventDetailView::class.java)
             startActivity(parent.context,intent,null)
