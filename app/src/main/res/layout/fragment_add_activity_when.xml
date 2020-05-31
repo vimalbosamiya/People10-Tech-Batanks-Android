@@ -26,99 +26,130 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fromTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:gravity="center_vertical"
+        android:hint="From"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
         app:boxStrokeColor="#34CBFE"
-        app:endIconMode="dropdown_menu"
-        app:endIconTint="@color/colorWhite"
-        app:helperText="Add a period"
+        app:helperText="Add a Period"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
-        app:hintEnabled="false"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/footerDivider">
 
-        <AutoCompleteTextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_from_date_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:editable="false"
-            android:gravity="center_vertical"
-            android:inputType="none"
-            android:text="From" />
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLines="1"
+            android:focusable="false"
+            android:clickable="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fromTextField"
+        >
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/hoursWhileTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:paddingBottom="16dp"
+        android:hint="while"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
         app:boxStrokeColor="#34CBFE"
-        app:endIconMode="dropdown_menu"
-        app:endIconTint="@color/colorWhite"
         app:helperText="Hours"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
-        app:hintEnabled="false"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/minutesWhileTextField"
         app:layout_constraintTop_toBottomOf="@+id/fromTextField">
 
-        <AutoCompleteTextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_activity_hours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:editable="false"
-            android:gravity="center_vertical"
-            android:inputType="none"
-            android:text="While" />
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/minutesWhileTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:paddingBottom="16dp"
+        android:hint="while"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
         app:boxStrokeColor="#34CBFE"
-        app:endIconMode="dropdown_menu"
-        app:endIconTint="@color/colorWhite"
-        app:helperText="Hours"
+        app:helperText="minutes"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
-        app:hintEnabled="false"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toRightOf="@+id/hoursWhileTextField"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fromTextField">
 
-        <AutoCompleteTextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_activity_minutes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:editable="false"
-            android:gravity="center_vertical"
-            android:inputType="none"
-            android:text="While" />
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

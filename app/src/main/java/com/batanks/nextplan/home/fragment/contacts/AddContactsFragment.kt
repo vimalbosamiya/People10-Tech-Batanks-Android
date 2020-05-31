@@ -62,15 +62,15 @@ class AddContactsFragment : BaseDialogFragment() {
     }
     private fun setUpDummyData(){
         var list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
-        list.add(ContactsModel("User 1", "12345"))
-        list.add(ContactsModel("User 2", "12345"))
-        list.add(ContactsModel("User 3", "12345"))
-        list.add(ContactsModel("User 4", "12345"))
-        list.add(ContactsModel("User 5", "12345"))
-        list.add(ContactsModel("User 6", "12345"))
-        list.add(ContactsModel("User 7", "12345"))
-        list.add(ContactsModel("User 8", "12345"))
-        list.add(ContactsModel("User 9", "12345"))
+        list.add(ContactsModel("User 1", "12345" , false))
+        list.add(ContactsModel("User 2", "12345", false))
+        list.add(ContactsModel("User 3", "12345", false))
+        list.add(ContactsModel("User 4", "12345", false))
+        list.add(ContactsModel("User 5", "12345", false))
+        list.add(ContactsModel("User 6", "12345", false))
+        list.add(ContactsModel("User 7", "12345", false))
+        list.add(ContactsModel("User 8", "12345", false))
+        list.add(ContactsModel("User 9", "12345", false))
         adapter = ContactsAdapter(list)
         recyclerView.adapter = adapter
         //loadContacts();

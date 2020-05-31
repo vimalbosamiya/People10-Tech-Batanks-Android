@@ -12,6 +12,7 @@ class PublicPlanViewModel : ViewModel() {
     var eventDate = ArrayList<EventDate>()
     var place = ArrayList<Place>()
     var action = ArrayList<Task>()
+    var activityDate = ArrayList<EventDate>()
 
     override fun onCleared() {
         disposables.clear()

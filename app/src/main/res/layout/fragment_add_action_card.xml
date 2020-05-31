@@ -88,7 +88,7 @@
                 android:id="@+id/txt_add_action_cost_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"
+                android:text="Total Cost"
                 android:layout_toRightOf="@id/img_add_action_cost"
                 android:layout_centerVertical="true"
                 android:paddingLeft="5dp"/>

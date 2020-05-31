@@ -47,7 +47,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/assign_people_recyclerview" />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/assignP_people_Button"
+        android:id="@+id/assign_people_Button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="272dp"
         android:layout_height="48dp"
