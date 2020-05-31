@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="15"
+                android:maxLength="25"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -173,13 +173,76 @@
                 android:text="item" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_add_action_assignee_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/natureOfTheCostTextField">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_addAction_assignee_who_with"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center_vertical"
+                android:text="Who with?"
+                android:textSize="18dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+            <View
+                android:id="@+id/view_seperator_whowith_tetx"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorBlack"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_margin="16dp"
+                android:layout_below="@id/txt_addAction_assignee_who_with" />
+
+        <RelativeLayout
+            android:id="@+id/rl_add_action_assignee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/ic_event_details_contact_background"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@id/view_seperator_whowith_tetx">
+            <ImageView
+                android:id="@+id/img_add_action_assignee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_event_details_contact_confirmed"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/txt_add_action_assignee_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="psedudonym"
+                android:textSize="16dp"
+                android:layout_toRightOf="@id/img_add_action_assignee"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5dp"/>
+            <ImageView
+                android:id="@+id/img_add_action_assignee_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_event_details_settings"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/txt_add_action_assignee_name"/>
+        </RelativeLayout>
+        </RelativeLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/assignParticipantButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="272dp"
             android:layout_height="48dp"
             android:layout_marginTop="23dp"
-            android:text="ASSIGN A PARTICIPANT"
+            android:text="ASSIGN People"
             android:textColor="#ffffff"
             app:cornerRadius="20dp"
             app:icon="@drawable/ic_add_person"
@@ -189,7 +252,7 @@
             app:iconTintMode="add"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/natureOfTheCostTextField"
+            app:layout_constraintTop_toBottomOf="@+id/rl_add_action_assignee_holder"
             app:strokeColor="#34CBFE" />
 
         <View
@@ -200,7 +263,7 @@
             android:background="@color/colorBlack"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/assignParticipantButton" />
+            app:layout_constraintTop_toBottomOf="@id/assignParticipantButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ok"
@@ -208,7 +271,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="false"
+            android:enabled="true"
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="OK"
@@ -217,7 +280,7 @@
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel"
+            android:id="@+id/add_action_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

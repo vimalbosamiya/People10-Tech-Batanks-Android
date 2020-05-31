@@ -15,7 +15,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_add_plan_add_place_card.view.*
 
-class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<Place>) : RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
+class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<Place>) :
+        RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_add_plan_add_place_card, parent, false)

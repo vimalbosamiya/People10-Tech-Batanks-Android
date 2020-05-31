@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.EventDetailView
+import com.batanks.nextplan.swagger.model.EventList
 import kotlinx.android.synthetic.main.item_event_name.view.*
 
 class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {

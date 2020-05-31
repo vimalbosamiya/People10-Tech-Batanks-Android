@@ -16,11 +16,7 @@ import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.User
-import com.google.gson.Gson
-import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_account.*
-import org.json.JSONObject
-import java.io.Serializable
 
 class Account : BaseAppCompatActivity() {
 

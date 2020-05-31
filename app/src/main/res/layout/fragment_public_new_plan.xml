@@ -104,11 +104,12 @@
             app:startIconTint="#ffffff">
 
             <AutoCompleteTextView
+                android:id="@+id/actv_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:editable="false"
                 android:gravity="center_vertical"
+                android:editable="false"
                 android:inputType="none"
                 android:text="item" />
         </com.google.android.material.textfield.TextInputLayout>
