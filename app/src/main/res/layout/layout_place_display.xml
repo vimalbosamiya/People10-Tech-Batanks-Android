@@ -37,6 +37,14 @@
                 app:layout_constraintTop_toTopOf="@+id/placeDisplayBackground" />
 
             <ImageView
+                android:id="@+id/placeCloseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_button"
+                app:layout_constraintRight_toRightOf="@+id/placeDisplayBackground"
+                app:layout_constraintTop_toTopOf="@+id/placeDisplayBackground" />
+
+            <ImageView
                 android:id="@+id/placeIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.swagger.model.Activity
+import com.batanks.nextplan.swagger.model.Task
 
-class EventActivityListAdapter (val activityList : List<Activity>, val context: Context): RecyclerView.Adapter<EventActivityListAdapter.ViewHolder>() {
+class EventActionListAdapter (val actionList : List<Task>, val context: Context): RecyclerView.Adapter<EventActionListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -17,11 +17,12 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
     }
 
     override fun getItemCount(): Int {
-       return activityList.size
+        return actionList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val activity : Activity = activityList[position]
+        val action : Task = actionList[position]
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

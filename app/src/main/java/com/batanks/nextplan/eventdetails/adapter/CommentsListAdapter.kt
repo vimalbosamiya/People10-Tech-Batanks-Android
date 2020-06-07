@@ -6,25 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.swagger.model.Activity
 
-class EventActivityListAdapter (val activityList : List<Activity>, val context: Context): RecyclerView.Adapter<EventActivityListAdapter.ViewHolder>() {
+class CommentsListAdapter (val commentsList : List<Int>, val context : Context): RecyclerView.Adapter<CommentsListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_date_display, parent, false)
         return  ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-       return activityList.size
+        return  commentsList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val activity : Activity = activityList[position]
+
+       val comment : Int = commentsList[position]
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+
 
     }
 }

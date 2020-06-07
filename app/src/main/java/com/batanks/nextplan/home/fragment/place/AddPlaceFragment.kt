@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.swagger.model.EventPlace
 import com.batanks.nextplan.swagger.model.Place
 import kotlinx.android.synthetic.main.fragment_add_place.*
 
@@ -26,6 +27,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadingDialog = requireContext().getLoadingDialog(0, R.string.fetching_location, theme = R.style.AlertDialogCustom)
         ok.setOnClickListener(this)
+        cancel.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -38,7 +40,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                         zipcode = zipCodeTextField?.editText?.text.toString(),
                         city = townTextField?.editText?.text.toString(),
                         country = countryTextField?.editText?.text.toString(),
-                        map = false,
+                        map = enableMapSupportCheckBox.isChecked,
                         latitude = 0.0,
                         longitude = 0.0)
 
@@ -63,10 +65,17 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                 }
                 hideLoader()
             }
+
+            R.id.cancel -> {
+
+                listener.cancelPlaceFragmentAddressFetch()
+
+            }
         }
     }
 
     interface AddPlaceFragmentListener {
         fun addPlaceFragmentAddressFetch(place: Place)
+        fun cancelPlaceFragmentAddressFetch()
     }
 }
