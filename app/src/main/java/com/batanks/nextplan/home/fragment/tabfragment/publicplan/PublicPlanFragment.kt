@@ -43,7 +43,6 @@ import java.util.*
 class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
         AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack,
-        AddPlaceFragment.AddPlaceFragmentListener,
         AddActionFragment.AddActionFragmentListener,
 
         AddActionRecyclerView.AddActionRecyclerViewCallBack,
