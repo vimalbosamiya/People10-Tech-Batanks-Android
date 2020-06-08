@@ -3,12 +3,14 @@ package com.batanks.nextplan.eventdetails
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,8 +21,7 @@ import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
-import com.batanks.nextplan.eventdetails.adapter.VoteForDateMultipleListAdapter
-import com.batanks.nextplan.eventdetails.adapter.VoteForPlaceMultipleListAdapter
+import com.batanks.nextplan.eventdetails.adapter.*
 import com.batanks.nextplan.eventdetails.dataclass.MultipleDateDisplay
 import com.batanks.nextplan.eventdetails.dataclass.MultiplePlaceDisplay
 import com.batanks.nextplan.eventdetails.fragment.*
@@ -36,12 +37,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view.*
+import kotlinx.android.synthetic.main.layout_add_guests.view.*
 import kotlinx.android.synthetic.main.layout_date_display.*
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
 
@@ -67,7 +72,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
     var event_obj : Event? = null
 
     //lateinit var datesList : List<EventDate>
-    var datesList : List<EventDate>? = null
+    var datesList : ArrayList<EventDate>? = null
     var placeList : List<EventPlace>? = null
     var taskList : List<Task>? = null
     var activityList : List<Activity>? = null
@@ -93,13 +98,17 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
                 Status.SUCCESS -> {
 
                     event_obj = response.data as Event
+                    eventDetailViewModel.response = response.data as Event
+                   // eventDetailViewModel.response.copy()
+
 
                     id = event_obj?.id
                     eventName.text = event_obj?.title
                     eventDescription.text = event_obj?.detail
                     noOfGuests.text = event_obj?.max_guests.toString()
                     costPerPerson.text = event_obj?.periodicity?.amount.toString()
-                    datesList = event_obj?.dates
+                    //datesList = event_obj?.dates
+                    //datesList = eventDetailViewModel?.response?.dates
                     placeList = event_obj?.places
                     taskList = event_obj?.tasks
                     activityList = event_obj?.activities
@@ -113,6 +122,37 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
                 }
             }
         })
+
+        addguestIcon.setOnClickListener {
+
+            addGuestsDialogShow()
+        }
+
+        addGuestImage.setOnClickListener {
+
+            addGuestsDialogShow()
+        }
+
+
+
+
+        var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
+        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
+                (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
+                (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
+                (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
+
+        var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
+
+        var places : List<EventPlace> = listOf((EventPlace(1,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
+                                               (EventPlace(2,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
+                                                (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
+                                                (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)))
+
+        dateInit(dates)
+        placeInit(places)
 
         /*val BASE_URL = "http://93.90.204.56/"
         var retrofit: Retrofit? = null
@@ -143,8 +183,10 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
             }
         })*/
 
-        datesList?.let { dateInit(it) }
+        //datesList?.let { dateInit(it) }
         placeList?.let { placeInit(it) }
+        taskList?.let { taskInit(it) }
+        activityList?.let { activityInit(it) }
 
 
         /*mapViewPlace.getMapAsync(OnMapReadyCallback {
@@ -385,20 +427,29 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
     }
 
     fun dateInit(dates : List<EventDate>){
+       /* fun dateInit(){
+
+        var vote : MutableList<Int> = mutableListOf(1,2,3,4)
+        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
+                                            (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
+                                            (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
+                                            (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                                            (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                                            (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))*/
 
         val recyclerView = findViewById<RecyclerView>(R.id.VoteForDateMultipleRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        /*dates.add(EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",10))
-        dates.add(EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",20))
-        dates.add(EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",30))
-        dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",40))
-        dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",40))
-        dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",40))
-        dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",40))*/
+        /*dates?.add(EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote))
+        dates?.add(EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote))
+        dates?.add(EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote))
+        dates?.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
+        dates?.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
+        dates?.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
+        dates?.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))*/
+        //val adapter = dates?.let { VoteForDateMultipleListAdapter(it,this, eventDetailViewModel) }
 
-        val adapter = VoteForDateMultipleListAdapter(dates,this, eventDetailViewModel)
-
+        val adapter = VoteForDateMultipleListAdapter(dates,this,eventDetailViewModel)
         recyclerView.adapter = adapter
 
     }
@@ -419,11 +470,105 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
         places.add(MultiplePlaceDisplay(4,"Fourth Place","Mumbai","People10 Mumbai",
                 40))*/
 
-        val adapter = VoteForPlaceMultipleListAdapter(places,this)
-
+        val adapter = VoteForPlaceMultipleListAdapter(places,this,eventDetailViewModel)
         recyclerView.adapter = adapter
 
     }
+
+    fun taskInit(tasks : List<Task>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = EventActionListAdapter(tasks,this)
+        recyclerView.adapter = adapter
+
+    }
+
+    fun activityInit(activity : List<Activity>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = EventActivityListAdapter(activity,this)
+        recyclerView.adapter = adapter
+
+    }
+
+    fun activityEverybodyComeInit(participantsList : List<Int>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = ActivityEverybodyComeListAdapter(participantsList,this)
+        recyclerView.adapter = adapter
+
+    }
+
+    fun everyBodyComeListAdapter(guestsList : List<Int>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = ActivityEverybodyComeListAdapter(guestsList,this)
+        recyclerView.adapter = adapter
+
+    }
+
+    fun commentsListAdapter(commentsList : List<Int>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = ActivityEverybodyComeListAdapter(commentsList,this)
+        recyclerView.adapter = adapter
+
+    }
+
+    fun addGuestsDialogShow(){
+
+        val addGuestsView = LayoutInflater.from(this).inflate(R.layout.layout_add_guests,null)
+
+        val addGuestsBuilder = AlertDialog.Builder(this).setView(addGuestsView)
+
+        val addGuestsDialog = addGuestsBuilder.show()
+
+        addGuestsView.textViewCancel.setOnClickListener {
+
+            addGuestsDialog.dismiss()
+        }
+
+        addGuestsView.add.setOnClickListener {
+
+            var count : Int = addGuestsView.countTextView.text.toString().toInt()
+
+            count += 1
+
+            addGuestsView.countTextView.text = count.toString()
+        }
+
+        addGuestsView.substract.setOnClickListener {
+
+            var count : Int = addGuestsView.countTextView.text.toString().toInt()
+
+            if (count > 0){
+
+                count -= 1
+
+                addGuestsView.countTextView.text = count.toString()
+            }
+        }
+
+        addGuestsView.textViewOk.setOnClickListener {
+
+            noOfGuests.text = addGuestsView.countTextView.text
+
+            addGuestsDialog.dismiss()
+
+        }
+
+    }
+
 
     /*fun addFragment() {
 
@@ -520,3 +665,5 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }*/
 }
+
+

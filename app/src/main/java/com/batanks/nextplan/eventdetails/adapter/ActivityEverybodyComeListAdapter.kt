@@ -8,10 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.swagger.model.EventInvitation
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
-class EveryBodyComeListAdapter (val contactList : ArrayList<EventInvitation>, val context: Context): RecyclerView.Adapter<EveryBodyComeListAdapter.ViewHolder>() {
+class ActivityEverybodyComeListAdapter(val contactList: List<Int>, val context: Context): RecyclerView.Adapter<ActivityEverybodyComeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -20,13 +19,12 @@ class EveryBodyComeListAdapter (val contactList : ArrayList<EventInvitation>, va
     }
 
     override fun getItemCount(): Int {
-        return contactList.size
+       return contactList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -34,5 +32,6 @@ class EveryBodyComeListAdapter (val contactList : ArrayList<EventInvitation>, va
         val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
         val contactSettings : ImageView = itemView.contactSettings
+
     }
 }

@@ -9,6 +9,7 @@ import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.Invitation
 import com.batanks.nextplan.swagger.model.VoteDate
+import com.batanks.nextplan.swagger.model.VotePlace
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -17,6 +18,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
+    var response : Event? = null
 
     fun getEventData (id: String?){
 
@@ -86,6 +88,22 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
     fun dateVoteClicked(id: String?, data: VoteDate?){
 
         disposables.add(eventApi.apiEventVoteDateCreate(id, data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    responseLiveData.setValue(ApiResponse.loading())
+                }.doOnNext {}.subscribe({ result ->
+                    RetrofitClient.cookieJar?.persist()
+                    responseLiveData.setValue(ApiResponse.success(result))
+                }) { throwable ->
+                    responseLiveData.setValue(ApiResponse.error(throwable))
+                })
+
+    }
+
+    fun placeVoteClicked(id: String?, data: VotePlace?){
+
+        disposables.add(eventApi.apiEventVotePlaceCreate(id, data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {

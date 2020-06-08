@@ -3,7 +3,6 @@ package com.batanks.nextplan.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,13 +14,12 @@ import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
-import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
-import com.batanks.nextplan.swagger.model.EventList
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
@@ -76,6 +74,12 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         extFab.setOnClickListener(this)
         img_settings.setOnClickListener(this)
+
+        filterIcon.setOnClickListener {
+
+            intent = Intent(this, EventDetailViewAdmin:: class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onClick(v: View?) {

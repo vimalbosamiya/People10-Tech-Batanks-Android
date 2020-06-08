@@ -43,7 +43,9 @@ import java.util.*
 class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
         AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack,
+        AddPlaceFragment.AddPlaceFragmentListener,
         AddActionFragment.AddActionFragmentListener,
+
         AddActionRecyclerView.AddActionRecyclerViewCallBack,
         AddActivityRecyclerView.AddActivityRecyclerViewCallBack,
         AddActivityFragment.AddActivityFragmentListener,
@@ -253,6 +255,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
+    override fun cancelPlaceFragmentAddressFetch() {
+
+        (requireActivity().supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
+                as? AddPlaceFragment)?.dismiss()
+    }
+
     override fun AddActionFragmentFetch(task: Task) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
@@ -261,6 +269,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
+
     override fun AddActivityFragmentFetch(activity: Activity) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
@@ -268,4 +277,5 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         publicPlanViewModel.activity.add(activity)
         activityRecyclerView?.adapter?.notifyDataSetChanged()
     }
+
 }

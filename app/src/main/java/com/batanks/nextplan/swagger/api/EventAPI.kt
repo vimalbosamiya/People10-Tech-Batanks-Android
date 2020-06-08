@@ -123,7 +123,7 @@ interface EventAPI {
     fun apiEventVoteDateCreate(@Path("id") id: String?, @Body data: VoteDate?): Observable<VoteDate>
 
     @POST("api/event/{id}/vote_place/")
-    fun apiEventVotePlaceCreate(@Path("id") id: String?, @Body data: VotePlace?): Call<VotePlace>
+    fun apiEventVotePlaceCreate(@Path("id") id: String?, @Body data: VotePlace?): Observable<VotePlace>
 
     @DELETE("event/{id}/")
     fun eventDelete(@Path("id") id: String?): Call<Void>
