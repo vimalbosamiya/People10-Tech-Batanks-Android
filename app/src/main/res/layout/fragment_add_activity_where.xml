@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/whereText" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/placeActivityNameTextField"
+        android:id="@+id/ActivityplaceNameTextField"
         style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +45,8 @@
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
         app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/footerDivider">
@@ -63,7 +65,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/addPeopleButton"
+        android:id="@+id/activity_copy_plan_address"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -78,11 +80,11 @@
         app:iconTintMode="add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeActivityNameTextField"
+        app:layout_constraintTop_toBottomOf="@+id/ActivityplaceNameTextField"
         app:strokeColor="#34CBFE" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addressTextField"
+        android:id="@+id/activity_addressTextField"
         style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,10 +102,12 @@
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:hintTextColor="#34CBFE"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPeopleButton">
+        app:layout_constraintTop_toBottomOf="@+id/activity_copy_plan_address">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -117,15 +121,23 @@
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/zipCodeTextField"
-        style="@style/MaterialTextInputLayoutTheme"
+    <LinearLayout
+        android:id="@+id/ll_activity_zipcode_town"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_addressTextField">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_zipCodeTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:hint="Zip Code"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
@@ -138,9 +150,11 @@
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
         app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextField">
+        app:layout_constraintRight_toLeftOf="@id/activity_townTextField"
+        app:layout_constraintTop_toBottomOf="@+id/activity_addressTextField">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -149,20 +163,19 @@
             android:inputType="text"
             android:maxLength="15"
             android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/townTextField"
+        android:id="@+id/activity_townTextField"
         style="@style/MaterialTextInputLayoutTheme"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_margin="16dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         android:hint="Town"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
@@ -175,10 +188,9 @@
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
         app:hintTextColor="#34CBFE"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zipCodeTextField">
-
+        app:layout_constraintLeft_toRightOf="@id/activity_zipCodeTextField"
+        app:layout_constraintTop_toBottomOf="@+id/activity_addressTextField">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,14 +198,13 @@
             android:inputType="text"
             android:maxLength="15"
             android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/countryTextField"
+        android:id="@+id/activity_countryTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -208,10 +219,12 @@
         app:endIconTint="@color/colorWhite"
         app:helperText="Specify country"
         app:helperTextEnabled="true"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:helperTextTextColor="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/townTextField"
+        app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
         app:startIconTint="#ffffff">
 
         <AutoCompleteTextView
