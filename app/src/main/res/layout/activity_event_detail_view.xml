@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customToolBar">
 
-      <androidx.constraintlayout.widget.ConstraintLayout
+      <!--<androidx.constraintlayout.widget.ConstraintLayout
           android:id="@+id/organizerConstraintViewHolder"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="@+id/organizerInitial" />
 
-          <!--
+          &lt;!&ndash;
           <ImageView
               android:id="@+id/userGreenBackground"
               android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
               android:background="@drawable/ic_user"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="@+id/userBlackBackground" />-->
+              app:layout_constraintTop_toTopOf="@+id/userBlackBackground" />&ndash;&gt;
 
           <TextView
               android:id="@+id/organizer"
@@ -172,7 +172,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="@+id/organizerFull" />
 
-          <!--
+          &lt;!&ndash;
           <ImageView
               android:id="@+id/userGreenBackground"
               android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
               android:background="@drawable/ic_user"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="@+id/userBlackBackground" />-->
+              app:layout_constraintTop_toTopOf="@+id/userBlackBackground" />&ndash;&gt;
 
           <TextView
               android:id="@+id/organizerInFull"
@@ -288,9 +288,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-      </androidx.constraintlayout.widget.ConstraintLayout>
+      </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-
+      <include
+          android:id="@+id/organizerLayout"
+          layout="@layout/layout_eventdetails_organizer_details"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintStart_toStartOf="@+id/bodyBackgroundView"
+          app:layout_constraintTop_toTopOf="@+id/bodyBackgroundView"/>
 
       <View
           android:id="@+id/divider"
@@ -300,7 +306,7 @@
           android:background="@drawable/ic_divider"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/organizerConstraintViewHolder" />
+          app:layout_constraintTop_toBottomOf="@+id/organizerLayout" />
 
       <TextView
           android:id="@+id/eventName"
@@ -1213,7 +1219,7 @@
               android:id="@+id/dateCount3"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="2"
+              android:text="3"
               android:textSize="16sp"
               android:textColor="#DEFFFFFF"
               app:layout_constraintStart_toStartOf="@+id/dateCountBackground3"
@@ -2537,7 +2543,7 @@
           <TextView
               android:id="@+id/textViewEventDescription"
               android:layout_width="212dp"
-              android:layout_height="140dp"
+              android:layout_height="wrap_content"
               android:layout_marginStart="56dp"
               android:layout_marginEnd="60dp"
               android:text="Un de chaque saveur Description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
@@ -3089,14 +3095,129 @@
                         app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
                         app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
+                   <!-- <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventContactList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />-->
+
+                  <ImageView
+                      android:id="@+id/contactBackground"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="30dp"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_background"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
+
+                  <ImageView
+                      android:id="@+id/contactStatus"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="30dp"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_not_confirmed"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
+
+                  <TextView
+                      android:id="@+id/contactName"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Graphiste"
+                      android:textSize="16sp"
+                      android:textColor="#FFFFFF"
+                      android:layout_marginTop="12dp"
+                      android:layout_marginStart="56dp"
+                      app:layout_constraintStart_toStartOf="@+id/contactBackground"
+                      app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+                  <ImageView
+                      android:id="@+id/contactSettings"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_event_details_settings"
+                      app:layout_constraintEnd_toEndOf="@+id/contactBackground"
+                      app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+
+                  <ImageView
+                      android:id="@+id/contactConfirmed"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_background"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toBottomOf="@+id/contactBackground"/>
+
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_confirmed"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Dev Back"
+                      android:textSize="16sp"
+                      android:textColor="#FFFFFF"
+                      android:layout_marginTop="12dp"
+                      android:layout_marginStart="56dp"
+                      app:layout_constraintStart_toStartOf="@+id/contactConfirmed"
+                      app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_event_details_settings"
+                      app:layout_constraintEnd_toEndOf="@+id/contactConfirmed"
+                      app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
+
+
+                  <ImageView
+                      android:id="@+id/contactDeclined"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_background"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toBottomOf="@+id/contactConfirmed"/>
+
+                  <ImageView
+                      android:id="@+id/imageView2"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:background="@drawable/ic_event_details_contact_declined"
+                      app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                      app:layout_constraintTop_toTopOf="@+id/contactDeclined" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Dev Front"
+                      android:textSize="16sp"
+                      android:textColor="#FFFFFF"
+                      android:layout_marginTop="12dp"
+                      android:layout_marginStart="56dp"
+                      app:layout_constraintStart_toStartOf="@+id/contactDeclined"
+                      app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>
+
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_event_details_settings"
+                      app:layout_constraintEnd_toEndOf="@+id/contactDeclined"
+                      app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -3179,121 +3300,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- <ImageView
-               android:id="@+id/contactBackground"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="30dp"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_background"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
-
-           <ImageView
-               android:id="@+id/contactStatus"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="30dp"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_not_confirmed"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView"/>
-
-           <TextView
-               android:id="@+id/contactName"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Graphiste"
-               android:textSize="16sp"
-               android:textColor="#FFFFFF"
-               android:layout_marginTop="12dp"
-               android:layout_marginStart="56dp"
-               app:layout_constraintStart_toStartOf="@+id/contactBackground"
-               app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
-
-           <ImageView
-               android:id="@+id/contactSettings"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:background="@drawable/ic_event_details_settings"
-               app:layout_constraintEnd_toEndOf="@+id/contactBackground"
-               app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
-
-
-           <ImageView
-               android:id="@+id/contactConfirmed"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="30dp"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_background"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toBottomOf="@+id/contactBackground"/>
-
-           <ImageView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_confirmed"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Dev Back"
-               android:textSize="16sp"
-               android:textColor="#FFFFFF"
-               android:layout_marginTop="12dp"
-               android:layout_marginStart="56dp"
-               app:layout_constraintStart_toStartOf="@+id/contactConfirmed"
-               app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
-
-           <ImageView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:background="@drawable/ic_event_details_settings"
-               app:layout_constraintEnd_toEndOf="@+id/contactConfirmed"
-               app:layout_constraintTop_toTopOf="@+id/contactConfirmed"/>
-
-
-           <ImageView
-               android:id="@+id/contactDeclined"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="30dp"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_background"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toBottomOf="@+id/contactConfirmed"/>
-
-           <ImageView
-               android:id="@+id/imageView2"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="20dp"
-               android:background="@drawable/ic_event_details_contact_declined"
-               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-               app:layout_constraintTop_toTopOf="@+id/contactDeclined" />
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Dev Front"
-               android:textSize="16sp"
-               android:textColor="#FFFFFF"
-               android:layout_marginTop="12dp"
-               android:layout_marginStart="56dp"
-               app:layout_constraintStart_toStartOf="@+id/contactDeclined"
-               app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>
-
-           <ImageView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:background="@drawable/ic_event_details_settings"
-               app:layout_constraintEnd_toEndOf="@+id/contactDeclined"
-               app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>-->
-
           <ImageView
               android:id="@+id/eventInfoDivider3"
               android:layout_width="wrap_content"
@@ -3309,7 +3315,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="24dp"
-              android:background="@drawable/ic_participate_to_activity_icon"
+              android:src="@drawable/ic_participate_to_activity_icon"
               app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
               app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeHolder"/>
@@ -3532,24 +3538,24 @@
               app:layout_constraintEnd_toEndOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
 
-          <androidx.recyclerview.widget.RecyclerView
+         <!-- <androidx.recyclerview.widget.RecyclerView
               android:id="@+id/everybodyComeList"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="20dp"
               android:layout_marginTop="30dp"
               app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
-              app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti" />
+              app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti" />-->
 
-          <!--<ImageView
+          <ImageView
               android:id="@+id/contactBackgroundTemp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
               android:layout_marginStart="20dp"
+              android:layout_marginTop="30dp"
               android:background="@drawable/ic_event_details_contact_background"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
-              app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"/>
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
+              app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti" />
 
           <ImageView
               android:id="@+id/contactStatusTemp"
@@ -3558,7 +3564,7 @@
               android:layout_marginTop="30dp"
               android:layout_marginStart="20dp"
               android:background="@drawable/ic_event_details_contact_not_confirmed"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"/>
 
           <TextView
@@ -3586,10 +3592,10 @@
               android:id="@+id/contactConfirmedTemp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
+              android:layout_marginTop="16dp"
               android:layout_marginStart="20dp"
               android:background="@drawable/ic_event_details_contact_background"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/contactBackgroundTemp"/>
 
           <ImageView
@@ -3597,7 +3603,7 @@
               android:layout_height="wrap_content"
               android:layout_marginStart="20dp"
               android:background="@drawable/ic_event_details_contact_confirmed"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toTopOf="@+id/contactConfirmedTemp"/>
 
           <TextView
@@ -3623,10 +3629,10 @@
               android:id="@+id/contactDeclinedTemp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
+              android:layout_marginTop="16dp"
               android:layout_marginStart="20dp"
               android:background="@drawable/ic_event_details_contact_background"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/contactConfirmedTemp"/>
 
           <ImageView
@@ -3635,7 +3641,7 @@
               android:layout_height="wrap_content"
               android:layout_marginStart="20dp"
               android:background="@drawable/ic_event_details_contact_declined"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toTopOf="@+id/contactDeclinedTemp" />
 
           <TextView
@@ -3660,28 +3666,31 @@
               android:id="@+id/tempimg1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="16dp"
               android:background="@drawable/ic_temp_contact"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/contactDeclinedTemp"/>
 
           <ImageView
               android:id="@+id/tempimg2"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="16dp"
               android:background="@drawable/ic_temp_contact"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toBottomOf="@+id/tempimg1"/>
 
           <ImageView
               android:id="@+id/tempimg3"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="30dp"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="16dp"
               android:background="@drawable/ic_temp_contact"
-              app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
-              app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>-->
+              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
+              app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>
 
           <ImageView
               android:id="@+id/addPeople"
@@ -3692,7 +3701,7 @@
               android:layout_marginBottom="24dp"
               android:background="@drawable/ic_event_details_add_people_icon"
               app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
-              app:layout_constraintTop_toBottomOf="@+id/everybodyComeList"
+              app:layout_constraintTop_toBottomOf="@+id/tempimg3"
               app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -3835,14 +3844,169 @@
                 app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
                 app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
 
-            <androidx.recyclerview.widget.RecyclerView
+           <!-- <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/commentsList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/commentBackgroundConsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti">
+
+              <ImageView
+                  android:id="@+id/commentBackgroundLayout"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/ic_comment_layout_background"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+              <ImageView
+                  android:id="@+id/commentUserIcon"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/ic_comments_user_image"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+
+              <TextView
+                  android:id="@+id/userName"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Contact 1 pseudonym"
+                  android:textSize="16sp"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginTop="12dp"
+                  android:textColor="#FFFFFF"
+                  app:layout_constraintStart_toEndOf="@+id/commentUserIcon"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+
+              <ImageView
+                  android:id="@+id/closeButtonIcon"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/ic_close_button"
+                  app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout" />
+
+              <TextView
+                  android:id="@+id/commentDateTime"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="01/12/2021 6:30 pm"
+                  android:textSize="16sp"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="24dp"
+                  android:textColor="#DEFFFFFF"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                  app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+              <TextView
+                  android:id="@+id/comment"
+                  android:layout_width="264dp"
+                  android:layout_height="wrap_content"
+                  android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
+                  android:textSize="16sp"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="16dp"
+                  android:textColor="#FFFFFF"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                  app:layout_constraintTop_toBottomOf="@+id/commentDateTime" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/commentBackgroundConsLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/commentBackgroundConsLayout">
+
+              <ImageView
+                  android:id="@+id/commentBackgroundLayout1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/ic_comment_layout_background"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+              <ImageView
+                  android:id="@+id/commentUserIcon1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/ic_comments_user_image"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout1" />
+
+              <TextView
+                  android:id="@+id/userName1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Contact 1 pseudonym"
+                  android:textSize="16sp"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginTop="12dp"
+                  android:textColor="#FFFFFF"
+                  app:layout_constraintStart_toEndOf="@+id/commentUserIcon1"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout1" />
+
+              <ImageView
+                  android:id="@+id/closeButtonIcon1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/ic_close_button"
+                  app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout1"
+                  app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout1" />
+
+              <TextView
+                  android:id="@+id/commentDateTime1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="01/12/2021 6:30 pm"
+                  android:textSize="16sp"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="24dp"
+                  android:textColor="#DEFFFFFF"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                  app:layout_constraintTop_toBottomOf="@+id/userName1" />
+
+              <TextView
+                  android:id="@+id/comment1"
+                  android:layout_width="264dp"
+                  android:layout_height="wrap_content"
+                  android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
+                  android:textSize="16sp"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="16dp"
+                  android:textColor="#FFFFFF"
+                  app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                  app:layout_constraintTop_toBottomOf="@+id/commentDateTime1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_comment_button"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
+                app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
+                app:layout_constraintTop_toBottomOf="@+id/commentBackgroundConsLayout1"
+                app:layout_constraintBottom_toBottomOf="@+id/commentsBackgroundMulti"/>
 
           </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,6 +2,7 @@ package com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.swagger.model.EventDate
+import com.batanks.nextplan.swagger.model.EventPlace
 import com.batanks.nextplan.swagger.model.Place
 import com.batanks.nextplan.swagger.model.Task
 import io.reactivex.disposables.CompositeDisposable
