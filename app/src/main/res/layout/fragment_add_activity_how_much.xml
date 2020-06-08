@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/howMuchText" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/costOfTheActionTextField"
+        android:id="@+id/costOfTheActivityTextField"
         style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +44,8 @@
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
         app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/footerDivider">
@@ -81,9 +83,11 @@
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintTextColor="@color/colorWhite"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costOfTheActionTextField"
+        app:layout_constraintTop_toBottomOf="@+id/costOfTheActivityTextField"
         app:startIconTint="#ffffff">
 
         <AutoCompleteTextView
@@ -92,7 +96,6 @@
             android:layout_gravity="center_vertical"
             android:editable="false"
             android:gravity="center_vertical"
-            android:inputType="none"
-            android:text="Total cost" />
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

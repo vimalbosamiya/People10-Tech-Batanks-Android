@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_shape_rectangle_card"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+        <ImageView
+            android:id="@+id/activityIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_activity_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/activitycloseButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_activity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Action Name"
+            app:layout_constraintBottom_toBottomOf="@+id/activityIcon"
+            app:layout_constraintEnd_toStartOf="@+id/activitycloseButtonIcon"
+            app:layout_constraintStart_toEndOf="@+id/activityIcon"
+            app:layout_constraintTop_toTopOf="@+id/activityIcon" />
+        <ImageView
+            android:id="@+id/activitylocationIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/ic_map_place"
+            app:layout_constraintLeft_toRightOf="@id/activityIcon"
+            app:layout_constraintTop_toBottomOf="@id/activityIcon" />
+        <TextView
+            android:id="@+id/txt_activity_location_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="5dp"
+            android:text="Action Location Name"
+            android:maxLines="3"
+            app:layout_constraintLeft_toRightOf="@+id/activitylocationIcon"
+            app:layout_constraintTop_toBottomOf="@id/activityIcon"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activityMapbackgroundHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_activity_location_name" >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/activityMapbackgroundVisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activityMapbackgroundHolder" >
+                <ImageView
+                    android:id="@+id/activity_imgHideMap"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/activityMapbackgroundVisible"/>
+                <ImageView
+                    android:id="@+id/activity_hideMapImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/ic_event_details_hide_map_background"
+                    app:layout_constraintStart_toStartOf="@+id/activityMapbackgroundVisible"
+                    app:layout_constraintTop_toTopOf="@+id/activityMapbackgroundVisible"/>
+                <ImageView
+                    android:id="@+id/activity_hideMapIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/ic_event_details_hide_map_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/activityMapbackgroundVisible"
+                    app:layout_constraintTop_toTopOf="@+id/activityMapbackgroundVisible"/>
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/activity_MapView"
+                    android:layout_width="306dp"
+                    android:layout_height="148dp"
+                    android:layout_marginTop="19dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_hideMapImg"
+                    app:liteMode="true" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/activity_MapbackgroundHide"
+                android:layout_width="290dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activityMapbackgroundHolder" >
+                <TextView
+                    android:id="@+id/hideMapImgHide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show Map"
+                    android:textSize="14sp"
+                    android:textColor="#DEFFFFFF"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_MapbackgroundHide"
+                    app:layout_constraintTop_toTopOf="@+id/activity_MapbackgroundHide"/>
+                <ImageView
+                    android:id="@+id/hideMapIconHide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/ic_event_details_hide_map_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/activity_MapbackgroundHide"
+                    app:layout_constraintTop_toTopOf="@+id/activity_MapbackgroundHide"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/activity_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activityMapbackgroundHolder" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_datetime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_divider"
+            >
+            <ImageView
+                android:id="@+id/activity_img_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/ic_event_details_event_info_start_date"
+                app:layout_constraintStart_toStartOf="@+id/activity_datetime"
+                app:layout_constraintTop_toTopOf="@+id/activity_datetime"/>
+            <TextView
+                android:id="@+id/activity_txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sat, Mar 16 2020 - 08:00 PM"
+                android:textSize="14sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/activity_img_date"
+                app:layout_constraintTop_toTopOf="@+id/activity_img_date"/>
+            <ImageView
+                android:id="@+id/activity_img_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_event_details_event_info_time_icon"
+                app:layout_constraintStart_toStartOf="@+id/activity_img_date"
+                app:layout_constraintTop_toBottomOf="@+id/activity_img_date"/>
+            <TextView
+                android:id="@+id/activity_txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sat, Mar 16 2020 - 08:00 PM"
+                android:textSize="14sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/activity_img_time"
+                app:layout_constraintTop_toTopOf="@+id/activity_img_time"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/activity_divider_datetime"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_datetime" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activityEverybodyComeVisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_divider_datetime">
+
+            <ImageView
+                android:id="@+id/activity_everybodyCome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/ic_event_details_everybody_come_icon"
+                app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />
+
+            <TextView
+                android:id="@+id/activity_everybodyComeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Everybody come"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="16.98dp"
+                app:layout_constraintStart_toEndOf="@+id/activity_everybodyCome"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <TextView
+                android:id="@+id/activity_comingVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="16sp"
+                android:textColor="#A5D6A7"
+                android:layout_marginStart="14dp"
+                app:layout_constraintStart_toEndOf="@+id/activity_everybodyComeTextView"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <TextView
+                android:id="@+id/activity_votesSeperator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textSize="16sp"
+                android:textColor="#DEFFFFFF"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@+id/activity_comingVotes"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <TextView
+                android:id="@+id/activity_totalNoOfVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:textSize="16sp"
+                android:textColor="#90CAF9"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@+id/activity_votesSeperator"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <ImageView
+                android:id="@+id/activity_hideEverybodyCome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/ic_event_details_expand_less"
+                app:layout_constraintStart_toEndOf="@+id/activity_totalNoOfVotes"
+                app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_eventContactList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
+                app:layout_constraintTop_toBottomOf="@+id/activity_everybodyComeTextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <ImageView
+            android:id="@+id/activity_InfoDivider3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/ic_event_details_event_info_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeVisible" />
+
+        <ImageView
+            android:id="@+id/activity_participateToActivityIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/ic_participate_to_activity_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeVisible" />
+
+        <ImageView
+            android:id="@+id/activity_img_cost_per_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_event_details_contact_dollar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+
+
+        <TextView
+            android:id="@+id/activity_textViewCostPerPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cost Per Person"
+            android:textSize="14sp"
+            android:textColor="#DEFFFFFF"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="56dp"
+            app:layout_constraintStart_toEndOf="@+id/activity_img_cost_per_person"
+            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+
+        <TextView
+            android:id="@+id/activity_textViewCostPerPersonAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,00 €"
+            android:textSize="20sp"
+            android:textColor="#FFE082"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

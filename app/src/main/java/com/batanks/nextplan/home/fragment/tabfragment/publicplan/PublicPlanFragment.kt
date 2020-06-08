@@ -24,8 +24,10 @@ import com.batanks.nextplan.home.fragment.place.AddPlaceRecyclerView
 import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapter
 import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
+import com.batanks.nextplan.home.fragment.tabfragment.AddActivityRecyclerView
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
+import com.batanks.nextplan.swagger.model.Activity
 import com.batanks.nextplan.swagger.model.EventDate
 import com.batanks.nextplan.swagger.model.Place
 import com.batanks.nextplan.swagger.model.Task
@@ -43,11 +45,14 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack,
         AddActionFragment.AddActionFragmentListener,
         AddActionRecyclerView.AddActionRecyclerViewCallBack,
+        AddActivityRecyclerView.AddActivityRecyclerViewCallBack,
+        AddActivityFragment.AddActivityFragmentListener,
         AddPlaceFragment.AddPlaceFragmentListener {
 
     private var addPeriodRecyclerView: RecyclerView? = null
     private var addPlaceRecyclerView: RecyclerView? = null
     private var actionRecyclerView : RecyclerView? = null
+    private var activityRecyclerView : RecyclerView? = null
 
     private val publicPlanViewModel: PublicPlanViewModel by lazy {
         ViewModelProvider(this)[PublicPlanViewModel::class.java]
@@ -77,6 +82,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         populateAddPeriodRecyclerViewIfAny()
         populateAddPlaceRecyclerViewIfAny()
         populateAddActionRecyclerViewIfAny()
+        populateAddActivityRecyclerViewIfAny()
     }
 
     private fun populateCategory() {
@@ -180,7 +186,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     override fun addActivityClicked() {
         requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(AddActivityFragment(), AddActivityFragment::class.java.canonicalName)
+                .add(AddActivityFragment(this), AddActivityFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
     }
 
@@ -217,21 +223,32 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         actionRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
         actionRecyclerView?.adapter = AddActionRecyclerView(this, publicPlanViewModel.action)
     }
+    private fun populateAddActivityRecyclerViewIfAny() {
+
+        activityRecyclerView = requireActivity().findViewById(R.id.activityRecyclerView)
+        activityRecyclerView?.setHasFixedSize(true)
+        activityRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        activityRecyclerView?.adapter = AddActivityRecyclerView(this, publicPlanViewModel.activity)
+    }
 
     override fun closeButtonAddPlaceItemListener(pos: Int) {
-        addPlaceButton.text = "ADD A PERIOD"
+        addPlaceButton.text = "ADD A PLACE"
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
     override fun closeButtonAddActionItemListener(pos: Int) {
         addActionButton.text = "ADD ACTION"
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
+    override fun closeButtonAddActivityItemListener(pos: Int) {
+        addActionButton.text = "ADD ACTIVITY"
+        activityRecyclerView?.adapter?.notifyDataSetChanged()
+    }
 
     override fun addPlaceFragmentAddressFetch(place: Place) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
-        addPlaceButton.text = "ADD A ANOTHER PERIOD"
+        addPlaceButton.text = "ADD A ANOTHER PLACE"
         publicPlanViewModel.place.add(place)
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -239,8 +256,16 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     override fun AddActionFragmentFetch(task: Task) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
-        addActionButton.text = "ADD ACTION"
+        addActionButton.text = "ADD ANOTHER ACTION"
         publicPlanViewModel.action.add(task)
         actionRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun AddActivityFragmentFetch(activity: Activity) {
+        (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
+                as? AddActivityFragment)?.dismiss()
+        addActivityButton.text = "ADD ANOTHER ACTIVITY"
+        publicPlanViewModel.activity.add(activity)
+        activityRecyclerView?.adapter?.notifyDataSetChanged()
     }
 }
