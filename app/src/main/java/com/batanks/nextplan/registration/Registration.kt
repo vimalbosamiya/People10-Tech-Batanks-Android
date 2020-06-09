@@ -48,6 +48,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.registration)
+        dismissKeyboard()
 
         registrationViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -58,8 +59,8 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                 Status.SUCCESS -> {
                     Toast.makeText(this, "User account is created", Toast.LENGTH_SHORT).show()
                     hideLoader()
-                    val intent = Intent(this, HomePlanPreview::class.java)
-                    startActivity(intent)
+                    /*val intent = Intent(this, HomePlanPreview::class.java)
+                    startActivity(intent)*/
                     finish()
                 }
                 Status.ERROR -> {
@@ -164,8 +165,8 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                val intent = Intent(this, SigninActivity::class.java)
-                startActivity(intent)
+                /*val intent = Intent(this, SigninActivity::class.java)
+                startActivity(intent)*/
                 finish()
                 true
             }
