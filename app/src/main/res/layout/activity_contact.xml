@@ -180,7 +180,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_settings_contacts"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="270dp"
                 android:padding="10dp"
                 app:layout_constraintStart_toStartOf="@id/view_seperator_settings_contactlist"
                 app:layout_constraintEnd_toEndOf="@id/view_seperator_settings_contactlist"
@@ -231,7 +231,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_settings_groups"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="270dp"
                 android:padding="10dp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/img_settings_contacts_groups"

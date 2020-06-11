@@ -1,8 +1,15 @@
 package com.batanks.nextplan.Settings
 
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +22,8 @@ class Contact : AppCompatActivity() {
     lateinit var rv_settings_contacts: RecyclerView
     lateinit var rv_settings_groups : RecyclerView
     lateinit var adapter : ContactsAdapter_Settings
+    lateinit var groups_adapter : GroupsAdapter_Settings
+    lateinit var rl_settings_create_new_groups : RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +34,8 @@ class Contact : AppCompatActivity() {
 
         rv_settings_groups = findViewById(R.id.rv_settings_groups)
         rv_settings_groups.layoutManager = LinearLayoutManager(this)
+
+        rl_settings_create_new_groups = findViewById(R.id.rl_settings_create_new_groups)
 
 
         img_settings_contacts_contacts_downarrow.setOnClickListener(View.OnClickListener {
@@ -46,8 +57,30 @@ class Contact : AppCompatActivity() {
                 settings_contacts_list_section2.visibility = View.GONE
             }
         })
+        rl_settings_create_new_groups.setOnClickListener(View.OnClickListener {
+            showDialog()
+        })
 
         setUpDummyData()
+    }
+
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_create_group)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btn_create_group_cancel = dialog.findViewById(R.id.btn_create_group_cancel) as Button
+        val btn_create_group_ok = dialog.findViewById(R.id.btn_create_group_ok) as Button
+
+        btn_create_group_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        btn_create_group_ok.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
     }
 
     private fun setUpDummyData(){
@@ -64,6 +97,19 @@ class Contact : AppCompatActivity() {
         adapter = ContactsAdapter_Settings(list)
         rv_settings_contacts.adapter = adapter
         rv_settings_groups.adapter = adapter
+
+        var groups_list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
+        groups_list.add(ContactsModel("Group 1", "12345" , false))
+        groups_list.add(ContactsModel("Group 2", "12345", false))
+        groups_list.add(ContactsModel("Group 3", "12345", false))
+        groups_list.add(ContactsModel("Group 4", "12345", false))
+        groups_list.add(ContactsModel("Group 5", "12345", false))
+        groups_list.add(ContactsModel("Group 6", "12345", false))
+        groups_list.add(ContactsModel("Group 7", "12345", false))
+        groups_list.add(ContactsModel("Group 8", "12345", false))
+        groups_list.add(ContactsModel("Group 9", "12345", false))
+        groups_adapter = GroupsAdapter_Settings(groups_list)
+        rv_settings_groups.adapter = groups_adapter
         //loadContacts();
     }
 }
