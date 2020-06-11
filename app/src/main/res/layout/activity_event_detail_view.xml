@@ -487,7 +487,7 @@
           android:layout_height="wrap_content"
           android:layout_marginStart="16.98dp"
           android:layout_marginTop="54dp"
-          android:text="9999"
+          android:text="0"
           android:textColor="#90CAF9"
           android:textSize="18sp"
           app:layout_constraintStart_toEndOf="@+id/peopleOutline"
@@ -753,7 +753,7 @@
             android:id="@+id/dateBackgroundMultiple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@drawable/ic_new_vote_for_date_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -1247,7 +1247,7 @@
             android:id="@+id/dateDropDownBackgroundMultiple"
             android:layout_width="328dp"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -2400,7 +2400,7 @@
           app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder"/>-->
 
       <androidx.constraintlayout.widget.ConstraintLayout
-          android:id="@+id/descriptionFrameBackground"
+          android:id="@+id/actionConstraintHolder"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
@@ -2408,7 +2408,7 @@
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/totalCostBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -2563,7 +2563,7 @@
               android:background="@drawable/ic_event_details_participant_background"
               app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
               app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>
-          <!--<ImageView
+          &lt;!&ndash;<ImageView
               android:id="@+id/totalCostDivider"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -2571,7 +2571,7 @@
               android:background="@drawable/ic_event_details_divider_total_cost"
               app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
               app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
-              app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />-->
+              app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />&ndash;&gt;
 
           <ImageView
               android:id="@+id/dollarIconMulti"
@@ -2609,7 +2609,24 @@
               app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
               app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <ImageView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_event_details_vote_for_date_multi_list_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/actionConstraintHolder"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actionRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/temp" />
+
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -2627,15 +2644,15 @@
 
 
       <androidx.constraintlayout.widget.ConstraintLayout
-          android:id="@+id/eventInfoFrameBackground"
+          android:id="@+id/activityConstraintHolder"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="480dp"
           android:layout_marginTop="16dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/descriptionFrameBackground">
+          app:layout_constraintTop_toBottomOf="@+id/actionConstraintHolder">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/eventInfoBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -2872,7 +2889,7 @@
                         app:layout_constraintEnd_toEndOf="@+id/eventMapbackgroundVisible"
                         app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible"/>
 
-                    <!--<com.google.android.gms.maps.MapView
+                    &lt;!&ndash;<com.google.android.gms.maps.MapView
                         android:id="@+id/map"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -2880,7 +2897,7 @@
                         android:layout_marginStart="11dp"
                         android:background="@drawable/ic_event_details_map"
                         app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>-->
+                        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>&ndash;&gt;
 
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/eventInfoMapView"
@@ -2924,7 +2941,7 @@
                         app:layout_constraintEnd_toEndOf="@+id/eventMapbackgroundHide"
                         app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundHide"/>
 
-                    <!--<com.google.android.gms.maps.MapView
+                    &lt;!&ndash;<com.google.android.gms.maps.MapView
                         android:id="@+id/map"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -2932,7 +2949,7 @@
                         android:layout_marginStart="11dp"
                         android:background="@drawable/ic_event_details_map"
                         app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>-->
+                        app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>&ndash;&gt;
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -3095,14 +3112,14 @@
                         app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
                         app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
 
-                   <!-- <androidx.recyclerview.widget.RecyclerView
+                   &lt;!&ndash; <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/eventContactList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />-->
+                        app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />&ndash;&gt;
 
                   <ImageView
                       android:id="@+id/contactBackground"
@@ -3356,7 +3373,15 @@
               app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon"
               app:layout_constraintBottom_toBottomOf="@+id/eventInfobackgroundMulti"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activityRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/activityConstraintHolder" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -3369,7 +3394,7 @@
           android:layout_marginTop="16dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/eventInfoFrameBackground">
+          app:layout_constraintTop_toBottomOf="@+id/activityConstraintHolder">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/participantsListBackground"

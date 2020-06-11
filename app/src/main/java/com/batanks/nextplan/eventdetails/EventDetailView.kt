@@ -1,12 +1,16 @@
 package com.batanks.nextplan.eventdetails
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,6 +41,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view.*
+import kotlinx.android.synthetic.main.activity_event_detail_view.addGuestBackground
+import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.view.*
 import kotlinx.android.synthetic.main.layout_date_display.*
 import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
@@ -48,7 +54,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
+class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClickFunImplementation*/ {
 
 /*    val createVoteForDateFragment = CreateVoteForDateFragment()
     val createVoteForDateMultipleFragment = CreateVoteForDateMultipleFragment()
@@ -123,26 +129,13 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
             }
         })
 
-        addguestIcon.setOnClickListener {
-
-            addGuestsDialogShow()
-        }
-
-        addGuestImage.setOnClickListener {
-
-            addGuestsDialogShow()
-        }
-
-
-
-
         var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
-        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
-                (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
-                (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
-                (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
-                (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
-                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
+        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)))
+//                (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
+//                (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
+//                (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+//                (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+//                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
 
         var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
 
@@ -151,8 +144,21 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
                                                 (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
                                                 (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)))
 
+        var tasks : List<Task> = listOf(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
+                /*Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
+                Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
+                Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
+                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
+
+        var activities : List<Activity> = listOf(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote),
+                Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote),
+                Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote),
+                Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
+
         dateInit(dates)
         placeInit(places)
+        taskInit(tasks)
+        activityInit(activities)
 
         /*val BASE_URL = "http://93.90.204.56/"
         var retrofit: Retrofit? = null
@@ -214,7 +220,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
             }
         }
 
-        eventInfoMapView.apply {
+       /* eventInfoMapView.apply {
 
             onCreate(null)
             getMapAsync{
@@ -228,53 +234,24 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
                     addMarker(MarkerOptions().position(LATLNG))
                 }
             }
-        }
+        }*/
 
-        userIcon.setOnClickListener {
+        addguestIcon.setOnClickListener(this)
+        addGuestImage.setOnClickListener(this)
+        userIcon.setOnClickListener(this)
+        userIconInFull.setOnClickListener (this)
+        dateBackgroundMultiple.setOnClickListener(this)
+        imgDateMultiLoader.setOnClickListener(this)
+        placeBackgroundMulti.setOnClickListener(this)
+        imgPlaceMultiLoader.setOnClickListener(this)
+        participantsListBackground.setOnClickListener(this)
+        imgParticipantsMultiLoader.setOnClickListener(this)
+        commentsBackgroundConstraint.setOnClickListener(this)
+        dummyCommentsBackgroundMulti.setOnClickListener(this)
+        tripCalenderBackground.setOnClickListener(this)
+        takePartVisible.setOnClickListener(this)
 
-            organizerInitial.visibility = GONE
-
-            organizerFull.visibility = VISIBLE
-        }
-
-        userIconInFull.setOnClickListener {
-
-            organizerFull.visibility = GONE
-
-            organizerInitial.visibility = VISIBLE
-        }
-
-        dateBackgroundMultiple.setOnClickListener {
-
-            dateBackgroundMultiple.visibility = GONE
-
-            dateDropDownBackgroundMultiple.visibility = VISIBLE
-        }
-
-        imgDateMultiLoader.setOnClickListener {
-
-            dateDropDownBackgroundMultiple.visibility = GONE
-
-            dateBackgroundMultiple.visibility = VISIBLE
-        }
-
-        placeBackgroundMulti.setOnClickListener {
-
-            placeBackgroundMulti.visibility = GONE
-
-            placeDropDownBackgroundMultiple.visibility = VISIBLE
-
-        }
-
-        imgPlaceMultiLoader.setOnClickListener {
-
-            placeDropDownBackgroundMultiple.visibility = GONE
-
-            placeBackgroundMulti.visibility = VISIBLE
-
-        }
-
-        totalCostBackground.setOnClickListener {
+        /*totalCostBackground.setOnClickListener {
 
             totalCostBackground.visibility = GONE
 
@@ -306,39 +283,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
 
         }
 
-        participantsListBackground.setOnClickListener {
-
-            participantsListBackground.visibility = GONE
-
-            participantsListBackgroundMulti.visibility = VISIBLE
-
-        }
-
-        imgParticipantsMultiLoader.setOnClickListener {
-
-            participantsListBackgroundMulti.visibility = GONE
-
-            participantsListBackground.visibility = VISIBLE
-
-        }
-
-        commentsBackgroundConstraint.setOnClickListener {
-
-            commentsBackgroundConstraint.visibility = GONE
-
-            commentsBackgroundMulti.visibility = VISIBLE
-
-        }
-
-        dummyCommentsBackgroundMulti.setOnClickListener {
-
-            commentsBackgroundMulti.visibility = GONE
-
-            commentsBackgroundConstraint.visibility = VISIBLE
-
-        }
-
-        imgHideMap.setOnClickListener {
+         imgHideMap.setOnClickListener {
 
             eventMapbackgroundVisible.visibility = GONE
 
@@ -366,33 +311,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
             activityEverybodyComeVisible.visibility = VISIBLE
         }
 
-        tripCalenderBackground.setOnClickListener {
-
-            tripCalenderBackground.visibility = GONE
-
-            addGuestBackground.visibility = VISIBLE
-
-            takePartVisible.visibility = GONE
-
-            addGuestVisible.visibility = VISIBLE
-
-        }
-
-        takePartVisible.setOnClickListener {
-
-            takePartVisible.visibility = GONE
-
-            addGuestVisible.visibility = VISIBLE
-
-            tripCalenderBackground.visibility = GONE
-
-            addGuestBackground.visibility = VISIBLE
-
-            //eventDetailViewModel.eventAccepted(id.toString(), event_obj)
-        }
-
-
-        /*tripCalenderIcon.setOnClickListener {
+        tripCalenderIcon.setOnClickListener {
 
             val data = Invitation(100, StatusEnum.AC,1000)
 
@@ -403,26 +322,24 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
         tripCalenderIcon.setOnClickListener {
 
             eventDetailViewModel.eventAccepted(id.toString(), event_obj)
-        }*/
+        }
 
-      /*  takePartVisible.setOnClickListener {
+        takePartVisible.setOnClickListener {
 
 
-        }*/
+        }
 
         participateToActivityIcon.setOnClickListener {
 
 
         }
 
-
-        /*descriptionFrameBackground.setOnClickListener {
+        descriptionFrameBackground.setOnClickListener {
 
             totalCostBackground.visibility = GONE
 
             fragmentManager.beginTransaction().add(R.id.descriptionFrameBackground, createEventFullDescriptionFragment).addToBackStack(null).commit()
         }*/
-
         //addFragment()
     }
 
@@ -477,7 +394,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
 
     fun taskInit(tasks : List<Task>){
 
-        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = EventActionListAdapter(tasks,this)
@@ -487,7 +404,7 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
 
     fun activityInit(activity : List<Activity>){
 
-        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.activityRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = EventActivityListAdapter(activity,this)
@@ -526,18 +443,23 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
     }
 
     fun addGuestsDialogShow(){
-
-        val addGuestsView = LayoutInflater.from(this).inflate(R.layout.layout_add_guests,null)
-
+        /*val addGuestsView = LayoutInflater.from(this).inflate(R.layout.layout_add_guests,null)
         val addGuestsBuilder = AlertDialog.Builder(this).setView(addGuestsView)
+        val addGuestsDialog = addGuestsBuilder.show()*/
 
-        val addGuestsDialog = addGuestsBuilder.show()
+        val addGuestsView = Dialog(this/*,android.R.style.Theme_Translucent_NoTitleBar*/)
+        addGuestsView.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        addGuestsView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        addGuestsView.setCancelable(false)
+        addGuestsView.setContentView(R.layout.layout_add_guests)
+        addGuestsView.show()
+
+        addGuestsView.countTextView.text = noOfGuests.text
 
         addGuestsView.textViewCancel.setOnClickListener {
 
-            addGuestsDialog.dismiss()
+            addGuestsView.dismiss()
         }
-
         addGuestsView.add.setOnClickListener {
 
             var count : Int = addGuestsView.countTextView.text.toString().toInt()
@@ -546,7 +468,6 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
 
             addGuestsView.countTextView.text = count.toString()
         }
-
         addGuestsView.substract.setOnClickListener {
 
             var count : Int = addGuestsView.countTextView.text.toString().toInt()
@@ -558,16 +479,149 @@ class EventDetailView : BaseAppCompatActivity()/*, OnClickFunImplementation*/ {
                 addGuestsView.countTextView.text = count.toString()
             }
         }
-
         addGuestsView.textViewOk.setOnClickListener {
 
             noOfGuests.text = addGuestsView.countTextView.text
 
-            addGuestsDialog.dismiss()
+            addGuestsView.dismiss()
 
         }
-
     }
+
+    override fun onClick(v: View?) {
+
+        when (v?.id) {
+
+            R.id.userIcon -> {
+
+                organizerInitial.visibility = GONE
+
+                organizerFull.visibility = VISIBLE
+            }
+
+            R.id.userIconInFull -> {
+
+                organizerFull.visibility = GONE
+
+                organizerInitial.visibility = VISIBLE
+            }
+
+            R.id.dateBackgroundMultiple -> {
+
+                dateBackgroundMultiple.visibility = GONE
+
+                dateDropDownBackgroundMultiple.visibility = VISIBLE
+            }
+
+            R.id.addguestIcon -> {
+
+                addGuestsDialogShow()
+            }
+
+            R.id.addGuestImage -> {
+
+                addGuestsDialogShow()
+            }
+
+            R.id.imgDateMultiLoader ->{
+
+                dateDropDownBackgroundMultiple.visibility = GONE
+
+                dateBackgroundMultiple.visibility = VISIBLE
+            }
+
+            R.id.placeBackgroundMulti -> {
+
+                placeBackgroundMulti.visibility = GONE
+
+                placeDropDownBackgroundMultiple.visibility = VISIBLE
+
+            }
+
+            R.id.imgPlaceMultiLoader -> {
+
+                placeDropDownBackgroundMultiple.visibility = GONE
+
+                placeBackgroundMulti.visibility = VISIBLE
+
+            }
+
+            R.id.participantsListBackground -> {
+
+                participantsListBackground.visibility = GONE
+
+                participantsListBackgroundMulti.visibility = VISIBLE
+
+            }
+
+            R.id.imgParticipantsMultiLoader -> {
+
+                participantsListBackgroundMulti.visibility = GONE
+
+                participantsListBackground.visibility = VISIBLE
+
+            }
+
+            R.id.commentsBackgroundConstraint -> {
+
+                commentsBackgroundConstraint.visibility = GONE
+
+                commentsBackgroundMulti.visibility = VISIBLE
+
+            }
+
+            R.id.dummyCommentsBackgroundMulti -> {
+
+                commentsBackgroundMulti.visibility = GONE
+
+                commentsBackgroundConstraint.visibility = VISIBLE
+
+            }
+
+            R.id.tripCalenderBackground -> {
+
+                tripCalenderBackground.visibility = GONE
+
+                addGuestBackground.visibility = VISIBLE
+
+                takePartVisible.visibility = GONE
+
+                addGuestVisible.visibility = VISIBLE
+
+            }
+
+            R.id.takePartVisible -> {
+
+                takePartVisible.visibility = GONE
+
+                addGuestVisible.visibility = VISIBLE
+
+                tripCalenderBackground.visibility = GONE
+
+                addGuestBackground.visibility = VISIBLE
+
+                //eventDetailViewModel.eventAccepted(id.toString(), event_obj)
+            }
+        }
+    }
+
+    /* private fun showDialog(context : Context) {
+         val dialog = Dialog(context)
+         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+         dialog.setCancelable(false)
+         dialog.setContentView(R.layout.layout_edit_contacts)
+         val edit = dialog.findViewById(R.id.rl_edit_contact_edit) as RelativeLayout
+         val delete = dialog.findViewById(R.id.rl_edit_contact_delete) as RelativeLayout
+         val add_to_contacts = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout
+
+         edit.setOnClickListener {
+             dialog.dismiss()
+         }
+         delete.setOnClickListener { dialog.dismiss() }
+         add_to_contacts.setOnClickListener { dialog.dismiss() }
+         dialog.show()
+
+     }*/
 
 
     /*fun addFragment() {

@@ -131,5 +131,6 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
     }
     interface AddActivityFragmentListener {
         fun AddActivityFragmentFetch(activity :Activity)
+        fun CancelActivityFragmentFetch()
     }
 }

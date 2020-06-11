@@ -268,6 +268,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
+    override fun cancelActionFragmentFetch() {
+
+        (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
+                as? AddActionFragment)?.dismiss()
+    }
+
 
     override fun AddActivityFragmentFetch(activity: Activity) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
@@ -275,6 +281,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addActivityButton.text = "ADD ANOTHER ACTIVITY"
         publicPlanViewModel.activity.add(activity)
         activityRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun CancelActivityFragmentFetch() {
+
+        (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
+                as? AddActivityFragment)?.dismiss()
     }
 
 }
