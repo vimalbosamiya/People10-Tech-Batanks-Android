@@ -1,6 +1,7 @@
 package com.batanks.nextplan.home.fragment.action
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,7 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.assign_people_Button ->{
+                if(TextUtils.isEmpty(selected_assignee))
                 listner.AddSelectedAssignee(selected_assignee)
                 dismiss()
             }

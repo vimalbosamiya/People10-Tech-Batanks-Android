@@ -41,6 +41,8 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
+        dismissKeyboard()
+
         signinViewModel.responseLiveData.observe(this, Observer { response ->
 
             when (response.status) {
@@ -65,7 +67,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
             startActivity(intent)
-            finish()
+            //finish()
         }
 
         val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->

@@ -18,5 +18,9 @@ class Settings : AppCompatActivity() {
             intent = Intent(this, Account :: class.java)
             startActivity(intent)
         })
+        rl_settings_contacts.setOnClickListener(View.OnClickListener {
+            intent = Intent(this, Contact :: class.java)
+            startActivity(intent)
+        })
     }
 }
