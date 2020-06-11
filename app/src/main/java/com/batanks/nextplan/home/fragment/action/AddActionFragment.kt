@@ -27,6 +27,7 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
 
         assignParticipantButton.setOnClickListener(this)
         ok.setOnClickListener(this)
+        add_action_cancel.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -50,10 +51,16 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
                     }
                 hideLoader()
             }
+
+            R.id.add_action_cancel -> {
+
+                listner.cancelActionFragmentFetch()
+            }
         }
     }
     interface AddActionFragmentListener {
         fun AddActionFragmentFetch(task :Task)
+        fun cancelActionFragmentFetch()
     }
     override fun AddSelectedAssignee ( test : String) {
         val test1 = test

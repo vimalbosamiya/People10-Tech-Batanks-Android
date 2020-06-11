@@ -490,7 +490,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16.98dp"
                 android:layout_marginTop="54dp"
-                android:text="9999"
+                android:text="0"
                 android:textColor="#90CAF9"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/peopleOutline"
@@ -832,6 +832,7 @@
                         android:id="@+id/dateDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginEnd="22dp"
                         android:layout_marginTop="24.58dp"
                         android:background="@drawable/ic_event_details_expand_more"
@@ -1311,6 +1312,7 @@
                         android:id="@+id/dateThumbsUpDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/ic_event_details_thumbs_up_down"
@@ -1681,6 +1683,7 @@
                         android:id="@+id/placeDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginEnd="22dp"
                         android:layout_marginTop="24.58dp"
                         android:background="@drawable/ic_event_details_expand_more"
@@ -2483,7 +2486,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder"/>-->
-            <TextView
+            <!--<TextView
                 android:id="@+id/textViewAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -2493,7 +2496,7 @@
                 android:textColor="#DEFFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder" />
+                app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder" />-->
 
             <!--<ImageView
                 android:id="@+id/actionSettingsIcon"
@@ -2505,7 +2508,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder" />-->
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/actionDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -2513,17 +2516,39 @@
                 android:background="@drawable/ic_event_details_date_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewAction" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewAction" />-->
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/actionConstraintViewHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/actionDivider">
+                app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder">
+
+               <!-- <TextView
+                    android:id="@+id/textViewAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="43dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Action"
+                    android:textColor="#DEFFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/actionConstraintViewHolder" />
+
+                <ImageView
+                    android:id="@+id/actionDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_event_details_date_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewAction" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/totalCostBackground"
@@ -2533,7 +2558,7 @@
                     android:background="@drawable/ic_event_details_total_cost_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/actionConstraintViewHolder">
+                    app:layout_constraintTop_toBottomOf="@+id/actionDivider">
 
                     <ImageView
                         android:id="@+id/rowingIcon"
@@ -2680,7 +2705,7 @@
                         android:background="@drawable/ic_event_details_participant_background"
                         app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
                         app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>
-                    <!--<ImageView
+                    &lt;!&ndash;<ImageView
                         android:id="@+id/totalCostDivider"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -2688,7 +2713,7 @@
                         android:background="@drawable/ic_event_details_divider_total_cost"
                         app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
                         app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
-                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />-->
+                        app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />&ndash;&gt;
 
                     <ImageView
                         android:id="@+id/dollarIconMulti"
@@ -2726,7 +2751,46 @@
                         app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
                         app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/actionRecyclerViewAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="550dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/actionConstraintViewHolder" />
+
+                <ImageView
+                    android:id="@+id/addActionBackgroundImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_background_image"
+                    android:layout_marginTop="23dp"
+                    app:layout_constraintStart_toStartOf="@+id/actionConstraintViewHolder"
+                    app:layout_constraintEnd_toEndOf="@+id/actionConstraintViewHolder"
+                    app:layout_constraintTop_toBottomOf="@+id/actionRecyclerViewAdmin"
+                    app:layout_constraintBottom_toBottomOf="@+id/actionConstraintViewHolder"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintStart_toStartOf="@+id/addActionBackgroundImg"
+                    app:layout_constraintTop_toTopOf="@+id/addActionBackgroundImg"
+                    app:layout_constraintBottom_toBottomOf="@+id/addActionBackgroundImg"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD AN ACTION"
+                    android:textSize="16sp"
+                    android:textColor="#DEFFFFFF"
+                    android:layout_marginStart="70dp"
+                    app:layout_constraintStart_toStartOf="@+id/addActionBackgroundImg"
+                    app:layout_constraintTop_toTopOf="@+id/addActionBackgroundImg"
+                    app:layout_constraintBottom_toBottomOf="@+id/addActionBackgroundImg"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -2739,7 +2803,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionFrameBackground"/>-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textViewActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -2749,7 +2813,7 @@
                 android:textColor="#DEFFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/actionConstraintViewHolder" />
+                app:layout_constraintTop_toBottomOf="@+id/actionConstraintViewHolder" />-->
 
            <!-- <ImageView
                 android:id="@+id/activitySettingsIcon"
@@ -2761,7 +2825,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/actionConstraintViewHolder" />-->
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/activityDivider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -2769,7 +2833,7 @@
                 android:background="@drawable/ic_event_details_date_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivity" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivity" />-->
 
 
 
@@ -2777,12 +2841,12 @@
                 android:id="@+id/activityConstraintViewHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activityDivider">
+                app:layout_constraintTop_toBottomOf="@+id/actionConstraintViewHolder">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!--<androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/eventInfoBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -3019,7 +3083,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/eventMapbackgroundVisible"
                                 app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible"/>
 
-                            <!--<com.google.android.gms.maps.MapView
+                            &lt;!&ndash;<com.google.android.gms.maps.MapView
                                 android:id="@+id/map"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -3027,7 +3091,7 @@
                                 android:layout_marginStart="11dp"
                                 android:background="@drawable/ic_event_details_map"
                                 app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-                                app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>-->
+                                app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>&ndash;&gt;
 
                             <com.google.android.gms.maps.MapView
                                 android:id="@+id/eventInfoMapView"
@@ -3071,7 +3135,7 @@
                                 app:layout_constraintEnd_toEndOf="@+id/eventMapbackgroundHide"
                                 app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundHide"/>
 
-                            <!--<com.google.android.gms.maps.MapView
+                            &lt;!&ndash;<com.google.android.gms.maps.MapView
                                 android:id="@+id/map"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -3079,7 +3143,7 @@
                                 android:layout_marginStart="11dp"
                                 android:background="@drawable/ic_event_details_map"
                                 app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-                                app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>-->
+                                app:layout_constraintTop_toBottomOf="@+id/hideMapImg"/>&ndash;&gt;
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -3242,14 +3306,14 @@
                                 app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
                                 app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
 
-                            <!--<androidx.recyclerview.widget.RecyclerView
+                            &lt;!&ndash;<androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/activityParticipantsListAdmin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginTop="30dp"
                                 app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                                app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />-->
+                                app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />&ndash;&gt;
 
                             <ImageView
                                 android:id="@+id/contactBackground"
@@ -3447,7 +3511,7 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- <ImageView
+                    &lt;!&ndash; <ImageView
                        android:id="@+id/contactBackground"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
@@ -3560,7 +3624,7 @@
                        android:layout_height="wrap_content"
                        android:background="@drawable/ic_event_details_settings"
                        app:layout_constraintEnd_toEndOf="@+id/contactDeclined"
-                       app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>-->
+                       app:layout_constraintTop_toTopOf="@+id/contactDeclined"/>&ndash;&gt;
 
                     <ImageView
                         android:id="@+id/eventInfoDivider3"
@@ -3618,7 +3682,48 @@
                         app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon"
                         app:layout_constraintBottom_toBottomOf="@+id/eventInfobackgroundMulti"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activityRecyclerViewAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="640dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/activityConstraintViewHolder" />
+
+                <ImageView
+                    android:id="@+id/addActivityBackgroundImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_background_image"
+                    android:layout_marginTop="23dp"
+                    app:layout_constraintStart_toStartOf="@+id/activityConstraintViewHolder"
+                    app:layout_constraintEnd_toEndOf="@+id/activityConstraintViewHolder"
+                    app:layout_constraintTop_toBottomOf="@+id/activityRecyclerViewAdmin"
+                    app:layout_constraintBottom_toBottomOf="@+id/activityConstraintViewHolder"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintStart_toStartOf="@+id/addActivityBackgroundImg"
+                    app:layout_constraintTop_toTopOf="@+id/addActivityBackgroundImg"
+                    app:layout_constraintBottom_toBottomOf="@+id/addActivityBackgroundImg"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD AN ACTIVITY"
+                    android:textSize="16sp"
+                    android:textColor="#DEFFFFFF"
+                    android:layout_marginStart="65dp"
+                    app:layout_constraintStart_toStartOf="@+id/addActivityBackgroundImg"
+                    app:layout_constraintTop_toTopOf="@+id/addActivityBackgroundImg"
+                    app:layout_constraintBottom_toBottomOf="@+id/addActivityBackgroundImg"/>
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -3741,6 +3846,7 @@
                         android:id="@+id/totalParticipantsDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginTop="24.58dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_more"
@@ -3828,6 +3934,7 @@
                         android:id="@+id/totalParticipantsDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginTop="24.58dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_less"
@@ -4247,6 +4354,7 @@
                         android:id="@+id/totalCommentsDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginTop="24.58dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_more"
@@ -4311,6 +4419,7 @@
                         android:id="@+id/totalCommentsDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="5dp"
                         android:layout_marginTop="24.58dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/ic_event_details_expand_less"
