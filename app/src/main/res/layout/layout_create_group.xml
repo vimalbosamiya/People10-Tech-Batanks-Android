@@ -73,6 +73,7 @@
         android:paddingBottom="24dp"
         android:text="OK"
         android:textColor="@color/colorWhite"
+        android:alpha="0.6"
         android:layout_alignParentRight="true"
         android:textAppearance="?android:textAppearanceMedium"
         android:layout_below="@id/view_seperator_tip_create_group_gname" />

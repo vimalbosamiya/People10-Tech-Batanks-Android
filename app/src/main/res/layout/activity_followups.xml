@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1D2125"
+    tools:context=".Settings.Followups">
+
+    <RelativeLayout
+        android:id="@+id/rl_followups_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#1D2125"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:id="@+id/img_followups_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/txt_followups_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Follow ups"
+            android:layout_toRightOf="@id/img_followups_close"
+            android:padding="10dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <View
+        android:id="@+id/view_seperator_followups_header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_followups_header"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_settings_followups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_seperator_followups_header"
+        />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFab_followup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="48dp"
+        android:text="CREATE FOLLOW UP"
+        app:backgroundTint="#34CBFE"
+        android:background="#1D2125"
+        app:icon="@drawable/ic_followup_black"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
