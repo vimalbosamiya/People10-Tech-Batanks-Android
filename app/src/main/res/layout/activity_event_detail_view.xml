@@ -753,7 +753,7 @@
             android:id="@+id/dateBackgroundMultiple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@drawable/ic_new_vote_for_date_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -1247,7 +1247,7 @@
             android:id="@+id/dateDropDownBackgroundMultiple"
             android:layout_width="328dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@drawable/ic_event_details_vote_for_date_multi_list_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -2402,7 +2402,7 @@
       <androidx.constraintlayout.widget.ConstraintLayout
           android:id="@+id/actionConstraintHolder"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="380dp"
           android:layout_marginTop="16dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
@@ -2611,13 +2611,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_event_details_vote_for_date_multi_list_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/actionConstraintHolder"/>
+            app:layout_constraintTop_toTopOf="@+id/actionConstraintHolder"/>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/actionRecyclerView"
@@ -2625,7 +2625,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/temp" />
+            app:layout_constraintTop_toTopOf="@+id/actionConstraintHolder" />
 
 
       </androidx.constraintlayout.widget.ConstraintLayout>
@@ -3865,7 +3865,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24.58dp"
                 android:layout_marginEnd="22dp"
-                android:background="@drawable/ic_event_details_expand_more"
+                android:background="@drawable/ic_event_details_expand_less"
                 app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
                 app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
 

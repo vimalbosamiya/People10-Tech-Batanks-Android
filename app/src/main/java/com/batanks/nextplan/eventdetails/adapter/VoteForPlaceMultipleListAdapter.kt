@@ -35,7 +35,7 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
             //eventDetailViewModel.placeVoteClicked()
         }
 
-        view.seeOnMapLayout.setOnClickListener {
+        view.seeOnMapIcon.setOnClickListener {
 
             //Toast.makeText(context,"Constraint Layout Clicked",Toast.LENGTH_SHORT).show()
 
@@ -44,7 +44,7 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
             view.hideMapLayout.visibility = View.VISIBLE
         }
 
-        view.seeOnMapLoader.setOnClickListener {
+        view.hideMapIcon.setOnClickListener {
 
             view.hideMapLayout.visibility = View.GONE
 

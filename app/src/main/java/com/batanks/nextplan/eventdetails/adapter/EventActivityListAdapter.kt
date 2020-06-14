@@ -20,14 +20,14 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_activity_display, parent, false)
 
-        view.eventInfoBackground.setOnClickListener {
+        view.personCostDropDown.setOnClickListener {
 
             view.eventInfoBackground.visibility = View.GONE
 
             view.eventInfobackgroundMulti.visibility = View.VISIBLE
         }
 
-        view.imgInfoMultiLoader.setOnClickListener {
+        view.personCostDropDownMulti.setOnClickListener {
 
             view.eventInfobackgroundMulti.visibility = View.GONE
 
@@ -35,28 +35,28 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
 
         }
 
-        view.imgHideMap.setOnClickListener {
+        view.hideMapIcon.setOnClickListener {
 
             view.eventMapbackgroundVisible.visibility = View.GONE
 
             view.eventMapbackgroundHide.visibility = View.VISIBLE
         }
 
-        view.eventMapbackgroundHide.setOnClickListener {
+        view.hideMapIconHide.setOnClickListener {
 
             view.eventMapbackgroundHide.visibility = View.GONE
 
             view.eventMapbackgroundVisible.visibility = View.VISIBLE
         }
 
-        view.everybodyComeHider.setOnClickListener {
+        view.hideEverybodyCome.setOnClickListener {
 
             view.activityEverybodyComeVisible.visibility = View.GONE
 
             view.activityEverybodyComeHide.visibility = View.VISIBLE
         }
 
-        view.activityEverybodyComeHide.setOnClickListener {
+        view.hideEverybodyComeHide.setOnClickListener {
 
             view.activityEverybodyComeHide.visibility = View.GONE
 

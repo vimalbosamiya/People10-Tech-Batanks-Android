@@ -130,12 +130,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
         })
 
         var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
-        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)))
-//                (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
-//                (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
-//                (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
-//                (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
-//                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
+        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
+                (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
+                (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
+                (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
+                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
 
         var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
 
@@ -144,11 +144,11 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                                                 (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
                                                 (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)))
 
-        var tasks : List<Task> = listOf(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
-                /*Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
+        var tasks : List<Task> = listOf(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
+                Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
                 Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
                 Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1),
-                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
+                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
 
         var activities : List<Activity> = listOf(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote),
                 Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote),
@@ -240,14 +240,14 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
         addGuestImage.setOnClickListener(this)
         userIcon.setOnClickListener(this)
         userIconInFull.setOnClickListener (this)
-        dateBackgroundMultiple.setOnClickListener(this)
-        imgDateMultiLoader.setOnClickListener(this)
-        placeBackgroundMulti.setOnClickListener(this)
-        imgPlaceMultiLoader.setOnClickListener(this)
-        participantsListBackground.setOnClickListener(this)
-        imgParticipantsMultiLoader.setOnClickListener(this)
-        commentsBackgroundConstraint.setOnClickListener(this)
-        dummyCommentsBackgroundMulti.setOnClickListener(this)
+        dateDropDown.setOnClickListener(this)
+        dateDropDownMulti.setOnClickListener(this)
+        placeDropDown.setOnClickListener(this)
+        placeDropDownMulti.setOnClickListener(this)
+        totalParticipantsDropDown.setOnClickListener(this)
+        totalParticipantsDropDownMulti.setOnClickListener(this)
+        totalCommentsDropDown.setOnClickListener(this)
+        totalCommentsDropDownMulti.setOnClickListener(this)
         tripCalenderBackground.setOnClickListener(this)
         takePartVisible.setOnClickListener(this)
 
@@ -506,7 +506,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                 organizerInitial.visibility = VISIBLE
             }
 
-            R.id.dateBackgroundMultiple -> {
+            R.id.dateDropDown -> {
 
                 dateBackgroundMultiple.visibility = GONE
 
@@ -523,14 +523,14 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                 addGuestsDialogShow()
             }
 
-            R.id.imgDateMultiLoader ->{
+            R.id.dateDropDownMulti ->{
 
                 dateDropDownBackgroundMultiple.visibility = GONE
 
                 dateBackgroundMultiple.visibility = VISIBLE
             }
 
-            R.id.placeBackgroundMulti -> {
+            R.id.placeDropDown -> {
 
                 placeBackgroundMulti.visibility = GONE
 
@@ -538,7 +538,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
             }
 
-            R.id.imgPlaceMultiLoader -> {
+            R.id.placeDropDownMulti -> {
 
                 placeDropDownBackgroundMultiple.visibility = GONE
 
@@ -546,7 +546,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
             }
 
-            R.id.participantsListBackground -> {
+            R.id.totalParticipantsDropDown -> {
 
                 participantsListBackground.visibility = GONE
 
@@ -554,7 +554,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
             }
 
-            R.id.imgParticipantsMultiLoader -> {
+            R.id.totalParticipantsDropDownMulti -> {
 
                 participantsListBackgroundMulti.visibility = GONE
 
@@ -562,7 +562,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
             }
 
-            R.id.commentsBackgroundConstraint -> {
+            R.id.totalCommentsDropDown -> {
 
                 commentsBackgroundConstraint.visibility = GONE
 
@@ -570,7 +570,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
             }
 
-            R.id.dummyCommentsBackgroundMulti -> {
+            R.id.totalCommentsDropDownMulti -> {
 
                 commentsBackgroundMulti.visibility = GONE
 
