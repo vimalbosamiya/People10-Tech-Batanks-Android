@@ -70,7 +70,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
 
     fun activityAccepted(){
 
-       /* disposables.add(eventApi.apiEventUpdate(id, data)
+        /*disposables.add(eventApi.apiEventUpdate(id, data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {

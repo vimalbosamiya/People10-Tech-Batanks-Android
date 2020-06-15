@@ -79,7 +79,7 @@ class EventActivityListAdapterAdmin (val activityList : List<Activity>, val cont
 
         holder.activityIdTextView.text = activity.id.toString()
         holder.textViewActivityName.text = activity.title
-        holder.textViewActivityCost.text = activity.price
+        //holder.textViewActivityCost.text = activity.price
         holder.activityNameTextView.text = activity.title
         holder.textViewActivityStartDate.text = activity.date
         holder.textViewActivityTime.text = activity.duration.toString()
