@@ -8,10 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Task
-import kotlinx.android.synthetic.main.layout_action_display.view.textViewEventName
-import kotlinx.android.synthetic.main.layout_action_display.view.textViewTotalAmount
-import kotlinx.android.synthetic.main.layout_action_display.view.totalCostBackground
-import kotlinx.android.synthetic.main.layout_action_display.view.totalCostBackgroundFull
 import kotlinx.android.synthetic.main.layout_action_display_admin.view.*
 
 class EventActionListAdapterAdmin (val actionList : List<Task>, val context: Context): RecyclerView.Adapter<EventActionListAdapterAdmin.ViewHolder>() {
@@ -49,6 +45,7 @@ class EventActionListAdapterAdmin (val actionList : List<Task>, val context: Con
 
         holder.textViewEventName.text = action.name
         holder.textViewEventNameMulti.text = action.name
+        holder.actionIdTextView.text = action.id.toString()
         holder.textViewTotalAmount.text = action.price_currency
         holder.textViewTotalAmountMulti.text = action.price_currency
         holder.textViewEventDescription.text = action.description
@@ -58,6 +55,7 @@ class EventActionListAdapterAdmin (val actionList : List<Task>, val context: Con
 
         val textViewEventName : TextView = itemView.textViewEventName
         val textViewEventNameMulti : TextView = itemView.textViewEventNameMulti
+        val actionIdTextView : TextView = itemView.actionIdTextView
         val textViewTotalAmount : TextView = itemView.textViewTotalAmount
         val textViewTotalAmountMulti : TextView = itemView.textViewTotalAmountMulti
         val textViewEventDescription : TextView = itemView.textViewEventDescription

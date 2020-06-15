@@ -97,17 +97,17 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
         places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
         places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
 
-        /*tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
-        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
-        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
-        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))
-        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
+        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        /*tasks.add(Task(5,"1000","Task 5","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
         //places.add(place) as EventPlace
 
-        /*activities.add(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote))
+        activities.add(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote))
         activities.add(Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote))
         activities.add(Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote))
-        activities.add(Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))*/
+        activities.add(Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
 
 
         dateInitAdmin(dates)
