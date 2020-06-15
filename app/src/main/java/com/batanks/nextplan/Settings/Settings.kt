@@ -22,5 +22,9 @@ class Settings : AppCompatActivity() {
             intent = Intent(this, Contact :: class.java)
             startActivity(intent)
         })
+        rl_settings_followup.setOnClickListener(View.OnClickListener {
+            intent = Intent(this, Followups :: class.java)
+            startActivity(intent)
+        })
     }
 }
