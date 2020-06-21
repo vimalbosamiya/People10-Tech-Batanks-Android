@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1D2125"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/txt_settings_contacts_contacts_alphabetical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_settings_contacts_contacts_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="31dp"
+        android:src="@drawable/ic_filter_icon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_seperator_settings_contactlist"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_settings_contacts_contacts_alphabetical"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/addcontactSearchTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="Search for..."
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="#34CBFE"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="Enter a name or category of plans"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_seperator_settings_contactlist">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@color/colorWhite" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/eventsHolderConst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/ic_search_event_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField">
+
+        <TextView
+            android:id="@+id/textViewNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:text="News"
+            android:textColor="#DEFFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24.02dp"
+            android:layout_marginEnd="24.58dp"
+            android:src="@drawable/ic_event_details_expand_less"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
+
+        <View
+            android:id="@+id/view_seperator_events"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNews"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/publicEventRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_seperator_events"/>
+
+        <ImageView
+            android:id="@+id/timeLineHightLight"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="27dp"
+            android:src="@drawable/ic_highlight_home_screen_timeline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textViewNews"
+            app:layout_constraintTop_toBottomOf="@+id/view_seperator_events" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

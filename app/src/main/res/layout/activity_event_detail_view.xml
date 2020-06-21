@@ -785,9 +785,10 @@
               android:id="@+id/dateDropDown"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="22dp"
-              android:layout_marginTop="24.58dp"
-              android:background="@drawable/ic_event_details_expand_more"
+              android:padding="20dp"
+              android:layout_marginEnd="2dp"
+              android:layout_marginTop="4.58dp"
+              android:src="@drawable/ic_event_details_expand_more"
               app:layout_constraintEnd_toEndOf="@+id/dateBackgroundMultiple"
               app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
 
@@ -1286,9 +1287,10 @@
               android:id="@+id/dateDropDownMulti"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="22dp"
-              android:layout_marginTop="24.58dp"
-              android:background="@drawable/ic_event_details_expand_less"
+              android:padding="20dp"
+              android:layout_marginEnd="2dp"
+              android:layout_marginTop="4.58dp"
+              android:src="@drawable/ic_event_details_expand_less"
               app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"
               app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
 
@@ -1622,9 +1624,10 @@
               android:id="@+id/placeDropDown"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="22dp"
-              android:layout_marginTop="24.58dp"
-              android:background="@drawable/ic_event_details_expand_more"
+              android:padding="20dp"
+              android:layout_marginEnd="2dp"
+              android:layout_marginTop="4.58dp"
+              android:src="@drawable/ic_event_details_expand_more"
               app:layout_constraintEnd_toEndOf="@+id/placeBackgroundMulti"
               app:layout_constraintTop_toTopOf="@+id/placeBackgroundMulti" />
 
@@ -2202,7 +2205,7 @@
               android:layout_height="wrap_content"
               android:layout_marginStart="16dp"
               android:layout_marginTop="16dp"
-              android:background="@drawable/ic_event_details_thumbs_up_down"
+              android:src="@drawable/ic_event_details_thumbs_up_down"
               app:layout_constraintStart_toStartOf="@+id/placeDropDownBackgroundMultiple"
               app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple" />
 
@@ -2222,8 +2225,9 @@
               android:id="@+id/placeDropDownMulti"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginEnd="22dp"
-              android:layout_marginTop="24.58dp"
+              android:padding="20dp"
+              android:layout_marginEnd="2dp"
+              android:layout_marginTop="4.58dp"
               android:background="@drawable/ic_event_details_expand_less"
               app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"
               app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple" />
@@ -2402,8 +2406,9 @@
       <androidx.constraintlayout.widget.ConstraintLayout
           android:id="@+id/actionConstraintHolder"
           android:layout_width="wrap_content"
-          android:layout_height="380dp"
+          android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
+          android:maxHeight="500dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/placeConstraintViewHolder">
@@ -3470,9 +3475,10 @@
               android:id="@+id/totalParticipantsDropDown"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="24.58dp"
-              android:layout_marginEnd="22dp"
-              android:background="@drawable/ic_event_details_expand_more"
+              android:padding="20dp"
+              android:layout_marginTop="4.58dp"
+              android:layout_marginEnd="2dp"
+              android:src="@drawable/ic_event_details_expand_more"
               app:layout_constraintEnd_toEndOf="@+id/participantsListBackground"
               app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
@@ -3557,9 +3563,10 @@
               android:id="@+id/totalParticipantsDropDownMulti"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginTop="24.58dp"
-              android:layout_marginEnd="22dp"
-              android:background="@drawable/ic_event_details_expand_less"
+              android:padding="20dp"
+              android:layout_marginTop="4.58dp"
+              android:layout_marginEnd="2dp"
+              android:src="@drawable/ic_event_details_expand_less"
               app:layout_constraintEnd_toEndOf="@+id/participantsListBackgroundMulti"
               app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
 
@@ -3799,9 +3806,10 @@
                 android:id="@+id/totalCommentsDropDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24.58dp"
-                android:layout_marginEnd="22dp"
-                android:background="@drawable/ic_event_details_expand_more"
+                android:padding="20dp"
+                android:layout_marginTop="4.58dp"
+                android:layout_marginEnd="2dp"
+                android:src="@drawable/ic_event_details_expand_more"
                 app:layout_constraintEnd_toEndOf="@+id/commentsBackground"
                 app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
 
@@ -3863,9 +3871,10 @@
                 android:id="@+id/totalCommentsDropDownMulti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24.58dp"
-                android:layout_marginEnd="22dp"
-                android:background="@drawable/ic_event_details_expand_less"
+                android:padding="20dp"
+                android:layout_marginTop="4.58dp"
+                android:layout_marginEnd="2dp"
+                android:src="@drawable/ic_event_details_expand_less"
                 app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
                 app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
 

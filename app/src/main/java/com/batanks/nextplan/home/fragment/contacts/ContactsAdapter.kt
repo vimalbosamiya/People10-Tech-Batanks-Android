@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_event_name.view.*
 class ContactsAdapter (private val myList: List<ContactsModel>) : RecyclerView.Adapter<ContactsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
         return MyViewHolder(view)
     }

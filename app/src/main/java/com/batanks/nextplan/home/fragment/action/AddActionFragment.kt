@@ -32,6 +32,7 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
 
     override fun onClick(view: View?) {
         when (view?.id) {
+
             R.id.assignParticipantButton -> {
                 requireActivity().supportFragmentManager
                         .beginTransaction()
