@@ -490,7 +490,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16.98dp"
                 android:layout_marginTop="54dp"
-                android:text="0"
+                android:text="9999"
                 android:textColor="#90CAF9"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/peopleOutline"
@@ -500,12 +500,11 @@
                 android:id="@+id/participantsImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="167dp"
                 android:layout_marginTop="59.02dp"
                 android:layout_marginEnd="17dp"
                 android:background="@drawable/ic_event_details_participants_image"
-                app:layout_constraintEnd_toStartOf="@+id/noOfParticipants"
-                app:layout_constraintStart_toEndOf="@+id/noOfGuests"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
 
             <TextView
@@ -549,9 +548,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="59.02dp"
-                android:layout_marginEnd="14dp"
+               android:layout_marginEnd="98dp"
                 android:background="@drawable/ic_declined_participant"
-                app:layout_constraintEnd_toStartOf="@+id/declinedGuests"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
 
             <TextView
@@ -832,10 +831,10 @@
                         android:id="@+id/dateDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginTop="24.58dp"
-                        android:background="@drawable/ic_event_details_expand_more"
+                        android:padding="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="4.58dp"
+                        android:src="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/dateBackgroundMultiple"
                         app:layout_constraintTop_toTopOf="@+id/dateBackgroundMultiple" />
 
@@ -1335,9 +1334,10 @@
                         android:id="@+id/dateDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginTop="24.58dp"
-                        android:background="@drawable/ic_event_details_expand_less"
+                        android:padding="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="4.58dp"
+                        android:src="@drawable/ic_event_details_expand_less"
                         app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"
                         app:layout_constraintTop_toTopOf="@+id/dateDropDownBackgroundMultiple" />
 
@@ -1683,10 +1683,10 @@
                         android:id="@+id/placeDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginTop="24.58dp"
-                        android:background="@drawable/ic_event_details_expand_more"
+                        android:padding="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="4.58dp"
+                        android:src="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/placeBackgroundMulti"
                         app:layout_constraintTop_toTopOf="@+id/placeBackgroundMulti" />
 
@@ -2298,9 +2298,10 @@
                         android:id="@+id/placeDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginTop="24.58dp"
-                        android:background="@drawable/ic_event_details_expand_less"
+                        android:padding="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="4.58dp"
+                        android:src="@drawable/ic_event_details_expand_less"
                         app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"
                         app:layout_constraintTop_toTopOf="@+id/placeDropDownBackgroundMultiple" />
 
@@ -3776,7 +3777,7 @@
                     android:id="@+id/participantsListBackground"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/ic_event_details_participants_list_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -3846,10 +3847,10 @@
                         android:id="@+id/totalParticipantsDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginTop="24.58dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/ic_event_details_expand_more"
+                        android:padding="20dp"
+                        android:layout_marginTop="4.58dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/participantsListBackground"
                         app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
 
@@ -3859,7 +3860,7 @@
                     android:id="@+id/participantsListBackgroundMulti"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:background="@drawable/ic_event_details_participants_multi_list_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -3934,10 +3935,10 @@
                         android:id="@+id/totalParticipantsDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginTop="24.58dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/ic_event_details_expand_less"
+                        android:padding="20dp"
+                        android:layout_marginTop="4.58dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_event_details_expand_less"
                         app:layout_constraintEnd_toEndOf="@+id/participantsListBackgroundMulti"
                         app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
 
@@ -4092,7 +4093,7 @@
                         app:layout_constraintStart_toStartOf="@+id/eventinfobackground"
                         app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>-->
 
-                    <ImageView
+                    <!--<ImageView
                         android:id="@+id/contactBackgroundTemp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -4235,7 +4236,16 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/ic_temp_contact"
                         app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>-->
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/addPeopleRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"/>
 
                     <ImageView
                         android:id="@+id/addPeople"
@@ -4243,10 +4253,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:layout_marginStart="72dp"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginBottom="8dp"
                         android:background="@drawable/ic_event_details_add_people_icon"
                         app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/tempimg3"
+                        app:layout_constraintTop_toBottomOf="@+id/addPeopleRecyclerView"
                         app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -4302,7 +4312,7 @@
                     android:id="@+id/commentsBackgroundConstraint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/commentBackgroundHolder">
@@ -4354,10 +4364,10 @@
                         android:id="@+id/totalCommentsDropDown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginTop="24.58dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/ic_event_details_expand_more"
+                        android:padding="20dp"
+                        android:layout_marginTop="4.58dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_event_details_expand_more"
                         app:layout_constraintEnd_toEndOf="@+id/commentsBackground"
                         app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
 
@@ -4367,7 +4377,7 @@
                     android:id="@+id/commentsBackgroundMulti"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:background="@drawable/ic_comments_multi_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -4419,21 +4429,23 @@
                         android:id="@+id/totalCommentsDropDownMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginTop="24.58dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/ic_event_details_expand_less"
+                        android:padding="20dp"
+                        android:layout_marginTop="4.58dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_event_details_expand_less"
                         app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
                         app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
 
-                    <!--<androidx.recyclerview.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/commentsListRecyclerViewAdmin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti" />-->
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti" />
+
+                    <!--
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/commentBackgroundConsLayout"
@@ -4578,6 +4590,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/commentDateTime1" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+-->
 
                     <ImageView
                         android:id="@+id/addCommentsImg"
@@ -4588,7 +4601,7 @@
                         android:layout_marginBottom="24dp"
                         app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
                         app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
-                        app:layout_constraintTop_toBottomOf="@+id/commentBackgroundConsLayout1"
+                        app:layout_constraintTop_toBottomOf="@+id/commentsListRecyclerViewAdmin"
                         app:layout_constraintBottom_toBottomOf="@+id/commentsBackgroundMulti"/>
 
 
