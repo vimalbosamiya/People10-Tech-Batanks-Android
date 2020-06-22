@@ -23,6 +23,7 @@ import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.eventdetailsadmin.adapter.*
 import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
+import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
 import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
@@ -30,6 +31,7 @@ import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.Publi
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
+import com.google.android.gms.common.util.Strings
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -42,14 +44,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnClickListener,
+class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddCommentImplementation,View.OnClickListener,
         VoteForDateMultipleListAdapterAdmin.AddPeriodRecyclerViewCallBack,
         VoteForPlaceMultipleListAdapterAdmin.AddPlaceRecyclerViewCallBack,
         AddPlaceFragment.AddPlaceFragmentListener,
         AddActionFragment.AddActionFragmentListener,
         EventActionListAdapterAdmin.AddActionRecyclerViewCallBack,
         AddActivityFragment.AddActivityFragmentListener,
-        EventActivityListAdapterAdmin.AddActivityRecyclerViewCallBack{
+        EventActivityListAdapterAdmin.AddActivityRecyclerViewCallBack,
+        EveryBodyComeListAdapterAdmin.AddPeopleRecyclerViewCallBack,
+        AddCommentsFragment.AddCommentsFragmentListener,
+        CommentsListAdapterAdmin.AddCommentsRecyclerViewCallBack{
 
     private val eventDetailViewModelAdmin: EventDetailViewModelAdmin by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -67,11 +72,22 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
     var places = ArrayList<EventPlace>()
     var tasks = ArrayList<Task>()
     var activities = ArrayList<Activity>()
+    var contacts = ArrayList<String>()
+    var comments = ArrayList<Comment>()
+
+    lateinit var addPeopleRecyclerView: RecyclerView
+    lateinit var commentsListRecyclerViewAdmin :RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view_admin)
+
+        addPeopleRecyclerView = findViewById(R.id.addPeopleRecyclerView)
+        addPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        commentsListRecyclerViewAdmin = findViewById(R.id.commentsListRecyclerViewAdmin)
+        commentsListRecyclerViewAdmin.layoutManager = LinearLayoutManager(this)
 
         var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
         //var dates = ArrayList<EventDate>()
@@ -90,7 +106,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
                 (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))*/
 
         val place : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
-        val place1 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
+        val place1 : Place = Place("Nellore","Nellore","524305","Nellore","India",true,27.2038,77.5011)
         val place2 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
 
         places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
@@ -109,11 +125,19 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
         activities.add(Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote))
         activities.add(Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
 
+        contacts.add("contact 1"); contacts.add("Contact 2"); contacts.add("Contact 3"); contacts.add("New Contact 4"); contacts.add("New Test Contact 5"); contacts.add("Contact 6");
+
+        comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the second comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the third comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))
 
         dateInitAdmin(dates)
         placeInitAdmin(places)
         taskInitAdmin(tasks)
         activityInitAdmin(activities)
+        peopleInitAdmin(contacts)
+        commentsInitAdmin(comments)
 
 
         /*eventInfoMapView.apply {
@@ -148,6 +172,8 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
         addPlaceImg.setOnClickListener(this)
         addActionBackgroundImg.setOnClickListener(this)
         addActivityBackgroundImg.setOnClickListener(this)
+        addPeople.setOnClickListener(this)
+        addCommentsImg.setOnClickListener(this)
 
         //dateBackgroundMultiple.setOnClickListener(this)
 
@@ -351,6 +377,21 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
 
     }
 
+    fun peopleInitAdmin(contacts : ArrayList<String>){
+
+        val adapter = EveryBodyComeListAdapterAdmin(contacts,this,eventDetailViewModelAdmin,this)
+        addPeopleRecyclerView.adapter = adapter
+
+    }
+
+    fun commentsInitAdmin(comments : ArrayList<Comment>){
+
+        val adapter = CommentsListAdapterAdmin(comments, this, this)
+        commentsListRecyclerViewAdmin.adapter = adapter
+    }
+
+
+
 
     override fun addPeriodClicked() {
 
@@ -442,7 +483,25 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
     }
 
     override fun addPeopleClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        this.supportFragmentManager
+                .beginTransaction()
+                .add(AddContactsFragment(), AddContactsFragment::class.java.canonicalName)
+                .commitAllowingStateLoss()
+
+        addPeopleRecyclerView.adapter?.notifyDataSetChanged()
+
+    }
+
+    override fun addCommentClicked(){
+
+        this.supportFragmentManager
+                .beginTransaction()
+                .add(AddCommentsFragment(this), AddCommentsFragment::class.java.canonicalName)
+                .commitAllowingStateLoss()
+
+        commentsListRecyclerViewAdmin.adapter?.notifyDataSetChanged()
+
     }
 
 
@@ -483,6 +542,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
                 as? AddActionFragment)?.dismiss()
     }
 
+
     override fun AddActivityFragmentFetch(activity: Activity) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
@@ -501,6 +561,25 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
 
         (this.supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
+    }
+
+
+    override fun addCommentFragmentFetch(comment: Comment) {
+
+        (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
+                as? AddCommentsFragment)?.dismiss()
+
+        comments.add(Comment(comment.comment))
+
+        commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun cancelCommentFragmentFetch() {
+
+        (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
+                as? AddCommentsFragment)?.dismiss()
+
+        commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
     }
 
 
@@ -528,6 +607,11 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
 
         val activityRecyclerView = findViewById<RecyclerView>(R.id.activityRecyclerViewAdmin) as RecyclerView
         activityRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun closeButtonAddCommentItemListener(pos: Int) {
+
+        commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
     }
 
     override fun onClick(v: View?) {
@@ -637,6 +721,20 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, View.OnCli
             R.id.addActivityBackgroundImg -> {
 
                 addActivityClicked()
+            }
+
+            R.id.addPeople -> {
+
+                addPeopleClicked()
+
+            }
+
+            R.id.addCommentsImg -> {
+
+                addCommentClicked()
+
+                //Toast.makeText(this,"addcomment from details clicked",Toast.LENGTH_SHORT).show()
+
             }
 
             R.id.addGuestBackground -> {

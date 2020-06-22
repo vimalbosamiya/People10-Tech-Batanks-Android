@@ -81,11 +81,14 @@ class EventActivityListAdapterAdmin (val activityList : List<Activity>, val cont
         holder.textViewActivityName.text = activity.title
         //holder.textViewActivityCost.text = activity.price
         holder.activityNameTextView.text = activity.title
-        holder.textViewActivityStartDate.text = activity.date
-        holder.textViewActivityTime.text = activity.duration.toString()
+        //holder.textViewActivityStartDate.text = activity.date
+        //holder.textViewActivityTime.text = activity.duration.toString()
         holder.textViewActivityParticipants.text = activity.participants.size.toString()
         holder.textViewTotalParticipants.text = activity.max_participants.toString()
         holder.activityCostTextView.text = activity.price
+        holder.locationName.text = activity.place.name
+        holder.fullLocation.text = activity.place.address
+
 
         holder.activityMapView.apply {
 
@@ -111,6 +114,7 @@ class EventActivityListAdapterAdmin (val activityList : List<Activity>, val cont
         val textViewActivityCost : TextView = itemView.textViewActivityCost
         val activityNameTextView : TextView = itemView.activityNameTextView
         val locationName : TextView = itemView.locationName
+        val fullLocation : TextView = itemView.fullLocation
         val activityMapView : MapView = itemView.activityMapView
         val textViewActivityStartDate :TextView = itemView.textViewActivityStartDate
         val textViewActivityTime : TextView = itemView.textViewActivityTime

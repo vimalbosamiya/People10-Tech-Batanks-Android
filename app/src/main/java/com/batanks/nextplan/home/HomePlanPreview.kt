@@ -18,6 +18,7 @@ import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
+import com.batanks.nextplan.search.SearchFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.swagger.api.EventAPI
@@ -75,6 +76,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         extFab.setOnClickListener(this)
         img_settings.setOnClickListener(this)
+        search.setOnClickListener(this)
 
         filterIcon.setOnClickListener {
 
@@ -95,6 +97,15 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             R.id.img_settings -> {
                 intent = Intent(this, Settings :: class.java)
                 startActivity(intent)
+            }
+
+            R.id.search -> {
+
+                frameLayout.visibility = View.VISIBLE
+                extFab.visibility = View.GONE
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.frameLayout, SearchFragment())
+                        .addToBackStack(SearchFragment.TAG).commit()
             }
         }
     }

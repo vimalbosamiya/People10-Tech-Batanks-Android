@@ -73,10 +73,10 @@
             android:id="@+id/actionDropDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginTop="24.58dp"
-            android:layout_marginEnd="22dp"
-            android:background="@drawable/ic_event_details_expand_more"
+            android:padding="20dp"
+            android:layout_marginTop="4.58dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_event_details_expand_more"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
             app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
 
@@ -164,10 +164,10 @@
             android:id="@+id/actionDropDownMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginTop="24.02dp"
-            android:background="@drawable/ic_event_details_expand_less"
+            android:padding="20dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="4.02dp"
+            android:src="@drawable/ic_event_details_expand_less"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
             app:layout_constraintTop_toTopOf="@+id/totalCostBackgroundFull" />
 
