@@ -73,7 +73,7 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.assign_people_Button ->{
-                if(TextUtils.isEmpty(selected_assignee))
+                if(!TextUtils.isEmpty(selected_assignee))
                 listner.AddSelectedAssignee(selected_assignee)
                 dismiss()
             }

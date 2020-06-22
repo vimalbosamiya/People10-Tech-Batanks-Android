@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1D2125">
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/select_followup_header"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        android:gravity="center_vertical"
+        android:text="Follow UP"
+        android:textSize="24dp"
+        android:background="#1D2125"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/view_seperator_followups_header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_followup_header"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_select_followup_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_seperator_followups_header"
+        android:layout_margin="10dp"
+        android:padding="10dp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/select_followup_ok"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:paddingBottom="24dp"
+        android:text="OK"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_select_followup_items" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/select_followup_cancel"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:paddingBottom="24dp"
+        android:text="CANCEL"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintRight_toLeftOf="@+id/select_followup_ok"
+        app:layout_constraintTop_toBottomOf="@+id/rv_select_followup_items" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

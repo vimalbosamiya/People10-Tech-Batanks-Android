@@ -66,7 +66,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/totalCostTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        style="@style/MaterialTextInputLayoutTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -91,10 +91,12 @@
         app:startIconTint="#ffffff">
 
         <AutoCompleteTextView
+            android:id="@+id/actv_activity_nature_of_the_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:editable="false"
+            android:paddingLeft="16dp"
             android:gravity="center_vertical"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>

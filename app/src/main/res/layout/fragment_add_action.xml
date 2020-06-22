@@ -164,13 +164,14 @@
             app:startIconTint="#ffffff">
 
             <AutoCompleteTextView
+                android:id="@+id/actv_action_nature_of_the_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:editable="false"
                 android:gravity="center_vertical"
                 android:inputType="none"
-                android:text="item" />
+                android:text="Total Cost" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -271,7 +272,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="true"
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="OK"
@@ -285,7 +285,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="false"
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"

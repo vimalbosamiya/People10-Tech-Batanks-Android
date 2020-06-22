@@ -202,8 +202,28 @@
             android:textCursorDrawable="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <RelativeLayout
+        android:id="@+id/rl_activity_country_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rl_black_curved">
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp_activity_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ccp_autoFormatNumber="true"
+        app:ccp_contentColor="#ffffff"
+        app:ccp_countryPreference="FR"
+        app:ccp_showFlag="false"
+        app:ccp_textGravity="LEFT"
+        app:ccp_showPhoneCode="false"/>
+    </RelativeLayout>
+    <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_countryTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
@@ -227,13 +247,15 @@
         app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
         app:startIconTint="#ffffff">
 
-        <AutoCompleteTextView
+        &lt;!&ndash;<AutoCompleteTextView
+            android:id="@+id/actv_activity_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:editable="false"
             android:gravity="center_vertical"
             android:inputType="none"
-            android:text="Country" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="Country" />&ndash;&gt;
+
+    </com.google.android.material.textfield.TextInputLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
