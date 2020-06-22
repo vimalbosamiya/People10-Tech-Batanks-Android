@@ -1,7 +1,6 @@
 package com.batanks.nextplan.Settings
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +9,11 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.RelativeLayout
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.home.fragment.contacts.ContactsAdapter
+import com.batanks.nextplan.Settings.Adapters.ContactsAdapter_Settings
+import com.batanks.nextplan.Settings.Adapters.GroupsAdapter_Settings
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import kotlinx.android.synthetic.main.activity_contact.*
 

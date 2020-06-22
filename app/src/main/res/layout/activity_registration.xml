@@ -39,7 +39,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -213,6 +213,7 @@
             app:ccp_contentColor="#ffffff"
             app:ccp_countryPreference="FR"
             app:ccp_showFlag="true"
+            app:ccpDialog_textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="@+id/phoneNumberTextField"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/phoneNumberTextField"

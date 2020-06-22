@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +24,19 @@ class AddContactsFragment : BaseDialogFragment() {
 
     protected lateinit var rootView: View
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter : ContactsAdapter
+    lateinit var add_contacts_contacts_RecyclerView : RecyclerView
+    lateinit var add_contacts_groups_RecyclerView : RecyclerView
+    lateinit var add_contacts_users_RecyclerView :RecyclerView
+
     lateinit var select_contacts_phone_checkbox : CheckBox
+    lateinit var select_contacts_contacts_checkbox : CheckBox
+    lateinit var select_contacts_group_checkbox : CheckBox
+    lateinit var select_contacts_users_checkbox : CheckBox
+
+    lateinit var add_contacts_ok : Button
+    lateinit var add_contacts_cancel : Button
+
+    lateinit var adapter : ContactsAdapter
     companion object {
         val PERMISSIONS_REQUEST_READ_CONTACTS = 100
     }
@@ -44,8 +56,48 @@ class AddContactsFragment : BaseDialogFragment() {
                 recyclerView.visibility = View.GONE
             } else {
                 recyclerView.visibility = View.VISIBLE
+                select_contacts_contacts_checkbox.isChecked = false
+                select_contacts_group_checkbox.isChecked = false
+                select_contacts_users_checkbox.isChecked = false
             }
         }
+        select_contacts_contacts_checkbox.setOnCheckedChangeListener { compoundButton, b ->
+            if(!b){
+                add_contacts_contacts_RecyclerView.visibility = View.GONE
+            } else {
+                add_contacts_contacts_RecyclerView.visibility = View.VISIBLE
+                select_contacts_phone_checkbox.isChecked = false
+                select_contacts_group_checkbox.isChecked = false
+                select_contacts_users_checkbox.isChecked = false
+            }
+        }
+        select_contacts_group_checkbox.setOnCheckedChangeListener { compoundButton, b ->
+            if(!b){
+                add_contacts_groups_RecyclerView.visibility = View.GONE
+            } else {
+                add_contacts_groups_RecyclerView.visibility = View.VISIBLE
+                select_contacts_phone_checkbox.isChecked = false
+                select_contacts_contacts_checkbox.isChecked = false
+                select_contacts_users_checkbox.isChecked = false
+            }
+        }
+        select_contacts_users_checkbox.setOnCheckedChangeListener { compoundButton, b ->
+            if(!b){
+                add_contacts_users_RecyclerView.visibility = View.GONE
+            } else {
+                add_contacts_users_RecyclerView.visibility = View.VISIBLE
+                select_contacts_phone_checkbox.isChecked = false
+                select_contacts_contacts_checkbox.isChecked = false
+                select_contacts_group_checkbox.isChecked = false
+            }
+        }
+        add_contacts_cancel.setOnClickListener(View.OnClickListener {
+            dismiss()
+        })
+        add_contacts_ok.setOnClickListener(View.OnClickListener {
+            dismiss()
+        })
+
 
         return rootView
     }
@@ -55,8 +107,21 @@ class AddContactsFragment : BaseDialogFragment() {
 
     private fun initializeRecyclerView() {
         recyclerView = rootView.findViewById(R.id.phone_contacts_RecyclerView)
+        add_contacts_contacts_RecyclerView = rootView.findViewById(R.id.add_contacts_contacts_RecyclerView);
+        add_contacts_groups_RecyclerView = rootView.findViewById(R.id.add_contacts_groups_RecyclerView);
+        add_contacts_users_RecyclerView = rootView.findViewById(R.id.add_contacts_users_RecyclerView);
+
+        add_contacts_contacts_RecyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        add_contacts_groups_RecyclerView.layoutManager = LinearLayoutManager(activity)
+        add_contacts_users_RecyclerView.layoutManager = LinearLayoutManager(activity)
+
         select_contacts_phone_checkbox = rootView.findViewById(R.id.select_contacts_phone_checkbox)
+        select_contacts_contacts_checkbox = rootView.findViewById(R.id.select_contacts_contacts_checkbox)
+        select_contacts_group_checkbox = rootView.findViewById(R.id.select_contacts_group_checkbox)
+        select_contacts_users_checkbox = rootView.findViewById(R.id.select_contacts_users_checkbox)
+        add_contacts_ok = rootView.findViewById(R.id.add_contacts_ok)
+        add_contacts_cancel = rootView.findViewById(R.id.add_contacts_cancel)
         setUpDummyData();
         //recyclerView.adapter = adapter
     }
@@ -73,16 +138,11 @@ class AddContactsFragment : BaseDialogFragment() {
         list.add(ContactsModel("User 9", "12345", false))
         adapter = ContactsAdapter(list)
         recyclerView.adapter = adapter
+        add_contacts_contacts_RecyclerView.adapter = adapter
+        add_contacts_groups_RecyclerView.adapter = adapter
+        add_contacts_users_RecyclerView.adapter = adapter
         //loadContacts();
     }
-
-
-
-
-
-
-
-
 
     private fun loadContacts() {
         var builder = StringBuilder()

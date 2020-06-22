@@ -1,21 +1,20 @@
 package com.batanks.nextplan.home.fragment.tabfragment
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.red
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
-import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
+import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
 import com.batanks.nextplan.swagger.model.Activity
 import com.batanks.nextplan.swagger.model.EventDate
@@ -26,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_add_activity_when.*
 import kotlinx.android.synthetic.main.fragment_add_activity_where.*
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialogFragment() , View.OnClickListener {
 
@@ -47,6 +47,35 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
         et_from_date_activity.setOnClickListener(this)
         activity_copy_plan_address.setOnClickListener(this)
         btn_activity_ok.setOnClickListener(this)
+        activity_add_people.setOnClickListener(this)
+
+        val nature_of_the_cost = arrayOf("Per Person" , "Total Cost")
+
+        val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
+        actv_activity_nature_of_the_cost.setAdapter(adapter)
+        actv_activity_nature_of_the_cost.threshold = 1
+
+        // Set an item click listener for auto complete text view
+        actv_activity_nature_of_the_cost.onItemClickListener = AdapterView.OnItemClickListener{
+            parent,view,position,id->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            // Display the clicked item using toast
+            //Toast.makeText(activity,"Selected : $selectedItem",Toast.LENGTH_SHORT).show()
+        }
+
+
+        // Set a dismiss listener for auto complete text view
+        actv_activity_nature_of_the_cost.setOnDismissListener {
+            //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
+        }
+        // Set a focus change listener for auto complete text view
+        actv_activity_nature_of_the_cost.onFocusChangeListener = View.OnFocusChangeListener{
+            view, b ->
+            if(b){
+                // Display the suggestion dropdown on focus
+                actv_activity_nature_of_the_cost.showDropDown()
+            }
+        }
     }
     fun addActivityPeriodClicked() {
 
@@ -91,7 +120,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                         address = activity_addressTextField?.editText?.text.toString(),
                         zipcode = activity_zipCodeTextField?.editText?.text.toString(),
                         city = activity_townTextField?.editText?.text.toString(),
-                        country = activity_countryTextField?.editText?.text.toString(),
+                        country = "",
                         map = false,
                         latitude = 0.0,
                         longitude = 0.0)
@@ -126,6 +155,12 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                 if(activityViewModel.place?.size >0){
                     val place = activityViewModel.place.get(0)
                 }
+            }
+            R.id.activity_add_people ->{
+                requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .add(AddContactsFragment(), AddContactsFragment::class.java.canonicalName)
+                        .commitAllowingStateLoss()
             }
         }
     }

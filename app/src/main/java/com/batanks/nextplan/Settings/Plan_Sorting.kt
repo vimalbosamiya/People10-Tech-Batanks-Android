@@ -1,39 +1,36 @@
 package com.batanks.nextplan.Settings
 
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.Settings.Adapters.FollowupsAdapter_Settings
+import com.batanks.nextplan.Settings.Adapters.Plan_Sorting_Adapter
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
-import kotlinx.android.synthetic.main.activity_followups.*
 
-class Followups : AppCompatActivity() {
+class Plan_Sorting : AppCompatActivity() {
 
-    lateinit var rv_settings_followups : RecyclerView
-    lateinit var adapter : FollowupsAdapter_Settings
+    lateinit var rv_plan_sorting : RecyclerView
+    lateinit var adapter : Plan_Sorting_Adapter
+    lateinit var rl_plan_sort_followups : RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_followups)
+        setContentView(R.layout.activity_plan_sorting)
 
-        extFab_followup.setOnClickListener(View.OnClickListener {
-            showDialog()
+        rv_plan_sorting = findViewById(R.id.rv_plan_sorting)
+        rv_plan_sorting.layoutManager = LinearLayoutManager(this)
+        rl_plan_sort_followups = findViewById(R.id.rl_plan_sort_followups)
+        rl_plan_sort_followups.setOnClickListener(View.OnClickListener {
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(Followups_Fragment(), Followups_Fragment::class.java.canonicalName)
+                    .commitAllowingStateLoss()
         })
-
-        rv_settings_followups = findViewById(R.id.rv_settings_followups)
-        rv_settings_followups.layoutManager = LinearLayoutManager(this)
         setUpDummyData()
     }
-
     private fun setUpDummyData(){
         var list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
         list.add(ContactsModel("Follow ups 1", "12345" , false))
@@ -51,24 +48,8 @@ class Followups : AppCompatActivity() {
         list.add(ContactsModel("Follow ups 13", "12345", false))
         list.add(ContactsModel("Follow ups 14", "12345", false))
         list.add(ContactsModel("Follow ups 15", "12345", false))
-        adapter = FollowupsAdapter_Settings(list)
-        rv_settings_followups.adapter = adapter
-    }
-    private fun showDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.layout_create_followups)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btn_create_followups_cancel = dialog.findViewById(R.id.btn_create_followups_cancel) as Button
-        val btn_create_followups_ok = dialog.findViewById(R.id.btn_create_followups_ok) as Button
-
-        btn_create_followups_cancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        btn_create_followups_ok.setOnClickListener { dialog.dismiss() }
-        dialog.show()
-
+        adapter = Plan_Sorting_Adapter(list)
+        rv_plan_sorting.adapter = adapter
     }
 }

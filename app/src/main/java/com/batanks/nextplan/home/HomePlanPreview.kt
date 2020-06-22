@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.Plan_Sorting
 import com.batanks.nextplan.Settings.Settings
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
@@ -77,7 +78,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         filterIcon.setOnClickListener {
 
-            intent = Intent(this, EventDetailViewAdmin:: class.java)
+            intent = Intent(this, Plan_Sorting:: class.java)
             startActivity(intent)
         }
     }

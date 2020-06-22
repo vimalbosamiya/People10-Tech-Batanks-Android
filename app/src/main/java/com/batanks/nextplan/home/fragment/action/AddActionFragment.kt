@@ -5,6 +5,8 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
@@ -28,6 +30,35 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
         assignParticipantButton.setOnClickListener(this)
         ok.setOnClickListener(this)
         add_action_cancel.setOnClickListener(this)
+
+
+        val nature_of_the_cost = arrayOf("Per Person" , "Total Cost")
+
+        val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
+        actv_action_nature_of_the_cost.setAdapter(adapter)
+        actv_action_nature_of_the_cost.threshold = 1
+
+        // Set an item click listener for auto complete text view
+        actv_action_nature_of_the_cost.onItemClickListener = AdapterView.OnItemClickListener{
+            parent,view,position,id->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            // Display the clicked item using toast
+            //Toast.makeText(activity,"Selected : $selectedItem",Toast.LENGTH_SHORT).show()
+        }
+
+
+        // Set a dismiss listener for auto complete text view
+        actv_action_nature_of_the_cost.setOnDismissListener {
+            //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
+        }
+        // Set a focus change listener for auto complete text view
+        actv_action_nature_of_the_cost.onFocusChangeListener = View.OnFocusChangeListener{
+            view, b ->
+            if(b){
+                // Display the suggestion dropdown on focus
+                actv_action_nature_of_the_cost.showDropDown()
+            }
+        }
     }
 
     override fun onClick(view: View?) {
@@ -67,5 +98,6 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
         Toast.makeText(activity , "" + test , Toast.LENGTH_SHORT).show()
         //assignParticipantButton.text = test
         rl_add_action_assignee_holder.visibility = View.VISIBLE
+        txt_add_action_assignee_name.text = test
     }
 }

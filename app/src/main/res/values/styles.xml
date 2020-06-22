@@ -101,9 +101,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="materialButtonStyle">@style/ThemeMaterialCalendarTextButton</item>
-        <item name="materialCalendarHeaderLayout">
-            @style/ThemeMaterialCalendarTextButtonHeaderSelection
-        </item>
+        <item name="materialCalendarHeaderLayout">@style/ThemeMaterialCalendarTextButtonHeaderSelection</item>
     </style>
 
     <style name="ThemeMaterialCalendarButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
