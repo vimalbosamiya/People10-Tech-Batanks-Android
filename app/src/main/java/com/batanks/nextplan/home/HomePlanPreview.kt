@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
+
     var recyclerView: RecyclerView? = null
 
     private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
@@ -35,6 +36,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             }
         }).get(HomePlanPreviewViewModel::class.java)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +81,6 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         search.setOnClickListener(this)
 
         filterIcon.setOnClickListener {
-
             intent = Intent(this, Plan_Sorting:: class.java)
             startActivity(intent)
         }
@@ -109,4 +110,5 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
 }
