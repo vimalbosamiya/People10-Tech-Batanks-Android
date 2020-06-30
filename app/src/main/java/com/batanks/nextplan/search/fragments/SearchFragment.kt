@@ -1,17 +1,18 @@
-package com.batanks.nextplan.search
+package com.batanks.nextplan.search.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
-import com.batanks.nextplan.home.fragment.tabfragment.TabsPagerAdapter
+import com.batanks.nextplan.search.SearchTabsAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchFragment : BaseFragment() {
+class SearchFragment : BaseFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,17 @@ class SearchFragment : BaseFragment() {
         ref.setSupportActionBar(toolBar)
         ref.supportActionBar?.title = "Search"
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
+        val homeAsUpIndicator: Unit? = ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
+
+        toolBar.setOnClickListener {
+
+            Toast.makeText(activity,"Working",Toast.LENGTH_SHORT).show()
+
+            //activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.addToBackStack(SearchFragment.TAG)?.commit()
+
+        }
+
+       // toolBar.setOnMenuItemClickListener
 
         val tabsPagerAdapter = SearchTabsAdapter(requireFragmentManager())
         view_pager.adapter = tabsPagerAdapter

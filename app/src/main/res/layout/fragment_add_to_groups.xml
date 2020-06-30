@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings.Plan_Sorting"
+    android:background="#1D2125">
+
+    <RelativeLayout
+        android:id="@+id/rlAddToGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#1D2125"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/txtAddToGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to group"
+            android:layout_toEndOf="@id/backArrow"
+            android:padding="10dp"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_centerVertical="true"/>
+
+       <!-- <ImageView
+            android:id="@+id/img_plan_sort_right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_right_arrow_white"
+            android:layout_centerVertical="true"
+            />-->
+
+        <View
+            android:id="@+id/viewSeperator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_toRightOf="@id/backArrow"
+            android:layout_below="@+id/txtAddToGroup"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rlAddToGroups" />
+
+   <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFab_followup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:text="CREATE NEW GROUP"
+        android:textColor="#90CAF9"
+        app:backgroundTint="#1D2125"
+        app:icon="@drawable/ic_add"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_settings_create_new_groups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="84dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/img_settings_contacts_add_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/ic_add"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+        <TextView
+            android:id="@+id/txt_settings_contacts_add_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CREATE NEW GROUPS"
+            android:layout_toRightOf="@id/img_settings_contacts_add_groups"
+            android:padding="10dp"
+            android:textColor="#90CAF9"
+            android:textAppearance="?android:textAppearanceMedium"
+            />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

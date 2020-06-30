@@ -1,4 +1,4 @@
-package com.batanks.nextplan.search
+package com.batanks.nextplan.search.fragments
 
 import android.app.Dialog
 import android.content.Context
@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
-import com.batanks.nextplan.home.fragment.contacts.ContactsAdapter
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.search.adapters.SearchPhoneContactsAdapter
+import com.batanks.nextplan.search.adapters.SearchUsersAdapter
+import com.batanks.nextplan.search.adapters.SearchContactsAdapter
+import com.batanks.nextplan.search.adapters.SearchGroupsAdapter
 import kotlinx.android.synthetic.main.fragment_search_people.*
 
 class SearchPeopleFragment : BaseFragment()  {

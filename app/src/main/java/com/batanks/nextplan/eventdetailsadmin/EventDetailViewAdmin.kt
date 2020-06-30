@@ -14,6 +14,7 @@ import android.view.View.VISIBLE
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,6 +84,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view_admin)
 
+
         addPeopleRecyclerView = findViewById(R.id.addPeopleRecyclerView)
         addPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -117,6 +119,8 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
         tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
         tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
         /*tasks.add(Task(5,"1000","Task 5","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
         //places.add(place) as EventPlace
 
@@ -359,11 +363,19 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     fun taskInitAdmin(tasks : List<Task>){
 
-        val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
-        actionRecyclerView.layoutManager = LinearLayoutManager(this)
+        val actionRecyclerViewAdmin = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
+        actionRecyclerViewAdmin.layoutManager = LinearLayoutManager(this)
+
+        if(tasks.size <= 3){
+
+            val params = actionRecyclerViewAdmin.getLayoutParams() as ConstraintLayout.LayoutParams
+            params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            actionRecyclerViewAdmin.setLayoutParams(params)
+
+        }
 
         val adapter = EventActionListAdapterAdmin(tasks,this)
-        actionRecyclerView.adapter = adapter
+        actionRecyclerViewAdmin.adapter = adapter
 
     }
 

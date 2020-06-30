@@ -1,4 +1,4 @@
-package com.batanks.nextplan.search
+package com.batanks.nextplan.search.adapters
 
 import android.view.LayoutInflater
 import android.view.View

@@ -21,6 +21,7 @@
         <activity android:name=".Settings.Edit_Account" />
         <activity android:name=".Settings.Account" />
         <activity android:name=".Settings.Settings" />
+        <activity android:name=".search.AddToGroupActivity"/>
         <activity android:name=".eventdetails.EventDetailView" />
         <activity android:name=".splash.SplashActivity">
             <intent-filter>

@@ -15,12 +15,12 @@ import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
-import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
-import com.batanks.nextplan.search.SearchFragment
+import com.batanks.nextplan.search.fragments.SearchFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
+import com.batanks.nextplan.notifications.NotificationsFragment
 import com.batanks.nextplan.swagger.api.EventAPI
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -77,6 +77,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         extFab.setOnClickListener(this)
         img_settings.setOnClickListener(this)
         search.setOnClickListener(this)
+        notification.setOnClickListener(this)
 
         filterIcon.setOnClickListener {
 
@@ -106,6 +107,15 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, SearchFragment())
                         .addToBackStack(SearchFragment.TAG).commit()
+            }
+
+            R.id.notification -> {
+
+                frameLayout.visibility = View.VISIBLE
+                extFab.visibility = View.GONE
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.frameLayout, NotificationsFragment())
+                        .addToBackStack(NotificationsFragment.TAG).commit()
             }
         }
     }
