@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.home.fragment.tabfragment.TabsPagerAdapter
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
 
 class CreatePlanFragment : BaseFragment() {
@@ -29,7 +30,7 @@ class CreatePlanFragment : BaseFragment() {
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
-        val tabsPagerAdapter = TabsPagerAdapter(requireFragmentManager())
+        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager)
         view_pager.adapter = tabsPagerAdapter
 
         tabs.setupWithViewPager(view_pager)
@@ -50,5 +51,9 @@ class CreatePlanFragment : BaseFragment() {
 
     companion object {
         const val TAG = "CreatePlanFragment"
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.extFab!!.visibility = View.VISIBLE
     }
 }
