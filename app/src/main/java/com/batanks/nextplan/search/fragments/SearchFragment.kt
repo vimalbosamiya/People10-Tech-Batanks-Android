@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.search.SearchTabsAdapter
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment(){
@@ -40,7 +41,7 @@ class SearchFragment : BaseFragment(){
 
        // toolBar.setOnMenuItemClickListener
 
-        val tabsPagerAdapter = SearchTabsAdapter(requireFragmentManager())
+        val tabsPagerAdapter = SearchTabsAdapter(childFragmentManager)
         view_pager.adapter = tabsPagerAdapter
 
         tabs.setupWithViewPager(view_pager)
@@ -72,5 +73,9 @@ class SearchFragment : BaseFragment(){
 
     companion object {
         const val TAG = "SearchFragment"
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.extFab!!.visibility = View.VISIBLE
     }
 }

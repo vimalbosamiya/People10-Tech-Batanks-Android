@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -128,19 +129,50 @@ class AddContactsFragment : BaseDialogFragment() {
     private fun setUpDummyData(){
         var list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
         list.add(ContactsModel("User 1", "12345" , false))
-        list.add(ContactsModel("User 2", "12345", false))
+        list.add(ContactsModel("User 2", "12345", false))/*
         list.add(ContactsModel("User 3", "12345", false))
         list.add(ContactsModel("User 4", "12345", false))
         list.add(ContactsModel("User 5", "12345", false))
         list.add(ContactsModel("User 6", "12345", false))
         list.add(ContactsModel("User 7", "12345", false))
         list.add(ContactsModel("User 8", "12345", false))
-        list.add(ContactsModel("User 9", "12345", false))
+        list.add(ContactsModel("User 9", "12345", false))*/
         adapter = ContactsAdapter(list)
         recyclerView.adapter = adapter
+
+
+        if(list.size <=5) {
+            val params = add_contacts_contacts_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            add_contacts_contacts_RecyclerView.setLayoutParams(params)
+        }
         add_contacts_contacts_RecyclerView.adapter = adapter
+
+
+        if(list.size <=5) {
+            val params1 = recyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            params1.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            recyclerView.setLayoutParams(params1)
+        }
+        recyclerView.adapter = adapter
+
+
+        if(list.size <=5) {
+            val params2 = add_contacts_groups_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            params2.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            add_contacts_groups_RecyclerView.setLayoutParams(params2)
+        }
         add_contacts_groups_RecyclerView.adapter = adapter
+
+
+        if(list.size <=5) {
+            val params3 = add_contacts_users_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            params3.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            add_contacts_users_RecyclerView.setLayoutParams(params3)
+        }
         add_contacts_users_RecyclerView.adapter = adapter
+
+
         //loadContacts();
     }
 

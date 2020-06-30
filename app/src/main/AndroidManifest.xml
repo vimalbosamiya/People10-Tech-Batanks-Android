@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".Settings.Plan_Sorting"></activity>
         <activity android:name=".Settings.Followups" />
-        <activity android:name=".Settings.Contact" />
+        <activity android:name=".Settings.Contact" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".eventdetailsadmin.EventDetailViewAdmin" />
         <activity android:name=".Settings.Edit_Account" />
         <activity android:name=".Settings.Account" />
@@ -37,6 +37,7 @@
             android:theme="@style/App_Registration_Theme" />
         <activity
             android:name=".home.HomePlanPreview"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/App_HomePlanPreview_Theme" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
