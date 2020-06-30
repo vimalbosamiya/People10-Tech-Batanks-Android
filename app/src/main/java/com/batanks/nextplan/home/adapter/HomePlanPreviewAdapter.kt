@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.EventDetailView
+import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import kotlinx.android.synthetic.main.item_event_name.view.*
 
 class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {
@@ -19,7 +20,7 @@ class HomePlanPreviewAdapter(private val myList: List<String>) : RecyclerView.Ad
         view.setOnClickListener {
             //Log.i("PrivateEvent","Event was Clicked")
             //Toast.makeText(context,"Event Clicked",Toast.LENGTH_LONG).show()
-            val intent = Intent(parent.context, EventDetailView::class.java)
+            val intent = Intent(parent.context, EventDetailViewAdmin::class.java)
             startActivity(parent.context,intent,null)
         }
         return MyViewHolder(view)

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -8,36 +9,41 @@
     android:background="#1D2125">
 
     <ImageView
-        android:id="@+id/img_plan_sorting_list_item"
+        android:id="@+id/groupIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings_followup"
+        android:src="@drawable/ic_groups"
         android:padding="10dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_centerVertical="true"/>
+
     <TextView
-        android:id="@+id/txt_plan_sorting_list_item"
+        android:id="@+id/groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contacts Name"
-        android:layout_toRightOf="@id/img_plan_sorting_list_item"
+        android:layout_marginStart="18dp"
+        android:text="Group Name"
+        android:layout_toEndOf="@id/groupIcon"
         android:layout_centerVertical="true"/>
+
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/cb_plan_sorting_list_item"
+        android:id="@+id/groupCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"
         android:padding="10dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         app:useMaterialThemeColors="false"/>
+
     <View
-        android:id="@+id/view_seperator_plan_sorting_list_item"
+        android:id="@+id/view_seperator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
-        android:layout_toRightOf="@id/img_plan_sorting_list_item"
-        android:layout_below="@id/img_plan_sorting_list_item"/>
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/groupIcon"
+        android:layout_below="@id/groupIcon"/>
+
 </RelativeLayout>

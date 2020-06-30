@@ -51,7 +51,7 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
 
             listener.cancelCommentFragmentFetch()
 
-            Toast.makeText(activity , "ok working good"  , Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity , "ok working good"  , Toast.LENGTH_SHORT).show()
         }
     }
 
