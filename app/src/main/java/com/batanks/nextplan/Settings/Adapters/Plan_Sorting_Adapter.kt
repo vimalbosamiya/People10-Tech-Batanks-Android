@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -28,20 +27,6 @@ class Plan_Sorting_Adapter (private val myList: List<ContactsModel>) : RecyclerV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         //val itemView = holder.itemView
-        if(position <=3){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_sort_plan)
-        } else if(position == 4){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_trip)
-        }else if(position == 5){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_professional)
-        } else if(position == 6){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_leisure)
-        } else if(position == 7){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_institutional)
-        } else if(position == 8){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_others)
-        }
-
 
         holder.txt_plan_sorting_list_item.text = myList.get(position).contactname
         holder.cb_plan_sorting_list_item.setOnClickListener(View.OnClickListener {
@@ -52,7 +37,6 @@ class Plan_Sorting_Adapter (private val myList: List<ContactsModel>) : RecyclerV
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val txt_plan_sorting_list_item: TextView = item.txt_plan_sorting_list_item
         val cb_plan_sorting_list_item : CheckBox = item.cb_plan_sorting_list_item
-        val img_plan_sorting_list_item : ImageView = item.img_plan_sorting_list_item
     }
 
     private fun showDialog(context : Context) {
