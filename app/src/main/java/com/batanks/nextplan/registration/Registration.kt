@@ -2,10 +2,14 @@ package com.batanks.nextplan.registration
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Patterns
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -108,9 +112,9 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                 phoneNumberObservable,
                 Function7<String?, String?, String?, String?, String?, String?, String?, Boolean?> { s1, s2, s3, s4, s5, s6, s7 ->
                     /*UserName*/
-                    val validUserName = s1.isNotEmpty()
+                    val validUserName = s1.length > 6
                     if (!validUserName) {
-                        userNameTextField?.editText?.error = "UserName should contain at least 1 letter."
+                        userNameTextField?.editText?.error = "UserName should contain at least 6 letter."
                     }
                     /*FirstName*/
                     val validFirstName = s2.isNotEmpty()
@@ -130,7 +134,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                     /*Password*/
                     val validPass = s5.isNotEmpty() && isValidPassword(s5)
                     if (!validPass) {
-                        passwordTextField?.editText?.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        passwordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 digit."
                     }
                     /*Password & ConfirmPassword*/
                     val samePassword = s5.equals(s6, false)
@@ -140,7 +144,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                     /*ConfirmPassword*/
                     val validConfirmPass = s6.isNotEmpty() && isValidPassword(s6)
                     if (!validConfirmPass) {
-                        confirmPasswordTextField?.editText?.error = "Password should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        confirmPasswordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 digit."
                     }
                     /*PhoneNumber*/
                     val validPhone = s7.isNotEmpty() && ccp.isValidFullNumber
@@ -174,10 +178,36 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = getCurrentFocus()
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
+
     override fun onClick(v: View?) {
         dismissKeyboard()
         when (v?.id) {
             R.id.signIn -> {
+                /*val validUserName = userNameEditText.length() > 6
+                if (userNameEditText.length() > 6) {
+                    Toast.makeText(this,"sign in Clicked",Toast.LENGTH_SHORT).show()
+
+                }else {
+
+                    userNameTextField?.editText?.error = "UserName should contain at least 6 letter."
+                }*/
+                //Toast.makeText(this,"sign in Clicked",Toast.LENGTH_SHORT).show()
                 showLoader()
                 RetrofitClient.cookieJar?.clear()
                 getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()

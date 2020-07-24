@@ -32,6 +32,15 @@
             app:layout_constraintStart_toStartOf="@+id/contactBackground"
             app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
 
+        <ImageView
+            android:id="@+id/userImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="11dp"
+            android:background="@drawable/ic_person"
+            app:layout_constraintStart_toStartOf="@+id/contactImage"
+            app:layout_constraintTop_toTopOf="@+id/contactImage"/>
+
         <TextView
             android:id="@+id/contactName"
             android:layout_width="wrap_content"

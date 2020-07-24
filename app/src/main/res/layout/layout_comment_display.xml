@@ -45,9 +45,10 @@
             app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
 
         <ImageView
-            android:id="@+id/closeButtonIcon"
+            android:id="@+id/commentsCloseButoon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:src="@drawable/ic_close_button"
             app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout"
             app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout" />

@@ -10,7 +10,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveDraftButton"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="170dp"
+        android:layout_width="@dimen/save_draft_size_width"
         android:layout_height="60dp"
         android:enabled="false"
         android:gravity="center"

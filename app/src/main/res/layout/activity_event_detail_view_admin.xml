@@ -41,7 +41,7 @@
                     android:id="@+id/backArrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic_back_arrow"
                     app:layout_constraintBottom_toBottomOf="@+id/toolbarConstraintLayout"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -671,7 +671,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
 
-            <!--<ImageView
+            <ImageView
                 android:id="@+id/dateSettingsIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -679,7 +679,7 @@
                 android:layout_marginEnd="39dp"
                 android:background="@drawable/ic_event_details_settings"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />-->
+                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
 
             <ImageView
                 android:id="@+id/dateDivider"
@@ -1553,7 +1553,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dateConstraintViewHolder" />
 
-            <!--<ImageView
+            <ImageView
                 android:id="@+id/placeSettingsIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1561,7 +1561,7 @@
                 android:layout_marginEnd="39dp"
                 android:background="@drawable/ic_event_details_settings"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateConstraintViewHolder" />-->
+                app:layout_constraintTop_toBottomOf="@+id/dateConstraintViewHolder" />
 
             <ImageView
                 android:id="@+id/placeDivider"
@@ -2757,7 +2757,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/actionRecyclerViewAdmin"
                     android:layout_width="wrap_content"
-                    android:layout_height="550dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/actionConstraintViewHolder" />
@@ -3688,7 +3688,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activityRecyclerViewAdmin"
                     android:layout_width="wrap_content"
-                    android:layout_height="640dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/activityConstraintViewHolder" />
@@ -3777,7 +3777,7 @@
                     android:id="@+id/participantsListBackground"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:background="@drawable/ic_event_details_participants_list_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -3860,7 +3860,7 @@
                     android:id="@+id/participantsListBackgroundMulti"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/ic_event_details_participants_multi_list_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -4276,7 +4276,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/everyBodyComeConstraintHolder" />
 
-           <!-- <ImageView
+            <ImageView
                 android:id="@+id/commentsSettingsIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -4284,7 +4284,7 @@
                 android:layout_marginEnd="39dp"
                 android:background="@drawable/ic_event_details_settings"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/everyBodyComeConstraintHolder" />-->
+                app:layout_constraintTop_toBottomOf="@+id/everyBodyComeConstraintHolder" />
 
             <ImageView
                 android:id="@+id/commentsDivider"
@@ -4312,7 +4312,7 @@
                     android:id="@+id/commentsBackgroundConstraint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/commentBackgroundHolder">
@@ -4377,7 +4377,7 @@
                     android:id="@+id/commentsBackgroundMulti"
                     android:layout_width="328dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/ic_comments_multi_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.batanks.nextplan.R
 import com.batanks.nextplan.splash.SplashActivity
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_signin.*
 
@@ -16,6 +17,11 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        img_settings_close.setOnClickListener {
+
+           finish()
+        }
 
         rl_settings_account.setOnClickListener(View.OnClickListener {
             intent = Intent(this, Account :: class.java)

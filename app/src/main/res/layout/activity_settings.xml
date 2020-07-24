@@ -145,7 +145,7 @@
                 android:id="@+id/txt_settings_followup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Follow Up"
+                android:text="Follow ups"
                 android:layout_toRightOf="@id/img_settings_followup"
                 android:padding="10dp"
                 android:textAppearance="?android:textAppearanceMedium"
@@ -392,7 +392,7 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
-            app:endIconMode="clear_text"
+            app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
             app:helperText="Select a language"
             app:helperTextEnabled="true"
@@ -409,13 +409,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="15sp"
                 android:editable="false"
-                android:gravity="center_vertical"
-                android:inputType="none"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:gravity="center_vertical"
+                android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_settings_currency"
             style="@style/MaterialTextInputLayoutTheme"
@@ -428,7 +431,7 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
-            app:endIconMode="clear_text"
+            app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
             app:helperText="Select a currency"
             app:helperTextEnabled="true"
@@ -445,11 +448,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="15sp"
                 android:editable="false"
-                android:gravity="center_vertical"
-                android:inputType="none"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:gravity="center_vertical"
+                android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>

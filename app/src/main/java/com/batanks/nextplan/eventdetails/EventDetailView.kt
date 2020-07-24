@@ -250,6 +250,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
         totalCommentsDropDownMulti.setOnClickListener(this)
         tripCalenderBackground.setOnClickListener(this)
         takePartVisible.setOnClickListener(this)
+        backArrow.setOnClickListener(this)
 
         /*totalCostBackground.setOnClickListener {
 
@@ -601,6 +602,11 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                 addGuestBackground.visibility = VISIBLE
 
                 //eventDetailViewModel.eventAccepted(id.toString(), event_obj)
+            }
+
+            R.id.backArrow -> {
+
+                finish()
             }
         }
     }

@@ -30,7 +30,7 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
         holder.txt_assign_people_name.text = myList.get(position).contactname
 
-        holder.checkBox.setChecked(myList.get(position).selection);
+        //holder.checkBox.setChecked(myList.get(position).selection);
         holder.checkBox.tag = position
         //holder.checkBox.setTag(new Integer(position));
 
@@ -52,7 +52,7 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
                 lastCheckedPos = clickedPos
             } else lastChecked = null
             myList.get(clickedPos).selection = (cb.isChecked)
-            Toast.makeText(v.context , "" + myList.get(clickedPos).contactname , Toast.LENGTH_SHORT).show()
+            //Toast.makeText(v.context , "" + myList.get(clickedPos).contactname , Toast.LENGTH_SHORT).show()
             val selection = myList.get(clickedPos).contactname + " " + myList.get(clickedPos).contactNumber;
             listner.assignSelectedContact(selection)
         }

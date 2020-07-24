@@ -3,25 +3,28 @@ package com.batanks.nextplan.search.fragments
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
-import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
-import com.batanks.nextplan.search.adapters.SearchPhoneContactsAdapter
-import com.batanks.nextplan.search.adapters.SearchUsersAdapter
 import com.batanks.nextplan.search.adapters.SearchContactsAdapter
 import com.batanks.nextplan.search.adapters.SearchGroupsAdapter
+import com.batanks.nextplan.search.adapters.SearchPhoneContactsAdapter
+import com.batanks.nextplan.search.adapters.SearchUsersAdapter
 import kotlinx.android.synthetic.main.fragment_search_people.*
+
 
 class SearchPeopleFragment : BaseFragment()  {
     protected lateinit var rootView: View
@@ -140,6 +143,8 @@ class SearchPeopleFragment : BaseFragment()  {
 
             showDialog(view!!.context)
         }
+
+        addcontactSearchTextField.endIconMode
 
     }
 

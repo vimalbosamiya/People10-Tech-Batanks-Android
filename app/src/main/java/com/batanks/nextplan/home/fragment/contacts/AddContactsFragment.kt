@@ -10,6 +10,8 @@ import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -30,9 +32,9 @@ class AddContactsFragment : BaseDialogFragment() {
     lateinit var add_contacts_users_RecyclerView :RecyclerView
 
     lateinit var select_contacts_phone_checkbox : CheckBox
-    lateinit var select_contacts_contacts_checkbox : CheckBox
+    /*lateinit var select_contacts_contacts_checkbox : CheckBox
     lateinit var select_contacts_group_checkbox : CheckBox
-    lateinit var select_contacts_users_checkbox : CheckBox
+    lateinit var select_contacts_users_checkbox : CheckBox*/
 
     lateinit var add_contacts_ok : Button
     lateinit var add_contacts_cancel : Button
@@ -48,11 +50,12 @@ class AddContactsFragment : BaseDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         rootView =  inflater.inflate(R.layout.add_contact_fragment, container, false)
 
         initView()
 
-        select_contacts_phone_checkbox.setOnCheckedChangeListener { compoundButton, b ->
+        /*select_contacts_phone_checkbox.setOnCheckedChangeListener { compoundButton, b ->
             if(!b){
                 recyclerView.visibility = View.GONE
             } else {
@@ -91,7 +94,8 @@ class AddContactsFragment : BaseDialogFragment() {
                 select_contacts_contacts_checkbox.isChecked = false
                 select_contacts_group_checkbox.isChecked = false
             }
-        }
+        }*/
+
         add_contacts_cancel.setOnClickListener(View.OnClickListener {
             dismiss()
         })
@@ -102,6 +106,84 @@ class AddContactsFragment : BaseDialogFragment() {
 
         return rootView
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        img_contacts_down_arrow_icon.setOnClickListener {
+
+            add_contacts_contacts_RecyclerView.visibility = VISIBLE
+
+            img_contacts_down_arrow_icon.visibility = GONE
+
+            img_contacts_up_arrow_icon.visibility = VISIBLE
+        }
+
+        img_contacts_up_arrow_icon.setOnClickListener{
+
+            add_contacts_contacts_RecyclerView.visibility = GONE
+
+            img_contacts_up_arrow_icon.visibility = GONE
+
+            img_contacts_down_arrow_icon.visibility = VISIBLE
+        }
+
+        img_group_down_arrow_icon.setOnClickListener {
+
+            add_contacts_groups_RecyclerView.visibility = VISIBLE
+
+            img_group_down_arrow_icon.visibility = GONE
+
+            img_group_up_arrow_icon.visibility = VISIBLE
+        }
+
+        img_group_up_arrow_icon.setOnClickListener {
+
+            add_contacts_groups_RecyclerView.visibility = GONE
+
+            img_group_down_arrow_icon.visibility = VISIBLE
+
+            img_group_up_arrow_icon.visibility = GONE
+        }
+
+        img_user_down_arrow_icon.setOnClickListener {
+
+            add_contacts_users_RecyclerView.visibility = VISIBLE
+
+            img_user_down_arrow_icon.visibility = GONE
+
+            img_user_up_arrow_icon.visibility = VISIBLE
+        }
+
+        img_user_up_arrow_icon.setOnClickListener {
+
+            add_contacts_users_RecyclerView.visibility = GONE
+
+            img_user_up_arrow_icon.visibility = GONE
+
+            img_user_down_arrow_icon.visibility = VISIBLE
+        }
+
+        img_ph_contacts_down_arrow_icon.setOnClickListener {
+
+            phone_contacts_RecyclerView.visibility = VISIBLE
+
+            img_ph_contacts_down_arrow_icon.visibility = GONE
+
+            img_ph_contacts_up_arrow_icon.visibility = VISIBLE
+        }
+
+        img_ph_contacts_up_arrow_icon.setOnClickListener {
+
+            phone_contacts_RecyclerView.visibility = GONE
+
+            img_ph_contacts_up_arrow_icon.visibility = GONE
+
+            img_ph_contacts_down_arrow_icon.visibility = VISIBLE
+        }
+    }
+
+
+
     private fun initView(){
         initializeRecyclerView()
     }
@@ -118,9 +200,9 @@ class AddContactsFragment : BaseDialogFragment() {
         add_contacts_users_RecyclerView.layoutManager = LinearLayoutManager(activity)
 
         select_contacts_phone_checkbox = rootView.findViewById(R.id.select_contacts_phone_checkbox)
-        select_contacts_contacts_checkbox = rootView.findViewById(R.id.select_contacts_contacts_checkbox)
+      /*  select_contacts_contacts_checkbox = rootView.findViewById(R.id.select_contacts_contacts_checkbox)
         select_contacts_group_checkbox = rootView.findViewById(R.id.select_contacts_group_checkbox)
-        select_contacts_users_checkbox = rootView.findViewById(R.id.select_contacts_users_checkbox)
+        select_contacts_users_checkbox = rootView.findViewById(R.id.select_contacts_users_checkbox)*/
         add_contacts_ok = rootView.findViewById(R.id.add_contacts_ok)
         add_contacts_cancel = rootView.findViewById(R.id.add_contacts_cancel)
         setUpDummyData();

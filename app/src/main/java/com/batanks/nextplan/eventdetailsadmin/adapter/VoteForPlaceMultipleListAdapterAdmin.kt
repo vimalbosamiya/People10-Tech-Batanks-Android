@@ -47,16 +47,20 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-
-        return placesList.size
-    }
+    override fun getItemCount() = placesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val place = placesList[position]
 
         holder.closeButton.setOnClickListener {
+
+            placesList.forEach{
+
+                it.visibility = false
+
+            }
+
             placesList.removeAt(position)
             callBack.closeButtonAddPlaceItemListener(position)
         }
@@ -64,6 +68,17 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         holder.placeTextView.text = place.place.name
         holder.address.text = place.place.address
         holder.noOfVotesPlaceTextview.text = place.votes.size.toString()
+
+        if (place.visibility){
+
+            holder.closeButton.visibility = View.VISIBLE
+        }
+
+        else{
+
+            holder.closeButton.visibility = GONE
+
+        }
 
         if (place.place.map == false){
 

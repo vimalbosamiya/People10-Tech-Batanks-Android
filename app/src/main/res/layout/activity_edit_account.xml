@@ -70,6 +70,7 @@
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Name *"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -246,7 +247,7 @@
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"
-            android:textColor="@color/colorWhite"
+            android:textColor="#90CAF9"
             android:layout_toLeftOf="@id/edit_account_ok"
             android:layout_below="@id/footerDivider"/>
     </RelativeLayout>

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/ic_popup_background">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,6 +28,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addcontactHeader" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addcontactSearchTextField"
             style="@style/MaterialTextInputLayoutTheme"
@@ -39,7 +41,8 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
-            app:endIconMode="clear_text"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_search_icon"
             app:endIconTint="@color/colorWhite"
             app:helperText="Enter a name or category of plans"
             app:helperTextEnabled="true"
@@ -50,6 +53,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addcontactHeader">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,8 +64,9 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <RelativeLayout
             android:id="@+id/rl_select_contact"
             android:layout_width="match_parent"
@@ -71,6 +76,7 @@
             android:layout_marginRight="16dp"
             android:background="#1E1E1E"
             app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField">
+
             <ImageView
                 android:id="@+id/img_contacts_icon"
                 android:layout_width="wrap_content"
@@ -78,6 +84,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:src="@drawable/ic_settings_contacts"/>
+
             <TextView
                 android:id="@+id/add_contacts_contacts_text"
                 android:layout_width="wrap_content"
@@ -87,23 +94,58 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/img_contacts_icon"/>
-            <com.google.android.material.checkbox.MaterialCheckBox
+
+            <!--<com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/select_contacts_contacts_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/img_contacts_down_arrow_icon"
-                app:useMaterialThemeColors="false" />
-            <ImageView
+                app:useMaterialThemeColors="false" />-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imgContactIconHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="4dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/img_contacts_down_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    android:padding="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/img_contacts_up_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_event_details_hide_map_icon"
+                    android:padding="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<ImageView
                 android:id="@+id/img_contacts_down_arrow_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:src="@drawable/ccp_ic_arrow_drop_down"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"/>-->
+
         </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/add_contacts_contacts_RecyclerView"
             android:layout_width="match_parent"
@@ -111,6 +153,7 @@
             android:layout_margin ="16dp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/rl_select_contact" />
+
         <RelativeLayout
             android:id="@+id/rl_select_contact_groups"
             android:layout_width="match_parent"
@@ -120,6 +163,7 @@
             android:layout_marginRight="16dp"
             android:background="#1E1E1E"
             app:layout_constraintTop_toBottomOf="@+id/add_contacts_contacts_RecyclerView">
+
             <ImageView
                 android:id="@+id/img_contacts_groups_icon"
                 android:layout_width="wrap_content"
@@ -127,6 +171,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:src="@drawable/ic_groups"/>
+
             <TextView
                 android:id="@+id/add_contacts_group_text"
                 android:layout_width="wrap_content"
@@ -136,7 +181,38 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/img_contacts_groups_icon"/>
-            <com.google.android.material.checkbox.MaterialCheckBox
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imgGroupIconHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="4dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/img_group_down_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:padding="12dp"
+                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/img_group_up_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="18dp"
+                    android:src="@drawable/ic_event_details_hide_map_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/select_contacts_group_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,6 +220,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/img_contacts_group_down_arrow_icon"
                 app:useMaterialThemeColors="false" />
+
             <ImageView
                 android:id="@+id/img_contacts_group_down_arrow_icon"
                 android:layout_width="wrap_content"
@@ -151,8 +228,10 @@
                 android:src="@drawable/ccp_ic_arrow_drop_down"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"/>-->
+
         </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/add_contacts_groups_RecyclerView"
             android:layout_width="match_parent"
@@ -160,6 +239,7 @@
             android:layout_margin ="16dp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/rl_select_contact_groups" />
+
         <RelativeLayout
             android:id="@+id/rl_select_contact_users"
             android:layout_width="match_parent"
@@ -169,6 +249,7 @@
             android:layout_marginRight="16dp"
             android:background="#1E1E1E"
             app:layout_constraintTop_toBottomOf="@+id/add_contacts_groups_RecyclerView">
+
             <ImageView
                 android:id="@+id/img_contacts_users_icon"
                 android:layout_width="wrap_content"
@@ -176,6 +257,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:src="@drawable/ic_account_box"/>
+
             <TextView
                 android:id="@+id/add_contacts_users_text"
                 android:layout_width="wrap_content"
@@ -185,7 +267,38 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/img_contacts_users_icon"/>
-            <com.google.android.material.checkbox.MaterialCheckBox
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imgUsersIconHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="4dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/img_user_down_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:padding="12dp"
+                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/img_user_up_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="18dp"
+                    android:src="@drawable/ic_event_details_hide_map_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+           <!-- <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/select_contacts_users_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -193,6 +306,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/img_contacts_users_down_arrow_icon"
                 app:useMaterialThemeColors="false" />
+
             <ImageView
                 android:id="@+id/img_contacts_users_down_arrow_icon"
                 android:layout_width="wrap_content"
@@ -200,8 +314,10 @@
                 android:src="@drawable/ccp_ic_arrow_drop_down"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"/>-->
+
         </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/add_contacts_users_RecyclerView"
             android:layout_width="match_parent"
@@ -222,7 +338,8 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
-            app:endIconMode="clear_text"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_send"
             app:endIconTint="@color/colorWhite"
             app:helperText="Enter an e-mail"
             app:helperTextEnabled="true"
@@ -233,6 +350,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_contacts_users_RecyclerView">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -243,7 +361,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -253,6 +371,7 @@
             android:layout_margin ="16dp"
             android:background="#1E1E1E"
             app:layout_constraintTop_toBottomOf="@+id/addcontactinviteEmail">
+
             <ImageView
                 android:id="@+id/img_contacts_phone_icon"
                 android:layout_width="wrap_content"
@@ -260,6 +379,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:src="@drawable/ic_contact_phone"/>
+
             <TextView
                 android:id="@+id/add_contacts_phone_text"
                 android:layout_width="wrap_content"
@@ -269,22 +389,61 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/img_contacts_phone_icon"/>
+
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/select_contacts_phone_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/img_contacts_phone_down_arrow_icon"
+                android:layout_toLeftOf="@id/imgPhoneContactsIconHolder"
                 app:useMaterialThemeColors="false" />
-            <ImageView
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imgPhoneContactsIconHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/img_ph_contacts_down_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/img_ph_contacts_up_arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<ImageView
                 android:id="@+id/img_contacts_phone_down_arrow_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingBottom="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"/>-->
+
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -327,8 +486,9 @@
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"
-            android:textColor="@color/colorWhite"
+            android:textColor="#90CAF9"
             app:layout_constraintRight_toLeftOf="@+id/add_contacts_ok"
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

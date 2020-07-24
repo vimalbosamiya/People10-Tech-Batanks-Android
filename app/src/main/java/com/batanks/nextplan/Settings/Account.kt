@@ -39,11 +39,16 @@ class Account : BaseAppCompatActivity() {
             startActivity(intent)
         })
 
+        img_account_back.setOnClickListener {
+
+            finish()
+        }
+
         Handler().postDelayed(Runnable {
                 profileViewModel.getUserProfile()
-        }, 1000)
+        }, 0)
 
-        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+        loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
 
         profileViewModel.responseLiveData.observe(this, Observer { response ->
 

@@ -27,10 +27,28 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
         val comment : Comment = commentsList[position]
 
         holder.comment.text = comment.comment
+
         holder.closeButtonIcon.setOnClickListener {
+
+            commentsList.forEach{
+
+                it.visibility = false
+
+            }
 
             commentsList.removeAt(position)
             callBack.closeButtonAddCommentItemListener(position)
+        }
+
+        if (comment.visibility){
+
+            holder.closeButtonIcon.visibility = View.VISIBLE
+        }
+
+        else{
+
+            holder.closeButtonIcon.visibility = View.GONE
+
         }
 
     }
@@ -38,7 +56,7 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val comment : TextView = itemView.comment
-        val closeButtonIcon : ImageView = itemView.closeButtonIcon
+        val closeButtonIcon : ImageView = itemView.commentsCloseButoon
     }
 
     interface AddCommentsRecyclerViewCallBack {

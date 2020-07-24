@@ -1,5 +1,6 @@
 package com.batanks.nextplan.home.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,18 +31,32 @@ class CreatePlanFragment : BaseFragment() {
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
+        toolBar.setNavigationOnClickListener {
+
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+
+            activity?.extFab!!.visibility = View.VISIBLE
+
+            //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
+
+        }
+
         val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager)
         view_pager.adapter = tabsPagerAdapter
+
+        tabs.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
 
         tabs.setupWithViewPager(view_pager)
 
         val tabOne = LayoutInflater.from(view.context).inflate(R.layout.custom_tab, null) as TextView
         tabOne.text = "PRIVATE"
+        tabOne.setTextColor(resources.getColor(R.color.colorWhite))
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_private_plan_tablayout, 0, 0)
         tabs.getTabAt(0)?.customView = tabOne
 
         val tabTwo = LayoutInflater.from(view.context).inflate(R.layout.custom_tab, null) as TextView
         tabTwo.text = "PUBLIC"
+        tabTwo.setTextColor(resources.getColor(R.color.colorWhite))
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_public_plan_tablayout, 0, 0)
         tabs.getTabAt(1)?.customView = tabTwo
 

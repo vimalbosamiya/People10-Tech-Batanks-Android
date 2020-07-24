@@ -1,10 +1,14 @@
 package com.batanks.nextplan.eventdetailsadmin.adapter
 
+import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Activity
@@ -15,7 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_activity_display_admin.view.*
 import org.w3c.dom.Text
 
-class EventActivityListAdapterAdmin (val activityList : List<Activity>, val context: Context): RecyclerView.Adapter<EventActivityListAdapterAdmin.ViewHolder>() {
+class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val context: Context,
+                                     private val callBack: AddActivityRecyclerViewCallBack): RecyclerView.Adapter<EventActivityListAdapterAdmin.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -69,13 +74,16 @@ class EventActivityListAdapterAdmin (val activityList : List<Activity>, val cont
         return  ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-       return activityList.size
-    }
+    override fun getItemCount() = activityList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val activity : Activity = activityList[position]
+
+        holder.activitySettingsIcon.setOnClickListener {
+
+            activityDeleteDialog(position)
+        }
 
         holder.activityIdTextView.text = activity.id.toString()
         holder.textViewActivityName.text = activity.title
@@ -121,8 +129,31 @@ class EventActivityListAdapterAdmin (val activityList : List<Activity>, val cont
         val textViewActivityParticipants : TextView = itemView.textViewActivityParticipants
         val textViewTotalParticipants : TextView = itemView.textViewTotalParticipants
         val activityCostTextView : TextView = itemView.activityCostTextView
+        val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
+
+    }
+
+    private fun activityDeleteDialog(position: Int) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_delete_popup)
+
+        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
+
+        deletePopup.setOnClickListener{
+
+            //Toast.makeText(context,"worked", Toast.LENGTH_SHORT).show()
+
+            activityList.removeAt(position)
+            callBack.closeButtonAddActivityItemListener(position)
 
 
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
     }
 
     interface AddActivityRecyclerViewCallBack {

@@ -60,6 +60,11 @@ class Contact : AppCompatActivity() {
             showDialog()
         })
 
+        img_contacts_close.setOnClickListener {
+
+            finish()
+        }
+
         setUpDummyData()
     }
 

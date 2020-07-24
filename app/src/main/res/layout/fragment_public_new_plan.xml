@@ -17,7 +17,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Plan name"
+            android:hint="@string/plan_name"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
@@ -32,6 +32,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/planNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -41,7 +42,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -71,12 +72,12 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="15"
+                android:maxLength="2000"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null"  />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +112,7 @@
                 android:gravity="center_vertical"
                 android:editable="false"
                 android:inputType="none"
-                android:text="item" />
+                android:text="Category *" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <include
@@ -170,12 +171,12 @@
             android:id="@+id/howOftenDividerIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_divider"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/howOftenTextView" />
+            app:layout_constraintLeft_toLeftOf="@+id/howOftenTextView"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenTextView"
+            android:textCursorDrawable="@null" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/howOftenTextField"
@@ -224,11 +225,10 @@
             android:id="@+id/howMuchDividerIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_divider"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/howMuchTextView"
             app:layout_constraintTop_toBottomOf="@+id/howMuchTextView" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -263,7 +263,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null"  />
         </com.google.android.material.textfield.TextInputLayout>
 
         <include

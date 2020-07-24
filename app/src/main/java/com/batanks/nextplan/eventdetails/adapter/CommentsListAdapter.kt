@@ -17,7 +17,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_comment_display, parent, false)
 
-        view.closeButtonIcon.visibility = GONE
+        view.commentsCloseButoon.visibility = GONE
 
         return  ViewHolder(view)
     }
@@ -36,7 +36,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val comment : TextView = itemView.comment
-        val closeButtonIcon : ImageView = itemView.closeButtonIcon
+        val closeButtonIcon : ImageView = itemView.commentsCloseButoon
 
     }
 }

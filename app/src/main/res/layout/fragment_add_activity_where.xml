@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/ic_popup_background">
 
     <com.google.android.material.textview.MaterialTextView
@@ -20,8 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:background="@color/colorBlack"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/whereText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/whereText" />
 
@@ -61,10 +64,10 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         android:id="@+id/activity_copy_plan_address"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
@@ -81,7 +84,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ActivityplaceNameTextField"
-        app:strokeColor="#34CBFE" />
+        app:strokeColor="#34CBFE" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_addressTextField"
@@ -89,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="23dp"
         android:layout_marginRight="16dp"
         android:hint="Address"
         android:textColorHint="#ffffff"
@@ -107,7 +110,7 @@
         app:hintTextColor="#34CBFE"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_copy_plan_address">
+        app:layout_constraintTop_toBottomOf="@+id/ActivityplaceNameTextField">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -119,8 +122,9 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
+
     <LinearLayout
         android:id="@+id/ll_activity_zipcode_town"
         android:layout_width="match_parent"
@@ -160,11 +164,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
-            android:inputType="text"
+            android:inputType="number"
             android:maxLength="15"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -199,9 +203,10 @@
             android:maxLength="15"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/rl_activity_country_layout"
         android:layout_width="match_parent"
@@ -212,17 +217,38 @@
         android:padding="8dp"
         android:layout_margin="16dp"
         android:background="@drawable/rl_black_curved">
-    <com.hbb20.CountryCodePicker
+
+        <com.hbb20.CountryCodePicker
         android:id="@+id/ccp_activity_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:ccp_autoFormatNumber="true"
+        app:ccp_showFullName="true"
+        app:ccp_showPhoneCode="false"
+        app:ccp_showNameCode="false"
+        app:ccpDialog_showFastScroller="true"
+        app:ccpDialog_fastScroller_bubbleColor="@color/colorWhite"
+        app:ccpDialog_fastScroller_bubbleTextAppearance="@style/BaseText"
         app:ccp_contentColor="#ffffff"
-        app:ccp_countryPreference="FR"
-        app:ccp_showFlag="false"
+        app:ccp_showFlag="true"
         app:ccp_textGravity="LEFT"
-        app:ccp_showPhoneCode="false"/>
+        app:ccpDialog_searchEditTextTint="@color/colorBlack"
+        app:ccp_autoDetectCountry="true"
+        app:ccp_countryAutoDetectionPref="LOCALE_SIM_NETWORK"
+        app:ccpDialog_textColor="@color/colorBlack" />
+
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Specify country"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/rl_activity_country_layout"
+        app:layout_constraintTop_toBottomOf="@+id/rl_activity_country_layout">
+
+    </TextView>
+
     <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_countryTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
@@ -258,4 +284,5 @@
             android:text="Country" />&ndash;&gt;
 
     </com.google.android.material.textfield.TextInputLayout>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

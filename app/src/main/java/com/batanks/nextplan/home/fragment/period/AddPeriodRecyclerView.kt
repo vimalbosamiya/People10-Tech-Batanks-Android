@@ -1,5 +1,7 @@
 package com.batanks.nextplan.home.fragment.period
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.EventDate
+import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period_card.view.*
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,

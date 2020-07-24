@@ -29,6 +29,11 @@ class Followups : AppCompatActivity() {
             showDialog()
         })
 
+        img_followups_close.setOnClickListener {
+
+            finish()
+        }
+
         rv_settings_followups = findViewById(R.id.rv_settings_followups)
         rv_settings_followups.layoutManager = LinearLayoutManager(this)
         setUpDummyData()

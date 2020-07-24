@@ -117,5 +117,10 @@
         <item name="android:background">@color/colorBlack</item>
         <item name="iconTint">@color/colorBlack</item>
     </style>
+
+    <style name="BaseText" parent="@android:style/TextAppearance.Large">
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">#AA7755</item>
+    </style>
     <!--//-->
 </resources>

@@ -43,6 +43,7 @@ class Plan_Sorting : AppCompatActivity() {
         list.add(ContactsModel("Institutional", "12345", false))
         list.add(ContactsModel("Other", "12345", false))
 
+
         adapter = Plan_Sorting_Adapter(list)
         rv_plan_sorting.adapter = adapter
     }

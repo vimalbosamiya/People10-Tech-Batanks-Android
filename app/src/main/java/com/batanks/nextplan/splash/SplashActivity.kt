@@ -32,6 +32,7 @@ class SplashActivity : BaseAppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed(Runnable {
+
             if (getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean(PREF_NAME, false)) {
                 splashViewModel.getUserProfile()
             } else {

@@ -4,21 +4,27 @@ import android.app.DatePickerDialog
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
+import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapterForAll
+import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
+import com.batanks.nextplan.home.fragment.spinner.SpinnerModelForAll
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
 import com.batanks.nextplan.swagger.model.Activity
 import com.batanks.nextplan.swagger.model.EventDate
 import com.batanks.nextplan.swagger.model.Place
+import com.hbb20.CountryCodePicker.OnCountryChangeListener
 import kotlinx.android.synthetic.main.fragment_add_activity.*
 import kotlinx.android.synthetic.main.fragment_add_activity_how_much.*
 import kotlinx.android.synthetic.main.fragment_add_activity_when.*
@@ -45,15 +51,24 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
 
         loadingDialog = requireContext().getLoadingDialog(0, R.string.gathering_information, theme = R.style.AlertDialogCustom)
         et_from_date_activity.setOnClickListener(this)
-        activity_copy_plan_address.setOnClickListener(this)
+        //activity_copy_plan_address.setOnClickListener(this)
         btn_activity_ok.setOnClickListener(this)
+        activity_cancel.setOnClickListener(this)
         activity_add_people.setOnClickListener(this)
 
-        val nature_of_the_cost = arrayOf("Per Person" , "Total Cost")
+       /* actv_activity_nature_of_the_cost.setOnClickListener {
+
+            populateCategory()
+        }*/
+
+        ccp_activity_country.setOnCountryChangeListener(OnCountryChangeListener { Toast.makeText(context, "Updated " + ccp_activity_country.getSelectedCountryName(), Toast.LENGTH_SHORT).show() })
+
+        val nature_of_the_cost = arrayOf("Cost Per Person" , "Total Cost")
 
         val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
         actv_activity_nature_of_the_cost.setAdapter(adapter)
         actv_activity_nature_of_the_cost.threshold = 1
+        //actv_activity_nature_of_the_cost.setDropDownBackgroundResource(R.color.colorLightBlue)
 
         // Set an item click listener for auto complete text view
         actv_activity_nature_of_the_cost.onItemClickListener = AdapterView.OnItemClickListener{
@@ -67,6 +82,8 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
         // Set a dismiss listener for auto complete text view
         actv_activity_nature_of_the_cost.setOnDismissListener {
             //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
+
+            //totalCostTextField.hint = null
         }
         // Set a focus change listener for auto complete text view
         actv_activity_nature_of_the_cost.onFocusChangeListener = View.OnFocusChangeListener{
@@ -77,6 +94,21 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
             }
         }
     }
+
+    private fun populateCategory() {
+        val customSpinner = CustomArrayAdapterForAll(requireContext(), listOf(
+                SpinnerModelForAll("Trip"),
+                SpinnerModelForAll("Professional"),
+                SpinnerModelForAll("Leisure"),
+                SpinnerModelForAll("Institutional"),
+                SpinnerModelForAll("Other")))
+        (totalCostTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
+        (totalCostTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, id ->
+            val obj = parent.adapter.getItem(position) as SpinnerModel?
+            actv_activity_nature_of_the_cost.setText(obj?.title)
+        }
+    }
+
     fun addActivityPeriodClicked() {
 
         /*fragmentManager?.let { AddPeriodFragment().show(it, AddPeriodFragment::class.java.simpleName) }*/
@@ -112,50 +144,72 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
             R.id.et_from_date_activity ->{
                 addActivityPeriodClicked()
             }
+
             R.id.btn_activity_ok ->{
-                showLoader()
-                dismissKeyboard()
 
-                val place = Place(name = ActivityplaceNameTextField?.editText?.text.toString(),
-                        address = activity_addressTextField?.editText?.text.toString(),
-                        zipcode = activity_zipCodeTextField?.editText?.text.toString(),
-                        city = activity_townTextField?.editText?.text.toString(),
-                        country = "",
-                        map = false,
-                        latitude = 0.0,
-                        longitude = 0.0)
+                if (!TextUtils.isEmpty(activityNameTextField?.editText?.text.toString())){
 
-                val stringBuilder = StringBuilder()
-                        .append(place.name)
-                        .append("+")
-                        .append(place.address)
-                        .append("+")
-                        .append(place.city)
-                        .append("+")
-                        .append(place.country)
-                        .append("+")
-                        .append(place.zipcode)
+                    showLoader()
+                    dismissKeyboard()
 
-                val result: List<Address> = Geocoder(view?.context).getFromLocationName(stringBuilder.toString(), 5)
-                if (result.isEmpty()) {
-                    showMessage("We are unable to find the location info, Please enter a different location.")
+                    val place = Place(name = ActivityplaceNameTextField?.editText?.text.toString(),
+                            address = activity_addressTextField?.editText?.text.toString(),
+                            zipcode = activity_zipCodeTextField?.editText?.text.toString(),
+                            city = activity_townTextField?.editText?.text.toString(),
+                            country = ccp_activity_country.getSelectedCountryName(),
+                            map = false,
+                            latitude = 0.0,
+                            longitude = 0.0)
+
+                    val stringBuilder = StringBuilder()
+                            .append(place.name)
+                            .append("+")
+                            .append(place.address)
+                            .append("+")
+                            .append(place.city)
+                            .append("+")
+                            .append(place.country)
+                            .append("+")
+                            .append(place.zipcode)
+
+                    val result: List<Address> = Geocoder(view?.context).getFromLocationName(stringBuilder.toString(), 5)
+                    if (result.isEmpty()) {
+                        //showMessage("We are unable to find the location info, Please enter a different location.")
+                        Toast.makeText(activity,"We are unable to find the location info, Please enter a different location.",Toast.LENGTH_SHORT).show()
+                    } else {
+                        place.latitude = result[0].latitude
+                        place.longitude = result[0].longitude
+                        //listener.addPlaceFragmentAddressFetch(place)
+                    }
+                    val list = listOf<Int>(1,2,3)
+                    val activity = Activity(0 , place , costOfTheActivityTextField?.editText?.text.toString() ,
+                            activityNameTextField?.editText?.text.toString() , "" , "date" , 0 ,
+                            "" , true , 1 , list);
+                    listner.AddActivityFragmentFetch(activity)
+                    hideLoader()
                 } else {
-                    place.latitude = result[0].latitude
-                    place.longitude = result[0].longitude
-                    //listener.addPlaceFragmentAddressFetch(place)
+
+                    if(TextUtils.isEmpty(activityNameTextField?.editText?.text.toString())){
+
+                        //actionNameTextField.error = "Action name is Required"
+                        activityNameTextField.editText?.error = "Activity name is Required"
+                        //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
+                    }
                 }
-                val list = listOf<Int>(1,2,3)
-                val activity = Activity(0 , place , costOfTheActivityTextField?.editText?.text.toString() ,
-                        activityNameTextField?.editText?.text.toString() , "" , "date" , 0 ,
-                "" , true , 1 , list);
-                listner.AddActivityFragmentFetch(activity)
-                hideLoader()
             }
-            R.id.activity_copy_plan_address ->{
+
+            R.id.activity_cancel -> {
+
+                listner.CancelActivityFragmentFetch()
+
+            }
+
+            /*R.id.activity_copy_plan_address ->{
                 if(activityViewModel.place?.size >0){
                     val place = activityViewModel.place.get(0)
                 }
-            }
+            }*/
+
             R.id.activity_add_people ->{
                 requireActivity().supportFragmentManager
                         .beginTransaction()

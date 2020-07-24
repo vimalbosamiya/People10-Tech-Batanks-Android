@@ -28,17 +28,17 @@ class NotificationsFragment : BaseFragment(){
         ref.setSupportActionBar(toolBar)
         ref.supportActionBar?.title = "Notifications "
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val homeAsUpIndicator: Unit? = ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
+        ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
-        toolBar.setOnClickListener {
+        toolBar.setNavigationOnClickListener {
 
-            Toast.makeText(activity,"Working", Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
-            //activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.addToBackStack(SearchFragment.TAG)?.commit()
+            activity?.extFab!!.visibility = View.VISIBLE
+
+            //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
 
         }
-
-        // toolBar.setOnMenuItemClickListener
 
         val tabsPagerAdapter = NotificationsTabsAdapter(childFragmentManager)
         view_pager.adapter = tabsPagerAdapter

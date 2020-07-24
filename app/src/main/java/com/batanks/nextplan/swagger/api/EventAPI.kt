@@ -42,7 +42,7 @@ interface EventAPI {
     fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AsssignTask?): Call<AsssignTask>
 
     @POST("api/event/")
-    fun apiEventCreate(@Body data: Event?): Call<Event>
+    fun apiEventCreate(@Body data: Event?): Observable<Event>
 
     @GET("api/event/created/")
     fun apiEventCreatedList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2002>

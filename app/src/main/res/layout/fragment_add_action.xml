@@ -64,7 +64,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -101,7 +101,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -130,26 +130,28 @@
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/costActionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLength="15"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/natureOfTheCostTextField"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
+            android:hint="The nature of the cost"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="#34CBFE"
@@ -158,6 +160,9 @@
             app:helperText="Cost per person or Total cost ?"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/costActionTextField"
@@ -168,10 +173,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="15sp"
                 android:editable="false"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
                 android:gravity="center_vertical"
                 android:inputType="none"
-                android:text="Total Cost" />
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -241,7 +249,7 @@
             android:id="@+id/assignParticipantButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="272dp"
-            android:layout_height="48dp"
+            android:layout_height="58dp"
             android:layout_marginTop="23dp"
             android:text="ASSIGN People"
             android:textColor="#ffffff"
@@ -288,7 +296,7 @@
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorLittleBlue"
             app:layout_constraintRight_toLeftOf="@+id/ok"
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
     </androidx.constraintlayout.widget.ConstraintLayout>

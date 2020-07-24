@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-        app:layout_constraintRight_toLeftOf="@+id/img_settings"
+        app:layout_constraintRight_toLeftOf="@+id/notification"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_notification_with_alert"
         app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-        app:layout_constraintRight_toLeftOf="@+id/search"
+        app:layout_constraintRight_toLeftOf="@+id/img_settings"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

@@ -97,6 +97,6 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
     }
 
     override fun onClick(v: View?) {
-        
+
     }
 }

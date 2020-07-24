@@ -17,11 +17,10 @@
         android:id="@+id/whoWithDividerIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/ic_divider"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/whoWithTextView"
         app:layout_constraintTop_toBottomOf="@+id/whoWithTextView" />
 
     <com.google.android.material.button.MaterialButton
