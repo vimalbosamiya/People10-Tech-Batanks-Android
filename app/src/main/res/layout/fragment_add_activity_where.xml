@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/ic_popup_background">
 
     <com.google.android.material.textview.MaterialTextView
@@ -36,10 +36,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:hint="Place Activity name"
+        android:hint="Place name"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Describe the activity"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="30"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -97,7 +97,7 @@
         android:hint="Address"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Enter an address"
@@ -117,8 +117,8 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
-            android:maxLines="1"
+            android:maxLength="100"
+            android:maxLines="3"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
@@ -145,7 +145,7 @@
         android:hint="Zip Code"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Postal Code"
@@ -164,8 +164,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
-            android:inputType="number"
-            android:maxLength="15"
+            android:inputType="text"
+            android:maxLength="10"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@null"/>
@@ -183,7 +183,7 @@
         android:hint="Town"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="The City"
@@ -200,7 +200,7 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="20"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@null" />
@@ -214,14 +214,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
-        android:padding="8dp"
-        android:layout_margin="16dp"
+        android:paddingTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/rl_black_curved">
 
         <com.hbb20.CountryCodePicker
         android:id="@+id/ccp_activity_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:ccp_showFullName="true"
         app:ccp_showPhoneCode="false"
         app:ccp_showNameCode="false"
@@ -235,6 +240,12 @@
         app:ccp_autoDetectCountry="true"
         app:ccp_countryAutoDetectionPref="LOCALE_SIM_NETWORK"
         app:ccpDialog_textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DEFFFFFF"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

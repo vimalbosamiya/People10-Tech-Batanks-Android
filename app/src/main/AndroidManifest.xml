@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http"
                     android:host="93.90.204.56"
-                    android:pathPrefix="/"/>
+                    android:pathPrefix="/authentication/reset/"/>
             </intent-filter>
 
         </activity>

@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account recovery 1/2"
+                android:text="Account recovery"
                 android:textSize="24sp"
                 android:textColor="#DEFFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbarConstraintLayout"
@@ -89,7 +89,7 @@
         android:textColorHint="#ffffff"
         android:textCursorDrawable="@null"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Enter your email address"

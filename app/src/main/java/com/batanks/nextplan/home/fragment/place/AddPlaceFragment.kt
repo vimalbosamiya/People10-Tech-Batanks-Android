@@ -93,16 +93,25 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                             .append(place.zipcode)
 
                     val result: List<Address> = Geocoder(view.context).getFromLocationName(stringBuilder.toString(), 5)
-                    if (result.isEmpty()) {
-                        //showMessage("We are unable to find the location info, Please enter a different location.")
-                        Toast.makeText(activity,"We are unable to find the location info, Please enter a different location.",Toast.LENGTH_LONG).show()
-                    } else {
-                        place.latitude = result[0].latitude
-                        place.longitude = result[0].longitude
-                        listener.addPlaceFragmentAddressFetch(place)
 
-                        //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
+                    if (enableMapSupportCheckBox.isChecked){
+
+                        if (result.isEmpty()) {
+                            //showMessage("We are unable to find the location info, Please enter a different location.")
+                            Toast.makeText(activity,"We are unable to find the location info, Please enter a different location.",Toast.LENGTH_LONG).show()
+
+                        }else {
+                            place.latitude = result[0].latitude
+                            place.longitude = result[0].longitude
+                            listener.addPlaceFragmentAddressFetch(place)
+
+                            //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
+                        }
+                    } else {
+
+                        listener.addPlaceFragmentAddressFetch(place)
                     }
+
                     hideLoader()
                 }else {
 
@@ -110,6 +119,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
 
                         //actionNameTextField.error = "Action name is Required"
                         planNameTextField.editText?.error = "Place name is Required"
+                        planNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                     }
                 }

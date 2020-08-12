@@ -1,13 +1,20 @@
 package com.batanks.nextplan.Settings
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,8 +43,37 @@ class Contact : AppCompatActivity() {
 
         rl_settings_create_new_groups = findViewById(R.id.rl_settings_create_new_groups)
 
+        img_settings_contacts_contacts_downarrow.setOnClickListener {
 
-        img_settings_contacts_contacts_downarrow.setOnClickListener(View.OnClickListener {
+            settings_contacts_list_section2.visibility = VISIBLE
+            img_settings_contacts_contacts_downarrow.visibility = GONE
+            img_settings_contacts_contacts_uparrow.visibility = VISIBLE
+        }
+
+        img_settings_contacts_contacts_uparrow.setOnClickListener {
+
+            settings_contacts_list_section2.visibility = GONE
+            img_settings_contacts_contacts_downarrow.visibility = VISIBLE
+            img_settings_contacts_contacts_uparrow.visibility = GONE
+        }
+
+        img_settings_contacts_groups_downarrow.setOnClickListener{
+
+            rv_settings_groups.visibility = VISIBLE
+            rl_settings_create_new_groups.visibility = VISIBLE
+            img_settings_contacts_groups_downarrow.visibility = GONE
+            img_settings_contacts_groups_uparrow.visibility = VISIBLE
+        }
+
+        img_settings_contacts_groups_uparrow.setOnClickListener{
+
+            rv_settings_groups.visibility = GONE
+            rl_settings_create_new_groups.visibility = GONE
+            img_settings_contacts_groups_downarrow.visibility = VISIBLE
+            img_settings_contacts_groups_uparrow.visibility = GONE
+        }
+
+      /*  img_settings_contacts_contacts_downarrow.setOnClickListener(View.OnClickListener {
             if(settings_contacts_list_section2.visibility == View.VISIBLE){
                 settings_contacts_list_section2.visibility = View.GONE
             } else {
@@ -55,7 +91,9 @@ class Contact : AppCompatActivity() {
                 rl_settings_create_new_groups.visibility = View.VISIBLE
                 settings_contacts_list_section2.visibility = View.GONE
             }
-        })
+        })*/
+
+
         rl_settings_create_new_groups.setOnClickListener(View.OnClickListener {
             showDialog()
         })
@@ -68,11 +106,27 @@ class Contact : AppCompatActivity() {
         setUpDummyData()
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = getCurrentFocus()
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
 
     private fun showDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_create_group)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

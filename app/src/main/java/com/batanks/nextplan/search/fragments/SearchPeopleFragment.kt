@@ -241,7 +241,7 @@ class SearchPeopleFragment : BaseFragment()  {
     private fun showDialog(context : Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_create_followups)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 

@@ -2,6 +2,8 @@ package com.batanks.nextplan.Settings.Adapters
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +44,10 @@ class ContactsAdapter_Settings (private val myList: List<ContactsModel>) : Recyc
     private fun showDialog(context :Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_edit_contacts)
+
         val edit = dialog.findViewById(R.id.rl_edit_contact_edit) as RelativeLayout
         val delete = dialog.findViewById(R.id.rl_edit_contact_delete) as RelativeLayout
         val add_to_contacts = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout

@@ -52,9 +52,13 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
                 }
                 Status.SUCCESS -> {
 
-
-
                     hideLoader()
+
+                    tvPasswordSent.visibility = VISIBLE
+                    extFab_back.visibility = VISIBLE
+                    extFab_submit.visibility = GONE
+
+                    Toast.makeText(this,response.status.toString(),Toast.LENGTH_LONG).show()
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -78,9 +82,9 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
             startActivity(intent)
             finish()*/
 
-            tvPasswordSent.visibility = VISIBLE
+            /*tvPasswordSent.visibility = VISIBLE
             extFab_back.visibility = VISIBLE
-            extFab_submit.visibility = GONE
+            extFab_submit.visibility = GONE*/
 
             if (!TextUtils.isEmpty(emailTextField?.editText?.text.toString())){
 

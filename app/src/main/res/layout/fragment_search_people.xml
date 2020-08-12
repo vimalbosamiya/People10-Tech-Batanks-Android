@@ -37,7 +37,7 @@
                 android:textCursorDrawable="@null"
                 app:endIconDrawable="@drawable/ic_search_icon"
                 app:boxBackgroundColor="#000000"
-                app:boxStrokeColor="#34CBFE"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
                 app:endIconMode="custom"
                 app:endIconTint="@color/colorWhite"
                 app:helperText="Enter a name, an e-mail, or a nickname"
@@ -49,18 +49,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addcontactSearchEditField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:inputType="text"
                     android:maxLength="20"
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:scrollbarTrackHorizontal="@color/colorWhite"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -474,7 +475,7 @@
                 android:textColorHint="#ffffff"
                 android:textCursorDrawable="@null"
                 app:boxBackgroundColor="#000000"
-                app:boxStrokeColor="#34CBFE"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_send"
                 app:endIconTint="@color/colorWhite"
@@ -492,7 +493,7 @@
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
                     android:inputType="text"
-                    android:maxLength="15"
+                    android:maxLength="30"
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -647,7 +648,7 @@
 
     </ScrollView>
 
-   <!-- <RelativeLayout
+    <RelativeLayout
         android:id="@+id/rl_settings_news_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -672,7 +673,7 @@
             android:layout_centerVertical="true"
             android:padding="16dp"
             android:layout_marginRight="16dp"/>
-    </RelativeLayout>-->
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFab_followup"

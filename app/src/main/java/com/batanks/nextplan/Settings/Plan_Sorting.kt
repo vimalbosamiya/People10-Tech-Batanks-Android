@@ -39,7 +39,7 @@ class Plan_Sorting : AppCompatActivity() {
         list.add(ContactsModel("News", "12345", false))
         list.add(ContactsModel("Trip", "12345", false))
         list.add(ContactsModel("Professional", "12345", false))
-        list.add(ContactsModel("Liesure", "12345", false))
+        list.add(ContactsModel("Leisure", "12345", false))
         list.add(ContactsModel("Institutional", "12345", false))
         list.add(ContactsModel("Other", "12345", false))
 

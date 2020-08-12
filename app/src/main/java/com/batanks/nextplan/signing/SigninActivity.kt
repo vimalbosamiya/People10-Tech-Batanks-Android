@@ -71,7 +71,8 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                 }
                 Status.ERROR -> {
                     hideLoader()
-                    showMessage(response.error?.message.toString())
+                   // showMessage(response.error?.message.toString())
+                    Toast.makeText(this,"Username or Password is incorrect",Toast.LENGTH_LONG).show()
                 }
             }
         })
@@ -149,19 +150,22 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
 
                 } else if (TextUtils.isEmpty(loginTextField?.editText?.text.toString()) && TextUtils.isEmpty(passTextField?.editText?.text.toString())){
 
-                    loginTextField.editText?.error = "UserName is Required"
-                    passTextField.editText?.error = "Paswword is Required"
+                    loginTextField.editText?.error = "Username is Required"
+                    passTextField.editText?.error = "Password is Required"
+
+                    loginTextField.editText?.requestFocus()
+                    passTextField.editText?.requestFocus()
 
                 } else if (TextUtils.isEmpty(passTextField?.editText?.text.toString())){
 
-                    passTextField.editText?.error = "Paswword is Required"
+                    passTextField.editText?.error = "Password is Required"
+                    passTextField.editText?.requestFocus()
 
                 } else if (TextUtils.isEmpty(loginTextField?.editText?.text.toString())){
 
-                    loginTextField.editText?.error = "Paswword is Required"
+                    loginTextField.editText?.error = "Username is Required"
+                    loginTextField.editText?.requestFocus()
                 }
-
-
             }
         }
     }

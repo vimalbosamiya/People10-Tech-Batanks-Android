@@ -34,6 +34,7 @@
     <string name="gathering_information" tools:ignore="TypographyEllipsis">Gathering the Information... Please wait...</string>
 
     <string name="plan_name">Plan name<font color="#ff0000"><bold> *</bold></font></string>
+    <string name="pname">Plan name</string>
     <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>
     <string name="asteriskred"><font color='#cc0029'>*</font></string>
 

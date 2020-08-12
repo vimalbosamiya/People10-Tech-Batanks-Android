@@ -127,6 +127,7 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
 
                         //actionNameTextField.error = "Action name is Required"
                         actionNameTextField.editText?.error = "Action name is Required"
+                        actionNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                     }
                 }

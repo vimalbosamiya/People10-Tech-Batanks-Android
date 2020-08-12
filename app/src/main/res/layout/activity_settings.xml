@@ -112,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:text="Contacts"
                 android:layout_toRightOf="@id/img_settings_contacts"
-                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             <View
@@ -147,7 +148,9 @@
                 android:layout_height="wrap_content"
                 android:text="Follow ups"
                 android:layout_toRightOf="@id/img_settings_followup"
-                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="2dp"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             <View
@@ -155,6 +158,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="2dp"
                 android:background="@color/colorBlack"
                 android:layout_below="@id/txt_settings_followup"
                 android:layout_toRightOf="@id/img_settings_followup"/>
@@ -391,7 +395,7 @@
             android:hint="English"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
             app:helperText="Select a language"
@@ -427,10 +431,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Euro"
+            android:hint="Euro (€)"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
             app:helperText="Select a currency"

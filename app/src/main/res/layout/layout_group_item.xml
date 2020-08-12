@@ -43,6 +43,7 @@
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
         android:layout_toEndOf="@id/groupIcon"
         android:layout_below="@id/groupIcon"/>
 

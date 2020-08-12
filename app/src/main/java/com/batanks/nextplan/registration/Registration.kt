@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -70,6 +71,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
+                    Log.d("error", response.error.toString())
                 }
             }
         })

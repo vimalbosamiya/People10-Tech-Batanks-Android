@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -47,11 +48,14 @@
     <ScrollView
         android:id="@+id/scrollview_contact"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_seperator_settings_contact"
-        >
+        app:layout_constraintBottom_toTopOf="@+id/rl_settings_contacts_news_bottom">
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settings_contacts_contatiner"
             android:layout_width="match_parent"
@@ -68,8 +72,9 @@
                 android:hint="Search for..."
                 android:textColorHint="#ffffff"
                 app:boxBackgroundColor="#000000"
-                app:boxStrokeColor="#34CBFE"
-                app:endIconMode="clear_text"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_search_icon"
                 app:endIconTint="@color/colorWhite"
                 app:helperText="Enter a name or category of plans"
                 app:helperTextEnabled="true"
@@ -92,7 +97,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:scrollbarTrackHorizontal="@color/colorWhite"
-                    android:textCursorDrawable="@color/colorWhite" />
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,6 +140,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts"
                 />
+
+                <ImageView
+                    android:id="@+id/img_settings_contacts_contacts_uparrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_event_details_expand_less"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts"
+                    />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,7 +162,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:background="#272727"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settings_contacts_list_section">
@@ -194,6 +210,7 @@
             android:id="@+id/settings_contacts_list_groups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:paddingLeft="16dp"
@@ -231,6 +248,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups"
                 />
+
+            <ImageView
+                android:id="@+id/img_settings_contacts_groups_uparrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:padding="20dp"
+                android:src="@drawable/ic_event_details_expand_less"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups"
+                />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_settings_groups"
                 android:layout_width="match_parent"
@@ -247,7 +275,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_settings_groups"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_contacts_list_groups"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
                 android:visibility="gone">
 
                 <ImageView
@@ -262,7 +292,7 @@
                     android:id="@+id/txt_settings_contacts_add_groups"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CREATE NEW GROUPS"
+                    android:text="CREATE NEW GROUP"
                     android:layout_toRightOf="@id/img_settings_contacts_add_groups"
                     android:padding="10dp"
                     android:textColor="#90CAF9"

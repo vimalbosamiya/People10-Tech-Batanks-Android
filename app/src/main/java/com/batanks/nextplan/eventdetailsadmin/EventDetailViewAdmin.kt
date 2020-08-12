@@ -317,7 +317,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         val addGuestsView = Dialog(this/*,android.R.style.Theme_Translucent_NoTitleBar*/)
         addGuestsView.requestWindowFeature(Window.FEATURE_NO_TITLE)
         addGuestsView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        addGuestsView.setCancelable(false)
+        addGuestsView.setCancelable(true)
         addGuestsView.setContentView(R.layout.layout_add_guests)
         addGuestsView.show()
 
@@ -530,7 +530,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                         cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
 
                         //FromDate
-                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
+                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
                         val startDate = dateFormatter.format(cal.time)
                         println(startDate)
 

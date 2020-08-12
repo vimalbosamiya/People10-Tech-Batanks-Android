@@ -2,6 +2,8 @@ package com.batanks.nextplan.Settings.Adapters
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +44,8 @@ class GroupsAdapter_Settings (private val myList: List<ContactsModel>) : Recycle
     private fun showDialog(context : Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_edit_groups)
         val edit = dialog.findViewById(R.id.rl_edit_groups_edit) as RelativeLayout
         val delete = dialog.findViewById(R.id.rl_edit_groups_delete) as RelativeLayout

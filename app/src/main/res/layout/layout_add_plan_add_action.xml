@@ -16,12 +16,12 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/actionDividerIcon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
         android:layout_marginTop="32dp"
-        android:layout_marginRight="12dp"
-        android:src="@drawable/ic_divider"
+        android:src="#7A000000"
         app:layout_constraintLeft_toLeftOf="@+id/actionTextView"
         app:layout_constraintTop_toBottomOf="@+id/actionTextView" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/actionRecyclerView"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="23dp"
-        android:text="ADD ACTION"
+        android:text="ADD AN ACTION"
         android:textColor="#ffffff"
         app:cornerRadius="25dp"
         app:icon="@drawable/ic_add"

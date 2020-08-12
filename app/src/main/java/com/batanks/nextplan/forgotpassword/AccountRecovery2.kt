@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import androidx.lifecycle.Observer
 import android.view.View
@@ -39,7 +40,12 @@ class AccountRecovery2 : BaseAppCompatActivity() {
         }).get(AccountRecoveryViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    //var token : String? = null
+
+    lateinit var token : String
+    lateinit var email : String
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_recovery2)
 
@@ -47,11 +53,27 @@ class AccountRecovery2 : BaseAppCompatActivity() {
 
         if (uri != null){
 
-            var params : List<String> = uri.pathSegments
+            token = uri.getQueryParameter("token").toString()
+            email = uri.getQueryParameter("email").toString()
+            //var email : String? = uri.getQueryParameter("email")
+
+            Log.d("token",token)
+            Log.d("email",email)
+
+            /*var params : List<String> = uri.pathSegments
+            var link : String = uri.toString()
+            Toast.makeText(this, link ,Toast.LENGTH_LONG).show()
+            Log.d("Link",link)
+
+            for(p in params){
+
+                println(p)
+                Log.d("param",uri.pathSegments.toString())
+                Log.d("params",params.toString())
+            }
             var email : String = params.get(params.size-1)
             var token : String = params.get(params.size-2)
-
-            Toast.makeText(this,"email = " + email + "token = " + token,Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"email = " + email + "token = " + token,Toast.LENGTH_LONG).show()*/
         }
 
         accountRecoveryViewModel.responseLiveData.observe(this, Observer { response ->
@@ -91,14 +113,16 @@ class AccountRecovery2 : BaseAppCompatActivity() {
             finish()
         }
 
-        /*extFab_ok.setOnClickListener {
+        extFab_ok.setOnClickListener {
 
             if (!TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) && !TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())
                 && TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) == TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
 
                 val resetPassword = ResetPassword(password = newPasswordTextField?.editText?.text.toString(),
                         confirmPassword = confirmPasswordTextField?.editText?.text.toString(),
-                        email = "",token = "")
+                        email = email, token = token)
+                Log.d("token from listener",token + email)
+
                 accountRecoveryViewModel.resetPassword(resetPassword)
 
             }else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) && TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
@@ -106,15 +130,25 @@ class AccountRecovery2 : BaseAppCompatActivity() {
                 newPasswordTextField.editText?.error = "New Password is Required"
                 confirmPasswordTextField.editText?.error = "Confirm Password is Required"
 
+                newPasswordTextField.editText?.requestFocus()
+                confirmPasswordTextField.editText?.requestFocus()
+
             }else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString())){
 
                 newPasswordTextField.editText?.error = "New Password is Required"
+                newPasswordTextField.editText?.requestFocus()
 
             }else if (TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
 
                 confirmPasswordTextField.editText?.error = "New Password is Required"
+                confirmPasswordTextField.editText?.requestFocus()
+
+            }else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) != TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
+
+                confirmPasswordTextField.editText?.error = "Password doesn't match"
+                confirmPasswordTextField.editText?.requestFocus()
             }
-        }*/
+        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

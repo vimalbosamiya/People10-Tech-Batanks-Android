@@ -278,7 +278,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="36dp"
                         android:layout_marginBottom="28dp"
-                        android:text="ADD contact"
+                        android:text="ADD CONTACT"
                         android:textColor="#90CAF9"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -478,10 +478,10 @@
                 android:id="@+id/peopleOutline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="43dp"
+
                 android:layout_marginTop="59.02dp"
                 android:background="@drawable/ic_event_details_people_outline"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/dateConstraintViewHolder"
                 app:layout_constraintTop_toBottomOf="@+id/tripHolder" />
 
             <TextView

@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="23dp"
-        android:text="ADD ACTIVITY"
+        android:text="ADD AN ACTIVITY"
         android:textColor="#ffffff"
         app:cornerRadius="25dp"
         app:icon="@drawable/ic_add"

@@ -9,9 +9,11 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -50,6 +52,8 @@ import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_people.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
+import kotlinx.android.synthetic.main.layout_add_plan_footer.*
+import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -92,14 +96,14 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        planNameEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        /*planNameEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 planNameEditText.hint = "Vinoth"
                 planNameEditText.requestFocus()
             } else {
                 planNameEditText.hint = ""
             }
-        }
+        }*/
 
         /*override fun dispatchTouchEvent(event: MotionEvent): Boolean {
       if (event.action == MotionEvent.ACTION_DOWN) {
@@ -140,7 +144,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
         //planNameEditText.hint = Html.fromHtml(planName) as Editable?
 
-        //planNameTextField.markRequiredInRed()
+        planNameTextField.markRequiredInRed()
 
         //planNameTextField.hint = Html.fromHtml(planName) as Editable?
 
@@ -153,16 +157,22 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
         addPeopleButton.setOnClickListener(this)
+
         actv_category.setOnClickListener {
 
             populateCategory()
         }
+
+        populateCategory()
+
+        createPlanButton.setOnClickListener(this)
 
         populateAddPeriodRecyclerViewIfAny()
         populateAddPlaceRecyclerViewIfAny()
         populateAddActionRecyclerViewIfAny()
         populateAddActivityRecyclerViewIfAny()
     }
+
 
     /*override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
@@ -180,13 +190,13 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         return super.dispatchTouchEvent(event)
     }*/
 
-    /*fun TextInputLayout.markRequiredInRed() {
+    fun TextInputLayout.markRequiredInRed() {
 
         hint = buildSpannedString {
             append(hint)
             color(Color.RED) { append(" *") }
         }
-    }*/
+    }
 
     private fun populateCategory() {
         val customSpinner = CustomArrayAdapter(requireContext(), listOf(
@@ -194,11 +204,13 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 SpinnerModel("Professional", R.drawable.ic_category_professional),
                 SpinnerModel("Leisure", R.drawable.ic_category_leisure),
                 SpinnerModel("Institutional", R.drawable.ic_category_institutional),
-                SpinnerModel("Other", R.drawable.ic_category_others)))
+                SpinnerModel("Other", R.drawable.ic_category_icon)))
         (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
         (categoryTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, id ->
             val obj = parent.adapter.getItem(position) as SpinnerModel?
             actv_category.setText(obj?.title)
+            obj?.id?.let { categoryTextField.setStartIconDrawable(it) }
+
         }
     }
 
@@ -219,6 +231,15 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             }
             R.id.addPeopleButton -> {
                 addPeopleClicked()
+            }
+
+            R.id.createPlanButton -> {
+
+                if(TextUtils.isEmpty(planNameTextField?.editText?.text.toString())){
+
+                    planNameTextField.editText?.error = "Place name is Required"
+                    planNameTextField.requestFocus()
+                }
             }
         }
     }
@@ -269,6 +290,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         fromDate.setCanceledOnTouchOutside(false)
         fromDate.show()*/
 
+
+
         val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
 
             val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
@@ -281,7 +304,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                         cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
 
                         //FromDate
-                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
+                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
                         val startDate = dateFormatter.format(cal.time)
                         println(startDate)
 
@@ -293,7 +316,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                         publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         addPeriodButton.text = "ADD AN OTHER PERIOD"
-                        addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+                        //addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
 
                     }, mHour, mMin, false)
                     toTime.show()
@@ -307,12 +330,15 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             fromTime.show()
 
         }, mYear, mMonth, mDay)
+
         fromDate.datePicker.minDate = System.currentTimeMillis()
-        fromDate.setCanceledOnTouchOutside(false)
+        fromDate.setCanceledOnTouchOutside(true)
+        fromDate.setTitle("From")
+
         fromDate.show()
     }
 
-   /* fun set_timepicker_text_colour(){
+    /*fun set_timepicker_text_colour(){
 
         var ampm_numberpicker_id : Int = system.getIdentifier("amPm", "id", "android")
 
@@ -360,7 +386,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         } else {
 
             addPeriodButton.text = "ADD AN OTHER PERIOD"
-            addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+            //addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         }
 
         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
@@ -375,7 +401,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         } else {
 
             addPlaceButton.text = "ADD ANOTHER PLACE"
-            addPlaceButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+            //addPlaceButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         }
 
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
@@ -390,7 +416,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         } else {
 
             addActionButton.text = "ADD ANOTHER ACTION"
-            addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+            //addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
 
         }
 
@@ -407,7 +433,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         } else {
 
             addActivityButton.text = "ADD ANOTHER ACTIVITY"
-            addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+            //addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         }
 
         activityRecyclerView?.adapter?.notifyDataSetChanged()
@@ -467,7 +493,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
         addActionButton.text = "ADD ANOTHER ACTION"
-        addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+        //addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         publicPlanViewModel.action.add(task)
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -483,7 +509,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
         addActivityButton.text = "ADD ANOTHER ACTIVITY"
-        addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+        //addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         publicPlanViewModel.activity.add(activity)
         activityRecyclerView?.adapter?.notifyDataSetChanged()
     }

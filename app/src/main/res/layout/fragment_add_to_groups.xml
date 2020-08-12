@@ -103,7 +103,7 @@
             android:id="@+id/txt_settings_contacts_add_groups"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREATE NEW GROUPS"
+            android:text="CREATE NEW GROUP"
             android:layout_toRightOf="@id/img_settings_contacts_add_groups"
             android:padding="10dp"
             android:textColor="#90CAF9"

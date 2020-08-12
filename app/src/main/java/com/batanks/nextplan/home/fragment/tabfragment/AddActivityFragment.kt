@@ -193,6 +193,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
 
                         //actionNameTextField.error = "Action name is Required"
                         activityNameTextField.editText?.error = "Activity name is Required"
+                        activityNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                     }
                 }
