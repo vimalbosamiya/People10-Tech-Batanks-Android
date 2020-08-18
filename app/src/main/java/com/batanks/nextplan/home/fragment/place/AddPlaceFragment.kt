@@ -19,6 +19,7 @@ import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.swagger.model.EventPlace
 import com.batanks.nextplan.swagger.model.Place
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_followups.*
 import kotlinx.android.synthetic.main.fragment_add_place.*
 
@@ -62,6 +63,22 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
 
         ok.setOnClickListener(this)
         cancel.setOnClickListener(this)
+
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                            val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                            v.clearFocus()
+                        }
+
+                return false
+            }
+        })
     }
 
     override fun onClick(view: View?) {

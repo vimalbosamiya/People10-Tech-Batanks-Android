@@ -77,7 +77,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
             }
         })
 
-        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+      loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
 
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)

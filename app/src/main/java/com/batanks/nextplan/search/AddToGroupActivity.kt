@@ -95,24 +95,47 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
         val btn_create_group_cancel = dialog.findViewById(R.id.btn_create_group_cancel) as Button
         val btn_create_group_ok = dialog.findViewById(R.id.btn_create_group_ok) as Button
 
-        btn_create_group_cancel.setOnClickListener {
-            dialog.dismiss()
-        }
+        dialog.show()
+
         btn_create_group_ok.setOnClickListener {
 
-            if(!TextUtils.isEmpty(tip_create_group_gname?.editText?.text.toString())){
+            if (input_create_group_gname != null){
 
-               // dialog.dismiss()
-                Toast.makeText(this,"Condition Running",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Empty",Toast.LENGTH_SHORT).show()
+            } else {
+
+                Toast.makeText(this,"Not empty",Toast.LENGTH_SHORT).show()
+            }
+
+            /*if(!TextUtils.isEmpty(tip_create_group_gname?.editText?.text.toString())){
+
+                // dialog.dismiss()
+                Toast.makeText(this,"Condition Running",Toast.LENGTH_SHORT).show()
 
             }else if(TextUtils.isEmpty(tip_create_group_gname?.editText?.text.toString())){
 
+                Toast.makeText(this,"Came to error",Toast.LENGTH_SHORT).show()
+
                 tip_create_group_gname.editText?.error = "UserName is Required"
                 tip_create_group_gname.editText?.requestFocus()
-            }
+            }*/
 
         }
-        dialog.show()
+
+        btn_create_group_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                v.clearFocus()
+            }
+            false
+        }
 
     }
 

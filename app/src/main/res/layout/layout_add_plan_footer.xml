@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
-
     </RelativeLayout>
 
     <LinearLayout
@@ -27,7 +25,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveDraftButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:enabled="false"
@@ -45,7 +43,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createPlanButton"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:backgroundTint="#90CAF9"

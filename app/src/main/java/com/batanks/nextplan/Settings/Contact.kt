@@ -139,6 +139,17 @@ class Contact : AppCompatActivity() {
         btn_create_group_ok.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                v.clearFocus()
+            }
+            false
+        }
+
     }
 
     private fun setUpDummyData(){

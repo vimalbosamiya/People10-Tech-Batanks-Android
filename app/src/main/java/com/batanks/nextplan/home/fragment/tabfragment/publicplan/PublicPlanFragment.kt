@@ -45,6 +45,7 @@ import com.batanks.nextplan.swagger.model.Activity
 import com.batanks.nextplan.swagger.model.EventDate
 import com.batanks.nextplan.swagger.model.Place
 import com.batanks.nextplan.swagger.model.Task
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
@@ -89,7 +90,6 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-
         return inflater.inflate(R.layout.fragment_public_new_plan, container, false)
     }
 
@@ -126,7 +126,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
                 if (event?.action == MotionEvent.ACTION_DOWN) {
-                    if(v is EditText) {
+                    if(v is TextInputEditText) {
                         val outRect = Rect()
                         v.getGlobalVisibleRect(outRect)
                         if (!outRect.contains(event.rawX as Int, event.rawY as Int)) {
@@ -323,7 +323,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                 }, mYear, mMonth, mDay)
                 toDate.datePicker.minDate = System.currentTimeMillis()
-                toDate.setCanceledOnTouchOutside(false)
+                toDate.setCanceledOnTouchOutside(true)
+                toDate.setCustomTitle(layoutInflater.inflate(R.layout.date_to,null))
                 toDate.show()
 
             }, mHour, mMin, false)
@@ -333,8 +334,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
         fromDate.datePicker.minDate = System.currentTimeMillis()
         fromDate.setCanceledOnTouchOutside(true)
-        fromDate.setTitle("From")
-
+        //fromDate.setTitle("From")
+        fromDate.setCustomTitle(layoutInflater.inflate(R.layout.date_from,null))
         fromDate.show()
     }
 
@@ -353,7 +354,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 .add(AddPlaceFragment(this), AddPlaceFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
 
-        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
+        //addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
     override fun addActionClicked() {
@@ -411,7 +412,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
         if (publicPlanViewModel.action.size == 0){
 
-            addActionButton.text = "ADD ACTION"
+            addActionButton.text = "ADD AN ACTION"
             addActionButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
         } else {
 
@@ -428,7 +429,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
         if (publicPlanViewModel.activity.size == 0){
 
-            addActivityButton.text = "ADD ACTIVITY"
+            addActivityButton.text = "ADD AN ACTIVITY"
             addActivityButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
         } else {
 

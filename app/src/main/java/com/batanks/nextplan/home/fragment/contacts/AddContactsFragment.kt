@@ -3,16 +3,19 @@ package com.batanks.nextplan.home.fragment.contacts
 import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -180,6 +183,21 @@ class AddContactsFragment : BaseDialogFragment() {
 
             img_ph_contacts_down_arrow_icon.visibility = VISIBLE
         }
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+
+                return false
+            }
+        })
     }
 
 

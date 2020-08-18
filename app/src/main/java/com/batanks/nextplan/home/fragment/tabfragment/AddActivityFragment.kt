@@ -1,13 +1,13 @@
 package com.batanks.nextplan.home.fragment.tabfragment
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -35,17 +35,28 @@ import java.util.*
 
 class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialogFragment() , View.OnClickListener {
 
+    private var originalMode : Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.App_DialogFragment_Theme)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        /*originalMode = activity?.window?.getSoftInputMode()
+        activity?.window?.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )*/
+
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return inflater.inflate(R.layout.fragment_add_activity, container, false)
     }
+
     private val activityViewModel: PublicPlanViewModel by lazy {
         ViewModelProvider(this)[PublicPlanViewModel::class.java]
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,6 +79,10 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
         val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
         actv_activity_nature_of_the_cost.setAdapter(adapter)
         actv_activity_nature_of_the_cost.threshold = 1
+
+        /*val adapter = ArrayAdapter(requireContext(), R.layout.list_item, nature_of_the_cost)
+        actv_activity_nature_of_the_cost.setAdapter(adapter)
+        actv_activity_nature_of_the_cost.threshold = 1*/
         //actv_activity_nature_of_the_cost.setDropDownBackgroundResource(R.color.colorLightBlue)
 
         // Set an item click listener for auto complete text view
@@ -93,6 +108,25 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                 actv_activity_nature_of_the_cost.showDropDown()
             }
         }
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+
+                return false
+            }
+        })
+    }
+
+    fun Window.getSoftInputMode() : Int {
+        return attributes.softInputMode
     }
 
     private fun populateCategory() {

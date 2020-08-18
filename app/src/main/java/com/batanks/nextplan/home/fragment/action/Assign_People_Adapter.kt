@@ -54,7 +54,7 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
             myList.get(clickedPos).selection = (cb.isChecked)
             //Toast.makeText(v.context , "" + myList.get(clickedPos).contactname , Toast.LENGTH_SHORT).show()
             val selection = myList.get(clickedPos).contactname + " " + myList.get(clickedPos).contactNumber;
-            listner.assignSelectedContact(selection)
+            listner.assignSelectedContact(selection/*, cb.isChecked*/)
         }
     }
 
@@ -63,6 +63,6 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
         val checkBox : CheckBox = item.cb_assign_contact
     }
     interface assignPeopleRecyclerViewCallBack {
-        fun assignSelectedContact(selection : String)
+        fun assignSelectedContact(selection : String/*, selected : Boolean*/)
     }
 }

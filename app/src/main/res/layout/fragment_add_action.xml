@@ -95,9 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:maxLength="500"
-                android:maxLines="5"
+                android:maxLines="4"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
@@ -230,8 +230,9 @@
                 android:id="@+id/txt_add_action_assignee_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="psedudonym"
+
                 android:textSize="16dp"
+                android:layout_marginStart="5dp"
                 android:layout_toRightOf="@id/img_add_action_assignee"
                 android:layout_centerVertical="true"
                 android:paddingLeft="5dp"/>

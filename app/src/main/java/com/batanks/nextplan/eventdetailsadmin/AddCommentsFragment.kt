@@ -1,9 +1,12 @@
 package com.batanks.nextplan.eventdetailsadmin
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
@@ -36,7 +39,11 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
 
             if (tip_add_comment?.editText?.text.isNullOrEmpty()){
 
-                Toast.makeText(activity , "Comment can't be Empty"  , Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity , "Comment can't be Empty"  , Toast.LENGTH_SHORT).show()
+
+                tip_add_comment.editText?.error = "Place name is Required"
+                tip_add_comment.requestFocus()
+
             }else{
 
                 listener.addCommentFragmentFetch(comment)
@@ -53,6 +60,21 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
 
             //Toast.makeText(activity , "ok working good"  , Toast.LENGTH_SHORT).show()
         }
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+
+                return false
+            }
+        })
     }
 
     override fun onClick(v: View?) {

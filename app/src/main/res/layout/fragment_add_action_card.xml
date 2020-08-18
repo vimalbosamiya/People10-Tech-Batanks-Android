@@ -36,13 +36,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
+            android:layout_marginEnd="22.02dp"
             android:text="Action Name"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/actionIcon"
             app:layout_constraintEnd_toStartOf="@+id/actioncloseButtonIcon"
             app:layout_constraintStart_toEndOf="@+id/actionIcon"
             app:layout_constraintTop_toTopOf="@+id/actionIcon" />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/txt_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginEnd="22.02dp"
+            android:layout_marginTop="20dp"
+            android:text="Un de chaque saveur "
+            android:textSize="14sp"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@+id/actionIcon"
+            app:layout_constraintEnd_toStartOf="@+id/actioncloseButtonIcon"
+            app:layout_constraintStart_toEndOf="@+id/actionIcon"
+            app:layout_constraintTop_toBottomOf="@+id/txt_actionname" />
+
+        <!--<RelativeLayout
             android:id="@+id/rl_add_action_assignee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +93,83 @@
                 android:src="@drawable/ic_event_details_settings"
                 android:layout_toRightOf="@id/txt_add_action_assignee_name"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rl_add_action_assignee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_event_details_contact_background"
+            app:layout_constraintStart_toStartOf="@+id/actionIcon"
+            app:layout_constraintTop_toBottomOf="@+id/txt_description">
+
+            <ImageView
+                android:id="@+id/img_add_action_assignee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_event_details_contact_not_confirmed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txt_add_action_assignee_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_add_action_assignee" />
+
+            <ImageView
+                android:id="@+id/img_add_action_assignee_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_event_details_settings"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txt_add_action_assignee_name"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/img_add_action_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27.98dp"
+            android:src="@drawable/ic_action_cost_icon"
+            app:layout_constraintStart_toStartOf="@+id/actionIcon"
+            app:layout_constraintTop_toBottomOf="@+id/rl_add_action_assignee" />
+
+        <TextView
+            android:id="@+id/txt_add_action_cost_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Cost"
+            android:textSize="14sp"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="18.02dp"
+            android:layout_centerVertical="true"
+            app:layout_constraintStart_toEndOf="@+id/img_add_action_cost"
+            app:layout_constraintTop_toBottomOf="@+id/rl_add_action_assignee"/>
+
+        <TextView
+            android:id="@+id/txt_add_action_cost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100,00 €"
+            android:textSize="18sp"
+            android:textColor="#FFE082"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerVertical="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rl_add_action_assignee"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
        <!-- <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -129,30 +222,7 @@
             android:padding="16dp"
             app:layout_constraintTop_toBottomOf="@+id/rl_add_action_assignee">
 
-            <ImageView
-                android:id="@+id/img_add_action_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_cost_icon"
-                app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/txt_add_action_cost_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Cost"
-                android:layout_toRightOf="@id/img_add_action_cost"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"/>
-
-            <TextView
-                android:id="@+id/txt_add_action_cost_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 

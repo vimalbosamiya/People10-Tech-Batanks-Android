@@ -63,13 +63,14 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
         //loadContacts();
     }
 
-    override fun assignSelectedContact(selection: String) {
+    override fun assignSelectedContact(selection: String/*, selected: Boolean*/) {
         selected_assignee = selection
     }
 
     interface AssignPeopleFragmentListner {
         fun AddSelectedAssignee(contact : String)
     }
+
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.assign_people_Button ->{

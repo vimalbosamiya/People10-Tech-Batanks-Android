@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -28,11 +29,18 @@ import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.notifications.NotificationsFragment
 import com.batanks.nextplan.swagger.api.EventAPI
+import com.batanks.nextplan.swagger.model.EventList
+import com.batanks.nextplan.swagger.model.EventListResponse
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_home.*
+import org.json.JSONObject
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
     var recyclerView: RecyclerView? = null
+    lateinit var eventRecyclerView : RecyclerView
+    lateinit var eventAdapter : HomePlanPreviewAdapter
+    lateinit var eventList : List<EventList>
 
     private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -54,12 +62,13 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         recyclerView = findViewById(R.id.homeScreenRecyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(this)
+        //recyclerView?.adapter = HomePlanPreviewAdapter(listOf())
+        //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
+        //initRecyclerViews()
 
-        recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
+        showLoader()
 
-
-        /*showLoader()
-        homePlanPreviewViewModel.getHomePlanEvent()*/
+        homePlanPreviewViewModel.getHomePlanEvent()
 
         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -68,10 +77,27 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                     showLoader()
                 }
                 Status.SUCCESS -> {
-                    //hideLoader()
+                    hideLoader()
+
+                    homePlanPreviewViewModel.response = response.data as EventListResponse
+
+                    eventList = homePlanPreviewViewModel.response!!.results
+
+                    recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+
+                    //eventAdapter.notifyDataSetChanged()
                     //var events_list = listOf(response.data as EventList)
+                    //var res : EventListResponse = response.data as EventListResponse
+
+                    println(eventList)
+
+                    //var events_list = res.results
+                    //eventList = res.results
                     //if(events_list != null)
-                    //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<EventList>())
+                    //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
+                    //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
+                    //println(events_list)
+
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -79,6 +105,8 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 }
             }
         })
+
+        //initRecyclerViews()
 
         extFab.setOnClickListener(this)
         img_settings.setOnClickListener(this)
@@ -91,6 +119,27 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             startActivity(intent)
         }
     }
+
+    /*private fun setUpData(){
+
+        eventAdapter = HomePlanPreviewAdapter(eventList)
+        recyclerView?.adapter = eventAdapter
+
+        println(eventList)
+
+    }
+
+    private fun initRecyclerViews() {
+
+        *//*eventRecyclerView = findViewById(R.id.homeScreenRecyclerView)
+        eventRecyclerView.layoutManager = LinearLayoutManager(this)*//*
+
+        recyclerView = findViewById(R.id.homeScreenRecyclerView)
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.layoutManager = LinearLayoutManager(this)
+
+        setUpData()
+    }*/
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {

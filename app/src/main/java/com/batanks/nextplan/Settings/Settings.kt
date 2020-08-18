@@ -42,7 +42,7 @@ class Settings : BaseAppCompatActivity() {
             startActivity(intent)
         })
         rl_settings_logout.setOnClickListener(View.OnClickListener {
-            RetrofitClient.cookieJar?.clear()
+            //RetrofitClient.cookieJar?.clear()
             getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().clear().apply()
             intent = Intent(this, SplashActivity :: class.java)
             startActivity(intent)

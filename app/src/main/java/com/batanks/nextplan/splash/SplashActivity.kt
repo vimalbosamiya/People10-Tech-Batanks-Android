@@ -41,7 +41,7 @@ class SplashActivity : BaseAppCompatActivity() {
             }
         }, SPLASH_SCREEN_TIMEOUT)
 
-        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+        loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
 
         splashViewModel.responseLiveData.observe(this, Observer { response ->
 

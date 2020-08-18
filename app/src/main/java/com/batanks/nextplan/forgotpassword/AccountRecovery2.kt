@@ -121,7 +121,7 @@ class AccountRecovery2 : BaseAppCompatActivity() {
                 val resetPassword = ResetPassword(password = newPasswordTextField?.editText?.text.toString(),
                         confirmPassword = confirmPasswordTextField?.editText?.text.toString(),
                         email = email, token = token)
-                Log.d("token from listener",token + email)
+                Log.d("token from listener",token +" "+ email +" "+ newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString())
 
                 accountRecoveryViewModel.resetPassword(resetPassword)
 

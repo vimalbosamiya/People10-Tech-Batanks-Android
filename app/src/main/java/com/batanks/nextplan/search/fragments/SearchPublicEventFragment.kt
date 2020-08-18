@@ -24,7 +24,7 @@ class SearchPublicEventFragment : BaseFragment() {
         eventsRecyclerView = view.findViewById(R.id.publicEventRecyclerView)
         eventsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        eventsRecyclerView.adapter = HomePlanPreviewAdapter(listOf<String>())
+        //eventsRecyclerView.adapter = HomePlanPreviewAdapter(listOf<String>())
 
         return view
     }

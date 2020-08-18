@@ -144,7 +144,22 @@ class SearchPeopleFragment : BaseFragment()  {
             showDialog(view!!.context)
         }
 
-        addcontactSearchTextField.endIconMode
+//        addcontactSearchTextField.endIconMode
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+
+                return false
+            }
+        })
 
     }
 
@@ -254,5 +269,32 @@ class SearchPeopleFragment : BaseFragment()  {
         btn_create_followups_ok.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+            false
+        }
+
+        /*view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    v.clearFocus()
+                }
+
+                return false
+            }
+        })*/
+
     }
+
 }
