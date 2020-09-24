@@ -85,18 +85,30 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
         when (view?.id) {
             R.id.ok -> {
 
-                if (!TextUtils.isEmpty(planNameTextField?.editText?.text.toString())){
+                if (placeNameTextField.editText?.length()!! >= 2){
 
                     showLoader()
                     dismissKeyboard()
-                    val place = Place(name = planNameTextField?.editText?.text.toString(),
+                    val place = Place(name = placeNameTextField?.editText?.text.toString(),
                             address = addressTextField?.editText?.text.toString(),
                             zipcode = zipCodeTextField?.editText?.text.toString(),
                             city = townTextField?.editText?.text.toString(),
-                            country = ""/*ccp_activity_country.getSelectedCountryName()*//*countryTextField?.editText?.text.toString()*/,
-                            map = enableMapSupportCheckBox.isChecked,
+                            country = ccp_activity_country.getSelectedCountryName()/*countryTextField?.editText?.text.toString()*/,
+                            map = enableMapSupportCheckBox.isChecked ,
                             latitude = 0.0,
                             longitude = 0.0)
+
+                    val eventPlace = EventPlace(0,
+                            place,
+                            name = placeNameTextField?.editText?.text.toString(),
+                            address = addressTextField?.editText?.text.toString(),
+                            zipcode = zipCodeTextField?.editText?.text.toString(),
+                            city = townTextField?.editText?.text.toString(),
+                            country = ccp_activity_country.getSelectedCountryName(),
+                            map = enableMapSupportCheckBox.isChecked,
+                            votes = listOf(),
+                            visibility = enableMapSupportCheckBox.isChecked
+                    )
 
                     val stringBuilder = StringBuilder()
                             .append(place.name)
@@ -120,39 +132,34 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                         }else {
                             place.latitude = result[0].latitude
                             place.longitude = result[0].longitude
-                            listener.addPlaceFragmentAddressFetch(place)
+                            listener.addPlaceFragmentAddressFetch(eventPlace)
 
                             //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
                         }
                     } else {
 
-                        listener.addPlaceFragmentAddressFetch(place)
+                        listener.addPlaceFragmentAddressFetch(eventPlace)
                     }
 
                     hideLoader()
                 }else {
 
-                    if(TextUtils.isEmpty(planNameTextField?.editText?.text.toString())){
-
                         //actionNameTextField.error = "Action name is Required"
-                        planNameTextField.editText?.error = "Place name is Required"
-                        planNameTextField.requestFocus()
+                        placeNameTextField.editText?.error = "Place name should contain atleast 2 characters"
+                        placeNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
-                    }
                 }
-
             }
 
             R.id.cancel -> {
 
                 listener.cancelPlaceFragmentAddressFetch()
-
             }
         }
     }
 
     interface AddPlaceFragmentListener {
-        fun addPlaceFragmentAddressFetch(place: Place)
+        fun addPlaceFragmentAddressFetch(place: EventPlace)
         fun cancelPlaceFragmentAddressFetch()
     }
 }

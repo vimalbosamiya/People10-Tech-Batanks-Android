@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 
-class SearchContactsAdapter (private val contactsList: List<ContactsModel>) : RecyclerView.Adapter<SearchContactsAdapter.ViewHolder>() {
+class SearchContactsAdapter (private val contactsList: List<ContactsList>) : RecyclerView.Adapter<SearchContactsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -23,9 +24,7 @@ class SearchContactsAdapter (private val contactsList: List<ContactsModel>) : Re
 
         val contact = contactsList[position]
 
-        holder.txt_contact_list_item.text = contact.contactname
-
-
+        holder.txt_contact_list_item.text = contact.first_name
     }
 
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {

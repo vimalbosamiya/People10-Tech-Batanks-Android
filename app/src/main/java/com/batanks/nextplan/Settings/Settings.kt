@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.splash.SplashActivity
 import kotlinx.android.synthetic.main.activity_home.*
@@ -26,7 +27,9 @@ class Settings : BaseAppCompatActivity() {
 
         img_settings_close.setOnClickListener {
 
-           finish()
+            intent = Intent(this, HomePlanPreview :: class.java)
+            startActivity(intent)
+            finish()
         }
 
         rl_settings_account.setOnClickListener(View.OnClickListener {
@@ -44,6 +47,7 @@ class Settings : BaseAppCompatActivity() {
         rl_settings_logout.setOnClickListener(View.OnClickListener {
             //RetrofitClient.cookieJar?.clear()
             getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().clear().apply()
+            getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
             intent = Intent(this, SplashActivity :: class.java)
             startActivity(intent)
             finishAffinity()

@@ -21,7 +21,7 @@ class SplashViewModel(private val authApi: AuthenticationAPI) : ViewModel() {
                 .doOnSubscribe {
                     responseLiveData.setValue(ApiResponse.loading())
                 }.doOnNext {}.subscribe({ result ->
-                    RetrofitClient.cookieJar?.persist()
+                    //RetrofitClient.cookieJar?.persist()
                     responseLiveData.setValue(ApiResponse.success(result))
                 }) { throwable ->
                     responseLiveData.setValue(ApiResponse.error(throwable))

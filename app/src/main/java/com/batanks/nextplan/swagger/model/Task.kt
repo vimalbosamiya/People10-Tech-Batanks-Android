@@ -7,4 +7,5 @@ data class Task(
         val description: String,
         val price_currency: String,
         val per_person: Boolean,
-        val assignee: String)
+        val assignee: Int?,
+        val assigneeName :String)

@@ -8,9 +8,10 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.swagger.model.Group
 import kotlinx.android.synthetic.main.layout_group_item.view.*
 
-class AddToGroupsAdapter (private val groupsList: List<String>) : RecyclerView.Adapter<AddToGroupsAdapter.MyViewHolder>() {
+class AddToGroupsAdapter (private val groupsList: List<Group>) : RecyclerView.Adapter<AddToGroupsAdapter.MyViewHolder>() {
 
     private var context: Context? = null
 
@@ -22,11 +23,11 @@ class AddToGroupsAdapter (private val groupsList: List<String>) : RecyclerView.A
 
     }
 
-    override fun getItemCount() = 20
+    override fun getItemCount() = groupsList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.groupName.text = "Group Name"
+        holder.groupName.text = groupsList.get(position).name
 
     }
 

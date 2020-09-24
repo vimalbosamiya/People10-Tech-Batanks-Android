@@ -6,6 +6,7 @@ import com.batanks.nextplan.arch.response.ApiResponse
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.EventListResponse
+import com.batanks.nextplan.swagger.model.InlineResponse2002
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -14,11 +15,29 @@ class HomePlanPreviewViewModel(private val authApi: EventAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
-    var response : EventListResponse? = null
+    var response : InlineResponse2002? = null
 
     fun getHomePlanEvent() {
 
-        disposables.add(authApi.apiEventCreatedList(1,1)
+        disposables.add(authApi.apiEventCreatedList(20,0)
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    responseLiveData.setValue(ApiResponse.loading())
+                }
+                .doOnNext {
+                    println(it)
+                }.subscribe({ result ->
+                    responseLiveData.setValue(ApiResponse.success(result))
+                }) { throwable ->
+                    responseLiveData.setValue(ApiResponse.error(throwable))
+                })
+    }
+
+    fun eventList() {
+
+        disposables.add(authApi.apiEventList(1,1)
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -15,7 +15,7 @@
         android:text="Activity"
         android:textColor="#DEFFFFFF"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/activityDivider"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -34,10 +34,9 @@
         android:id="@+id/activitySettingsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="210dp"
         android:background="@drawable/ic_event_details_settings"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/activityIdTextView"/>
+        app:layout_constraintEnd_toEndOf="@+id/activityDivider"/>
 
 
     <ImageView

@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_add_plan_add_place_card.view.*
 
-class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<Place>) :
+class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<EventPlace>) :
         RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -42,7 +42,7 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
             holder.map.apply {
                 onCreate(null)
                 getMapAsync {
-                    val LATLNG = LatLng(modelList[position].latitude, modelList[position].longitude)
+                    val LATLNG = LatLng(modelList[position].place.latitude, modelList[position].place.longitude)
                     with(it) {
                         onResume()
                         moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))

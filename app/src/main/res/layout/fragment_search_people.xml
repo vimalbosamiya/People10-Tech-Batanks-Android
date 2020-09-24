@@ -380,11 +380,11 @@
                         android:id="@+id/img_user_down_arrow_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
                         android:padding="12dp"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/img_user_up_arrow_icon"
@@ -543,7 +543,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                   android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true">
 
                     <ImageView
@@ -551,10 +551,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="5dp"
-                        android:paddingStart="5dp"
-                        android:paddingBottom="10dp"
+                        android:padding="10dp"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -564,7 +561,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_event_details_hide_map_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -648,7 +646,7 @@
 
     </ScrollView>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/rl_settings_news_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -673,7 +671,8 @@
             android:layout_centerVertical="true"
             android:padding="16dp"
             android:layout_marginRight="16dp"/>
-    </RelativeLayout>
+
+    </RelativeLayout>-->
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFab_followup"

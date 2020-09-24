@@ -18,7 +18,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:hint="@string/pname"
-
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:helperText="Enter a name for your event"
@@ -237,7 +236,7 @@
             app:layout_constraintTop_toBottomOf="@+id/howMuchTextView" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/rateTextField"
+            android:id="@+id/maxParticipantsTextField"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -263,7 +262,7 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="number"
-                android:maxLength="15"
+                android:maxLength="3"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -279,8 +278,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="@+id/rateTextField"
-            app:layout_constraintTop_toBottomOf="@+id/rateTextField" />
+            app:layout_constraintStart_toStartOf="@+id/maxParticipantsTextField"
+            app:layout_constraintTop_toBottomOf="@+id/maxParticipantsTextField" />
 
         <include
             android:id="@+id/addFooterLayout"

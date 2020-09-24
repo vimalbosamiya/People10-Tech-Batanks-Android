@@ -3,6 +3,7 @@ package com.batanks.nextplan.swagger.api
 import com.batanks.nextplan.swagger.model.AddGroupContact
 import com.batanks.nextplan.swagger.model.Contact
 import com.batanks.nextplan.swagger.model.Group
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -12,13 +13,13 @@ interface GroupsAPI {
     fun apiGroupsAddCreate(@Path("id") id: String?, @Body data: Contact?): Call<Contact>
 
     @POST("api/groups/")
-    fun apiGroupsCreate(@Body data: AddGroupContact?): Call<AddGroupContact>
+    fun apiGroupsCreate(@Body data: AddGroupContact?): Observable<AddGroupContact>
 
     @DELETE("api/groups/{id}/")
     fun apiGroupsDelete(@Path("id") id: String?): Call<Void>
 
     @GET("api/groups/")
-    fun apiGroupsList(): Call<List<Group>>
+    fun apiGroupsList(): Observable<List<Group>>
 
     @PATCH("api/groups/{id}/")
     fun apiGroupsPartialUpdate(@Path("id") id: String?, @Body data: Group?): Call<Group>

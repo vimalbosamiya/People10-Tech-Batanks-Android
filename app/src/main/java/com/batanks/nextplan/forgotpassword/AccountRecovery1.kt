@@ -6,6 +6,7 @@ import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Patterns
 import android.view.MotionEvent
 import androidx.lifecycle.Observer
 import android.view.View
@@ -58,7 +59,7 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
                     extFab_back.visibility = VISIBLE
                     extFab_submit.visibility = GONE
 
-                    Toast.makeText(this,response.status.toString(),Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this,response.status.toString(),Toast.LENGTH_LONG).show()
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -67,7 +68,7 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
             }
         })
 
-        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+        loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
 
         backArrow.setOnClickListener {
 
@@ -86,11 +87,23 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
             extFab_back.visibility = VISIBLE
             extFab_submit.visibility = GONE*/
 
-            if (!TextUtils.isEmpty(emailTextField?.editText?.text.toString())){
+            if (isEmailValid(emailTextField.editText?.text)){
 
                 val password = PasswordLost(email = emailTextField?.editText?.text.toString())
                 accountRecoveryViewModel.sendMail(password)
+
+            }else {
+
+                emailTextField.editText?.error = "Enter a valid email address"
+                emailTextField.editText?.requestFocus()
             }
+
+          /*  if (!TextUtils.isEmpty(emailTextField?.editText?.text.toString())){
+
+                val password = PasswordLost(email = emailTextField?.editText?.text.toString())
+                accountRecoveryViewModel.sendMail(password)
+
+            } else { }*/
 
             /*tvPasswordSent.visibility = VISIBLE
             extFab_back.visibility = VISIBLE
@@ -105,6 +118,8 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
 
         }
     }
+
+    private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {

@@ -35,7 +35,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:hint="From"
+        android:hint="From *"
         android:paddingBottom="16dp"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
@@ -68,7 +68,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@color/colorWhite" />
 
        <!-- <AutoCompleteTextView
             android:id="@+id/et_from_date_activity"

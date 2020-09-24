@@ -53,7 +53,7 @@
         <activity
             android:name=".home.HomePlanPreview"
             android:theme="@style/App_HomePlanPreview_Theme"
-            android:windowSoftInputMode="adjustPan" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
+            android:windowSoftInputMode="adjustNothing" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

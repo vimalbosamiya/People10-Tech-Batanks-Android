@@ -12,6 +12,9 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.EventDate
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period_card.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
                             private val modelList: ArrayList<EventDate>)
@@ -32,8 +35,28 @@ class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
             modelList.removeAt(position)
             callBack.closeButtonAddPeriodItemListener(position)
         }
-        holder.from.text = modelList[position].start
-        holder.to.text = modelList[position].end
+
+        val cal = Calendar.getInstance()
+        val inputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
+
+        val tempStartDate : String = modelList[position].start
+        val tempEndDate : String = modelList[position].end
+
+        val startDate : Date = inputFormatter.parse(tempStartDate)
+        val endDate : Date = inputFormatter.parse(tempEndDate)
+
+        val finalStartDate = dateFormatter.format(startDate)
+        val finalEndDate = dateFormatter.format(endDate)
+
+        println(finalStartDate)
+        println(finalEndDate)
+
+        /*val startDate = dateFormatter.format(modelList[position].start)
+        val endDate = dateFormatter.format(modelList[position].end)*/
+
+        holder.from.text = finalStartDate
+        holder.to.text = finalEndDate
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

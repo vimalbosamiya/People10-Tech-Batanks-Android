@@ -30,6 +30,8 @@ import com.batanks.nextplan.eventdetails.dataclass.MultipleDateDisplay
 import com.batanks.nextplan.eventdetails.dataclass.MultiplePlaceDisplay
 import com.batanks.nextplan.eventdetails.fragment.*
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.eventdetailsadmin.AddCommentImplementation
+import com.batanks.nextplan.eventdetailsadmin.AddCommentsFragment
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
@@ -54,7 +56,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClickFunImplementation*/ {
+class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommentImplementation,
+        AddCommentsFragment.AddCommentsFragmentListener,
+        CommentsListAdapter.AddCommentsRecyclerViewCallBack/*, OnClickFunImplementation*/ {
 
 /*    val createVoteForDateFragment = CreateVoteForDateFragment()
     val createVoteForDateMultipleFragment = CreateVoteForDateMultipleFragment()
@@ -85,7 +89,9 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
     var contactList : EventInvitation? = null
     var attendersList : EventInvitation? = null
     var id : Int? = null
+    var comments = ArrayList<Comment>()
 
+    lateinit var commentsList : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +99,11 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
         loadingDialog = this.getLoadingDialog(0, R.string.opening_page_please_wait, theme = R.style.AlertDialogCustom)
 
-        //eventDetailViewModel.getEventData(id)
+        //eventDetailViewModel.getEventData("22")
+
+        commentsList = findViewById(R.id.commentsList)
+        commentsList.layoutManager = LinearLayoutManager(this)
+
 
         eventDetailViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -105,10 +115,10 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
                     event_obj = response.data as Event
                     eventDetailViewModel.response = response.data as Event
+
+                    println(response.data)
                    // eventDetailViewModel.response.copy()
-
-
-                    id = event_obj?.id
+                    /*id = event_obj?.id
                     eventName.text = event_obj?.title
                     eventDescription.text = event_obj?.detail
                     noOfGuests.text = event_obj?.max_guests.toString()
@@ -119,11 +129,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                     taskList = event_obj?.tasks
                     activityList = event_obj?.activities
                     contactList = event_obj?.guests
-                    contactList?.users?.size
+                    contactList?.users?.size*/
                 }
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
+                    println(response.error)
                     Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -139,27 +150,33 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
 
         var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
 
-        var places : List<EventPlace> = listOf((EventPlace(1,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
-                                               (EventPlace(2,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
-                                                (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)),
-                                                (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map,vote)))
+        var places : List<EventPlace> = listOf((EventPlace(1,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
+                                               (EventPlace(2,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
+                                                (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
+                                                (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())))
 
         var tasks : List<Task> = listOf(
-                Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,"User 1"),
-                Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,"User 2"),
-                Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,"User 3"),
-                Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,"User 4"),
-                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,"User 5"))
+                Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
+                Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
+                Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
+                Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
+                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""))
 
         var activities : List<Activity> = listOf(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote),
                 Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote),
                 Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote),
                 Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
 
+        comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the second comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the third comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))
+
         dateInit(dates)
         placeInit(places)
         taskInit(tasks)
         activityInit(activities)
+        commentsInitAdmin(comments)
 
         /*val BASE_URL = "http://93.90.204.56/"
         var retrofit: Retrofit? = null
@@ -252,6 +269,10 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
         tripCalenderBackground.setOnClickListener(this)
         takePartVisible.setOnClickListener(this)
         backArrow.setOnClickListener(this)
+        addComment.setOnClickListener {
+
+            addCommentClicked()
+        }
 
         /*totalCostBackground.setOnClickListener {
 
@@ -412,6 +433,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
         val adapter = EventActivityListAdapter(activity,this)
         recyclerView.adapter = adapter
 
+    }
+
+    fun commentsInitAdmin(comments : ArrayList<Comment>){
+
+        val adapter = CommentsListAdapter(comments, this, this)
+        commentsList.adapter = adapter
     }
 
     fun activityEverybodyComeInit(participantsList : List<Int>){
@@ -610,6 +637,53 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener/*, OnClick
                 finish()
             }
         }
+    }
+
+    override fun addCommentFragmentFetch(comment: Comment) {
+
+        (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
+                as? AddCommentsFragment)?.dismiss()
+
+        var visible : Boolean
+
+        if (comments.size == 0){
+
+            visible = false
+        }
+
+        else{
+
+            visible = comments[0].visibility
+        }
+
+        comments.add(Comment(comment.comment,visible))
+
+        commentsList?.adapter?.notifyDataSetChanged()
+
+    }
+
+    override fun cancelCommentFragmentFetch() {
+
+        (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
+                as? AddCommentsFragment)?.dismiss()
+
+        commentsList?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun closeButtonAddCommentItemListener(pos: Int) {
+
+        commentsList?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun addCommentClicked() {
+
+        this.supportFragmentManager
+                .beginTransaction()
+                .add(AddCommentsFragment(this), AddCommentsFragment::class.java.canonicalName)
+                .commitAllowingStateLoss()
+
+        commentsList.adapter?.notifyDataSetChanged()
+
     }
 
     /* private fun showDialog(context : Context) {

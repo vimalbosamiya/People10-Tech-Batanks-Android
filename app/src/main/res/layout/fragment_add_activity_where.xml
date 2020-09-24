@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="Address"
         android:textColorHint="#ffffff"
@@ -125,7 +125,77 @@
             android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_zipCodeTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Zip Code"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="Postal Code"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_addressTextField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@null"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_townTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        android:hint="Town"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="The City"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_zipCodeTextField">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<LinearLayout
         android:id="@+id/ll_activity_zipcode_town"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -205,7 +275,7 @@
             android:scrollbarTrackHorizontal="@color/colorWhite"
             android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_activity_country_layout"
@@ -213,7 +283,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
+        app:layout_constraintTop_toBottomOf="@+id/activity_townTextField"
         android:paddingTop="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"

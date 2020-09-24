@@ -20,6 +20,7 @@
     <string name="loading_list_please_wait" tools:ignore="TypographyEllipsis">Loading List... Please wait,..</string>
     <string name="opening_page_please_wait" tools:ignore="TypographyEllipsis">Opening Page... Please wait,..</string>
     <string name="email_hint">e-mail<font color='#cc0029'> *</font></string>
+    <string name="changing_password_please_wait" tools:ignore="TypographyEllipsis">Changing Password... Please wait,..</string>
 
     <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>
 

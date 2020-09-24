@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="20dp"
+    android:elevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/eventItemHolder"
@@ -19,10 +20,11 @@
             android:id="@+id/eventItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="#232323"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="10dp">
 
             <ImageView
                 android:id="@+id/eventTimelineHighlight"
@@ -135,8 +137,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/eventItemFull"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:layout_height="420dp"
+            android:visibility="visible"
             android:background="@drawable/ic_event_item_background"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -189,9 +191,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
+                android:layout_marginTop="2dp"
                 android:src="@drawable/ic_event_timeline_highlight_full"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventPrivateCategoryBackGround" />
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround"
+                app:layout_constraintBottom_toBottomOf="@+id/eventItemFull"/>
 
              <ImageView
                  android:id="@+id/eventPrivateCategoryBackGround"
@@ -249,7 +253,7 @@
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="24dp"
                 android:textSize="14sp"
-                android:text="Détails description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
+                android:text="This is an event created to display in Application"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventPrivateCategoryBackGround" />
 
@@ -316,12 +320,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="35.03dp"
+                android:layout_marginBottom="33.03dp"
                 android:maxLines="2"
                 android:text="Bangalore"
                 app:layout_constraintLeft_toRightOf="@+id/mapPlaceIconFull"
-                app:layout_constraintTop_toTopOf="@+id/mapPlaceIconFull"
-                app:layout_constraintBottom_toBottomOf="@+id/eventItemFull"/>
+                app:layout_constraintTop_toTopOf="@+id/mapPlaceIconFull" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

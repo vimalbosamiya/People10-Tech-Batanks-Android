@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.MenuItem
@@ -51,6 +52,8 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
+        getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.registration)
         dismissKeyboard()
@@ -80,7 +83,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
         signIn.setOnClickListener(this)
 
-        val userNameObservable: Observable<String>? = userNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
+       /* val userNameObservable: Observable<String>? = userNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
         }
         val firstNameObservable: Observable<String>? = firstNameTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
@@ -100,11 +103,11 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         }
         val phoneNumberObservable: Observable<String>? = phoneNumberTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
             charSequence.toString()
-        }
+        }*/
 
         ccp.registerCarrierNumberEditText(phoneNumberTextField?.editText)
 
-        observable = Observable.combineLatest(
+       /* observable = Observable.combineLatest(
                 userNameObservable,
                 firstNameObservable,
                 lastNameObservable,
@@ -113,51 +116,59 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                 confirmPasswordEditTextObservable,
                 phoneNumberObservable,
                 Function7<String?, String?, String?, String?, String?, String?, String?, Boolean?> { s1, s2, s3, s4, s5, s6, s7 ->
-                    /*UserName*/
-                    val validUserName = s1.length > 6
+
+                    //UserName
+                    val validUserName = s1.length >= 6
                     if (!validUserName) {
                         userNameTextField?.editText?.error = "UserName should contain at least 6 letter."
                     }
-                    /*FirstName*/
+
+                    //FirstName
                     val validFirstName = s2.isNotEmpty()
                     if (!validFirstName) {
-                        firstNameTextField?.editText?.error = "FirstName should contain at least 1 letter."
+                        firstNameTextField?.editText?.error = "FirstName cannot be empty."
                     }
-                    /*LastName*/
+
+                    //LastName
                     val validLastName = s3.isNotEmpty()
                     if (!validLastName) {
-                        lastNameTextField?.editText?.error = "LastName should contain at least 1 letter."
+                        lastNameTextField?.editText?.error = "LastName cannot be empty."
                     }
-                    /*EmailID*/
+
+                    //EmailID
                     val validEmail = s4.isNotEmpty() && isEmailValid(s4)
                     if (!validEmail) {
-                        emailTextField?.editText?.error = "Enter valid email id."
+                        emailTextField?.editText?.error = "Enter a valid email id."
                     }
-                    /*Password*/
+
+                   // Password
                     val validPass = s5.isNotEmpty() && isValidPassword(s5)
                     if (!validPass) {
-                        passwordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        passwordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 number and 1 special charatcer with no spaces."
                     }
-                    /*Password & ConfirmPassword*/
+
+                   //Password & ConfirmPassword
                     val samePassword = s5.equals(s6, false)
                     if (!samePassword) {
                         confirmPasswordTextField?.editText?.error = "Password field & Confirm Password are different."
                     }
-                    /*ConfirmPassword*/
+
+                    //ConfirmPassword
                     val validConfirmPass = s6.isNotEmpty() && isValidPassword(s6)
                     if (!validConfirmPass) {
-                        confirmPasswordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 digit."
+                        confirmPasswordTextField?.editText?.error = "Password should be between 6 to 128 characters and should contain at least 1 lower case and 1 upper case letter and 1 number and 1 special charatcer with no spaces."
                     }
-                    /*PhoneNumber*/
+
+                    //PhoneNumber
                     val validPhone = s7.isNotEmpty() && ccp.isValidFullNumber
                     if (!validPhone) {
                         phoneNumberTextField?.editText?.error = "Please enter a vaild phone number."
                     }
 
                     validUserName && validFirstName && validLastName && validEmail && validPass && validConfirmPass && samePassword && validPhone
-                })
+                })*/
 
-        observable?.subscribe(object : DisposableObserver<Boolean>() {
+        /*observable?.subscribe(object : DisposableObserver<Boolean>() {
 
             override fun onNext(validFlag: Boolean) {
                 signIn.isEnabled = validFlag
@@ -165,14 +176,14 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
             override fun onError(e: Throwable) {}
             override fun onComplete() {}
-        })
+        })*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                /*val intent = Intent(this, SigninActivity::class.java)
-                startActivity(intent)*/
+                val intent = Intent(this, SigninActivity::class.java)
+                startActivity(intent)
                 finish()
                 true
             }
@@ -196,41 +207,122 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         return super.dispatchTouchEvent(event)
     }
 
-
     override fun onClick(v: View?) {
         dismissKeyboard()
         when (v?.id) {
+
             R.id.signIn -> {
-                /*val validUserName = userNameEditText.length() > 6
-                if (userNameEditText.length() > 6) {
-                    Toast.makeText(this,"sign in Clicked",Toast.LENGTH_SHORT).show()
 
-                }else {
+                //RetrofitClient.cookieJar?.clear()
 
-                    userNameTextField?.editText?.error = "UserName should contain at least 6 letter."
+               /* if (userNameTextField.editText?.length()!! >= 6 && isEmailValid(emailTextField.editText?.text) &&
+                        isValidPassword(passwordTextField.editText?.text?.toString()) && passwordTextField.editText?.length()!! >= 12 &&
+                        passwordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
+
+                    Toast.makeText(this,"Eveything looks good",Toast.LENGTH_SHORT).show()
+
+                }else if(userNameTextField.editText?.length()!! < 6){
+
+                    *//*userNameTextField.editText?.error = "Username should contain atleast 6 characters"
+                    userNameTextField.editText?.requestFocus()
+
+                    emailTextField.editText?.error = "Enter a valid email address"
+                    emailTextField.editText?.requestFocus()*//*
+
+                    passwordTextField.editText?.error = "Paswword must contain atleast 1 lower case and 1 upeer case letter and 1 number and 1 special charatcer with no spaces"
+                    passwordTextField.editText?.requestFocus()
                 }*/
-                //Toast.makeText(this,"sign in Clicked",Toast.LENGTH_SHORT).show()
-                showLoader()
-                RetrofitClient.cookieJar?.clear()
-                getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
-                val user = RegisterUser(
-                        username = userNameTextField?.editText?.text.toString(),
-                        first_name = firstNameTextField?.editText?.text.toString(),
-                        last_name = lastNameTextField?.editText?.text.toString(),
-                        email = emailTextField?.editText?.text.toString(),
-                        password1 = passwordTextField?.editText?.text.toString(),
-                        password2 = confirmPasswordTextField?.editText?.text.toString(),
-                        phone_number = ccp.selectedCountryCodeWithPlus + phoneNumberTextField?.editText?.text.toString()
-                )
-                registrationViewModel.createUser(user)
+
+
+                 /*if (userNameTextField.editText?.length()!! >= 6 && isEmailValid(emailTextField.editText?.text) &&
+                       isValidPassword(passwordTextField.editText?.text?.toString()) && passwordTextField.editText?.length()!! >= 12 &&
+                       passwordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
+
+                   Toast.makeText(this,"Eveything looks good",Toast.LENGTH_SHORT).show()
+
+               }else if(userNameTextField.editText?.length()!! < 6){
+
+                   userNameTextField.editText?.error = "Username should contain atleast 6 characters"
+                    userNameTextField.editText?.requestFocus()
+
+                    emailTextField.editText?.error = "Enter a valid email address"
+                    emailTextField.editText?.requestFocus()
+
+                    passwordTextField.editText?.error = "Paswword must contain atleast 1 lower case and 1 upeer case letter and 1 number and 1 special charatcer with no spaces"
+                    passwordTextField.editText?.requestFocus()
+                }*/
+
+
+                if (isValidUsername(userNameTextField.editText?.text.toString()) && userNameTextField.editText?.length()!! >= 4){
+
+                    if (isEmailValid(emailTextField.editText?.text)){
+
+                        if (isValidPassword(passwordTextField.editText?.text?.toString()) && passwordTextField.editText?.length()!! >= 6){
+
+                            if (passwordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
+
+                                if (TextUtils.isEmpty(phoneNumberTextField.editText?.text.toString()) || phoneNumberTextField.editText?.length()!! >= 4 && isValidPhoneNumber(phoneNumberTextField.editText?.text.toString())){
+
+                                    showLoader()
+
+                                    getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
+                                    val user = RegisterUser(
+                                            username = userNameTextField?.editText?.text.toString(),
+                                            first_name = firstNameTextField?.editText?.text.toString(),
+                                            last_name = lastNameTextField?.editText?.text.toString(),
+                                            email = emailTextField?.editText?.text.toString(),
+                                            password1 = passwordTextField?.editText?.text.toString(),
+                                            password2 = confirmPasswordTextField?.editText?.text.toString(),
+                                            phone_number = ccp.selectedCountryCodeWithPlus + phoneNumberTextField?.editText?.text.toString()
+                                    )
+                                    registrationViewModel.createUser(user)
+
+                                    Toast.makeText(this,"Eveything looks good",Toast.LENGTH_SHORT).show()
+
+                                } else {
+
+                                    phoneNumberTextField.editText?.error = "Mobile number should contain atleast 4 numbers with no spaces"
+                                    phoneNumberTextField.editText?.requestFocus()
+                                }
+
+                            } else {
+
+                                confirmPasswordTextField.editText?.error = "Password and Confirm password doesn't match"
+                                confirmPasswordTextField.editText?.requestFocus()
+                            }
+
+                        } else {
+
+                            passwordTextField.editText?.error = "Password should contain atleast 6 characters with 1 lowercase and 1 uppercase letter and 1 number and 1 special character with no spaces"
+                            passwordTextField.editText?.requestFocus()
+                        }
+
+                    } else {
+
+                        emailTextField.editText?.error = "Enter a valid email address"
+                        emailTextField.editText?.requestFocus()
+                    }
+
+                } else{
+
+                    userNameTextField.editText?.error = "Username should contain atleast 4 characters with no spaces"
+                    userNameTextField.editText?.requestFocus()
+                }
             }
         }
     }
 
     private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
+    private fun isValidUsername(textToCheck: String?) : Boolean = userNamePattern.matcher(textToCheck).matches()
+    private fun isValidPhoneNumber(textToCheck: String?) : Boolean = PhoneNumberPattern.matcher(textToCheck).matches()
 
     companion object {
-        val textPattern: Pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$")
+        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$)(?=.*\\d).+$")
+        val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
+        val PhoneNumberPattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
+
+        //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }
 }

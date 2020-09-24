@@ -56,6 +56,7 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
                 Status.ERROR -> {
                     hideLoader()
+                    getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
                     startActivity(Intent(this, SigninActivity::class.java))
                     finish()
                 }

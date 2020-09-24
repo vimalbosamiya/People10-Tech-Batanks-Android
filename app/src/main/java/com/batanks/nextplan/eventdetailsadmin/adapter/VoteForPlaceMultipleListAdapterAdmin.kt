@@ -85,7 +85,7 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
             holder.seeOnMapLayout.visibility = GONE
         }
 
-        val LATLNG = LatLng(place.place.latitude,place.place.longitude)
+        //val LATLNG = LatLng(place.place.latitude,place.place.longitude)
         holder.placeMapView.apply {
 
             onCreate(null)
@@ -94,8 +94,8 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
                 with(it){
 
                     onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    addMarker(MarkerOptions().position(LATLNG))
+                    //moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                    //addMarker(MarkerOptions().position(LATLNG))
                 }
             }
         }

@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Plan_Sorting
 import com.batanks.nextplan.Settings.Settings
+import com.batanks.nextplan.Settings.viewmodel.ProfileModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
@@ -28,19 +30,23 @@ import com.batanks.nextplan.search.fragments.SearchFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.notifications.NotificationsFragment
+import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
-import com.batanks.nextplan.swagger.model.EventList
-import com.batanks.nextplan.swagger.model.EventListResponse
+import com.batanks.nextplan.swagger.model.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
-    var recyclerView: RecyclerView? = null
+
+
+    lateinit var recyclerView: RecyclerView
     lateinit var eventRecyclerView : RecyclerView
     lateinit var eventAdapter : HomePlanPreviewAdapter
     lateinit var eventList : List<EventList>
+
+    var user_obj : User? = null
 
     private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -50,9 +56,26 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         }).get(HomePlanPreviewViewModel::class.java)
     }
 
+    private val profileViewModel: ProfileModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
+                ProfileModel(it)
+            }
+        }).get(ProfileModel::class.java)
+    }
+
+    override fun onResume(){
+        super.onResume()
+
+        //Toast.makeText(this,"On Resume is called", Toast.LENGTH_LONG).show()
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        ModelPreferencesManager.with(this)
 
         val toolbar: Toolbar = findViewById(R.id.customToolBar)
         setSupportActionBar(toolbar)
@@ -69,6 +92,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         showLoader()
 
         homePlanPreviewViewModel.getHomePlanEvent()
+        //homePlanPreviewViewModel.eventList()
 
         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -79,7 +103,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 Status.SUCCESS -> {
                     hideLoader()
 
-                    homePlanPreviewViewModel.response = response.data as EventListResponse
+                    homePlanPreviewViewModel.response = response.data as InlineResponse2002
 
                     eventList = homePlanPreviewViewModel.response!!.results
 
@@ -88,7 +112,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                     //eventAdapter.notifyDataSetChanged()
                     //var events_list = listOf(response.data as EventList)
                     //var res : EventListResponse = response.data as EventListResponse
-
+                    println(response.data )
                     println(eventList)
 
                     //var events_list = res.results
@@ -106,6 +130,40 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             }
         })
 
+        profileViewModel.getUserProfile()
+
+        profileViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+                    user_obj = response.data as User
+
+                    val userName: String? = user_obj?.username
+                    val firstName: String? = user_obj?.first_name
+                    val lastName: String? = user_obj?.last_name
+                    val email: String? = user_obj?.email
+                    val phoneNumber: String? = user_obj?.phone_number
+
+                    ModelPreferencesManager.put(user_obj, "USER_DATA")
+
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
         //initRecyclerViews()
 
         extFab.setOnClickListener(this)
@@ -117,6 +175,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
             intent = Intent(this, Plan_Sorting:: class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -160,15 +219,28 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.extFab -> {
+
+                /*finish();
+                overridePendingTransition( 0, 0);
+                Intent.FLAG_ACTIVITY_NO_ANIMATION
+                startActivity(getIntent());
+                overridePendingTransition( 0, 0);*/
+
                 frameLayout.visibility = View.VISIBLE
                 extFab.visibility = View.GONE
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.frameLayout, CreatePlanFragment())
+                        .add(R.id.frameLayout, CreatePlanFragment(),CreatePlanFragment.TAG)
                         .addToBackStack(CreatePlanFragment.TAG).commit()
+
+//                recyclerView?.adapter?.notifyItemRangeChanged(0, eventList.size);
+
+                //notifyDataSetChange()
             }
             R.id.img_settings -> {
+
                 intent = Intent(this, Settings :: class.java)
                 startActivity(intent)
+                finish()
             }
 
             R.id.search -> {
@@ -178,6 +250,21 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, SearchFragment())
                         .addToBackStack(SearchFragment.TAG).commit()
+
+               // recyclerView?.adapter?.notifyItemRangeChanged(0, eventList.size);
+                //val eventListCopy : List<EventList>
+                /*val eventListCopyItem = mutableListOf<EventList>().apply {
+
+                    addAll(eventList)
+                }
+                eventList = listOf()
+
+                eventList = eventListCopyItem
+
+                recyclerView?.adapter?.notifyDataSetChanged()*/
+
+
+                //notifyDataSetChange()
             }
 
             R.id.notification -> {
@@ -187,7 +274,60 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, NotificationsFragment())
                         .addToBackStack(NotificationsFragment.TAG).commit()
+
+               // notifyDataSetChange()
             }
         }
+    }
+
+   internal fun notifyDataSetChange(){
+
+       //supportFragmentManager.beginTransaction().remove(CreatePlanFragment()).commit()
+
+        recyclerView = findViewById(R.id.homeScreenRecyclerView)
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.layoutManager = LinearLayoutManager(this)
+
+        homePlanPreviewViewModel.getHomePlanEvent()
+
+        homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    //showLoader()
+                }
+                Status.SUCCESS -> {
+                    //hideLoader()
+
+                    homePlanPreviewViewModel.response = response.data as InlineResponse2002
+
+                    eventList = homePlanPreviewViewModel.response!!.results
+
+                    recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+
+                    (recyclerView.adapter as HomePlanPreviewAdapter).notifyDataSetChanged()
+
+
+
+                    //eventAdapter.notifyDataSetChanged()
+                    //var events_list = listOf(response.data as EventList)
+                    //var res : EventListResponse = response.data as EventListResponse
+                    println(response.data )
+                    println(eventList)
+
+                    //var events_list = res.results
+                    //eventList = res.results
+                    //if(events_list != null)
+                    //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
+                    //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
+                    //println(events_list)
+
+                }
+                Status.ERROR -> {
+                    //hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
     }
 }

@@ -17,8 +17,8 @@ import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.swagger.model.Task
 import kotlinx.android.synthetic.main.fragment_add_action.*
 
-class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFragment() , View.OnClickListener
-                        , AssignPeopleFragment.AssignPeopleFragmentListner{
+class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFragment() , View.OnClickListener,
+                         AssignPeopleFragment.AssignPeopleFragmentListner{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,25 +121,47 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
                         .commitAllowingStateLoss()
 
             }
+
             R.id.ok -> {
-                if (!TextUtils.isEmpty(actionNameTextField?.editText?.text.toString())) {
-                    val task = Task(id = 0, price = natureOfTheCostTextField?.editText?.text.toString(),
+                if (actionNameTextField?.editText?.length()!! >= 2) {
+
+                    var perPerson : Boolean = false
+                    var assignee : Int? = null
+
+                    if (natureOfTheCostTextField.editText?.text.toString() == "Cost Per Person"){
+
+                        perPerson = true
+
+                    } else if (natureOfTheCostTextField.editText?.text.toString() == "Total Cost"){
+
+                        perPerson = false
+                    }
+
+                    if (!TextUtils.isEmpty(txt_add_action_assignee_id.text.toString())){
+
+                        assignee = txt_add_action_assignee_id.text.toString().toInt()
+                    }
+                    val task = Task(id = 0, price =  costActionTextField?.editText?.text.toString(),
                             name = actionNameTextField?.editText?.text.toString(),
                             description = actionDescriptionTextField?.editText?.text.toString(),
-                            price_currency = costActionTextField?.editText?.text.toString(),
-                            per_person = false,
-                            assignee = txt_add_action_assignee_name.text.toString())
+                            price_currency = natureOfTheCostTextField?.editText?.text.toString() ,
+                            per_person = perPerson,
+                            assignee = /*txt_add_action_assignee_name.text.toString())*/ /*txt_add_action_assignee_id.text.toString().toInt()*/ assignee,
+                            assigneeName = txt_add_action_assignee_name.text.toString())
+
+                   // println(txt_add_action_assignee_id.text.toString().toInt())
+                    //println(assignee)
+                   // println(natureOfTheCostTextField.editText?.text.toString())
+                    //println(perPerson)
+
                             listner.AddActionFragmentFetch(task)
                             actionNameTextField.error = null
                     } else {
 
-                    if(TextUtils.isEmpty(actionNameTextField?.editText?.text.toString())){
-
                         //actionNameTextField.error = "Action name is Required"
-                        actionNameTextField.editText?.error = "Action name is Required"
+                        actionNameTextField.editText?.error = "Action name should contain atleast 2 characters"
                         actionNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
-                    }
                 }
                 hideLoader()
             }
@@ -150,16 +172,18 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
             }
         }
     }
+
     interface AddActionFragmentListener {
         fun AddActionFragmentFetch(task :Task)
         fun cancelActionFragmentFetch()
     }
 
-    override fun AddSelectedAssignee (contact : String) {
+    override fun AddSelectedAssignee (contact : String, id : Int) {
         val test1 = contact
         //Toast.makeText(activity , "" + test , Toast.LENGTH_SHORT).show()
         //assignParticipantButton.text = test
         rl_add_action_assignee_holder.visibility = View.VISIBLE
         txt_add_action_assignee_name.text = contact
+        txt_add_action_assignee_id.text = id.toString()
     }
 }

@@ -14,9 +14,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.swagger.model.Group
 import kotlinx.android.synthetic.main.layout_settings_groups_item.view.*
 
-class GroupsAdapter_Settings (private val myList: List<ContactsModel>) : RecyclerView.Adapter<GroupsAdapter_Settings.MyViewHolder>() {
+class GroupsAdapter_Settings (private val myList: List<Group>) : RecyclerView.Adapter<GroupsAdapter_Settings.MyViewHolder>() {
     private var context: Context? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
@@ -30,7 +31,7 @@ class GroupsAdapter_Settings (private val myList: List<ContactsModel>) : Recycle
 
         //val itemView = holder.itemView
 
-        holder.contactName.text = myList.get(position).contactname
+        holder.contactName.text = myList.get(position).name
         holder.img_groups_list_item_dots.setOnClickListener(View.OnClickListener {
             context?.let { it1 -> showDialog(it1) }
         })

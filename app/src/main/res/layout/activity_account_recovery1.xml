@@ -90,7 +90,6 @@
         android:textCursorDrawable="@null"
         app:boxBackgroundColor="#000000"
         app:boxStrokeColor="@color/text_input_layout_stroke_color"
-        app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Enter your email address"
         app:helperTextEnabled="true"

@@ -124,16 +124,16 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         val place1 : Place = Place("Nellore","Nellore","524305","Nellore","India",true,27.2038,77.5011)
         val place2 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
 
-        places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
-        places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
-        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
+        places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
 
-        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 1"))
-        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 2"))
-        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 3"))
-        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 4"))
-        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 5"))
-        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,"User 6"))
+        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true, 1,""))
+        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
         /*tasks.add(Task(5,"1000","Task 5","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
         //places.add(place) as EventPlace
 
@@ -631,7 +631,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun addPlaceFragmentAddressFetch(place: Place) {
+    override fun addPlaceFragmentAddressFetch(place: EventPlace) {
 
         (this.supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
@@ -648,7 +648,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
             visible = places[0].visibility
         }
 
-        places.add(EventPlace(places.size + 1, place, place.name, place.address, place.zipcode, place.city, place.country, place.map, mutableListOf(),visible))
+        places.add(EventPlace(places.size + 1, place.place, place.name, place.address, place.zipcode, place.city, place.country, place.map, mutableListOf(),visible))
 
         //Toast.makeText(this,place.map.toString(),Toast.LENGTH_LONG).show()
 
@@ -668,7 +668,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
 
-        tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee))
+        tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee,task.assigneeName))
 
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerView?.adapter?.notifyDataSetChanged()

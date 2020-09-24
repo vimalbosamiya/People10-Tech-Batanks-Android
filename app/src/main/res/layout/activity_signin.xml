@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="255"
+                android:maxLength="30"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -87,7 +87,7 @@
                 android:textCursorDrawable="@null"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
+       <!-- <com.google.android.material.textview.MaterialTextView
             android:id="@+id/stayLoggedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,7 +139,55 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/createAccount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/createAccount"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent" />-->
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/stayLoggedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@string/stay_logged_in"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/passTextField"
+            app:layout_constraintTop_toBottomOf="@+id/passTextField" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/stayLoggedInCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/stayLoggedIn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:useMaterialThemeColors="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/createAccount"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="184dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/create_account"
+            android:textColor="#ffffff"
+            app:cornerRadius="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/passTextField"
+            app:layout_constraintTop_toBottomOf="@+id/stayLoggedIn"
+            app:strokeColor="#34CBFE" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="104dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#90CAF9"
+            android:enabled="true"
+            android:text="@string/login"
+            android:textColor="@color/colorBlack"
+            android:textCursorDrawable="@color/colorWhite"
+            app:cornerRadius="20dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/createAccount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/passTextField" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/forgotPassword"

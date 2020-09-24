@@ -1,6 +1,7 @@
 package com.batanks.nextplan.home.fragment.action
 
 import android.app.Application
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,13 +30,49 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
             modelList.removeAt(position)
             callBack.closeButtonAddActionItemListener(position)
         }
-        holder.txt_actionname.text = modelList[position].name
-        holder.txt_description.text = modelList[position].description
-        holder.txt_add_action_cost_value.text = modelList[position].price_currency
-        holder.txt_add_action_cost_title.text = modelList[position].price
-        holder.txt_add_action_assignee_name.text = modelList[position].assignee
 
-        if (holder.txt_add_action_assignee_name.text == null){
+        var costTitle : String? = null
+
+        if (modelList[position].per_person == true){
+
+            costTitle = "Cost Per Person"
+
+        } else if (modelList[position].per_person == false) {
+
+            costTitle = "Total Cost"
+        }
+
+        holder.txt_actionname.text = modelList[position].name
+
+        if (!TextUtils.isEmpty(modelList[position].description)){
+
+            holder.txt_description.visibility = View.VISIBLE
+            holder.txt_description.text = modelList[position].description
+
+        } else {
+
+            holder.txt_description.visibility = View.GONE
+        }
+
+
+        if (!TextUtils.isEmpty(modelList[position].price)){
+
+            holder.txt_add_action_cost_value.text = modelList[position].price
+        }
+
+        holder.txt_add_action_cost_title.text = costTitle
+        holder.txt_add_action_assignee_name.text = modelList[position].assigneeName
+
+        if (!TextUtils.isEmpty(modelList[position].assigneeName)){
+
+            holder.rl_add_action_assignee.visibility = View.VISIBLE
+
+        } else {
+
+            holder.rl_add_action_assignee.visibility = View.GONE
+        }
+
+        /*if (holder.txt_add_action_assignee_name.text == null){
 
             holder.rl_add_action_assignee.visibility = View.GONE
 
@@ -43,7 +80,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
         } else {
 
             holder.rl_add_action_assignee.visibility = View.VISIBLE
-        }
+        }*/
 
         //holder.placeAddress.text = modelList[position].address
     }
@@ -52,9 +89,10 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
         val txt_actionname: TextView = item.txt_actionname
         val txt_description :TextView = item.txt_description
         val txt_add_action_cost_value : TextView = item.txt_add_action_cost_value
+        val txt_add_action_cost_symbol : TextView = item.txt_add_action_cost_symbol
         val txt_add_action_cost_title :TextView = item.txt_add_action_cost_title
-        val txt_add_action_assignee_name : TextView = item.txt_add_action_assignee_name
-        val rl_add_action_assignee : ConstraintLayout = item .rl_add_action_assignee
+        val txt_add_action_assignee_name : TextView = item.contactName
+        val rl_add_action_assignee : ConstraintLayout = item .contactBackground
         //val placeAddress: TextView = item.placeAddressTextView
         val closeButton: ImageView = item.actioncloseButtonIcon
     }

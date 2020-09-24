@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.viewmodel.ProfileModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
@@ -26,15 +27,19 @@ import com.batanks.nextplan.signing.viewmodel.SigninViewModel
 import com.batanks.nextplan.splash.SplashActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.Login
+import com.batanks.nextplan.swagger.model.User
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_signin.*
+import java.util.regex.Pattern
 
 class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
 
     private var observable: Observable<Boolean>? = null
+
+    //val sharedPref = getSharedPreferences("USER_TOKEN_PREF", Context.MODE_PRIVATE)
 
     private val signinViewModel: SigninViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -44,11 +49,19 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         }).get(SigninViewModel::class.java)
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
         dismissKeyboard()
+
+        getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
+
+        /* val editor = sharedPref.edit()
+        editor.putInt("USER_LOGIN_TOKEN", yourIntValue)
+        editor.apply()*/
 
         forgotPassword.setOnClickListener {
 
@@ -64,6 +77,20 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                     showLoader()
                 }
                 Status.SUCCESS -> {
+
+                    //println(response.data)
+                    val response_User = response.data as User
+
+                    //getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().putString(RetrofitClient.USER_TOKEN_PREF,response_User.token).apply()
+
+                    //RetrofitClient.getRetrofitInstance(this).sharedPref.edit().putString("USER_LOGIN_TOKEN",response_User.token).apply()
+
+                    getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().putString("USER_LOGIN_TOKEN",response_User.token).apply()
+
+                    //RetrofitClient.token = response_User.token
+
+                    //println("token from Sign in activity" + RetrofitClient.token)
+                    //println(response_User)
                     hideLoader()
                     val intent = Intent(this, HomePlanPreview::class.java)
                     startActivity(intent)
@@ -71,7 +98,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                 }
                 Status.ERROR -> {
                     hideLoader()
-                   // showMessage(response.error?.message.toString())
+                    showMessage(response.error?.message.toString())
                     Toast.makeText(this,"Username or Password is incorrect",Toast.LENGTH_LONG).show()
                 }
             }
@@ -82,7 +109,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
             startActivity(intent)
-            //finish()
+            finish()
         }
 
         /*val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
@@ -140,10 +167,33 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
             R.id.login -> {
                 //Toast.makeText(this,"working",Toast.LENGTH_SHORT).show()
 
+                if (loginTextField.editText?.length()!! >= 4){
+
+                    if (isValidPassword(passTextField.editText?.text?.toString()) && passTextField.editText?.length()!! >= 6){
+
+                        dismissKeyboard()
+                        //RetrofitClient.cookieJar?.clear()
+                        getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
+                        val login = Login(login = loginTextField?.editText?.text.toString(), password = passTextField?.editText?.text.toString())
+                        signinViewModel.performSignIn(login)
+
+                    } else {
+
+                        passTextField.editText?.error = "Password is not valid"
+                        passTextField.editText?.requestFocus()
+                    }
+
+
+                } else {
+
+                    loginTextField.editText?.error = "Username is not valid"
+                    loginTextField.editText?.requestFocus()
+                }
+/*
                 if (!TextUtils.isEmpty(loginTextField?.editText?.text.toString()) && !TextUtils.isEmpty(passTextField?.editText?.text.toString())){
 
                     dismissKeyboard()
-                    RetrofitClient.cookieJar?.clear()
+                    //RetrofitClient.cookieJar?.clear()
                     getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
                     val login = Login(login = loginTextField?.editText?.text.toString(), password = passTextField?.editText?.text.toString())
                     signinViewModel.performSignIn(login)
@@ -165,8 +215,17 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
 
                     loginTextField.editText?.error = "Username is Required"
                     loginTextField.editText?.requestFocus()
-                }
+                }*/
             }
         }
+    }
+
+    private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
+
+    companion object {
+        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$)(?=.*\\d).+$")
+
+        //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }
 }

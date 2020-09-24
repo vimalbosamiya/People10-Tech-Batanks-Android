@@ -75,7 +75,7 @@ interface EventAPI {
     fun apiEventInvitationUpdate(@Path("id") id: String?, @Path("invitation_pk") invitationPk: String?, @Body data: Invitation?): Observable<Invitation>
 
     @GET("api/event/")
-    fun apiEventList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Call<InlineResponse2002>
+    fun apiEventList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2002>
 
     @PATCH("api/event/{id}/")
     fun apiEventPartialUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event?>?

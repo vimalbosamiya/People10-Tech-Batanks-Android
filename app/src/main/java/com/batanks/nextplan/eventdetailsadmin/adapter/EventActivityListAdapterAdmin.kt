@@ -103,13 +103,13 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
             onCreate(null)
             getMapAsync{
 
-                val LATLNG = LatLng(activity.place.latitude,activity.place.longitude)
+                //val LATLNG = LatLng(activity.place.latitude,activity.place.longitude)
 
                 with(it){
 
                     onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    addMarker(MarkerOptions().position(LATLNG))
+                    //moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                   // addMarker(MarkerOptions().position(LATLNG))
                 }
             }
         }

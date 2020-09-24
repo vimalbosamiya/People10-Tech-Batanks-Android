@@ -2,6 +2,7 @@ package com.batanks.nextplan.home.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -45,11 +46,40 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
         val itemView = holder.itemView
 
         holder.eventName.text = myList[position].title
-        holder.from.text = myList[position].date.start
-        holder.to.text = myList[position].date.end
-        holder.place.text = myList[position].place.address
 
-     /*   holder.eventName.text = "Private Event Name"
+        if (myList[position].date != null){
+
+            holder.from.text = myList[position].date.start
+
+            holder.to.text = myList[position].date.end
+        }
+
+        val placeName = myList[position].place.name
+        val placeCity = myList[position].place.city
+        val placeCountry = myList[position].place.country
+        val placeZipcode = myList[position].place.zipcode
+
+        val stringBuilder = StringBuilder()
+                .append(placeName)
+
+                .append(" ")
+                .append(placeCity)
+
+                .append(" ")
+                .append(placeCountry)
+
+                .append(" ")
+                .append(placeZipcode)
+
+        holder.place.text = stringBuilder.toString()
+        holder.eventNameFull.text = myList[position].title
+        holder.eventDescription.text = myList[position].detail
+        holder.eventCategory.text = myList[position].category.name
+        holder.fromResponseTextViewFull.text = myList[position].date.start
+        holder.toResponseTextViewFull.text = myList[position].date.end
+        holder.placeResponseTextViewFull.text = myList[position].place.address
+
+       /* holder.eventName.text = "Private Event Name"
         holder.from.text = "From from Adapter"
         holder.to.text = "From from Adapter"
         holder.place.text = "From from Adapter"*/
@@ -90,5 +120,11 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
         val eventItem : ConstraintLayout = item.eventItem
         val eventItemFull :ConstraintLayout = item.eventItemFull
         val eventNextButton : ImageView = item.eventNextButton
+        val eventNameFull : TextView = item.eventNameFull
+        val eventCategory : TextView = item.eventCategory
+        val eventDescription : TextView = item.eventDescription
+        val fromResponseTextViewFull : TextView = item.fromResponseTextViewFull
+        val toResponseTextViewFull : TextView = item.toResponseTextViewFull
+        val placeResponseTextViewFull : TextView = item.placeResponseTextViewFull
     }
 }

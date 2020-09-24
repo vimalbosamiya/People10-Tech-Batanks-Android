@@ -9,5 +9,5 @@ data class EventPlace(
         val city: String,
         val country: String,
         val map: Boolean,
-        val votes: List<Int>,
-        var visibility : Boolean = false)
+        val votes: List<String>,
+        var visibility : Boolean = true)

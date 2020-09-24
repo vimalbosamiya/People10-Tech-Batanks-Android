@@ -1,6 +1,7 @@
 package com.batanks.nextplan.swagger.api
 
 import com.batanks.nextplan.swagger.model.*
+import com.batanks.nextplan.swagger.model.mode.ResetPasswordConfirm
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
@@ -50,5 +51,5 @@ interface AuthenticationAPI {
     fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<User>
 
     @POST("api/authentication/reset/")
-    fun apiAuthenticationResetPassword(@Body resetPassword: ResetPassword): Observable<ResetPassword>
+    fun apiAuthenticationResetPassword(@Body resetPassword: ResetPasswordConfirm): Observable<ResetPassword>
 }
