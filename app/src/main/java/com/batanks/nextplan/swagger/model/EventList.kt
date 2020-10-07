@@ -9,6 +9,6 @@ data class EventList(
         @SerializedName("private")
         val _private: Boolean,
         val category: CategoryList,
-        val place: Place,
-        val date: EventDate,
+        val place: Place?,
+        val date: EventDate?,
         val periodicity: Periodicity)

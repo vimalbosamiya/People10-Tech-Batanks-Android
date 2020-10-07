@@ -47,17 +47,17 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
 
         holder.eventName.text = myList[position].title
 
-        if (myList[position].date != null){
+//        if (myList[position].date != null){
 
-            holder.from.text = myList[position].date.start
+            holder.from.text = myList[position].date?.start
 
-            holder.to.text = myList[position].date.end
-        }
+            holder.to.text = myList[position].date?.end
+        //}
 
-        val placeName = myList[position].place.name
-        val placeCity = myList[position].place.city
-        val placeCountry = myList[position].place.country
-        val placeZipcode = myList[position].place.zipcode
+        val placeName = myList[position].place?.name
+        val placeCity = myList[position].place?.city
+        val placeCountry = myList[position].place?.country
+        val placeZipcode = myList[position].place?.zipcode
 
         val stringBuilder = StringBuilder()
                 .append(placeName)
@@ -75,9 +75,9 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
         holder.eventNameFull.text = myList[position].title
         holder.eventDescription.text = myList[position].detail
         holder.eventCategory.text = myList[position].category.name
-        holder.fromResponseTextViewFull.text = myList[position].date.start
-        holder.toResponseTextViewFull.text = myList[position].date.end
-        holder.placeResponseTextViewFull.text = myList[position].place.address
+        holder.fromResponseTextViewFull.text = myList[position].date?.start
+        holder.toResponseTextViewFull.text = myList[position].date?.end
+        holder.placeResponseTextViewFull.text = myList[position].place?.address
 
        /* holder.eventName.text = "Private Event Name"
         holder.from.text = "From from Adapter"

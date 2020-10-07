@@ -277,7 +277,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                                     )
                                     registrationViewModel.createUser(user)
 
-                                    Toast.makeText(this,"Eveything looks good",Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this,"Account Created Successfully",Toast.LENGTH_SHORT).show()
 
                                 } else {
 
