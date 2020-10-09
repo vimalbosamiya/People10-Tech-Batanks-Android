@@ -57,7 +57,7 @@
         android:gravity="center"
         android:paddingBottom="24dp"
         android:text="CANCEL"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorLittleBlue"
         app:layout_constraintRight_toLeftOf="@+id/select_followup_ok"
         app:layout_constraintTop_toBottomOf="@+id/rv_select_followup_items" />
 </androidx.constraintlayout.widget.ConstraintLayout>

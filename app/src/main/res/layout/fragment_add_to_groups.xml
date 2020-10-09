@@ -47,16 +47,16 @@
             android:layout_centerVertical="true"
             />-->
 
-        <View
-            android:id="@+id/viewSeperator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorBlack"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_toRightOf="@id/backArrow"
-            android:layout_below="@+id/txtAddToGroup"/>
 
     </RelativeLayout>
+
+    <View
+        android:id="@+id/viewSeperator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlAddToGroups"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupsRecyclerView"
@@ -64,7 +64,7 @@
         android:layout_height="450dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rlAddToGroups" />
+        app:layout_constraintTop_toBottomOf="@id/viewSeperator" />
 
    <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFab_followup"
@@ -103,7 +103,7 @@
             android:id="@+id/txt_settings_contacts_add_groups"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREATE NEW GROUPS"
+            android:text="CREATE NEW GROUP"
             android:layout_toRightOf="@id/img_settings_contacts_add_groups"
             android:padding="10dp"
             android:textColor="#90CAF9"

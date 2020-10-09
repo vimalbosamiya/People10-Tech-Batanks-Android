@@ -19,8 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:background="@color/colorBlack"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/howMuchText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/howMuchText" />
 
@@ -32,13 +34,13 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:hint="Cost of the action"
+        android:hint="Cost of the activity"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
-        app:helperText="How much does this action cost?"
+        app:helperText="How much does this activity cost?"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"
@@ -54,13 +56,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
-            android:inputType="text"
-            android:maxLength="15"
+            android:inputType="number"
+            android:maxLength="10"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -76,13 +78,15 @@
         android:paddingBottom="16dp"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="dropdown_menu"
         app:endIconTint="@color/colorWhite"
         app:helperText="Cost per person or Total cost ?"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
-        app:hintTextColor="@color/colorWhite"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
         app:boxCornerRadiusTopStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -95,9 +99,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:textSize="15sp"
             android:editable="false"
             android:paddingLeft="16dp"
+            android:paddingTop="16dp"
             android:gravity="center_vertical"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

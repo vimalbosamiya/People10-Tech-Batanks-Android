@@ -1,5 +1,6 @@
 package com.batanks.nextplan.Settings
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Adapters.Plan_Sorting_Adapter
+import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 
 class Plan_Sorting : AppCompatActivity() {
@@ -30,7 +32,17 @@ class Plan_Sorting : AppCompatActivity() {
                     .commitAllowingStateLoss()
         })
         setUpDummyData()
+
+
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        intent = Intent(this, HomePlanPreview:: class.java)
+        startActivity(intent)
+    }
+
     private fun setUpDummyData(){
         var list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
         list.add(ContactsModel("Drafts", "12345" , false))
@@ -39,9 +51,10 @@ class Plan_Sorting : AppCompatActivity() {
         list.add(ContactsModel("News", "12345", false))
         list.add(ContactsModel("Trip", "12345", false))
         list.add(ContactsModel("Professional", "12345", false))
-        list.add(ContactsModel("Liesure", "12345", false))
+        list.add(ContactsModel("Leisure", "12345", false))
         list.add(ContactsModel("Institutional", "12345", false))
         list.add(ContactsModel("Other", "12345", false))
+
 
         adapter = Plan_Sorting_Adapter(list)
         rv_plan_sorting.adapter = adapter

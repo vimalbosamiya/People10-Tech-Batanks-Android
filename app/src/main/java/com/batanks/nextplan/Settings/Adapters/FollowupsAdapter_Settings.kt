@@ -42,7 +42,7 @@ class FollowupsAdapter_Settings (private val myList: List<ContactsModel>) : Recy
     private fun showDialog(context : Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_edit_groups)
         val edit = dialog.findViewById(R.id.rl_edit_groups_edit) as RelativeLayout
         val delete = dialog.findViewById(R.id.rl_edit_groups_delete) as RelativeLayout

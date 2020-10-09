@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,8 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:background="@color/colorBlack"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/whereText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/whereText" />
 
@@ -33,10 +36,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:hint="Place Activity name"
+        android:hint="Place name"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Describe the activity"
@@ -56,15 +59,15 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="30"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         android:id="@+id/activity_copy_plan_address"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
@@ -81,7 +84,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ActivityplaceNameTextField"
-        app:strokeColor="#34CBFE" />
+        app:strokeColor="#34CBFE" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_addressTextField"
@@ -94,7 +97,7 @@
         android:hint="Address"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Enter an address"
@@ -107,21 +110,92 @@
         app:hintTextColor="#34CBFE"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_copy_plan_address">
+        app:layout_constraintTop_toBottomOf="@+id/ActivityplaceNameTextField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="textMultiLine"
+            android:maxLength="100"
+            android:maxLines="3"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@null"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_zipCodeTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Zip Code"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="Postal Code"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_addressTextField">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="10"
             android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <LinearLayout
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_townTextField"
+        style="@style/MaterialTextInputLayoutTheme"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        android:hint="Town"
+        android:textColorHint="#ffffff"
+        app:boxBackgroundColor="#000000"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/colorWhite"
+        app:helperText="The City"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#ffffff"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#34CBFE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_zipCodeTextField">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:scrollbarTrackHorizontal="@color/colorWhite"
+            android:textCursorDrawable="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<LinearLayout
         android:id="@+id/ll_activity_zipcode_town"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -141,7 +215,7 @@
         android:hint="Zip Code"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="Postal Code"
@@ -161,10 +235,10 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="10"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -179,7 +253,7 @@
         android:hint="Town"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         app:helperText="The City"
@@ -196,33 +270,65 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="20"
             android:maxLines="1"
             android:scrollbarTrackHorizontal="@color/colorWhite"
-            android:textCursorDrawable="@color/colorWhite" />
+            android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+    </LinearLayout>-->
+
     <RelativeLayout
         android:id="@+id/rl_activity_country_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_activity_zipcode_town"
-        android:padding="8dp"
-        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/activity_townTextField"
+        android:paddingTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/rl_black_curved">
-    <com.hbb20.CountryCodePicker
+
+        <com.hbb20.CountryCodePicker
         android:id="@+id/ccp_activity_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:ccp_autoFormatNumber="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:ccp_showFullName="true"
+        app:ccp_showPhoneCode="false"
+        app:ccp_showNameCode="false"
+        app:ccpDialog_showFastScroller="true"
+        app:ccpDialog_fastScroller_bubbleColor="@color/colorWhite"
+        app:ccpDialog_fastScroller_bubbleTextAppearance="@style/BaseText"
         app:ccp_contentColor="#ffffff"
-        app:ccp_countryPreference="FR"
-        app:ccp_showFlag="false"
+        app:ccp_showFlag="true"
         app:ccp_textGravity="LEFT"
-        app:ccp_showPhoneCode="false"/>
+        app:ccpDialog_searchEditTextTint="@color/colorBlack"
+        app:ccp_autoDetectCountry="true"
+        app:ccpDialog_textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DEFFFFFF"
+            android:layout_alignParentBottom="true"/>
+
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Specify country"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/rl_activity_country_layout"
+        app:layout_constraintTop_toBottomOf="@+id/rl_activity_country_layout">
+
+    </TextView>
+
     <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/activity_countryTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
@@ -258,4 +364,5 @@
             android:text="Country" />&ndash;&gt;
 
     </com.google.android.material.textfield.TextInputLayout>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

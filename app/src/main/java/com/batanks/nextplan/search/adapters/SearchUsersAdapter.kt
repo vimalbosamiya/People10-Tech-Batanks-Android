@@ -101,7 +101,7 @@ class SearchUsersAdapter (private val usersList: List<ContactsModel>) : Recycler
 
         groupsRecyclerView =  dialog.findViewById(R.id.groupsRecyclerView)
         groupsRecyclerView.layoutManager = LinearLayoutManager(context)
-        groupsRecyclerView.adapter = AddToGroupsAdapter(listOf<String>())
+        //groupsRecyclerView.adapter = AddToGroupsAdapter(listOf<String>())
 
 
         dialog.show()

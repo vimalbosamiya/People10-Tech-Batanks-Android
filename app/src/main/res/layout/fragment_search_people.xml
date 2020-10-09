@@ -34,9 +34,11 @@
                 android:layout_marginRight="16dp"
                 android:hint="Search for..."
                 android:textColorHint="#ffffff"
+                android:textCursorDrawable="@null"
+                app:endIconDrawable="@drawable/ic_search_icon"
                 app:boxBackgroundColor="#000000"
-                app:boxStrokeColor="#34CBFE"
-                app:endIconMode="clear_text"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:endIconMode="custom"
                 app:endIconTint="@color/colorWhite"
                 app:helperText="Enter a name, an e-mail, or a nickname"
                 app:helperTextEnabled="true"
@@ -47,17 +49,21 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addcontactSearchEditField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:inputType="text"
-                    android:maxLength="15"
+                    android:maxLength="20"
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:scrollbarTrackHorizontal="@color/colorWhite"
-                    android:textCursorDrawable="@color/colorWhite" />
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout
@@ -69,13 +75,15 @@
                 android:layout_marginRight="16dp"
                 android:background="#1E1E1E"
                 app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField">
+
                 <ImageView
                     android:id="@+id/img_contacts_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_add_person"/>
+                    android:src="@drawable/ic_settings_contacts"/>
+
                 <TextView
                     android:id="@+id/add_contacts_contacts_text"
                     android:layout_width="wrap_content"
@@ -85,21 +93,22 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/img_contacts_icon"/>
-                <com.google.android.material.checkbox.MaterialCheckBox
+
+               <!-- <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/select_contacts_contacts_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/imgContactIconHolder"
-                    app:useMaterialThemeColors="false" />
+                    android:checked="false"
+                    app:useMaterialThemeColors="false" />-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/imgContactIconHolder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true">
 
                     <ImageView
@@ -107,6 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:padding="12dp"
                         android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -115,7 +125,8 @@
                         android:id="@+id/img_contacts_up_arrow_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:src="@drawable/ic_event_details_hide_map_icon"
+                        android:padding="18dp"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -208,6 +219,7 @@
                 android:layout_marginRight="16dp"
                 android:background="#1E1E1E"
                 app:layout_constraintTop_toBottomOf="@+id/search_contacts_list">
+
                 <ImageView
                     android:id="@+id/img_contacts_groups_icon"
                     android:layout_width="wrap_content"
@@ -224,21 +236,22 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/img_contacts_groups_icon"/>
-                <com.google.android.material.checkbox.MaterialCheckBox
+
+                <!--<com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/select_contacts_group_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/imgGroupIconHolder"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false" />-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/imgGroupIconHolder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true">
 
                     <ImageView
@@ -246,6 +259,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
+                        android:padding="12dp"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -255,7 +269,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:padding="18dp"
+                        android:src="@drawable/ic_event_details_hide_map_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -333,7 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_add_person"/>
+                    android:src="@drawable/ic_account_box"/>
                 <TextView
                     android:id="@+id/add_contacts_users_text"
                     android:layout_width="wrap_content"
@@ -343,38 +358,41 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/img_contacts_users_icon"/>
-                <com.google.android.material.checkbox.MaterialCheckBox
+
+                <!--<com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/select_contacts_users_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/imgUsersIconHolder"
-                    app:useMaterialThemeColors="false" />
+                    app:useMaterialThemeColors="false" />-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/imgUsersIconHolder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true">
 
                     <ImageView
                         android:id="@+id/img_user_down_arrow_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
+                        android:padding="12dp"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/img_user_up_arrow_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:padding="18dp"
+                        android:src="@drawable/ic_event_details_hide_map_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -455,9 +473,11 @@
                 android:layout_marginRight="16dp"
                 android:hint="Invite by mail"
                 android:textColorHint="#ffffff"
+                android:textCursorDrawable="@null"
                 app:boxBackgroundColor="#000000"
-                app:boxStrokeColor="#34CBFE"
-                app:endIconMode="clear_text"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_send"
                 app:endIconTint="@color/colorWhite"
                 app:helperText="Enter an e-mail"
                 app:helperTextEnabled="true"
@@ -473,12 +493,12 @@
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
                     android:inputType="text"
-                    android:maxLength="15"
+                    android:maxLength="30"
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:scrollbarTrackHorizontal="@color/colorWhite"
-                    android:textCursorDrawable="@color/colorWhite" />
+                    android:textCursorDrawable="@null"  />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout
@@ -490,13 +510,15 @@
                 android:layout_marginRight="16dp"
                 android:background="#1E1E1E"
                 app:layout_constraintTop_toBottomOf="@+id/addcontactinviteEmail">
+
                 <ImageView
                     android:id="@+id/img_contacts_phone_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_add_person"/>
+                    android:src="@drawable/ic_contact_phone"/>
+
                 <TextView
                     android:id="@+id/add_contacts_phone_text"
                     android:layout_width="wrap_content"
@@ -506,6 +528,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/img_contacts_phone_icon"/>
+
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/select_contacts_phone_checkbox"
                     android:layout_width="wrap_content"
@@ -520,7 +543,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                   android:layout_marginEnd="4dp"
                     android:layout_centerVertical="true">
 
                     <ImageView
@@ -528,6 +551,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
+                        android:padding="10dp"
                         android:src="@drawable/ccp_ic_arrow_drop_down"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -537,7 +561,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:src="@drawable/ccp_ic_arrow_drop_down"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_event_details_hide_map_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -621,7 +646,7 @@
 
     </ScrollView>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/rl_settings_news_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -646,7 +671,8 @@
             android:layout_centerVertical="true"
             android:padding="16dp"
             android:layout_marginRight="16dp"/>
-    </RelativeLayout>
+
+    </RelativeLayout>-->
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFab_followup"

@@ -11,22 +11,32 @@
         android:id="@+id/textViewAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Action"
         android:textColor="#DEFFFFFF"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/actionDivider"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/actionIdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="1"
         android:textColor="#DEFFFFFF"
         android:textSize="18sp"
         android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@+id/textViewAction"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/actionSettingsIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_event_details_settings"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/actionDivider"/>
 
     <ImageView
         android:id="@+id/actionDivider"

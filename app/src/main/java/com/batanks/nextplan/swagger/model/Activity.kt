@@ -7,8 +7,8 @@ data class Activity(
         val title: String,
         val detail: String,
         val date: String,
-        val max_participants: Int,
+        val max_participants: Int?,
         val price_currency: String,
         val per_person: Boolean,
-        val duration: Long,
+        val duration: Long?,
         val participants: List<Int>)

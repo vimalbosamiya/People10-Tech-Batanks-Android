@@ -12,9 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Group"
-        android:padding="16dp"
-        android:textAppearance="?android:textAppearanceMedium"
-        />
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?android:textAppearanceMedium" />
+
     <View
         android:id="@+id/view_seperator_create_group_title"
         android:layout_width="match_parent"
@@ -22,18 +23,24 @@
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
         android:layout_below="@id/txt_create_group"/>
+
         <com.google.android.material.textfield.TextInputLayout
+
             android:id="@+id/tip_create_group_gname"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            android:layout_margin="16dp"
-            android:hint="Group Name"
-            app:helperText="Give a Name to Your Group"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
+            android:hint="Group name"
+            app:helperText="Give a name to your group"
             app:helperTextTextColor="@android:color/white"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="#34CBFE"
@@ -48,14 +55,15 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="15"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <View
         android:id="@+id/view_seperator_tip_create_group_gname"
         android:layout_width="match_parent"
@@ -63,15 +71,16 @@
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
         android:layout_below="@id/tip_create_group_gname"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_group_ok"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:enabled="true"
         android:gravity="center"
-        android:paddingBottom="24dp"
+        android:paddingBottom="20dp"
         android:text="OK"
         android:textColor="@color/colorWhite"
         android:alpha="0.6"
@@ -84,10 +93,10 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:enabled="true"
         android:gravity="center"
-        android:paddingBottom="24dp"
+        android:paddingBottom="20dp"
         android:text="CANCEL"
         android:textColor="#90CAF9"
         android:layout_below="@id/view_seperator_tip_create_group_gname"

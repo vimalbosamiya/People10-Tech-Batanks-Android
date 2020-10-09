@@ -3,15 +3,23 @@ package com.batanks.nextplan.eventdetailsadmin
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,9 +46,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.addGuestBackground
+import kotlinx.android.synthetic.main.layout_action_display_admin.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.view.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
+import kotlinx.android.synthetic.main.layout_comment_display.*
+import kotlinx.android.synthetic.main.layout_date_display.*
+import kotlinx.android.synthetic.main.layout_delete_popup.*
+import kotlinx.android.synthetic.main.layout_place_display.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -111,16 +124,16 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         val place1 : Place = Place("Nellore","Nellore","524305","Nellore","India",true,27.2038,77.5011)
         val place2 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
 
-        places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
-        places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
-        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true,vote))
+        places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
 
-        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
-        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
-        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
-        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
-        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
-        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1))
+        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true, 1,""))
+        tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
         /*tasks.add(Task(5,"1000","Task 5","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
         //places.add(place) as EventPlace
 
@@ -162,6 +175,21 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         userIcon.setOnClickListener(this)
         userIconInFull.setOnClickListener(this)
+        dateSettingsIcon.setOnClickListener{
+
+            dateDeleteDialog()
+
+        }
+        placeSettingsIcon.setOnClickListener {
+
+            placeDeleteDialog()
+
+        }
+        commentsSettingsIcon.setOnClickListener {
+
+            commentsDeleteDialog()
+
+        }
         dateDropDown.setOnClickListener(this)
         dateDropDownMulti.setOnClickListener(this)
         placeDropDown.setOnClickListener(this)
@@ -178,6 +206,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         addActivityBackgroundImg.setOnClickListener(this)
         addPeople.setOnClickListener(this)
         addCommentsImg.setOnClickListener(this)
+        backArrow.setOnClickListener(this)
+
+
+       /* actionSettingsIcon.setOnClickListener {
+
+
+
+        }*/
 
         //dateBackgroundMultiple.setOnClickListener(this)
 
@@ -257,6 +293,22 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = getCurrentFocus()
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     fun addGuestsDialogShow(){
         /*val addGuestsView = LayoutInflater.from(this).inflate(R.layout.layout_add_guests,null)
         val addGuestsBuilder = AlertDialog.Builder(this).setView(addGuestsView)
@@ -265,7 +317,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         val addGuestsView = Dialog(this/*,android.R.style.Theme_Translucent_NoTitleBar*/)
         addGuestsView.requestWindowFeature(Window.FEATURE_NO_TITLE)
         addGuestsView.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        addGuestsView.setCancelable(false)
+        addGuestsView.setCancelable(true)
         addGuestsView.setContentView(R.layout.layout_add_guests)
         addGuestsView.show()
 
@@ -361,30 +413,29 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     }
 
-    fun taskInitAdmin(tasks : List<Task>){
+    fun taskInitAdmin(tasks : ArrayList<Task>){
 
         val actionRecyclerViewAdmin = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerViewAdmin.layoutManager = LinearLayoutManager(this)
 
-        if(tasks.size <= 3){
+        /*if(tasks.size <= 3){
 
             val params = actionRecyclerViewAdmin.getLayoutParams() as ConstraintLayout.LayoutParams
             params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
             actionRecyclerViewAdmin.setLayoutParams(params)
+        }*/
 
-        }
-
-        val adapter = EventActionListAdapterAdmin(tasks,this)
+        val adapter = EventActionListAdapterAdmin(tasks,this,this)
         actionRecyclerViewAdmin.adapter = adapter
 
     }
 
-    fun activityInitAdmin(activity : List<Activity>){
+    fun activityInitAdmin(activity : ArrayList<Activity>){
 
         val activityRecyclerView = findViewById<RecyclerView>(R.id.activityRecyclerViewAdmin) as RecyclerView
         activityRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EventActivityListAdapterAdmin(activity,this)
+        val adapter = EventActivityListAdapterAdmin(activity,this,this)
         activityRecyclerView.adapter = adapter
 
     }
@@ -419,7 +470,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         val mHour = mCal.get(Calendar.HOUR_OF_DAY)
         val mMin = mCal.get(Calendar.MINUTE)
 
-        val fromDate = DatePickerDialog(this,R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener{ fromDatePicker, fromYear, fromMonth, fromDay ->
+        /*val fromDate = DatePickerDialog(this,R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener{ fromDatePicker, fromYear, fromMonth, fromDay ->
             val toDate = DatePickerDialog(this, R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
                 val fromTime = TimePickerDialog(this, R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
                     val toTime = TimePickerDialog(this, R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
@@ -427,21 +478,31 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                         val cal = Calendar.getInstance()
                         cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
 
-                        /*FromDate*/
+                        *//*FromDate*//*
                         val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
                         val startDate = dateFormatter.format(cal.time)
                         println(startDate)
 
-                        /*ToDate*/
+                        *//*ToDate*//*
                         cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
                         val endDate = dateFormatter.format(cal.time)
                         println(endDate)
 
-                        /*publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
-                        dateRecyclerView?.adapter?.notifyDataSetChanged()*/
+                        *//*publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
+                        dateRecyclerView?.adapter?.notifyDataSetChanged()*//*
                         //addPeriodButton.text = "ADD AN OTHER PERIOD"
 
-                        dates.add(EventDate((dates.size + 1),startDate,endDate, mutableListOf()))
+                        var visible : Boolean
+
+                        if (dates.size == 0){
+                            visible = false
+                        }
+
+                        else{
+                            visible = dates[0].visibility
+                        }
+
+                        dates.add(EventDate((dates.size + 1),startDate,endDate, mutableListOf(),visible))
                         dateRecyclerView?.adapter?.notifyDataSetChanged()
 
                     }, mHour, mMin, false)
@@ -452,6 +513,59 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
             toDate.datePicker.minDate = System.currentTimeMillis()
             toDate.setCanceledOnTouchOutside(false)
             toDate.show()
+        }, mYear, mMonth, mDay)
+        fromDate.datePicker.minDate = System.currentTimeMillis()
+        fromDate.setCanceledOnTouchOutside(false)
+        fromDate.show()*/
+
+        val fromDate = DatePickerDialog(this, R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
+
+            val fromTime = TimePickerDialog(this, R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
+
+                val toDate = DatePickerDialog(this, R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
+
+                    val toTime = TimePickerDialog(this, R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
+
+                        val cal = Calendar.getInstance()
+                        cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
+
+                        //FromDate
+                        val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
+                        val startDate = dateFormatter.format(cal.time)
+                        println(startDate)
+
+                        //ToDate
+                        cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
+                        val endDate = dateFormatter.format(cal.time)
+                        println(endDate)
+
+                        /*  publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
+                          addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                          addPeriodButton.text = "ADD AN OTHER PERIOD"
+                          addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)*/
+
+                        var visible: Boolean
+
+                        if (dates.size == 0) {
+                            visible = false
+                        } else {
+                            visible = dates[0].visibility
+                        }
+
+                        dates.add(EventDate((dates.size + 1), startDate, endDate, mutableListOf(), visible))
+                        dateRecyclerView?.adapter?.notifyDataSetChanged()
+
+                    }, mHour, mMin, false)
+                    toTime.show()
+
+                }, mYear, mMonth, mDay)
+                toDate.datePicker.minDate = System.currentTimeMillis()
+                toDate.setCanceledOnTouchOutside(false)
+                toDate.show()
+
+            }, mHour, mMin, false)
+            fromTime.show()
+
         }, mYear, mMonth, mDay)
         fromDate.datePicker.minDate = System.currentTimeMillis()
         fromDate.setCanceledOnTouchOutside(false)
@@ -517,12 +631,24 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun addPlaceFragmentAddressFetch(place: Place) {
+    override fun addPlaceFragmentAddressFetch(place: EventPlace) {
 
         (this.supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
-        places.add(EventPlace(places.size + 1, place, place.name, place.address, place.zipcode, place.city, place.country, place.map, mutableListOf()))
+        var visible : Boolean
+
+        if (places.size == 0){
+
+            visible = false
+        }
+
+        else{
+
+            visible = places[0].visibility
+        }
+
+        places.add(EventPlace(places.size + 1, place.place, place.name, place.address, place.zipcode, place.city, place.country, place.map, mutableListOf(),visible))
 
         //Toast.makeText(this,place.map.toString(),Toast.LENGTH_LONG).show()
 
@@ -542,7 +668,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
 
-        tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee))
+        tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee,task.assigneeName))
 
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerView?.adapter?.notifyDataSetChanged()
@@ -581,7 +707,19 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
                 as? AddCommentsFragment)?.dismiss()
 
-        comments.add(Comment(comment.comment))
+        var visible : Boolean
+
+        if (comments.size == 0){
+
+            visible = false
+        }
+
+        else{
+
+            visible = comments[0].visibility
+        }
+
+        comments.add(Comment(comment.comment,visible))
 
         commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
     }
@@ -592,6 +730,104 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 as? AddCommentsFragment)?.dismiss()
 
         commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
+    }
+
+
+    private fun dateDeleteDialog() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_delete_popup)
+
+        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
+
+        deletePopup.setOnClickListener{
+
+
+            dates.forEach{
+
+                it.visibility = true
+
+            }
+
+            dateBackgroundMultiple.visibility = GONE
+
+            dateDropDownBackgroundMultiple.visibility = VISIBLE
+
+            //closeButtonIcon.visibility = VISIBLE
+
+            val dateRecyclerView = findViewById<RecyclerView>(R.id.VoteForDateMultipleRecyclerViewAdmin) as RecyclerView
+            dateRecyclerView.adapter?.notifyDataSetChanged()
+
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
+    }
+
+    private fun placeDeleteDialog() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_delete_popup)
+
+        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
+
+        deletePopup.setOnClickListener{
+
+
+            places.forEach{
+
+                it.visibility = true
+
+            }
+
+            placeBackgroundMulti.visibility = GONE
+
+            placeDropDownBackgroundMultiple.visibility = VISIBLE
+
+            //placeCloseButton.visibility = VISIBLE
+
+            val placeRecyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerViewAdmin) as RecyclerView
+            placeRecyclerView.adapter?.notifyDataSetChanged()
+
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
+    }
+
+    private fun commentsDeleteDialog() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_delete_popup)
+
+        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
+
+        deletePopup.setOnClickListener{
+
+
+            comments.forEach{
+
+                it.visibility = true
+
+            }
+
+            commentsCloseButoon.visibility = VISIBLE
+
+            commentsListRecyclerViewAdmin.adapter?.notifyDataSetChanged()
+
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
     }
 
 
@@ -643,6 +879,12 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                 organizerInitial.visibility = VISIBLE
             }
+
+         /*  R.id.dateSettingsIcon -> {
+
+
+
+            }*/
 
             R.id.dateDropDown -> {
 
@@ -753,9 +995,12 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                 addGuestsDialogShow()
             }
+
+            R.id.backArrow -> {
+
+                finish()
+            }
         }
-
-
     }
 
 

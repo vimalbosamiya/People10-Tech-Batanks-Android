@@ -32,6 +32,7 @@ class SplashActivity : BaseAppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed(Runnable {
+
             if (getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean(PREF_NAME, false)) {
                 splashViewModel.getUserProfile()
             } else {
@@ -40,7 +41,7 @@ class SplashActivity : BaseAppCompatActivity() {
             }
         }, SPLASH_SCREEN_TIMEOUT)
 
-        loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+        loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
 
         splashViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -55,6 +56,7 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
                 Status.ERROR -> {
                     hideLoader()
+                    getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
                     startActivity(Intent(this, SigninActivity::class.java))
                     finish()
                 }

@@ -3,6 +3,8 @@ package com.batanks.nextplan.eventdetailsadmin.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,11 +27,12 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_date_display, parent, false)
 
         return ViewHolder(view)
+
+
+
     }
 
-    override fun getItemCount(): Int {
-        return datesList.size
-    }
+    override fun getItemCount() = datesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -39,6 +42,12 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
 
         holder.close.setOnClickListener {
 
+            datesList.forEach{
+
+                it.visibility = false
+
+            }
+            //holder.close.visibility = GONE
             datesList.removeAt(position)
             callBack.closeButtonAddPeriodItemListener(position)
         }
@@ -47,6 +56,19 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         holder.fromTextview.text = date.start
         holder.toTextview.text = date.end
         holder.noOfVotesTextview.text = date.votes.size.toString()
+
+        if (date.visibility){
+
+            holder.close.visibility = VISIBLE
+        }
+
+        else{
+
+            holder.close.visibility = GONE
+
+        }
+
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

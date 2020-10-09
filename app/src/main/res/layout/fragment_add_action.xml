@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@drawable/ic_popup_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/addActionHeader"
@@ -41,7 +43,7 @@
             android:hint="Action name *"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="A name for the action is mandatory"
@@ -59,12 +61,12 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="25"
-                android:maxLines="1"
+                android:maxLength="20"
+                android:maxLines="5"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +80,7 @@
             android:hint="Action Description"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="Describe the action"
@@ -95,13 +97,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="text"
-                android:maxLength="15"
-                android:maxLines="1"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="4"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +117,7 @@
             android:hint="Cost of the action"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="How much does this action cost?"
@@ -130,34 +132,39 @@
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/costActionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="text"
-                android:maxLength="15"
+                android:inputType="number"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/natureOfTheCostTextField"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
+            android:hint="The nature of the cost"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
             app:helperText="Cost per person or Total cost ?"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/costActionTextField"
@@ -168,10 +175,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textSize="15sp"
                 android:editable="false"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
                 android:gravity="center_vertical"
                 android:inputType="none"
-                android:text="Total Cost" />
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -222,8 +232,18 @@
                 android:id="@+id/txt_add_action_assignee_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="psedudonym"
                 android:textSize="16dp"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@id/img_add_action_assignee"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5dp"/>
+            <TextView
+                android:id="@+id/txt_add_action_assignee_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:visibility="gone"
+                android:layout_marginStart="5dp"
                 android:layout_toRightOf="@id/img_add_action_assignee"
                 android:layout_centerVertical="true"
                 android:paddingLeft="5dp"/>
@@ -241,7 +261,7 @@
             android:id="@+id/assignParticipantButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="272dp"
-            android:layout_height="48dp"
+            android:layout_height="58dp"
             android:layout_marginTop="23dp"
             android:text="ASSIGN People"
             android:textColor="#ffffff"
@@ -288,7 +308,7 @@
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorLittleBlue"
             app:layout_constraintRight_toLeftOf="@+id/ok"
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.batanks.nextplan.swagger.api
 
 import com.batanks.nextplan.swagger.model.*
+import com.batanks.nextplan.swagger.model.mode.ResetPasswordConfirm
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
@@ -11,7 +12,7 @@ interface AuthenticationAPI {
     fun apiAuthenticationAndroidCreate(@Body device: GCMDevice): Call<GCMDevice>
 
     @POST("api/authentication/forgot/")
-    fun apiAuthenticationForgotCreate(@Body password: PasswordLost): Call<PasswordLost>
+    fun apiAuthenticationForgotCreate(@Body password: PasswordLost): Observable<PasswordLost>
 
     @POST("api/authentication/ios/")
     fun apiAuthenticationIosCreate(@Body device: APNSDevice): Call<APNSDevice>
@@ -48,4 +49,7 @@ interface AuthenticationAPI {
 
     @POST("api/authentication/register/")
     fun apiAuthenticationRegisterCreateObservable(@Body user: RegisterUser): Observable<User>
+
+    @POST("api/authentication/reset/")
+    fun apiAuthenticationResetPassword(@Body resetPassword: ResetPasswordConfirm): Observable<ResetPassword>
 }

@@ -2,6 +2,7 @@ package com.batanks.nextplan.search.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.search.SearchTabsAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 
 class SearchFragment : BaseFragment(){
 
@@ -29,17 +31,17 @@ class SearchFragment : BaseFragment(){
         ref.setSupportActionBar(toolBar)
         ref.supportActionBar?.title = "Search"
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val homeAsUpIndicator: Unit? = ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
+        ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
-        toolBar.setOnClickListener {
+        toolBar.setNavigationOnClickListener {
 
-            Toast.makeText(activity,"Working",Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
-            //activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.addToBackStack(SearchFragment.TAG)?.commit()
+            activity?.extFab!!.visibility = View.VISIBLE
+
+            //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
 
         }
-
-       // toolBar.setOnMenuItemClickListener
 
         val tabsPagerAdapter = SearchTabsAdapter(childFragmentManager)
         view_pager.adapter = tabsPagerAdapter
@@ -67,7 +69,6 @@ class SearchFragment : BaseFragment(){
         tabs.getTabAt(0)?.icon = ref.getDrawable(R.drawable.ic_people_tablayout)
         tabs.getTabAt(1)?.icon = ref.getDrawable(R.drawable.ic_public_plan_tablayout)
         tabs.getTabAt(2)?.icon = ref.getDrawable(R.drawable.ic_private_plan_tablayout)
-
 
     }
 

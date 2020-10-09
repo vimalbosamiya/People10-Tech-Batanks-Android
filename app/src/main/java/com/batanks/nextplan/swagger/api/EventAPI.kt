@@ -42,7 +42,7 @@ interface EventAPI {
     fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AsssignTask?): Call<AsssignTask>
 
     @POST("api/event/")
-    fun apiEventCreate(@Body data: Event?): Call<Event>
+    fun apiEventCreate(@Body data: Event?): Observable<Event>
 
     @GET("api/event/created/")
     fun apiEventCreatedList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2002>
@@ -75,7 +75,7 @@ interface EventAPI {
     fun apiEventInvitationUpdate(@Path("id") id: String?, @Path("invitation_pk") invitationPk: String?, @Body data: Invitation?): Observable<Invitation>
 
     @GET("api/event/")
-    fun apiEventList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Call<InlineResponse2002>
+    fun apiEventList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2002>
 
     @PATCH("api/event/{id}/")
     fun apiEventPartialUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event?>?

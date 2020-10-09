@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
+import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.contact_item.view.*
 import kotlinx.android.synthetic.main.item_event_name.view.*
 
-class ContactsAdapter (private val myList: List<ContactsModel>) : RecyclerView.Adapter<ContactsAdapter.MyViewHolder>() {
+class ContactsAdapter (private val myList: ArrayList</*ContactsModel*/ ContactsList>) : RecyclerView.Adapter<ContactsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -24,7 +25,7 @@ class ContactsAdapter (private val myList: List<ContactsModel>) : RecyclerView.A
 
         //val itemView = holder.itemView
 
-        holder.contactName.text = myList.get(position).contactname
+        holder.contactName.text = myList.get(position).first_name
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

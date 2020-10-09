@@ -1,114 +1,333 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/cardview_homeplan_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="190dp"
-    android:layout_marginBottom="20dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:elevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/eventItem"
+        android:id="@+id/eventItemHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#232323">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/eventTimelineHighlight"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:id="@+id/eventItem"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:src="@drawable/ic_event_timeline_highlight"
+            android:visibility="visible"
+            android:background="#232323"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="10dp">
 
-        <ImageView
-            android:id="@+id/eventPrivateCategoryIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_event_private_category"
+            <ImageView
+                android:id="@+id/eventTimelineHighlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:src="@drawable/ic_event_timeline_highlight"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+           <!-- <ImageView
+                android:id="@+id/eventPrivateCategoryBackGround"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/ic_darkgrey_background"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <ImageView
+                android:id="@+id/eventPrivateCategoryIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_event_private_category"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/eventName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="30dp"
+                android:text="Private Event Name"
+                app:layout_constraintLeft_toLeftOf="@+id/eventPrivateCategoryIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/datePeriodIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_date_period"
+                app:layout_constraintStart_toStartOf="@+id/eventName"
+                app:layout_constraintTop_toBottomOf="@+id/eventName" />
+
+            <TextView
+                android:id="@+id/fromTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="From"
+                app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
+                app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
+                app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
+
+            <TextView
+                android:id="@+id/fromResponseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="From Response"
+                app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
+                app:layout_constraintLeft_toRightOf="@+id/fromTextView"
+                app:layout_constraintTop_toTopOf="@+id/fromTextView" />
+
+            <TextView
+                android:id="@+id/toTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="To"
+                app:layout_constraintStart_toStartOf="@+id/fromTextView"
+                app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+
+            <TextView
+                android:id="@+id/toResponseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="To Response"
+                app:layout_constraintBottom_toBottomOf="@+id/toTextView"
+                app:layout_constraintLeft_toRightOf="@+id/toTextView"
+                app:layout_constraintTop_toTopOf="@+id/toTextView" />
+
+            <ImageView
+                android:id="@+id/mapPlaceIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_map_place"
+                app:layout_constraintStart_toStartOf="@+id/datePeriodIcon"
+                app:layout_constraintTop_toBottomOf="@+id/datePeriodIcon" />
+
+            <TextView
+                android:id="@+id/placeResponseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:maxLines="2"
+                android:text="Bangalore"
+                app:layout_constraintBottom_toBottomOf="@+id/mapPlaceIcon"
+                app:layout_constraintLeft_toRightOf="@+id/mapPlaceIcon"
+                app:layout_constraintTop_toTopOf="@+id/mapPlaceIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/eventItemFull"
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_event_item_background"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/eventName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="30dp"
-            android:text="Private Event Name"
-            app:layout_constraintLeft_toLeftOf="@+id/eventPrivateCategoryIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/ic_event_details_user_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/datePeriodIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/ic_date_period"
-            app:layout_constraintStart_toStartOf="@+id/eventName"
-            app:layout_constraintTop_toBottomOf="@+id/eventName" />
+            <TextView
+                android:id="@+id/organizerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Organizer Name"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userIcon" />
 
-        <TextView
-            android:id="@+id/fromTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="From"
-            app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
-            app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
-            app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/ic_divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/organizerName" />
 
-        <TextView
-            android:id="@+id/fromResponseTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="From Response"
-            app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
-            app:layout_constraintLeft_toRightOf="@+id/fromTextView"
-            app:layout_constraintTop_toTopOf="@+id/fromTextView" />
+            <TextView
+                android:id="@+id/eventNameFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:textSize="24sp"
+                android:text="Private Event Name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <TextView
-            android:id="@+id/toTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="To"
-            app:layout_constraintStart_toStartOf="@+id/fromTextView"
-            app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+            <ImageView
+                android:id="@+id/eventTimelineHighlightFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_event_timeline_highlight_full"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround"
+                app:layout_constraintBottom_toBottomOf="@+id/eventItemFull"/>
 
-        <TextView
-            android:id="@+id/toResponseTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="To Response"
-            app:layout_constraintBottom_toBottomOf="@+id/toTextView"
-            app:layout_constraintLeft_toRightOf="@+id/toTextView"
-            app:layout_constraintTop_toTopOf="@+id/toTextView" />
+             <ImageView
+                 android:id="@+id/eventPrivateCategoryBackGround"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="12dp"
+                 android:background="@drawable/ic_darkgrey_background"
+                 app:layout_constraintLeft_toLeftOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/eventNameFull" />
 
-        <ImageView
-            android:id="@+id/mapPlaceIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/ic_map_place"
-            app:layout_constraintStart_toStartOf="@+id/datePeriodIcon"
-            app:layout_constraintTop_toBottomOf="@+id/datePeriodIcon" />
+            <ImageView
+                android:id="@+id/eventNextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_next_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
 
-        <TextView
-            android:id="@+id/placeResponseTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:maxLines="2"
-            android:text="Bangalore"
-            app:layout_constraintBottom_toBottomOf="@+id/mapPlaceIcon"
-            app:layout_constraintLeft_toRightOf="@+id/mapPlaceIcon"
-            app:layout_constraintTop_toTopOf="@+id/mapPlaceIcon" />
+            <ImageView
+                android:id="@+id/eventPrivateCategoryIconFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_event_private_category"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
+
+            <TextView
+                android:id="@+id/eventCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="18dp"
+                android:text="Private Event Name"
+                app:layout_constraintLeft_toLeftOf="@+id/eventPrivateCategoryIconFull"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
+
+            <ImageView
+                android:id="@+id/privateIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:background="@drawable/ic_event_details_private_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
+
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="252dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="24dp"
+                android:textSize="14sp"
+                android:text="This is an event created to display in Application"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventPrivateCategoryBackGround" />
+
+            <ImageView
+                android:id="@+id/datePeriodIconFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="60dp"
+                android:src="@drawable/ic_date_period"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
+
+            <TextView
+                android:id="@+id/fromTextViewFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="From"
+                app:layout_constraintBottom_toBottomOf="@+id/datePeriodIconFull"
+                app:layout_constraintLeft_toRightOf="@+id/datePeriodIconFull"
+                app:layout_constraintTop_toTopOf="@+id/datePeriodIconFull" />
+
+            <TextView
+                android:id="@+id/fromResponseTextViewFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="From Response"
+                app:layout_constraintBottom_toBottomOf="@+id/fromTextViewFull"
+                app:layout_constraintLeft_toRightOf="@+id/fromTextViewFull"
+                app:layout_constraintTop_toTopOf="@+id/fromTextViewFull" />
+
+            <TextView
+                android:id="@+id/toTextViewFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="To"
+                app:layout_constraintStart_toStartOf="@+id/fromTextViewFull"
+                app:layout_constraintTop_toBottomOf="@+id/fromTextViewFull" />
+
+            <TextView
+                android:id="@+id/toResponseTextViewFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="To Response"
+                app:layout_constraintBottom_toBottomOf="@+id/toTextViewFull"
+                app:layout_constraintLeft_toRightOf="@+id/toTextViewFull"
+                app:layout_constraintTop_toTopOf="@+id/toTextViewFull" />
+
+            <ImageView
+                android:id="@+id/mapPlaceIconFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_map_place"
+                app:layout_constraintStart_toStartOf="@+id/datePeriodIconFull"
+                app:layout_constraintTop_toBottomOf="@+id/datePeriodIconFull" />
+
+            <TextView
+                android:id="@+id/placeResponseTextViewFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="33.03dp"
+                android:maxLines="2"
+                android:text="Bangalore"
+                app:layout_constraintLeft_toRightOf="@+id/mapPlaceIconFull"
+                app:layout_constraintTop_toTopOf="@+id/mapPlaceIconFull" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

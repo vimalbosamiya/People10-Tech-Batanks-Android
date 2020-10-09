@@ -14,14 +14,29 @@
         android:supportsRtl="true"
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Settings.Plan_Sorting"></activity>
+        <activity android:name=".forgotpassword.AccountRecovery2">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"
+                    android:host="93.90.204.56"
+                    android:pathPrefix="/authentication/reset/"/>
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".forgotpassword.AccountRecovery1" />
+        <activity android:name=".Settings.Plan_Sorting" />
         <activity android:name=".Settings.Followups" />
-        <activity android:name=".Settings.Contact" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".Settings.Contact"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".eventdetailsadmin.EventDetailViewAdmin" />
         <activity android:name=".Settings.Edit_Account" />
         <activity android:name=".Settings.Account" />
         <activity android:name=".Settings.Settings" />
-        <activity android:name=".search.AddToGroupActivity"/>
+        <activity android:name=".search.AddToGroupActivity" />
         <activity android:name=".eventdetails.EventDetailView" />
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
@@ -37,8 +52,8 @@
             android:theme="@style/App_Registration_Theme" />
         <activity
             android:name=".home.HomePlanPreview"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/App_HomePlanPreview_Theme" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
+            android:theme="@style/App_HomePlanPreview_Theme"
+            android:windowSoftInputMode="adjustNothing" /> <!-- Get a MAP key from People10, as of now Vinoth is the owner to this key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

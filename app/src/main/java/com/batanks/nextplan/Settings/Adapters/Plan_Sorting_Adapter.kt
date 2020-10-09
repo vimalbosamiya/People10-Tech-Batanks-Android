@@ -39,7 +39,7 @@ class Plan_Sorting_Adapter (private val myList: List<ContactsModel>) : RecyclerV
         } else if(position == 7){
             holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_institutional)
         } else if(position == 8){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_others)
+            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_icon)
         }
 
         holder.txt_plan_sorting_list_item.text = myList.get(position).contactname

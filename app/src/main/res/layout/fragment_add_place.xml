@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addPlanHeader" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/planNameTextField"
+            android:id="@+id/placeNameTextField"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:hint="Place name *"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="A name for the place is mandatory"
@@ -55,16 +55,17 @@
             app:layout_constraintTop_toBottomOf="@+id/addPlanHeader">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/planNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
-                android:maxLength="20"
-                android:maxLines="1"
+                android:maxLength="30"
+                android:maxLines="5"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +79,7 @@
             android:hint="Address"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="Enter an address"
@@ -89,19 +90,19 @@
             app:hintTextColor="#34CBFE"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/planNameTextField">
+            app:layout_constraintTop_toBottomOf="@+id/placeNameTextField">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:maxLength="100"
-                android:maxLines="1"
+                android:maxLines="3"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +116,7 @@
             android:hint="Zip Code"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="Postal Code"
@@ -133,13 +134,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
-                android:inputType="number"
+                android:inputType="text"
                 android:maxLength="10"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -153,7 +154,7 @@
             android:hint="Town"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
-            app:boxStrokeColor="#34CBFE"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
             app:helperText="The City"
@@ -177,10 +178,64 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@color/colorWhite" />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <RelativeLayout
+            android:id="@+id/rl_country_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:layout_constraintTop_toBottomOf="@+id/townTextField"
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/rl_black_curved">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp_activity_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                app:ccp_showFullName="true"
+                app:ccp_showPhoneCode="false"
+                app:ccp_showNameCode="false"
+                app:ccp_contentColor="#ffffff"
+                app:ccpDialog_showFastScroller="true"
+                app:ccpDialog_fastScroller_bubbleColor="@color/colorWhite"
+                app:ccpDialog_fastScroller_bubbleTextAppearance="@style/BaseText"
+                app:ccp_showFlag="true"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:ccp_textGravity="LEFT"
+                app:ccpDialog_searchEditTextTint="@color/colorBlack"
+                app:ccp_autoDetectCountry="true"
+                app:ccpDialog_textColor="@color/colorBlack" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEFFFFFF"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Specify country"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/rl_country_layout"
+            app:layout_constraintTop_toBottomOf="@+id/rl_country_layout">
+
+        </TextView>
+
+       <!-- <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/countryTextField"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
@@ -209,7 +264,9 @@
                 android:gravity="center_vertical"
                 android:inputType="none"
                 android:text="Country" />
-        </com.google.android.material.textfield.TextInputLayout>
+
+
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/enableMapSupport"
@@ -218,8 +275,8 @@
             android:layout_marginTop="56dp"
             android:text="Enable map support"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/countryTextField"
-            app:layout_constraintTop_toBottomOf="@+id/countryTextField" />
+            app:layout_constraintStart_toStartOf="@+id/rl_country_layout"
+            app:layout_constraintTop_toBottomOf="@+id/rl_country_layout" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/enableMapSupportCheckBox"
@@ -228,7 +285,7 @@
             android:checked="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/enableMapSupport"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/countryTextField"
+            app:layout_constraintEnd_toEndOf="@+id/rl_country_layout"
             app:layout_constraintLeft_toRightOf="@+id/enableMapSupport"
             app:layout_constraintRight_toRightOf="parent"
             app:useMaterialThemeColors="false" />
@@ -265,7 +322,7 @@
             android:gravity="center"
             android:paddingBottom="24dp"
             android:text="CANCEL"
-            android:textColor="@color/colorWhite"
+            android:textColor="#90CAF9"
             app:layout_constraintRight_toLeftOf="@+id/ok"
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
     </androidx.constraintlayout.widget.ConstraintLayout>

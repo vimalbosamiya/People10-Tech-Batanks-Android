@@ -1,7 +1,7 @@
 package com.batanks.nextplan.swagger.model
 
 data class Periodicity(
-        val unit: UnitEnum,
+        val unit: String,
         val amount: Int)
 
 enum class UnitEnum(private val value: String) {

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#454444">
+    android:background="#1D2125">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/customToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#454444"
+        android:background="#1D2125"
         app:layout_constraintTop_toTopOf="parent"
         app:logo="@drawable/ic_next_plan_logo_small"
         app:title="@string/myplans" />
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-        app:layout_constraintRight_toLeftOf="@+id/img_settings"
+        app:layout_constraintRight_toLeftOf="@+id/notification"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_notification_with_alert"
         app:layout_constraintBottom_toBottomOf="@+id/customToolBar"
-        app:layout_constraintRight_toLeftOf="@+id/search"
+        app:layout_constraintRight_toLeftOf="@+id/img_settings"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -80,19 +80,20 @@
         android:src="@drawable/ic_divider"
         app:layout_constraintLeft_toLeftOf="@+id/newsTextView"
         app:layout_constraintRight_toRightOf="@+id/filterIcon"
-        app:layout_constraintTop_toBottomOf="@+id/newsTextView" />
+        app:layout_constraintTop_toTopOf="@+id/newsTextView" />
 
     <ImageView
         android:id="@+id/timeLineHightLight"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         android:src="@drawable/ic_highlight_home_screen_timeline"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/homeScreenRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/newsTextView"
         app:layout_constraintTop_toBottomOf="@+id/dividerIcon"
-        app:layout_constraintTop_toTopOf="@+id/dividerIcon" />
+        app:layout_constraintTop_toTopOf="@+id/homeScreenRecyclerView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeScreenRecyclerView"

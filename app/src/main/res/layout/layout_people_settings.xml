@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -31,13 +32,15 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@color/colorBlack"
-        android:layout_marginStart="56dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="17dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddToContact" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAddToContact"
+        app:layout_constraintEnd_toStartOf="@+id/addToGroupIcon"/>
+
+
 
     <ImageView
         android:id="@+id/addGroupIcon"
@@ -79,4 +82,78 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#2F2F2F"
+    android:padding="10dp">
+    <RelativeLayout
+        android:id="@+id/rl_edit_contact_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_contact_edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_person"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/txt_contact_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to contact"
+            android:paddingLeft="10dp"
+            android:layout_toRightOf="@id/img_contact_edit_icon"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_centerVertical="true"/>
+        <View
+            android:id="@+id/view_seperator_edit_contact"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/img_contact_edit_icon"
+            android:layout_below="@id/img_contact_edit_icon"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_edit_contact_add_to_groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/rl_edit_contact_edit">
+
+        <ImageView
+            android:id="@+id/img_contact_add_to_group_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_groups"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/txt_contact_add_to_group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to group"
+            android:paddingLeft="12dp"
+            android:layout_toRightOf="@id/img_contact_add_to_group_icon"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/addToGroupIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_right_arrow_white"
+            android:padding="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

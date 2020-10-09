@@ -1,24 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Next Plan</string>
     <string name="user_name">User Name</string>
-    <string name="password">Password</string>
-    <string name="stay_loggedin_in">Stay loggedin in</string>
+    <string name="password">Password *</string>
+    <string name="stay_logged_in">Stay logged in</string>
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="forgot_your_password">Forgot your password ?</string>
     <string name="login">LOGIN</string>
-    <string name="username">UserName</string>
+    <string name="username">UserName *</string>
     <string name="first_name">First Name</string>
-    <string name="email">Email ID</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="email">e-mail *</string>
+    <string name="confirm_password">Confirm Password *</string>
     <string name="sign_in">SIGN IN</string>
     <string name="registration">Registration</string>
     <string name="news">News</string>
     <string name="myplans">My Plans</string>
     <string name="signing_in_please_wait" tools:ignore="TypographyEllipsis">Signing-in... Please wait,..</string>
+    <string name="loading_please_wait" tools:ignore="TypographyEllipsis">Loading... Please wait,..</string>
     <string name="creating_user_please_wait" tools:ignore="TypographyEllipsis">Creating user... Please wait,..</string>
     <string name="loading_list_please_wait" tools:ignore="TypographyEllipsis">Loading List... Please wait,..</string>
     <string name="opening_page_please_wait" tools:ignore="TypographyEllipsis">Opening Page... Please wait,..</string>
-    <string name="email_hint">e-mail<font color='#cc0029'>*</font></string>
+    <string name="email_hint">e-mail<font color='#cc0029'> *</font></string>
+    <string name="changing_password_please_wait" tools:ignore="TypographyEllipsis">Changing Password... Please wait,..</string>
 
     <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>
 
@@ -31,6 +33,11 @@
     <string name="phone_number">Phone Number</string>
     <string name="fetching_location" tools:ignore="TypographyEllipsis">Fetching the location info... Please wait...</string>
     <string name="gathering_information" tools:ignore="TypographyEllipsis">Gathering the Information... Please wait...</string>
+
+    <string name="plan_name">Plan name<font color="#ff0000"><bold> *</bold></font></string>
+    <string name="pname">Plan name</string>
+    <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>
+    <string name="asteriskred"><font color='#cc0029'>*</font></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

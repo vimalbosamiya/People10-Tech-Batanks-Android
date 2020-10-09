@@ -1,5 +1,6 @@
 package com.batanks.nextplan.swagger.model
 
 data class Comment(
-        val comment : String
+        val comment : String,
+        var visibility : Boolean = false
         )

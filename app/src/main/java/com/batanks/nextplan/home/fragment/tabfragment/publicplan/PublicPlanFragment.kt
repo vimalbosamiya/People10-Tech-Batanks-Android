@@ -4,17 +4,43 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
+import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.Toast
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.batanks.nextplan.MainActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
+import com.batanks.nextplan.arch.response.Status
+import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
+import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.home.HomePlanPreview
+import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
 import com.batanks.nextplan.home.fragment.action.AddActionRecyclerView
 import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
@@ -26,19 +52,29 @@ import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityRecyclerView
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.CategoryViewModel
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
-import com.batanks.nextplan.swagger.model.Activity
-import com.batanks.nextplan.swagger.model.EventDate
-import com.batanks.nextplan.swagger.model.Place
-import com.batanks.nextplan.swagger.model.Task
+import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.swagger.api.CategoryAPI
+import com.batanks.nextplan.swagger.api.EventAPI
+import com.batanks.nextplan.swagger.model.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_people.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
+import kotlinx.android.synthetic.main.layout_add_plan_footer.*
+import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
@@ -55,22 +91,139 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     private var actionRecyclerView : RecyclerView? = null
     private var activityRecyclerView : RecyclerView? = null
 
-    private val publicPlanViewModel: PublicPlanViewModel by lazy {
+    //lateinit var categoryList : List<CategoryList>
+
+    val privateEvent : Boolean = true
+    var pk : Int = 0
+
+    var system: Resources = Resources.getSystem()
+
+    /*private val publicPlanViewModel: PublicPlanViewModel by lazy {
         ViewModelProvider(this)[PublicPlanViewModel::class.java]
+    }*/
+
+    private val publicPlanViewModel: PublicPlanViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            getContext()?.let {
+                RetrofitClient.getRetrofitInstance(it)?.create(EventAPI::class.java)?.let {
+                    PublicPlanViewModel(it)
+                }
+            }
+        }).get(PublicPlanViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val categoryViewModel: CategoryViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            getContext()?.let {
+                RetrofitClient.getRetrofitInstance(it)?.create(CategoryAPI::class.java)?.let {
+                    CategoryViewModel(it)
+                }
+            }
+        }).get(CategoryViewModel::class.java)
     }
+
+   /* private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(EventAPI::class.java)?.let {
+                HomePlanPreviewViewModel(it)
+            }
+        }).get(HomePlanPreviewViewModel::class.java)
+    }*/
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return inflater.inflate(R.layout.fragment_public_new_plan, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        populateCategory()
+        //println(context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("USERNAME", ""))
+
+        loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+
+        categoryViewModel.getCategoryList()
+
+        categoryViewModel.responseLiveData.observe(viewLifecycleOwner, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    categoryViewModel.response = response.data as InlineResponse200
+
+                    categoryViewModel.categoryList = categoryViewModel.response!!.results
+
+                    populateCategory(categoryViewModel.categoryList!!)
+
+                    println(categoryViewModel.categoryList)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        /*planNameEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                planNameEditText.hint = "Vinoth"
+                planNameEditText.requestFocus()
+            } else {
+                planNameEditText.hint = ""
+            }
+        }*/
+
+        /*override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+      if (event.action == MotionEvent.ACTION_DOWN) {
+          val v: View? = getCurrentFocus()
+          if (v is EditText) {
+              val outRect = Rect()
+              v.getGlobalVisibleRect(outRect)
+              if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                  v.clearFocus()
+                  val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                  imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+              }
+          }
+      }
+      return super.dispatchTouchEvent(event)
+  }*/
+        
+        view.setOnTouchListener(object : View.OnTouchListener {
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+                    if(v is TextInputEditText) {
+                        val outRect = Rect()
+                        v.getGlobalVisibleRect(outRect)
+                        if (!outRect.contains(event.rawX as Int, event.rawY as Int)) {
+                            v.clearFocus()
+                            val imm = v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                        }
+                    }
+                }
+                return false
+            }
+        })
+
+        var planName : String = "<font color='#ffffff'>Name </font>" + "<font color='#FF0000'>*</font>"
+
+        //planNameEditText.hint = Html.fromHtml(planName) as Editable?
+
+        planNameTextField.markRequiredInRed()
+
+        //planNameTextField.hint = Html.fromHtml(planName) as Editable?
+
+        //populateCategory()
+
+        //planNameTextField.hint = ("Plan name" +" "+getString(R.string.asteriskred))
 
         addPlaceButton.setOnClickListener(this)
         addActionButton.setOnClickListener(this)
@@ -78,7 +231,19 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addPeriodButton.setOnClickListener(this)
         addPeopleButton.setOnClickListener(this)
 
+        actv_category.setOnClickListener {
 
+            categoryViewModel.categoryList?.let { it1 -> populateCategory(it1) }
+
+            println(pk)
+
+            //Toast.makeText(context,pk, Toast.LENGTH_SHORT).show()
+        }
+
+//        populateCategory()
+
+        createPlanButton.setOnClickListener(this)
+        saveDraftButton.setOnClickListener(this)
 
         populateAddPeriodRecyclerViewIfAny()
         populateAddPlaceRecyclerViewIfAny()
@@ -86,17 +251,70 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         populateAddActivityRecyclerViewIfAny()
     }
 
-    private fun populateCategory() {
-        val customSpinner = CustomArrayAdapter(requireContext(), listOf(
+
+    /*override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = getCurrentFocus()
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }*/
+
+    fun TextInputLayout.markRequiredInRed() {
+
+        hint = buildSpannedString {
+            append(hint)
+            color(Color.RED) { append(" *") }
+        }
+    }
+
+    private fun populateCategory(list: List<CategoryList>) {
+        val customSpinner = categoryViewModel.categoryList?.let {
+            CustomArrayAdapter(requireContext(), it/*listOf(
                 SpinnerModel("Trip", R.drawable.ic_category_trip),
                 SpinnerModel("Professional", R.drawable.ic_category_professional),
                 SpinnerModel("Leisure", R.drawable.ic_category_leisure),
                 SpinnerModel("Institutional", R.drawable.ic_category_institutional),
-                SpinnerModel("Other", R.drawable.ic_category_others)))
+                SpinnerModel("Other", R.drawable.ic_category_icon))*/)
+        }
         (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
-        (categoryTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener() { parent, _, position, id ->
-            val obj = parent.adapter.getItem(position) as SpinnerModel?
+        (categoryTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, id ->
+
+            /*val obj = parent.adapter.getItem(position) as SpinnerModel?
             actv_category.setText(obj?.title)
+            obj?.id?.let { categoryTextField.setStartIconDrawable(it) }*/
+
+            val obj = parent.adapter.getItem(position) as CategoryList?
+            actv_category.setText(obj?.name)
+            pk = obj?.pk!!.toInt()
+
+
+            /*Glide.with(this)
+                    .asBitmap()
+                    .load(obj?.picture)
+                    .into(object : CustomTarget<Bitmap>(){
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            categoryTextField.setStartIconDrawable(resource.toDrawable(resources))
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            // this is called when imageView is cleared on lifecycle call or for
+                            // some other reason.
+                            // if you are referencing the bitmap somewhere else too other than this imageView
+                            // clear it here as you can no longer have the bitmap
+                        }
+                    })*/
+
+            //Glide.with(requireContext()).load(obj?.picture).into(categoryTextField.startIconDrawable)
+            //obj?.picture?.let { categoryTextField.setStartIconDrawable(Glide.with(requireContext()).load(it).into(view.categoryIcon)) }
+            //categoryTextField.startIcon
         }
     }
 
@@ -118,7 +336,137 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             R.id.addPeopleButton -> {
                 addPeopleClicked()
             }
+
+            R.id.createPlanButton -> {
+
+                /* if(TextUtils.isEmpty(planNameTextField?.editText?.text.toString())){
+
+                    planNameTextField.editText?.error = "Plan name is Required"
+                    planNameTextField.requestFocus()
+                }*/
+
+                if(planNameTextField.editText?.length()!! >= 3){
+
+                    if (pk > 0){
+
+                        if (publicPlanViewModel.eventDate.size > 0){
+
+                            if (publicPlanViewModel.place.size > 0){
+
+                                val guest : MutableList<Int> = mutableListOf(18)
+                val phone : MutableList<EventInvitationPhone> = mutableListOf()
+                val emailInvite : MutableList<EventInvitationEmail> = mutableListOf()
+
+                val userName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("USERNAME", "")!!
+                val firstName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("FIRSTNAME","")!!
+                val lastName:String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("LASTNAME","")!!
+                val email: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("EMAIL","")!!
+                val phoneNumber: String =context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("PHONENUMBER","")!!
+
+                val creator = Creator(first_name = firstName, last_name = lastName, username = userName, email = email, phone_number = phoneNumber, picture = "")
+                val guests = EventInvitation(users = guest, phones = phone, emails = emailInvite)
+                //val category = CategoryList(1,)
+
+                var maxGuests : Int = 0
+
+                if (!TextUtils.isEmpty(maxParticipantsTextField.editText?.text.toString()) && maxParticipantsTextField.editText?.text.toString().toInt() > 0){
+
+                    maxGuests = maxParticipantsTextField.editText?.text.toString().toInt()
+
+                }
+
+                publicPlanViewModel.createEvent(Event(1, title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
+                                                        _private = privateEvent, category = 1, max_guests = maxGuests, draft = false,
+                                                         periodicity = Periodicity("d",0), creator = creator, dates = publicPlanViewModel.eventDate,
+                                                         places = publicPlanViewModel.place, tasks = publicPlanViewModel.action, activities = publicPlanViewModel.activity,
+                                                         guests = guests, created = "", modified = "", vote_place_closed = false, vote_date_closed = false))
+
+
+                                /*Toast.makeText(context,"Create plan clicked", Toast.LENGTH_SHORT).show()
+                                requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                                requireActivity().intent = Intent(context, HomePlanPreview :: class.java)
+                                startActivity(requireActivity().intent)*/
+
+                                Toast.makeText(context,"Create plan clicked", Toast.LENGTH_SHORT).show()
+
+                            } else{
+
+                                Toast.makeText(context,"Atleast one place is required", Toast.LENGTH_LONG).show()
+                                addPlaceButton.isFocusable = true
+                                addPlaceButton.isFocusableInTouchMode = true
+                                addPlaceButton.requestFocus()
+                            }
+
+                        } else {
+
+                            Toast.makeText(context,"Atleast one period is required", Toast.LENGTH_LONG).show()
+                            addPeriodButton.isFocusable = true
+                            addPeriodButton.isFocusableInTouchMode = true
+                            addPeriodButton.requestFocus()
+                        }
+
+                    } else {
+
+                        Toast.makeText(context,"Please select a category", Toast.LENGTH_LONG).show()
+                        categoryTextField.requestFocus()
+                        /*categoryTextField.editText?.error = "Category is Required"
+                        categoryTextField.requestFocus()*/
+                    }
+
+                } else {
+
+                    planNameTextField.editText?.error = "Plan name should contain atleast 3 characters"
+                    planNameTextField.requestFocus()
+                }
+
+                /*val guest : MutableList<Int> = mutableListOf(18)
+                val phone : MutableList<EventInvitationPhone> = mutableListOf()
+                val emailInvite : MutableList<EventInvitationEmail> = mutableListOf()
+
+                val userName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("USERNAME", "")!!
+                val firstName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("FIRSTNAME","")!!
+                val lastName:String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("LASTNAME","")!!
+                val email: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("EMAIL","")!!
+                val phoneNumber: String =context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("PHONENUMBER","")!!
+
+                val creator = Creator(first_name = firstName, last_name = lastName, username = userName, email = email, phone_number = phoneNumber, picture = "")
+                val guests = EventInvitation(users = guest, phones = phone, emails = emailInvite)
+                //val category = CategoryList(1,)
+
+                var maxGuests : Int = 0
+
+                if (!TextUtils.isEmpty(maxParticipantsTextField.editText?.text.toString()) && maxParticipantsTextField.editText?.text.toString().toInt() > 0){
+
+                    maxGuests = maxParticipantsTextField.editText?.text.toString().toInt()
+
+                }
+
+                publicPlanViewModel.createEvent(Event(1, title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
+                                                        _private = privateEvent, category = 1, max_guests = maxGuests, draft = false,
+                                                         periodicity = Periodicity("d",0), creator = creator, dates = publicPlanViewModel.eventDate,
+                                                         places = publicPlanViewModel.place, tasks = publicPlanViewModel.action, activities = publicPlanViewModel.activity,
+                                                         guests = guests, created = "", modified = "", vote_place_closed = false, vote_date_closed = false))
+
+                Toast.makeText(context,"Create plan clicked", Toast.LENGTH_SHORT).show()*/
+            }
+
+            R.id.saveDraftButton -> {
+
+                refreshHomePlanPreviewList()
+            }
         }
+    }
+
+    private fun refreshHomePlanPreviewList(){
+
+        (activity as HomePlanPreview).notifyDataSetChange()
+
+        val handler = Handler()
+        handler.postDelayed({
+            // do something after 1000ms
+            requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit() }
+            (activity as HomePlanPreview).extFab.visibility = View.VISIBLE
+        }, 1000)
     }
 
     override fun addPeriodClicked() {
@@ -132,7 +480,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         val mHour = mCal.get(Calendar.HOUR_OF_DAY)
         val mMin = mCal.get(Calendar.MINUTE)
 
-        val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
+       /* val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
             val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
                 val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
                     val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
@@ -140,12 +488,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                         val cal = Calendar.getInstance()
                         cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
 
-                        /*FromDate*/
+                        //FromDate
                         val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm a")
                         val startDate = dateFormatter.format(cal.time)
                         println(startDate)
 
-                        /*ToDate*/
+                        //ToDate
                         cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
                         val endDate = dateFormatter.format(cal.time)
                         println(endDate)
@@ -165,8 +513,66 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         }, mYear, mMonth, mDay)
         fromDate.datePicker.minDate = System.currentTimeMillis()
         fromDate.setCanceledOnTouchOutside(false)
+        fromDate.show()*/
+
+
+
+        val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
+
+            val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
+
+                val toDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, OnDateSetListener { toDatePicker, toYear, toMonth, toDay ->
+
+                    val toTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { toTimePicker, toHourOfDay, toMinute ->
+
+                        val cal = Calendar.getInstance()
+                        cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
+
+                        //FromDate
+                        //val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
+                        val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")  //2020-08-27T15:36:28.811Z
+                        val startDate = dateFormatter.format(cal.time)
+                        println(startDate)
+
+                        //ToDate
+                        cal.set(toYear, toMonth, toDay, toHourOfDay, toMinute)
+                        val endDate = dateFormatter.format(cal.time)
+                        println(endDate)
+
+                        publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
+                        addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                        addPeriodButton.text = "ADD AN OTHER PERIOD"
+                        //addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+
+                    }, mHour, mMin, false)
+                    toTime.show()
+
+                }, mYear, mMonth, mDay)
+                toDate.datePicker.minDate = System.currentTimeMillis()
+                toDate.setCanceledOnTouchOutside(true)
+                toDate.setCustomTitle(layoutInflater.inflate(R.layout.date_to,null))
+                toDate.show()
+
+            }, mHour, mMin, false)
+            fromTime.show()
+
+        }, mYear, mMonth, mDay)
+
+        fromDate.datePicker.minDate = System.currentTimeMillis()
+        fromDate.setCanceledOnTouchOutside(true)
+        //fromDate.setTitle("From")
+        fromDate.setCustomTitle(layoutInflater.inflate(R.layout.date_from,null))
         fromDate.show()
     }
+
+    /*fun set_timepicker_text_colour(){
+
+        var ampm_numberpicker_id : Int = system.getIdentifier("amPm", "id", "android")
+
+        val ampm_numberpicker = time_picker.findViewById(ampm_numberpicker_id) as NumberPicker
+
+    }*/
+
 
     override fun addPlaceClicked() {
         requireActivity().supportFragmentManager
@@ -174,7 +580,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 .add(AddPlaceFragment(this), AddPlaceFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
 
-        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
+        //addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
     override fun addActionClicked() {
@@ -199,8 +605,65 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     }
 
     override fun closeButtonAddPeriodItemListener(pos: Int) {
-        addPeriodButton.text = "ADD A PERIOD"
+
+        if (publicPlanViewModel.eventDate.size == 0){
+
+            addPeriodButton.text = "ADD A PERIOD"
+            addPeriodButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
+        } else {
+
+            addPeriodButton.text = "ADD AN OTHER PERIOD"
+            //addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+        }
+
         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun closeButtonAddPlaceItemListener(pos: Int) {
+
+        if(publicPlanViewModel.place.size == 0){
+
+            addPlaceButton.text = "ADD A PLACE"
+            addPlaceButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
+        } else {
+
+            addPlaceButton.text = "ADD AN OTHER PLACE"
+            //addPlaceButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+        }
+
+        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun closeButtonAddActionItemListener(pos: Int) {
+
+        if (publicPlanViewModel.action.size == 0){
+
+            addActionButton.text = "ADD AN ACTION"
+            addActionButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
+        } else {
+
+            addActionButton.text = "ADD AN OTHER ACTION"
+            //addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+
+        }
+
+
+        actionRecyclerView?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun closeButtonAddActivityItemListener(pos: Int) {
+
+        if (publicPlanViewModel.activity.size == 0){
+
+            addActivityButton.text = "ADD AN ACTIVITY"
+            addActivityButton.strokeColor = ColorStateList.valueOf(resources.getColor(R.color.colorLightBlue))
+        } else {
+
+            addActivityButton.text = "ADD AN OTHER ACTIVITY"
+            //addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+        }
+
+        activityRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
     private fun populateAddPeriodRecyclerViewIfAny() {
@@ -217,6 +680,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addPlaceRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
         addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this, publicPlanViewModel.place)
     }
+
     private fun populateAddActionRecyclerViewIfAny() {
 
         actionRecyclerView = requireActivity().findViewById(R.id.actionRecyclerView)
@@ -224,6 +688,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         actionRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
         actionRecyclerView?.adapter = AddActionRecyclerView(this, publicPlanViewModel.action)
     }
+
     private fun populateAddActivityRecyclerViewIfAny() {
 
         activityRecyclerView = requireActivity().findViewById(R.id.activityRecyclerView)
@@ -232,24 +697,14 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         activityRecyclerView?.adapter = AddActivityRecyclerView(this, publicPlanViewModel.activity)
     }
 
-    override fun closeButtonAddPlaceItemListener(pos: Int) {
-        addPlaceButton.text = "ADD A PLACE"
-        addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
-    }
-    override fun closeButtonAddActionItemListener(pos: Int) {
-        addActionButton.text = "ADD ACTION"
-        actionRecyclerView?.adapter?.notifyDataSetChanged()
-    }
-    override fun closeButtonAddActivityItemListener(pos: Int) {
-        addActionButton.text = "ADD ACTIVITY"
-        activityRecyclerView?.adapter?.notifyDataSetChanged()
-    }
 
-    override fun addPlaceFragmentAddressFetch(place: Place) {
+    override fun addPlaceFragmentAddressFetch(place: EventPlace) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
-        addPlaceButton.text = "ADD A ANOTHER PLACE"
+        addPlaceButton.text = "ADD AN OTHER PLACE"
+        //addPlaceButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
+
         publicPlanViewModel.place.add(place)
         addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -260,10 +715,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 as? AddPlaceFragment)?.dismiss()
     }
 
+
     override fun AddActionFragmentFetch(task: Task) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
-        addActionButton.text = "ADD ANOTHER ACTION"
+        addActionButton.text = "ADD AN OTHER ACTION"
+        //addActionButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         publicPlanViewModel.action.add(task)
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -278,7 +735,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     override fun AddActivityFragmentFetch(activity: Activity) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
-        addActivityButton.text = "ADD ANOTHER ACTIVITY"
+        addActivityButton.text = "ADD AN OTHER ACTIVITY"
+        //addActivityButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
         publicPlanViewModel.activity.add(activity)
         activityRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -288,5 +746,4 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
     }
-
 }

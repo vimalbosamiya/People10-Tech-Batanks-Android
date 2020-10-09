@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.swagger.model.Group
 import kotlinx.android.synthetic.main.layout_settings_groups_item.view.*
 
 
-class SearchGroupsAdapter (private val groupsList: List<ContactsModel>) : RecyclerView.Adapter<SearchGroupsAdapter.ViewHolder>()  {
+class SearchGroupsAdapter (private val groupsList: List<Group>) : RecyclerView.Adapter<SearchGroupsAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -26,7 +27,7 @@ class SearchGroupsAdapter (private val groupsList: List<ContactsModel>) : Recycl
 
     val group = groupsList[position]
 
-        holder.txt_groups_list_item.text = group.contactname
+        holder.txt_groups_list_item.text = group.name
 
     }
 

@@ -12,31 +12,60 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Comment
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 
-class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context : Context): RecyclerView.Adapter<CommentsListAdapter.ViewHolder>() {
+class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context : Context, private val callBack: AddCommentsRecyclerViewCallBack): RecyclerView.Adapter<CommentsListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_comment_display, parent, false)
 
-        view.closeButtonIcon.visibility = GONE
+        //view.commentsCloseButoon.visibility = GONE
 
         return  ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return  commentsList.size
-    }
+    override fun getItemCount() =  commentsList.size
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val comment : Comment = commentsList[position]
 
         holder.comment.text = comment.comment
+
+        holder.closeButtonIcon.visibility = View.VISIBLE
+
+        holder.closeButtonIcon.setOnClickListener {
+
+            commentsList.forEach{
+
+                it.visibility = false
+
+            }
+
+            commentsList.removeAt(position)
+            callBack.closeButtonAddCommentItemListener(position)
+        }
+
+        /*if (comment.visibility){
+
+            holder.closeButtonIcon.visibility = View.VISIBLE
+        }
+
+        else{
+
+            holder.closeButtonIcon.visibility = View.GONE
+
+        }*/
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val comment : TextView = itemView.comment
-        val closeButtonIcon : ImageView = itemView.closeButtonIcon
+        val closeButtonIcon : ImageView = itemView.commentsCloseButoon
 
+    }
+
+    interface AddCommentsRecyclerViewCallBack {
+        fun closeButtonAddCommentItemListener(pos: Int)
     }
 }

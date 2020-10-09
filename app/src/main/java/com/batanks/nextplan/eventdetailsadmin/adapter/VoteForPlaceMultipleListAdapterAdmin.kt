@@ -47,16 +47,20 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-
-        return placesList.size
-    }
+    override fun getItemCount() = placesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val place = placesList[position]
 
         holder.closeButton.setOnClickListener {
+
+            placesList.forEach{
+
+                it.visibility = false
+
+            }
+
             placesList.removeAt(position)
             callBack.closeButtonAddPlaceItemListener(position)
         }
@@ -65,12 +69,23 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         holder.address.text = place.place.address
         holder.noOfVotesPlaceTextview.text = place.votes.size.toString()
 
+        if (place.visibility){
+
+            holder.closeButton.visibility = View.VISIBLE
+        }
+
+        else{
+
+            holder.closeButton.visibility = GONE
+
+        }
+
         if (place.place.map == false){
 
             holder.seeOnMapLayout.visibility = GONE
         }
 
-        val LATLNG = LatLng(place.place.latitude,place.place.longitude)
+        //val LATLNG = LatLng(place.place.latitude,place.place.longitude)
         holder.placeMapView.apply {
 
             onCreate(null)
@@ -79,8 +94,8 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
                 with(it){
 
                     onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    addMarker(MarkerOptions().position(LATLNG))
+                    //moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                    //addMarker(MarkerOptions().position(LATLNG))
                 }
             }
         }

@@ -6,6 +6,6 @@ data class Place(
         val zipcode: String,
         val city: String,
         val country: String,
-        val map: Boolean,
+        var map: Boolean,
         var latitude: Double,
         var longitude: Double)
