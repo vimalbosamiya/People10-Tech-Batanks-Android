@@ -278,43 +278,15 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
     private fun populateCategory(list: List<CategoryList>) {
         val customSpinner = categoryViewModel.categoryList?.let {
-            CustomArrayAdapter(requireContext(), it/*listOf(
-                SpinnerModel("Trip", R.drawable.ic_category_trip),
-                SpinnerModel("Professional", R.drawable.ic_category_professional),
-                SpinnerModel("Leisure", R.drawable.ic_category_leisure),
-                SpinnerModel("Institutional", R.drawable.ic_category_institutional),
-                SpinnerModel("Other", R.drawable.ic_category_icon))*/)
+            CustomArrayAdapter(requireContext(), it)
         }
-        (categoryTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
-        (categoryTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, id ->
-
-            /*val obj = parent.adapter.getItem(position) as SpinnerModel?
-            actv_category.setText(obj?.title)
-            obj?.id?.let { categoryTextField.setStartIconDrawable(it) }*/
+        actv_category?.threshold = 1
+        actv_category?.setAdapter(customSpinner)
+        actv_category?.setOnItemClickListener { parent, _, position, _ ->
 
             val obj = parent.adapter.getItem(position) as CategoryList?
             actv_category.setText(obj?.name)
             pk = obj?.pk!!.toInt()
-
-
-            /*Glide.with(this)
-                    .asBitmap()
-                    .load(obj?.picture)
-                    .into(object : CustomTarget<Bitmap>(){
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            categoryTextField.setStartIconDrawable(resource.toDrawable(resources))
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            // this is called when imageView is cleared on lifecycle call or for
-                            // some other reason.
-                            // if you are referencing the bitmap somewhere else too other than this imageView
-                            // clear it here as you can no longer have the bitmap
-                        }
-                    })*/
-
-            //Glide.with(requireContext()).load(obj?.picture).into(categoryTextField.startIconDrawable)
-            //obj?.picture?.let { categoryTextField.setStartIconDrawable(Glide.with(requireContext()).load(it).into(view.categoryIcon)) }
-            //categoryTextField.startIcon
         }
     }
 
