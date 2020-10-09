@@ -4,3 +4,5 @@ build/
 *.iml
 !.idea/
 .idea/*
+
+local.properties
