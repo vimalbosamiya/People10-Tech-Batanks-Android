@@ -39,14 +39,12 @@ import org.json.JSONObject
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
-
-
     lateinit var recyclerView: RecyclerView
     lateinit var eventRecyclerView : RecyclerView
     lateinit var eventAdapter : HomePlanPreviewAdapter
-    lateinit var eventList : List<EventList>
+    lateinit var eventList : ArrayList<GetEventListHome>
 
-    var user_obj : User? = null
+    //var user_obj : User? = null
 
     private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -56,13 +54,13 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         }).get(HomePlanPreviewViewModel::class.java)
     }
 
-    private val profileViewModel: ProfileModel by lazy {
+    /*private val profileViewModel: ProfileModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
             RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
                 ProfileModel(it)
             }
         }).get(ProfileModel::class.java)
-    }
+    }*/
 
     override fun onResume(){
         super.onResume()
@@ -91,7 +89,43 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         showLoader()
 
-        homePlanPreviewViewModel.getHomePlanEvent()
+        /*profileViewModel.getUserProfile()
+
+        profileViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+                    user_obj = response.data as User
+
+                    val id: Int? = user_obj?.id
+                    val userName: String? = user_obj?.username
+                    val firstName: String? = user_obj?.first_name
+                    val lastName: String? = user_obj?.last_name
+                    val email: String? = user_obj?.email
+                    val phoneNumber: String? = user_obj?.phone_number
+
+                    ModelPreferencesManager.put(user_obj, "USER_DATA")
+
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putInt("ID", id!!).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })*/
+
+        homePlanPreviewViewModel.eventList()
         //homePlanPreviewViewModel.eventList()
 
         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
@@ -112,8 +146,8 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                     //eventAdapter.notifyDataSetChanged()
                     //var events_list = listOf(response.data as EventList)
                     //var res : EventListResponse = response.data as EventListResponse
-                    println(response.data )
-                    println(eventList)
+                   // println(response.data )
+                    //println(eventList)
 
                     //var events_list = res.results
                     //eventList = res.results
@@ -126,40 +160,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
-                }
-            }
-        })
-
-        profileViewModel.getUserProfile()
-
-        profileViewModel.responseLiveData.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-                Status.SUCCESS -> {
-                    hideLoader()
-                    user_obj = response.data as User
-
-                    val userName: String? = user_obj?.username
-                    val firstName: String? = user_obj?.first_name
-                    val lastName: String? = user_obj?.last_name
-                    val email: String? = user_obj?.email
-                    val phoneNumber: String? = user_obj?.phone_number
-
-                    ModelPreferencesManager.put(user_obj, "USER_DATA")
-
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
-
-                }
-                Status.ERROR -> {
-                    hideLoader()
-                    Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
+                    println(response.error?.message.toString())
                 }
             }
         })
@@ -280,8 +281,11 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
         }
     }
 
-   internal fun notifyDataSetChange(){
+   /*internal fun notifyDataSetChange(){
+  if(true){
 
+      return
+  }
        //supportFragmentManager.beginTransaction().remove(CreatePlanFragment()).commit()
 
         recyclerView = findViewById(R.id.homeScreenRecyclerView)
@@ -329,5 +333,5 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                 }
             }
         })
-    }
+    }*/
 }

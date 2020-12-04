@@ -442,7 +442,7 @@ class AddContactsFragment : BaseDialogFragment() {
                     val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
                     val phoneNumber = (cursor.getString(
-                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toInt()
+                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
 
                     if (phoneNumber > 0) {
                         val cursorPhone = activity?.contentResolver?.query(
@@ -460,7 +460,7 @@ class AddContactsFragment : BaseDialogFragment() {
 
                                     //var contactList : ContactsList = ContactsList(name,"",0,"",false)
 
-                                    phcontacts?.add(ContactsList(name,"",0,"",false))
+                                    phcontacts?.add(ContactsList(0,"","",name,"",phoneNumber,"",false))
 
                                     println(phcontacts)
 

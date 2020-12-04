@@ -21,9 +21,7 @@ import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapterForAll
 import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
 import com.batanks.nextplan.home.fragment.spinner.SpinnerModelForAll
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
-import com.batanks.nextplan.swagger.model.Activity
-import com.batanks.nextplan.swagger.model.EventDate
-import com.batanks.nextplan.swagger.model.Place
+import com.batanks.nextplan.swagger.model.*
 import com.hbb20.CountryCodePicker.OnCountryChangeListener
 import kotlinx.android.synthetic.main.fragment_add_activity.*
 import kotlinx.android.synthetic.main.fragment_add_activity_how_much.*
@@ -192,21 +190,29 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
 
             R.id.btn_activity_ok ->{
 
+                var zipcode : Int = 0
+                var price : Int = 0
+
                 if (activityNameTextField?.editText?.length()!! >= 2){
 
                     if (!TextUtils.isEmpty(fromTextField?.editText?.text.toString())){
 
-                        //showLoader()
+                        showLoader()
                         dismissKeyboard()
 
-                        val place = Place(name = ActivityplaceNameTextField?.editText?.text.toString(),
+                        if (!TextUtils.isEmpty(activity_zipCodeTextField?.editText?.text.toString())){
+
+                            zipcode = activity_zipCodeTextField?.editText?.text.toString().toInt()
+
+                            //println(zipcode)
+                        }
+
+                        val place = PostPlaceInfo(name = ActivityplaceNameTextField?.editText?.text.toString(),
                                 address = activity_addressTextField?.editText?.text.toString(),
-                                zipcode = activity_zipCodeTextField?.editText?.text.toString(),
+                                zipcode = zipcode,
                                 city = activity_townTextField?.editText?.text.toString(),
                                 country = ccp_activity_country.getSelectedCountryName(),
-                                map = false,
-                                latitude = 0.0,
-                                longitude = 0.0)
+                                map = false)
 
                         val stringBuilder = StringBuilder()
                                 .append(place.name)
@@ -229,8 +235,8 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
 
                             } else {
 
-                                place.latitude = result[0].latitude
-                                place.longitude = result[0].longitude
+                                //place.latitude = result[0].latitude
+                                //place.longitude = result[0].longitude
                                 place.map = true
                                 //listener.addPlaceFragmentAddressFetch(place)
                             }
@@ -246,7 +252,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                             //listener.addPlaceFragmentAddressFetch(place)
                         }*/
 
-                        val list = listOf<Int>(1,2,3)
+                        val list = arrayListOf<Int>()
 
                         var perPerson : Boolean = false
 
@@ -259,30 +265,37 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                             perPerson = false
                         }
 
-                        var maxParticipants : Int? = null
+                        var maxParticipants : Int = 0
 
                         if (!TextUtils.isEmpty(max_participantsTextField.editText?.text.toString())){
 
                             maxParticipants = max_participantsTextField.editText?.text.toString().toInt()
                         }
 
-                        var duration : Long? = null
+                        var duration : Int = 0
 
                         if (!TextUtils.isEmpty(hoursWhileTextField.editText?.text.toString())){
 
-                            duration = hoursWhileTextField?.editText?.text.toString().toLong()
+                            duration = hoursWhileTextField?.editText?.text.toString().toInt()
                         }
 
-                        val activity = Activity(0 , place = place, price = costOfTheActivityTextField?.editText?.text.toString(),
+                        if (!TextUtils.isEmpty(costOfTheActivityTextField?.editText?.text.toString())){
+
+                            price = costOfTheActivityTextField?.editText?.text.toString().toInt()
+
+                            println(price)
+                        }
+
+                        val activity = PostActivities(place = place, price = price, participants = list,
                                 title = activityNameTextField?.editText?.text.toString(), detail = "", date = fromTextField.editText?.text.toString() ,
-                                max_participants = maxParticipants , price_currency = "" , per_person = perPerson , duration = duration , participants = list);
+                                max_participants = maxParticipants , per_person = perPerson , duration = duration )
 
                         listner.AddActivityFragmentFetch(activity)
                         hideLoader()
 
                     }else {
 
-                        Toast.makeText(context,"Date is required", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context,getString(R.string.activity_date_error), Toast.LENGTH_LONG).show()
                         fromTextField.isFocusable = true
                         fromTextField.isFocusableInTouchMode = true
                         fromTextField.requestFocus()
@@ -291,7 +304,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
                 } else {
 
                         //actionNameTextField.error = "Action name is Required"
-                        activityNameTextField.editText?.error = "Activity name should contain atleast 2 characters"
+                        activityNameTextField.editText?.setError(getString(R.string.activity_name_error))
                         activityNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                 }
@@ -318,7 +331,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener) : BaseDialo
         }
     }
     interface AddActivityFragmentListener {
-        fun AddActivityFragmentFetch(activity :Activity)
+        fun AddActivityFragmentFetch(activity : PostActivities)
         fun CancelActivityFragmentFetch()
     }
 }

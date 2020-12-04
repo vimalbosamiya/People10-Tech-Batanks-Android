@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -194,7 +195,7 @@
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
-            app:helperText="Enter a frequency of your event"
+            app:helperText="@string/event_frequency"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintEnabled="false"
@@ -247,7 +248,7 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
-            app:helperText="Define the maximum numbers of attendees"
+            app:helperText="@string/max_number_of_attendees"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"

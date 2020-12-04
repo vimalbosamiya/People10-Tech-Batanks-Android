@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
+import com.batanks.nextplan.swagger.model.PostTasks
 import com.batanks.nextplan.swagger.model.Task
 import kotlinx.android.synthetic.main.fragment_add_action.*
 
@@ -115,10 +117,14 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
         when (view?.id) {
 
             R.id.assignParticipantButton -> {
-                requireActivity().supportFragmentManager
+                /*requireActivity().supportFragmentManager
                         .beginTransaction()
                         .add(AssignPeopleFragment(this), AssignPeopleFragment::class.java.canonicalName)
-                        .commitAllowingStateLoss()
+                        .commitAllowingStateLoss()*/
+
+                //showMessage("You can only assign people after creating a Plan")
+
+                Toast.makeText(activity,"You can only assign people after creating a Plan",Toast.LENGTH_LONG).show()
 
             }
 
@@ -141,13 +147,12 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
 
                         assignee = txt_add_action_assignee_id.text.toString().toInt()
                     }
-                    val task = Task(id = 0, price =  costActionTextField?.editText?.text.toString(),
+                    val task = PostTasks(price =  costActionTextField?.editText?.text.toString().toInt(),
                             name = actionNameTextField?.editText?.text.toString(),
                             description = actionDescriptionTextField?.editText?.text.toString(),
-                            price_currency = natureOfTheCostTextField?.editText?.text.toString() ,
                             per_person = perPerson,
-                            assignee = /*txt_add_action_assignee_name.text.toString())*/ /*txt_add_action_assignee_id.text.toString().toInt()*/ assignee,
-                            assigneeName = txt_add_action_assignee_name.text.toString())
+                            assignee = /*txt_add_action_assignee_name.text.toString())*/ /*txt_add_action_assignee_id.text.toString().toInt()*/ 0
+                            /*assigneeName = txt_add_action_assignee_name.text.toString()*/)
 
                    // println(txt_add_action_assignee_id.text.toString().toInt())
                     //println(assignee)
@@ -159,7 +164,7 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
                     } else {
 
                         //actionNameTextField.error = "Action name is Required"
-                        actionNameTextField.editText?.error = "Action name should contain atleast 2 characters"
+                        actionNameTextField.editText?.setError(getString(R.string.action_name_error))
                         actionNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                 }
@@ -174,7 +179,7 @@ class AddActionFragment (val listner : AddActionFragmentListener): BaseDialogFra
     }
 
     interface AddActionFragmentListener {
-        fun AddActionFragmentFetch(task :Task)
+        fun AddActionFragmentFetch(task : PostTasks)
         fun cancelActionFragmentFetch()
     }
 

@@ -27,7 +27,7 @@ class CategoryViewModel (private val categoryApi: CategoryAPI) : ViewModel() {
                     responseLiveData.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
-                    println(it)
+                    //println(it)
                 }.subscribe({ result ->
                     responseLiveData.setValue(ApiResponse.success(result))
                 }) { throwable ->

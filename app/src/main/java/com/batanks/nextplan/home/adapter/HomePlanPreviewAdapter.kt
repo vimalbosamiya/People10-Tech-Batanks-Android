@@ -2,7 +2,9 @@ package com.batanks.nextplan.home.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.text.TextUtils
+import android.text.TextUtils.isEmpty
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -19,23 +21,23 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.HomePlanPreview
+import com.batanks.nextplan.home.ModelPreferencesManager
 import com.batanks.nextplan.swagger.model.EventList
+import com.batanks.nextplan.swagger.model.GetEventListHome
+import com.batanks.nextplan.swagger.model.User
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_event_name.view.*
 
-class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {
+class HomePlanPreviewAdapter(private val myList: List<GetEventListHome>) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {
+
     lateinit var context : Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         context = parent.context
+
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_event_name, parent, false)
 
-        view.setOnClickListener {
-            //Log.i("PrivateEvent","Event was Clicked")
-            //Toast.makeText(context,"Event Clicked",Toast.LENGTH_LONG).show()
-            val intent = Intent(parent.context, EventDetailViewAdmin::class.java)
-            startActivity(parent.context,intent,null)
-        }
         return MyViewHolder(view)
     }
 
@@ -43,24 +45,80 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val itemView = holder.itemView
+        //holder.setIsRecyclable(false)
 
-        holder.eventName.text = myList[position].title
+        val userData = ModelPreferencesManager.get<User>("USER_DATA")
+        val userId = userData?.id
 
-//        if (myList[position].date != null){
+        val event : GetEventListHome = myList[position]
 
-            holder.from.text = myList[position].date?.start
+        holder.eventName.text = event.title
+        holder.fromResponseTextView.text = event.date.start
+        holder.toResponseTextView.text = event.date.end
 
-            holder.to.text = myList[position].date?.end
-        //}
+        if (event.private == true){
 
-        val placeName = myList[position].place?.name
-        val placeCity = myList[position].place?.city
-        val placeCountry = myList[position].place?.country
-        val placeZipcode = myList[position].place?.zipcode
+            holder.privateIcon.visibility = VISIBLE
+
+        } else {
+
+            holder.privateIcon.visibility = GONE
+        }
+
+        if(event.creator.id == userId && event.draft == true){
+
+            holder.eventItem.setBackgroundColor(Color.parseColor("#39444E"))
+            holder.body.setBackgroundColor(Color.parseColor("#39444E"))
+            holder.header.setBackgroundResource(R.drawable.ic_event_draft_item_background)
+            holder.eventNextButton.visibility = GONE
+            holder.eventEditButton.visibility = VISIBLE
+
+        } else if (event.creator.id == userId && event.draft == false){
+
+            holder.eventItem.setBackgroundColor(Color.parseColor("#3D473D"))
+            holder.body.setBackgroundColor(Color.parseColor("#3D473D"))
+            holder.header.setBackgroundResource(R.drawable.ic_event_own_plan_item_background)
+        }
+
+        if(event.status == "AC" && event.private == true){
+
+            holder.eventPrivateCategoryIcon.setImageResource(R.drawable.ic_privateeventcategoryacceptedicon)
+
+        } else if(event.status == "AC" && event.private == false) {
+
+            holder.eventPrivateCategoryIcon.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
+
+        }
+
+        else if (event.status == "DN" && event.private == false){
+
+            holder.eventPrivateCategoryIcon.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
+
+        } else if (event.status == "DN" && event.private == true){
+
+            holder.eventPrivateCategoryIcon.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
+        }
+
+            if (myList[position].status == "pending"){
+
+                holder.eventItem.setBackgroundColor(Color.parseColor("#232323"))
+
+            } else if (isEmpty(myList[position].status)){
+
+                holder.eventItem.setBackgroundColor(Color.parseColor("#3D473D"))
+            }
+
+        val placeName = event.place?.name
+        val placeCity = event.place?.city
+        val address = event.place?.address
+        val placeCountry = event.place?.country
+        val placeZipcode = event.place?.zipcode
 
         val stringBuilder = StringBuilder()
                 .append(placeName)
+
+                .append(" ")
+                .append(address)
 
                 .append(" ")
                 .append(placeCity)
@@ -71,25 +129,27 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
                 .append(" ")
                 .append(placeZipcode)
 
-        holder.place.text = stringBuilder.toString()
-        holder.eventNameFull.text = myList[position].title
-        holder.eventDescription.text = myList[position].detail
-        holder.eventCategory.text = myList[position].category.name
-        holder.fromResponseTextViewFull.text = myList[position].date?.start
-        holder.toResponseTextViewFull.text = myList[position].date?.end
-        holder.placeResponseTextViewFull.text = myList[position].place?.address
+        holder.placeResponseTextView.text = stringBuilder.toString()
 
-       /* holder.eventName.text = "Private Event Name"
-        holder.from.text = "From from Adapter"
-        holder.to.text = "From from Adapter"
-        holder.place.text = "From from Adapter"*/
+        holder.organizerName.text = event.creator.username
+        Glide.with(context).load(event.creator.picture).circleCrop().into(holder.userIcon)
+        holder.eventNameFull.text = event.title
+        holder.eventCategory.text = event.category.name
+        Glide.with(context).load(event.category.picture).circleCrop().into(holder.eventPrivateCategoryIcon)
+        Glide.with(context).load(event.category.picture).circleCrop().into(holder.eventPrivateCategoryIconFull)
+        holder.eventDescription.text = event.detail
+        holder.fromResponseTextViewFull.text = event.date?.start
+        holder.toResponseTextViewFull.text = event.date?.end
+        holder.placeResponseTextViewFull.text = stringBuilder.toString()
 
         holder.eventItem.setOnClickListener {
 
             holder.eventItem.visibility = GONE
-
+            println(position)
             holder.eventItemFull.visibility = VISIBLE
-
+            notifyDataSetChanged()
+            /*it.visibility = GONE
+            it?.eventItemFull?.visibility = VISIBLE*/
         }
 
         holder.eventItemFull.setOnClickListener {
@@ -103,6 +163,7 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
         holder.eventNextButton.setOnClickListener(View.OnClickListener {
             if(position == 0){
                 val intent = Intent(context, EventDetailView::class.java)
+                intent.putExtra("ID", myList.get(position).pk)
                 startActivity(context,intent,null)
 
             } else {
@@ -114,17 +175,28 @@ class HomePlanPreviewAdapter(private val myList: List<EventList>) : RecyclerView
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val eventName : TextView = item.eventName
+        val fromResponseTextView : TextView = item.fromResponseTextView
+        val toResponseTextView : TextView = item.toResponseTextView
+        val placeResponseTextView : TextView = item.placeResponseTextView
         val from: TextView = item.fromResponseTextView
         val to: TextView = item.toResponseTextView
-        val place: TextView = item.placeResponseTextView
         val eventItem : ConstraintLayout = item.eventItem
-        val eventItemFull :ConstraintLayout = item.eventItemFull
+        val eventItemFull : ConstraintLayout = item.eventItemFull
+        val header : ImageView = item.header
+        val body : ImageView = item.body
         val eventNextButton : ImageView = item.eventNextButton
+        val eventEditButton : ImageView = item.eventEditButton
         val eventNameFull : TextView = item.eventNameFull
         val eventCategory : TextView = item.eventCategory
         val eventDescription : TextView = item.eventDescription
         val fromResponseTextViewFull : TextView = item.fromResponseTextViewFull
         val toResponseTextViewFull : TextView = item.toResponseTextViewFull
         val placeResponseTextViewFull : TextView = item.placeResponseTextViewFull
+        val organizerName : TextView = item.organizerName
+        val userIcon : ImageView = item.userIcon
+        val eventPrivateCategoryIconFull : ImageView = item.eventPrivateCategoryIconFull
+        val privateIcon : ImageView = item.privateIcon
+        val eventPrivateCategoryIcon : ImageView = item.eventPrivateCategoryIcon
+
     }
 }

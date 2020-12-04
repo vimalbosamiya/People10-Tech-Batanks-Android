@@ -1,33 +1,61 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Next Plan</string>
     <string name="user_name">User Name</string>
-    <string name="password">Password *</string>
+    <string name="password">Password</string>
     <string name="stay_logged_in">Stay logged in</string>
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="forgot_your_password">Forgot your password ?</string>
     <string name="login">LOGIN</string>
-    <string name="username">UserName *</string>
+    <string name="invalid_username">Username is not valid</string>
+    <string name="username_condition">User Name should contain atleast 4 characters with no spaces</string>
+    <string name="firstname_condition">First Name should contain atleast 4 characters with no spaces</string>
+    <string name="lastname_condition">Last Name should contain atleast 4 characters with no spaces</string>
+    <string name="invalid_password">Password is not valid</string>
+
+    <string name="username">User Name</string>
     <string name="first_name">First Name</string>
-    <string name="email">e-mail *</string>
-    <string name="confirm_password">Confirm Password *</string>
+    <string name="email">e-mail</string>
+    <string name="email_hint">Enter your email address</string>
+    <string name="valid_email">Enter a valid email address</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password</string>
     <string name="sign_in">SIGN IN</string>
     <string name="registration">Registration</string>
     <string name="news">News</string>
     <string name="myplans">My Plans</string>
     <string name="signing_in_please_wait" tools:ignore="TypographyEllipsis">Signing-in... Please wait,..</string>
+    <string name="submitting_mail_please_wait" tools:ignore="TypographyEllipsis">Submitting Mail... Please wait,..</string>
     <string name="loading_please_wait" tools:ignore="TypographyEllipsis">Loading... Please wait,..</string>
     <string name="creating_user_please_wait" tools:ignore="TypographyEllipsis">Creating user... Please wait,..</string>
     <string name="loading_list_please_wait" tools:ignore="TypographyEllipsis">Loading List... Please wait,..</string>
     <string name="opening_page_please_wait" tools:ignore="TypographyEllipsis">Opening Page... Please wait,..</string>
-    <string name="email_hint">e-mail<font color='#cc0029'> *</font></string>
+    <!--<string name="email_hint">e-mail<font color='#cc0029'> *</font></string>-->
     <string name="changing_password_please_wait" tools:ignore="TypographyEllipsis">Changing Password... Please wait,..</string>
+
+    <string name="account_recovery">Account recovery</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
+    <string name="email_sent">We\'ve sent you an email with a link to reset your password</string>
+
+    <string name="new_password_hint">Choose a new password</string>
+
+    <string name="password_changed_successfully">Paswword Changed Successfully</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+
+    <string name="account_created">Account Created Successfully</string>
+    <string name="phonenumber_condition">Enter a valid Mobile number</string>
+    <!--<string name="phonenumber_condition">Mobile number should contain atleast 4 numbers with no spaces</string>-->
+    <string name="password_dont_match">Password and Confirm Password doesn\'t match</string>
+
 
     <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="password_condition">Password should contain at least 1 lower case and 1 upper case letter and 1 digit.</string>
-    <string name="password_doesnt_match">Password &amp; Confirm password doesn\'t match.</string>
+    <!--<string name="password_condition">Password should contain at least 1 lower case and 1 upper case letter and 1 digit.</string>-->
+    <string name="password_condition">Password should contain atleast 6 characters with 1 lower case and 1 upper case letter and 1 number and 1 special character with no spaces.</string>
+    <string name="password_doesnt_match">New Password &amp; Confirm Password doesn\'t match.</string>
     <string name="not_valid_email">Email is not valid.</string>
     <string name="last_name">Last Name</string>
     <string name="phone_number">Phone Number</string>
@@ -35,9 +63,26 @@
     <string name="gathering_information" tools:ignore="TypographyEllipsis">Gathering the Information... Please wait...</string>
 
     <string name="plan_name">Plan name<font color="#ff0000"><bold> *</bold></font></string>
+    <string name="plan_name_error">Plan name should contain atleast 3 characters<font color="#ff0000"><bold> *</bold></font></string>
+    <string name="select_category">Please select a category</string>
+    <string name="select_period">Atleast one period is required</string>
+    <string name="select_place">Atleast one place is required</string>
     <string name="pname">Plan name</string>
+    <string name="event_frequency">Enter a frequency for your event</string>
+    <string name="place_name_error">Place name should contain atleast 2 characters</string>
+    <string name="place_not_found">We are unable to find the location info, Please enter a different location.</string>
+    <string name="action_name_error">Action name should contain atleast 2 characters</string>
+    <string name="activity_name_error">Activity name should contain atleast 2 characters</string>
+    <string name="activity_date_error">Date is required</string>
+    <string name="max_number_of_attendees">The max number of attendees</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="cost_per_person">Cost Per Person</string>
+
     <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>
     <string name="asteriskred"><font color='#cc0029'>*</font></string>
+
+
+    <string name="close_votes">CLOSE VOTES</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

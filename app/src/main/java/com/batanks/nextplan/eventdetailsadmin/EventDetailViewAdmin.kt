@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
+import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.eventdetailsadmin.adapter.*
 import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
@@ -46,6 +47,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.addGuestBackground
+import kotlinx.android.synthetic.main.comments_card_admin.*
+import kotlinx.android.synthetic.main.everybody_come_card_admin.*
 import kotlinx.android.synthetic.main.layout_action_display_admin.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.view.*
@@ -54,6 +57,9 @@ import kotlinx.android.synthetic.main.layout_comment_display.*
 import kotlinx.android.synthetic.main.layout_date_display.*
 import kotlinx.android.synthetic.main.layout_delete_popup.*
 import kotlinx.android.synthetic.main.layout_place_display.*
+import kotlinx.android.synthetic.main.vote_for_date_card_admin.*
+import kotlinx.android.synthetic.main.vote_for_place_card_admin.*
+
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -82,12 +88,41 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         ViewModelProvider(this)[PublicPlanViewModel::class.java]
     }*/
 
-    var dates = ArrayList<EventDate>()
+    var event_obj : Event? = null
+
+    var getCategory : CategoryList? = null
+    var getPeriodicity : Periodicity? = null
+    var getCreator :  Creator? = null
+
+    var getDates : ArrayList<EventDate> = arrayListOf()
+    var getPlaces : ArrayList<EventPlace> = arrayListOf()
+    var getTasks : ArrayList<Task> = arrayListOf()
+    var getActivities : ArrayList<Activity> = arrayListOf()
+    var getGuests : ArrayList<Guests> = arrayListOf()
+
+    var getComments : ArrayList<String> = arrayListOf()
+
+    /*var dates = ArrayList<EventDate>()
     var places = ArrayList<EventPlace>()
     var tasks = ArrayList<Task>()
     var activities = ArrayList<Activity>()
     var contacts = ArrayList<String>()
-    var comments = ArrayList<Comment>()
+    var comments = ArrayList<Comment>()*/
+    private val eventDetailViewModel: EventDetailViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(EventAPI::class.java)?.let {
+                EventDetailViewModel(it)
+            }
+        }).get(EventDetailViewModel::class.java)
+    }
+
+    var postDates : ArrayList<PostDates> = arrayListOf()
+    var postPlaces : ArrayList<PostPlaces> = arrayListOf()
+    var postTasks : ArrayList<PostTasks> = arrayListOf()
+    var postActivities : ArrayList<PostActivities> = arrayListOf()
+    var postGuests : PostGuests? = null
+    var postComments : ArrayList<PostComments> = arrayListOf()
+    var postContacts : ArrayList<String> = arrayListOf()
 
     lateinit var addPeopleRecyclerView: RecyclerView
     lateinit var commentsListRecyclerViewAdmin :RecyclerView
@@ -96,6 +131,8 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view_admin)
+
+        eventDetailViewModel.getEventData("139")
 
 
         addPeopleRecyclerView = findViewById(R.id.addPeopleRecyclerView)
@@ -106,9 +143,9 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
         //var dates = ArrayList<EventDate>()
-        dates.add(EventDate(1,"Thu, Mar 20 2019", "Wed, Mar 25 2019 06:00 pm",vote))
+        /*dates.add(EventDate(1,"Thu, Mar 20 2019", "Wed, Mar 25 2019 06:00 pm",vote))
         dates.add(EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote))
-        dates.add(EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote))
+        dates.add(EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote))*/
         /*dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
         dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
         dates.add(EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote))
@@ -120,41 +157,41 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
                 (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))*/
 
-        val place : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
+        /*val place : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
         val place1 : Place = Place("Nellore","Nellore","524305","Nellore","India",true,27.2038,77.5011)
-        val place2 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
+        val place2 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)*/
 
-        places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        /*places.add(EventPlace(1, place,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
         places.add(EventPlace(2, place1,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
-        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))
+        places.add(EventPlace(3, place2,"Khajanagar","Buchi","524305","Nellore","India",true, listOf()))*/
 
-        tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true, 1,""))
+        /*tasks.add(Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true, 1,""))
         tasks.add(Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
         tasks.add(Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
         tasks.add(Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
         tasks.add(Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
-        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))
+        tasks.add(Task(6,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","1000",true,1,""))*/
         /*tasks.add(Task(5,"1000","Task 5","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1))*/
         //places.add(place) as EventPlace
 
-        activities.add(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote))
+        /*activities.add(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote))
         activities.add(Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote))
         activities.add(Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote))
-        activities.add(Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
+        activities.add(Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))*/
 
-        contacts.add("contact 1"); contacts.add("Contact 2"); contacts.add("Contact 3"); contacts.add("New Contact 4"); contacts.add("New Test Contact 5"); contacts.add("Contact 6");
+        //contacts.add("contact 1"); contacts.add("Contact 2"); contacts.add("Contact 3"); contacts.add("New Contact 4"); contacts.add("New Test Contact 5"); contacts.add("Contact 6");
 
-        comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        /*comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
         comments.add(Comment("This is the second comment of this event and this is also a test comment which will be replaced by the original data from API"))
         comments.add(Comment("This is the third comment of this event and this is also a test comment which will be replaced by the original data from API"))
-        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))*/
 
-        dateInitAdmin(dates)
-        placeInitAdmin(places)
-        taskInitAdmin(tasks)
-        activityInitAdmin(activities)
-        peopleInitAdmin(contacts)
-        commentsInitAdmin(comments)
+        dateInitAdmin(getDates)
+        placeInitAdmin(getPlaces)
+        taskInitAdmin(getTasks)
+        activityInitAdmin(getActivities)
+        peopleInitAdmin(getGuests)
+        commentsInitAdmin(getComments)
 
 
         /*eventInfoMapView.apply {
@@ -200,11 +237,13 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         totalCommentsDropDownMulti.setOnClickListener(this)
         tripCalenderBackground.setOnClickListener(this)
         addGuestBackground.setOnClickListener(this)
-        addPeriodImg.setOnClickListener(this)
+        //addPeriodImg.setOnClickListener(this)
+        dateCloseVotes.setOnClickListener(this)
         addPlaceImg.setOnClickListener(this)
         addActionBackgroundImg.setOnClickListener(this)
         addActivityBackgroundImg.setOnClickListener(this)
         addPeople.setOnClickListener(this)
+        addPeopleInitial.setOnClickListener(this)
         addCommentsImg.setOnClickListener(this)
         backArrow.setOnClickListener(this)
 
@@ -440,14 +479,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     }
 
-    fun peopleInitAdmin(contacts : ArrayList<String>){
+    fun peopleInitAdmin(guests : ArrayList<Guests>){
 
-        val adapter = EveryBodyComeListAdapterAdmin(contacts,this,eventDetailViewModelAdmin,this)
+        val adapter = EveryBodyComeListAdapterAdmin(guests,this,eventDetailViewModelAdmin,this)
         addPeopleRecyclerView.adapter = adapter
 
     }
 
-    fun commentsInitAdmin(comments : ArrayList<Comment>){
+    fun commentsInitAdmin(comments : ArrayList<String>){
 
         val adapter = CommentsListAdapterAdmin(comments, this, this)
         commentsListRecyclerViewAdmin.adapter = adapter
@@ -546,13 +585,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                         var visible: Boolean
 
-                        if (dates.size == 0) {
+                        if (getDates.size == 0) {
                             visible = false
                         } else {
-                            visible = dates[0].visibility
+                            visible = getDates[0].visibility
                         }
 
-                        dates.add(EventDate((dates.size + 1), startDate, endDate, mutableListOf(), visible))
+                        //dates.add(EventDate((dates.size + 1), mutableListOf() ,startDate, endDate, visible))
+                        postDates.add(PostDates(startDate,endDate))
                         dateRecyclerView?.adapter?.notifyDataSetChanged()
 
                     }, mHour, mMin, false)
@@ -631,24 +671,25 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun addPlaceFragmentAddressFetch(place: EventPlace) {
+    override fun addPlaceFragmentAddressFetch(place: PostPlaces) {
 
         (this.supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
         var visible : Boolean
 
-        if (places.size == 0){
+        if (getPlaces.size == 0){
 
             visible = false
         }
 
         else{
 
-            visible = places[0].visibility
+            visible = getPlaces[0].visibility
         }
 
-        places.add(EventPlace(places.size + 1, place.place, place.name, place.address, place.zipcode, place.city, place.country, place.map, mutableListOf(),visible))
+        //places.add(EventPlace(places.size + 1, place.place, /*place.name, place.address, place.zipcode, place.city, place.country, place.map,*/ mutableListOf(),visible))
+        postPlaces.add(PostPlaces(place.place,place.name,place.address,place.zipcode,place.city,place.country,place.map,visible))
 
         //Toast.makeText(this,place.map.toString(),Toast.LENGTH_LONG).show()
 
@@ -663,12 +704,13 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun AddActionFragmentFetch(task: Task) {
+    override fun AddActionFragmentFetch(task: PostTasks) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
 
-        tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee,task.assigneeName))
+        //tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee/*,task.assigneeName*/))
+        postTasks.add(PostTasks(task.price,task.name,task.description,task.per_person,task.assignee))
 
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerView?.adapter?.notifyDataSetChanged()
@@ -681,14 +723,18 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun AddActivityFragmentFetch(activity: Activity) {
+    override fun AddActivityFragmentFetch(activity: PostActivities) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
 
-        val place1 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
+        //val place1 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
 
-       activities.add(Activity(activities.size + 1,place1,activity.price,activity.title,activity.detail,activity.date,activity.max_participants,activity.price_currency,activity.per_person,activity.duration,activity.participants))
+        postActivities.add(PostActivities(activity.place,activity.price,activity.participants,activity.title,activity.detail,activity.date,
+                                          activity.max_participants,activity.per_person,activity.duration))
+
+       /*activities.add(Activity(activities.size + 1,activity.place,activity.price,acti,activity.title,activity.detail,activity.date,
+                                activity.max_participants,activity.price_currency,activity.per_person,activity.duration,activity.participants))*/
 
         val activityRecyclerView = findViewById<RecyclerView>(R.id.activityRecyclerViewAdmin) as RecyclerView
 
@@ -702,24 +748,26 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun addCommentFragmentFetch(comment: Comment) {
+    override fun addCommentFragmentFetch(comment: PostComments) {
 
         (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
                 as? AddCommentsFragment)?.dismiss()
 
         var visible : Boolean
 
-        if (comments.size == 0){
+        if (getComments.size == 0){
 
             visible = false
         }
 
         else{
 
-            visible = comments[0].visibility
+            //visible = getComments[0].visibility
         }
 
-        comments.add(Comment(comment.comment,visible))
+
+        postComments.add(PostComments(comment.created,comment.author,comment.message))
+        //comments.add(Comment(comment.comment,visible))
 
         commentsListRecyclerViewAdmin?.adapter?.notifyDataSetChanged()
     }
@@ -745,7 +793,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         deletePopup.setOnClickListener{
 
 
-            dates.forEach{
+            getDates.forEach{
 
                 it.visibility = true
 
@@ -779,7 +827,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         deletePopup.setOnClickListener{
 
 
-            places.forEach{
+            getPlaces.forEach{
 
                 it.visibility = true
 
@@ -813,9 +861,9 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         deletePopup.setOnClickListener{
 
 
-            comments.forEach{
+            getComments.forEach{
 
-                it.visibility = true
+                //it.visibility = true
 
             }
 
@@ -956,11 +1004,19 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
             }
 
-            R.id.addPeriodImg -> {
+            R.id.dateCloseVotes -> {
+
+                //addPeriodClicked()
+
+                //TODO : Need to make an API call here to close votes for date
+
+            }
+
+            /*R.id.addPeriodImg -> {
 
                 addPeriodClicked()
 
-            }
+            }*/
 
             R.id.addPlaceImg -> {
 
@@ -980,7 +1036,11 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
             R.id.addPeople -> {
 
                 addPeopleClicked()
+            }
 
+            R.id.addPeopleInitial -> {
+
+                addPeopleClicked()
             }
 
             R.id.addCommentsImg -> {

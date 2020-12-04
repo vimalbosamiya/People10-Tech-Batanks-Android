@@ -271,7 +271,7 @@ class SearchPeopleFragment : BaseFragment()  {
             showDialog(view!!.context)
         }
 
-//        addcontactSearchTextField.endIconMode
+        //addcontactSearchTextField.endIconMode
 
         view.setOnTouchListener(object : View.OnTouchListener {
 

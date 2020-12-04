@@ -180,8 +180,7 @@
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
                 android:gravity="center_vertical"
-                android:inputType="none"
-                 />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -311,5 +310,6 @@
             android:textColor="@color/colorLittleBlue"
             app:layout_constraintRight_toLeftOf="@+id/ok"
             app:layout_constraintTop_toBottomOf="@+id/footerDivider" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

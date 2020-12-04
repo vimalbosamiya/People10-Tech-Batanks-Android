@@ -19,7 +19,7 @@ class HomePlanPreviewViewModel(private val authApi: EventAPI) : ViewModel() {
 
     fun getHomePlanEvent() {
 
-        disposables.add(authApi.apiEventCreatedList(20,0)
+        disposables.add(authApi.apiEventCreatedList()
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -37,7 +37,7 @@ class HomePlanPreviewViewModel(private val authApi: EventAPI) : ViewModel() {
 
     fun eventList() {
 
-        disposables.add(authApi.apiEventList(1,1)
+        disposables.add(authApi.apiEventList()
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -392,6 +392,7 @@
                 android:background="@color/colorBlack"
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_settings_language"
             style="@style/MaterialTextInputLayoutTheme"
@@ -441,6 +442,7 @@
             android:layout_marginRight="16dp"
             android:hint="Euro (€)"
             android:textColorHint="#ffffff"
+            android:popupBackground="#2F2F2F"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
@@ -453,13 +455,15 @@
             app:hintTextColor="#34CBFE"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            android:layout_below="@id/tip_settings_language">
+            android:layout_below="@id/tip_settings_language"
+            app:startIconTint="#ffffff">
 
             <AutoCompleteTextView
                 android:id="@+id/input_settings_currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:popupBackground="#2F2F2F"
                 android:textSize="15sp"
                 android:editable="false"
                 android:paddingLeft="16dp"
@@ -469,6 +473,7 @@
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
     </RelativeLayout>
 </ScrollView>
     <RelativeLayout

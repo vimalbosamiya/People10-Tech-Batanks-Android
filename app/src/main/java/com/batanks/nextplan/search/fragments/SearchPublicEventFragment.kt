@@ -13,17 +13,20 @@ import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
-import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
+/*import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter*/
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.search.viewmodel.SearchViewModel
 import com.batanks.nextplan.swagger.api.EventAPI
+import com.batanks.nextplan.swagger.api.SearchAPI
 import com.batanks.nextplan.swagger.model.EventList
+import com.batanks.nextplan.swagger.model.GetEventListHome
 import com.batanks.nextplan.swagger.model.InlineResponse2002
 
 class SearchPublicEventFragment : BaseFragment() {
 
     lateinit var eventsRecyclerView : RecyclerView
-    lateinit var eventsAdapter : HomePlanPreviewAdapter
+   // lateinit var eventsAdapter : HomePlanPreviewAdapter
 
     private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -35,7 +38,19 @@ class SearchPublicEventFragment : BaseFragment() {
         }).get(HomePlanPreviewViewModel::class.java)
     }
 
-    lateinit var eventList : List<EventList>
+    private val searchViewModel: SearchViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            getContext()?.let {
+                RetrofitClient.getRetrofitInstance(it)?.create(SearchAPI::class.java)?.let {
+                    SearchViewModel(it)
+                }
+            }
+        }).get(SearchViewModel::class.java)
+    }
+
+    lateinit var eventList : ArrayList<GetEventListHome>
+    lateinit var searchList : ArrayList<GetEventListHome>
+    val publicEventList :  ArrayList<GetEventListHome> = arrayListOf()
 
     var recyclerView: RecyclerView? = null
 
@@ -57,7 +72,7 @@ class SearchPublicEventFragment : BaseFragment() {
 
         loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
-        homePlanPreviewViewModel.getHomePlanEvent()
+        homePlanPreviewViewModel.eventList()
 
         homePlanPreviewViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
@@ -72,14 +87,21 @@ class SearchPublicEventFragment : BaseFragment() {
 
                     eventList = homePlanPreviewViewModel.response!!.results
 
-                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+                    for (item in eventList){
+
+                        if(item.private == false){
+
+                            publicEventList.add(item)
+                        }
+                    }
+
+                   // eventsRecyclerView?.adapter = HomePlanPreviewAdapter(publicEventList)
 
                     //eventAdapter.notifyDataSetChanged()
                     //var events_list = listOf(response.data as EventList)
                     //var res : EventListResponse = response.data as EventListResponse
-                    println(response.data )
-                    println(eventList)
-
+                    //println(response.data )
+                    //println(eventList)
                     //var events_list = res.results
                     //eventList = res.results
                     //if(events_list != null)

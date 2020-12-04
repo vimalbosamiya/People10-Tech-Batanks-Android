@@ -74,6 +74,7 @@ import kotlinx.android.synthetic.main.layout_add_plan_footer.*
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
@@ -213,7 +214,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
             }
         })
 
-        var planName : String = "<font color='#ffffff'>Name </font>" + "<font color='#FF0000'>*</font>"
+        //var planName : String = "<font color='#ffffff'>Name </font>" + "<font color='#FF0000'>*</font>"
 
         //planNameEditText.hint = Html.fromHtml(planName) as Editable?
 
@@ -325,9 +326,9 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                             if (publicPlanViewModel.place.size > 0){
 
-                                val guest : MutableList<Int> = mutableListOf(18)
-                val phone : MutableList<EventInvitationPhone> = mutableListOf()
-                val emailInvite : MutableList<EventInvitationEmail> = mutableListOf()
+                                val guest : ArrayList<Int> = arrayListOf()
+                                val phones : ArrayList<Phones> = arrayListOf()
+                                val emails : ArrayList<Emails> = arrayListOf()
 
                 val userName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("USERNAME", "")!!
                 val firstName: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("FIRSTNAME","")!!
@@ -335,8 +336,9 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                 val email: String = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("EMAIL","")!!
                 val phoneNumber: String =context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getString("PHONENUMBER","")!!
 
-                val creator = Creator(first_name = firstName, last_name = lastName, username = userName, email = email, phone_number = phoneNumber, picture = "")
-                val guests = EventInvitation(users = guest, phones = phone, emails = emailInvite)
+                val creator = PostCreator(username = userName, email = email, first_name = firstName, last_name = lastName, phone_number = phoneNumber.toInt())
+                val guests = PostGuests(users = guest, phones = phones, emails = emails)
+                val comments : ArrayList<PostComments> = arrayListOf()
                 //val category = CategoryList(1,)
 
                 var maxGuests : Int = 0
@@ -347,11 +349,11 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                 }
 
-                publicPlanViewModel.createEvent(Event(1, title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                                                        _private = privateEvent, category = 1, max_guests = maxGuests, draft = false,
-                                                         periodicity = Periodicity("d",0), creator = creator, dates = publicPlanViewModel.eventDate,
+                publicPlanViewModel.createEvent(PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
+                                                         private = privateEvent, category = pk, max_guests = maxParticipantsTextField.editText?.text.toString().toInt(),
+                                                         draft = false, periodicity = Periodicity("d",0), creator = creator, dates = publicPlanViewModel.eventDate,
                                                          places = publicPlanViewModel.place, tasks = publicPlanViewModel.action, activities = publicPlanViewModel.activity,
-                                                         guests = guests, created = "", modified = "", vote_place_closed = false, vote_date_closed = false))
+                                                         guests = guests, comments = comments,  vote_place_closed = false, vote_date_closed = false, comments_closed = false))
 
 
                                 /*Toast.makeText(context,"Create plan clicked", Toast.LENGTH_SHORT).show()
@@ -363,7 +365,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                             } else{
 
-                                Toast.makeText(context,"Atleast one place is required", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context,getString(R.string.select_place), Toast.LENGTH_LONG).show()
                                 addPlaceButton.isFocusable = true
                                 addPlaceButton.isFocusableInTouchMode = true
                                 addPlaceButton.requestFocus()
@@ -371,7 +373,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                         } else {
 
-                            Toast.makeText(context,"Atleast one period is required", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,getString(R.string.select_period), Toast.LENGTH_LONG).show()
                             addPeriodButton.isFocusable = true
                             addPeriodButton.isFocusableInTouchMode = true
                             addPeriodButton.requestFocus()
@@ -379,7 +381,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                     } else {
 
-                        Toast.makeText(context,"Please select a category", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context,getString(R.string.select_category), Toast.LENGTH_LONG).show()
                         categoryTextField.requestFocus()
                         /*categoryTextField.editText?.error = "Category is Required"
                         categoryTextField.requestFocus()*/
@@ -387,7 +389,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                 } else {
 
-                    planNameTextField.editText?.error = "Plan name should contain atleast 3 characters"
+                    planNameTextField.editText?.setError(getString(R.string.plan_name_error))
                     planNameTextField.requestFocus()
                 }
 
@@ -431,7 +433,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
     private fun refreshHomePlanPreviewList(){
 
-        (activity as HomePlanPreview).notifyDataSetChange()
+        //(activity as HomePlanPreview).notifyDataSetChange()
 
         val handler = Handler()
         handler.postDelayed({
@@ -511,7 +513,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
                         val endDate = dateFormatter.format(cal.time)
                         println(endDate)
 
-                        publicPlanViewModel.eventDate.add(EventDate(id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()))
+                        publicPlanViewModel.eventDate.add(PostDates(start = startDate, end = endDate/*id = publicPlanViewModel.eventDate.size, start = startDate, end = endDate, votes = mutableListOf()*/))
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         addPeriodButton.text = "ADD AN OTHER PERIOD"
                         //addPeriodButton.strokeColor = ColorStateList.valueOf(Color.WHITE)
@@ -670,7 +672,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     }
 
 
-    override fun addPlaceFragmentAddressFetch(place: EventPlace) {
+    override fun addPlaceFragmentAddressFetch(place: PostPlaces) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
@@ -688,7 +690,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     }
 
 
-    override fun AddActionFragmentFetch(task: Task) {
+    override fun AddActionFragmentFetch(task: PostTasks) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
         addActionButton.text = "ADD AN OTHER ACTION"
@@ -704,7 +706,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
     }
 
 
-    override fun AddActivityFragmentFetch(activity: Activity) {
+    override fun AddActivityFragmentFetch(activity: PostActivities) {
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
         addActivityButton.text = "ADD AN OTHER ACTIVITY"

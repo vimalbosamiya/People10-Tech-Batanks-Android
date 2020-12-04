@@ -11,4 +11,5 @@ data class EventList(
         val category: CategoryList,
         val place: Place?,
         val date: EventDate?,
-        val periodicity: Periodicity)
+        val periodicity: Periodicity,
+        val status : String)

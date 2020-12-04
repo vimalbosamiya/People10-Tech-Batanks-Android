@@ -14,17 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Settings.Group"></activity>
         <activity android:name=".forgotpassword.AccountRecovery2">
-
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http"
-                    android:host="93.90.204.56"
-                    android:pathPrefix="/authentication/reset/"/>
-            </intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="93.90.204.56"
+                    android:pathPrefix="/authentication/reset/"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity android:name=".forgotpassword.AccountRecovery1" />
         <activity android:name=".Settings.Plan_Sorting" />

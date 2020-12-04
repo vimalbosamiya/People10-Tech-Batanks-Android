@@ -16,11 +16,12 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.EventDate
+import com.batanks.nextplan.swagger.model.Guests
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
-class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<String>, val context: Context,
+class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val context: Context,
                                      private val eventDetailViewModelAdmin: EventDetailViewModelAdmin,
                                      private val callBack: AddPeopleRecyclerViewCallBack): RecyclerView.Adapter<EveryBodyComeListAdapterAdmin.ViewHolder>() {
 
@@ -39,9 +40,9 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<String>, val co
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val contact: String = contactsList[position]
+        val contact: Guests = contactsList[position]
 
-        holder.contactName.text = contact
+        holder.contactName.text = contact.name
 
         holder.contactSettings.setOnClickListener {
 

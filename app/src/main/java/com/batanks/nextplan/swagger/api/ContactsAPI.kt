@@ -14,5 +14,5 @@ interface ContactsAPI {
     fun apiContactsDelete(@Path("id") id: String?): Observable<Void>
 
     @GET("api/contacts/")
-    fun apiContactsList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse2001>
+    fun apiContactsList(/*@Query("limit") limit: Int?, @Query("offset") offset: Int?*/): Observable<InlineResponse2001>
 }

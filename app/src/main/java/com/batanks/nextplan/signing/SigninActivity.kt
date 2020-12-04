@@ -2,14 +2,19 @@ package com.batanks.nextplan.signing
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
@@ -28,6 +33,7 @@ import com.batanks.nextplan.splash.SplashActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.Login
 import com.batanks.nextplan.swagger.model.User
+import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
@@ -49,11 +55,25 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         }).get(SigninViewModel::class.java)
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
+
+        loginTextField.markRequiredInRed()
+        passTextField.markRequiredInRed()
+
+        /*passEditField.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                getWindow().getDecorView().clearFocus()
+                //v.clearFocus()
+                //passEditField.clearFocus()
+
+
+                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+            }
+            false
+        })*/
 
         dismissKeyboard()
 
@@ -109,7 +129,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
             startActivity(intent)
-            finish()
+            //finish()
         }
 
         /*val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
@@ -146,6 +166,14 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         login.setOnClickListener(this)
     }
 
+    fun TextInputLayout.markRequiredInRed() {
+
+        hint = buildSpannedString {
+            append(hint)
+            color(Color.RED) { append(" *") }
+        }
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v: View? = getCurrentFocus()
@@ -167,7 +195,7 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
             R.id.login -> {
                 //Toast.makeText(this,"working",Toast.LENGTH_SHORT).show()
 
-                if (loginTextField.editText?.length()!! >= 4){
+                if (isValidUsername(loginTextField.editText?.text.toString()) && loginTextField.editText?.length()!! >= 4){
 
                     if (isValidPassword(passTextField.editText?.text?.toString()) && passTextField.editText?.length()!! >= 6){
 
@@ -179,14 +207,14 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
 
                     } else {
 
-                        passTextField.editText?.error = "Password is not valid"
+                        passTextField.editText?.setError(getString(R.string.invalid_password))
                         passTextField.editText?.requestFocus()
                     }
 
 
                 } else {
 
-                    loginTextField.editText?.error = "Username is not valid"
+                    loginTextField.editText?.setError(getString(R.string.invalid_username))
                     loginTextField.editText?.requestFocus()
                 }
 /*
@@ -221,10 +249,12 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
     }
 
     private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
+    private fun isValidUsername(textToCheck: String?) : Boolean = userNamePattern.matcher(textToCheck).matches()
 
     companion object {
         //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$)(?=.*\\d).+$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
+        val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
 
         //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }

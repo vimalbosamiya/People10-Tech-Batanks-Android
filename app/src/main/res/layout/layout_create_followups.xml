@@ -77,6 +77,7 @@
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
         android:layout_below="@id/tip_create_followups_name"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_followups_ok"
         style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -107,4 +108,5 @@
         android:layout_below="@id/view_seperator_tip_create_followups_name"
         android:textAppearance="?android:textAppearanceMedium"
         android:layout_toLeftOf="@id/btn_create_followups_ok"/>
+
 </RelativeLayout>

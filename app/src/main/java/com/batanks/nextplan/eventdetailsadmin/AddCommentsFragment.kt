@@ -13,6 +13,7 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.swagger.model.Comment
+import com.batanks.nextplan.swagger.model.PostComments
 import kotlinx.android.synthetic.main.activity_followups.*
 import kotlinx.android.synthetic.main.fragment_add_comment.*
 
@@ -54,7 +55,8 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
             showLoader()
             dismissKeyboard()
 
-            val comment = Comment(comment = tip_add_comment?.editText?.text.toString())
+            val comment = PostComments("","",tip_add_comment?.editText?.text.toString())
+            //val comment = Comment(comment = tip_add_comment?.editText?.text.toString())
 
             if (tip_add_comment?.editText?.text.isNullOrEmpty()){
 
@@ -126,7 +128,7 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
 
     interface AddCommentsFragmentListener {
 
-        fun addCommentFragmentFetch(comment: Comment)
+        fun addCommentFragmentFetch(comment: PostComments)
         fun cancelCommentFragmentFetch()
     }
 }

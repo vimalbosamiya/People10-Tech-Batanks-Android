@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Settings.Contact"
     android:background="#1D2125">
+
     <RelativeLayout
         android:id="@+id/rl_contacts_header"
         android:layout_width="match_parent"
@@ -37,6 +38,7 @@
             android:layout_centerVertical="true"
             />
     </RelativeLayout>
+
     <View
         android:id="@+id/view_seperator_settings_contact"
         android:layout_width="match_parent"
@@ -45,6 +47,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rl_contacts_header"/>
+
     <ScrollView
         android:id="@+id/scrollview_contact"
         android:layout_width="match_parent"
@@ -61,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/settings_contactSearchTextField"
                 style="@style/MaterialTextInputLayoutTheme"
@@ -100,209 +104,463 @@
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/settings_contacts_list_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:background="#272727"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_contactSearchTextField">
-            <ImageView
-                android:id="@+id/img_settings_contacts_contacts"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/contacts_card_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_settings_contacts"
+                app:cardCornerRadius="7dp"
+                android:elevation="10dp"
+                app:cardBackgroundColor="#1E1E1E"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section"
-                />
-            <TextView
-                android:id="@+id/txt_settings_contacts_contacts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contacts"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section"
-                app:layout_constraintLeft_toRightOf="@id/img_settings_contacts_contacts"
-                android:padding="10dp"
-                android:textAppearance="?android:textAppearanceMedium"
-                />
-            <ImageView
-                android:id="@+id/img_settings_contacts_contacts_downarrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_event_details_expand_more"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts"
-                />
+                app:layout_constraintTop_toBottomOf="@id/settings_contactSearchTextField">
 
-                <ImageView
-                    android:id="@+id/img_settings_contacts_contacts_uparrow"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/settings_contacts_list_section"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:padding="20dp"
-                    android:src="@drawable/ic_event_details_expand_less"
+                    android:background="#272727"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts"
-                    />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toTopOf="@+id/contacts_card_view">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_contacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_settings_contacts"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section" />
+
+                    <TextView
+                        android:id="@+id/txt_settings_contacts_contacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contacts"
+                        app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section"
+                        app:layout_constraintLeft_toRightOf="@id/img_settings_contacts_contacts"
+                        android:padding="10dp"
+                        android:textAppearance="?android:textAppearanceMedium" />
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_contacts_downarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts" />
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_contacts_uparrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_contacts" />
+
+                    <TextView
+                        android:id="@+id/txt_settings_contacts_contacts_alphabetical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alphabetical"
+                        android:layout_marginStart="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/img_settings_contacts_contacts"
+                        app:layout_constraintLeft_toLeftOf="@id/img_settings_contacts_contacts"
+                        android:layout_marginTop="20dp"
+                        android:textAppearance="?android:textAppearanceMedium" />
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_contacts_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_filter_icon"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img_settings_contacts_contacts"
+                        />
+
+                    <View
+                        android:id="@+id/view_seperator_settings_contactlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorBlack"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/img_settings_contacts_contacts_filter"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_settings_contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@id/view_seperator_settings_contactlist"
+                        app:layout_constraintEnd_toEndOf="@id/view_seperator_settings_contactlist"
+                        app:layout_constraintTop_toBottomOf="@id/view_seperator_settings_contactlist"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settings_contacts_list_section2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:background="#272727"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/settings_contacts_list_section">
-            <TextView
-                android:id="@+id/txt_settings_contacts_contacts_alphabetical"
-                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/settings_contacts_list_section">
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/groups_card_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Alphabetical"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section2"
-                app:layout_constraintLeft_toLeftOf="@id/settings_contacts_list_section2"
-                android:padding="10dp"
+                app:cardCornerRadius="10dp"
+                android:elevation="10dp"
+                app:cardBackgroundColor="#1E1E1E"
                 android:layout_marginTop="10dp"
-                android:textAppearance="?android:textAppearanceMedium"
-                />
-            <ImageView
-                android:id="@+id/img_settings_contacts_contacts_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_filter_icon"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section2"
-                />
-            <View
-                android:id="@+id/view_seperator_settings_contactlist"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorBlack"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_settings_contacts_contacts_filter"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_settings_contacts"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:padding="10dp"
-                app:layout_constraintStart_toStartOf="@id/view_seperator_settings_contactlist"
-                app:layout_constraintEnd_toEndOf="@id/view_seperator_settings_contactlist"
-                app:layout_constraintTop_toBottomOf="@id/view_seperator_settings_contactlist"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/contacts_card_view">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/settings_contacts_list_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:background="#272727"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_contacts_list_section2">
-            <ImageView
-                android:id="@+id/img_settings_contacts_groups"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_groups"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_groups"
-                />
-            <TextView
-                android:id="@+id/txt_settings_contacts_groups"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Groups"
-                app:layout_constraintTop_toTopOf="@id/settings_contacts_list_groups"
-                app:layout_constraintLeft_toRightOf="@id/img_settings_contacts_groups"
-                android:padding="10dp"
-                android:textAppearance="?android:textAppearanceMedium"
-                />
-            <ImageView
-                android:id="@+id/img_settings_contacts_groups_downarrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_event_details_expand_more"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups"
-                />
-
-            <ImageView
-                android:id="@+id/img_settings_contacts_groups_uparrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:padding="20dp"
-                android:src="@drawable/ic_event_details_expand_less"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_settings_groups"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:padding="10dp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/img_settings_contacts_groups"
-                app:layout_constraintTop_toBottomOf="@id/img_settings_contacts_groups"
-                />
-            <RelativeLayout
-                android:id="@+id/rl_settings_create_new_groups"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_settings_groups"
-                app:layout_constraintBottom_toBottomOf="@+id/settings_contacts_list_groups"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/img_settings_contacts_add_groups"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/settings_contacts_list_groups"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_add"
+                    android:background="#272727"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    />
-                <TextView
-                    android:id="@+id/txt_settings_contacts_add_groups"
-                    android:layout_width="wrap_content"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_groups"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_groups"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/settings_contacts_list_groups" />
+
+                    <TextView
+                        android:id="@+id/txt_settings_contacts_groups"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Groups"
+                        android:padding="10dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        app:layout_constraintTop_toTopOf="@id/settings_contacts_list_groups"
+                        app:layout_constraintLeft_toRightOf="@id/img_settings_contacts_groups"/>
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_groups_downarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups" />
+
+
+                    <ImageView
+                        android:id="@+id/img_settings_contacts_groups_uparrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_settings_contacts_groups" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_settings_groups"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/img_settings_contacts_groups"
+                        app:layout_constraintTop_toBottomOf="@id/img_settings_contacts_groups" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_settings_create_new_groups"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rv_settings_groups"
+                        app:layout_constraintBottom_toBottomOf="@+id/settings_contacts_list_groups"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/img_settings_contacts_add_groups"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_add"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <TextView
+                            android:id="@+id/txt_settings_contacts_add_groups"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CREATE NEW GROUP"
+                            android:layout_toRightOf="@id/img_settings_contacts_add_groups"
+                            android:padding="10dp"
+                            android:textColor="#90CAF9"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            />
+                    </RelativeLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/users_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:elevation="10dp"
+                app:cardBackgroundColor="#1E1E1E"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groups_card_view">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/users_constraint_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CREATE NEW GROUP"
-                    android:layout_toRightOf="@id/img_settings_contacts_add_groups"
-                    android:padding="10dp"
-                    android:textColor="#90CAF9"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    />
-            </RelativeLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:background="#272727"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/img_users"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_account_box"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/users_constraint_layout" />
+
+                    <TextView
+                        android:id="@+id/txt_users"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Users"
+                        android:padding="10dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        app:layout_constraintTop_toTopOf="@id/users_constraint_layout"
+                        app:layout_constraintLeft_toRightOf="@id/img_users"/>
+
+                    <ImageView
+                        android:id="@+id/img_users_downarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_more"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_users" />
+
+
+                    <ImageView
+                        android:id="@+id/img_users_uparrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_event_details_expand_less"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_users" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_users"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/img_users"
+                        app:layout_constraintTop_toBottomOf="@id/img_users" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addcontactinviteEmail"
+                style="@style/MaterialTextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Invite by mail"
+                android:textColorHint="#ffffff"
+                android:textCursorDrawable="@null"
+                app:boxBackgroundColor="#000000"
+                app:boxStrokeColor="@color/text_input_layout_stroke_color"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_send"
+                app:endIconTint="@color/colorWhite"
+                app:helperText="Enter an e-mail"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="#ffffff"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextColor="#34CBFE"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/users_card_view">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:scrollbarTrackHorizontal="@color/colorWhite"
+                    android:textCursorDrawable="@null"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/phone_contacts_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:elevation="10dp"
+                app:cardBackgroundColor="#1E1E1E"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addcontactinviteEmail">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/phone_contacs_constraint_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#272727"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/img_phone_contacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_contact_phone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/phone_contacs_constraint_layout" />
+
+                    <TextView
+                        android:id="@+id/txt_phone_contacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone Contacts"
+                        android:padding="10dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        app:layout_constraintTop_toTopOf="@id/phone_contacs_constraint_layout"
+                        app:layout_constraintLeft_toRightOf="@id/img_phone_contacts"/>
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/select_contacts_phone_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        app:useMaterialThemeColors="false"
+                        app:layout_constraintRight_toLeftOf="@+id/imgPhoneContactsIconHolder"
+                        app:layout_constraintTop_toTopOf="@id/txt_phone_contacts"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/imgPhoneContactsIconHolder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="4dp"
+                        android:layout_centerVertical="true"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/txt_phone_contacts">
+
+                        <ImageView
+                            android:id="@+id/img_phone_contacts_downarrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
+                            android:src="@drawable/ic_event_details_expand_more"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/img_phone_contacts_uparrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:padding="20dp"
+                            android:src="@drawable/ic_event_details_expand_less"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_phone_contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/img_phone_contacts"
+                        app:layout_constraintTop_toBottomOf="@id/img_phone_contacts" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+
     <RelativeLayout
         android:id="@+id/rl_settings_contacts_news_bottom"
         android:layout_width="match_parent"
@@ -330,4 +588,5 @@
             android:padding="16dp"
             android:layout_marginRight="16dp"/>
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

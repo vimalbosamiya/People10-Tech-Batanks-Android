@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -15,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +39,7 @@ import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -44,10 +47,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view.*
 import kotlinx.android.synthetic.main.activity_event_detail_view.addGuestBackground
+import kotlinx.android.synthetic.main.comments_card.*
+import kotlinx.android.synthetic.main.everybody_come_card.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.view.*
 import kotlinx.android.synthetic.main.layout_date_display.*
 import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
+import kotlinx.android.synthetic.main.vote_for_date_card.*
+import kotlinx.android.synthetic.main.vote_for_place_card.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,15 +88,28 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
 
     var event_obj : Event? = null
 
+    var creator : Creator? = null
+
+    var getDates : ArrayList<EventDate>? = null
+    var getPlaces : ArrayList<EventPlace> = arrayListOf()
+    var getTasks : ArrayList<Task> = arrayListOf()
+    var getActivities : ArrayList<Activity> = arrayListOf()
+    var getGuests : ArrayList<Guests> = arrayListOf()
+
+    var getComments : ArrayList<Comment> = arrayListOf()
+
     //lateinit var datesList : List<EventDate>
-    var datesList : ArrayList<EventDate>? = null
-    var placeList : List<EventPlace>? = null
-    var taskList : List<Task>? = null
-    var activityList : List<Activity>? = null
+    /*var datesList : ArrayList<EventDate>? = null
+    var placeList : ArrayList<EventPlace>? = null
+    var taskList : ArrayList<Task>? = null
+    var activityList : ArrayList<Activity>? = null
     var contactList : EventInvitation? = null
-    var attendersList : EventInvitation? = null
+    var attendersList : EventInvitation? = null*/
+
     var id : Int? = null
-    var comments = ArrayList<Comment>()
+    //var comments = ArrayList<Comment>()
+
+    var postComments : ArrayList<PostComments> = arrayListOf()
 
     lateinit var commentsList : RecyclerView
 
@@ -97,13 +117,14 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view)
 
-        loadingDialog = this.getLoadingDialog(0, R.string.opening_page_please_wait, theme = R.style.AlertDialogCustom)
-
-        //eventDetailViewModel.getEventData("22")
-
         commentsList = findViewById(R.id.commentsList)
         commentsList.layoutManager = LinearLayoutManager(this)
 
+        val id : Int = intent.getIntExtra("ID",0)
+
+        loadingDialog = this.getLoadingDialog(0, R.string.opening_page_please_wait, theme = R.style.AlertDialogCustom)
+
+        eventDetailViewModel.getEventData(/*id.toString()*/"151")
 
         eventDetailViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -111,12 +132,96 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
                 Status.LOADING -> {
                     showLoader()
                 }
+
                 Status.SUCCESS -> {
+
+                    hideLoader()
 
                     event_obj = response.data as Event
                     eventDetailViewModel.response = response.data as Event
 
-                    println(response.data)
+                    creator = event_obj!!.creator
+
+                    organizer.text = creator!!.username
+                    organizerInFull.text = creator!!.username
+                    organizerFirstName.text = creator!!.first_name
+                    organizerLastName.text = creator!!.last_name
+                    organizerEmail.text = creator!!.email
+                    //val mobileNumber : String = "+"+creator!!.phone_number.toString()
+                    organizerMobileNumber.text = creator!!.phone_number.toString()
+                    //println(creator!!.phone_number.toString())
+
+                    if (!TextUtils.isEmpty(creator!!.picture)){
+
+                        userIcon.background = null
+                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIcon)
+                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIconInFull)
+                    }
+
+
+                    eventName.text = event_obj!!.title
+                    category.text = event_obj!!.category.name
+                    Glide.with(this).load(event_obj!!.category.picture).circleCrop().into(tripIcon)
+
+                    if (event_obj!!._private == true){
+
+                        privateIcon.visibility = VISIBLE
+
+                    }else {
+
+                        privateIcon.visibility = GONE
+                    }
+
+                    noOfGuests.text = event_obj!!.guests.size.toString()
+                    //noOfParticipants.text = event_obj!!.
+                    costPerPerson.text = event_obj!!.price.toString()
+                    costPerPersonSymbol.text = event_obj!!.price_currency
+                    eventDescription.text = event_obj!!.detail
+
+                    getDates = event_obj!!.dates
+
+                    getDates?.let { dateInit(it) }
+
+                    getPlaces = event_obj!!.places
+
+                    getPlaces?.let { placeInit(it) }
+
+                    getTasks = event_obj!!.tasks
+
+                    getTasks?.let { taskInit(it) }
+
+                    getActivities = event_obj!!.activities
+
+                    getActivities?.let { activityInit(it) }
+
+                    getGuests = event_obj!!.guests
+
+                    getGuests?.let { everyBodyComeInit(it) }
+
+                    //everyBodyComeListAdapter(getGuests)
+
+                    if(getGuests.size != null)
+
+                    textViewAttendingMulti.text = getGuests.size.toString()
+
+                    textViewAttending.text = getGuests.size.toString()
+
+                    textViewTotalParticipantsMulti.text = event_obj!!.max_guests.toString()
+
+                    textViewTotalParticipants.text = event_obj!!.max_guests.toString()
+
+                    textViewTotalComments.text = event_obj!!.comments.size.toString()
+
+                    textViewTotalCommentsMulti.text = event_obj!!.comments.size.toString()
+
+                    getComments = event_obj!!.comments
+
+                    getComments?.let { commentsInit(it) }
+
+                    //commentsInit(getComments)
+
+                    //println(response.data)
+                    //println(creator)
                    // eventDetailViewModel.response.copy()
                     /*id = event_obj?.id
                     eventName.text = event_obj?.title
@@ -135,48 +240,49 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
                     hideLoader()
                     showMessage(response.error?.message.toString())
                     println(response.error)
-                    Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
             }
         })
 
         var vote : MutableList<Int> = mutableListOf(1,2,3,4,10)
-        var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
+
+        /*var dates : List<EventDate> = listOf((EventDate(1,"Thu, Mar 13 2019", "Wed, Mar 14 2019 06:00 pm",vote)),
                 (EventDate(2,"Fri, Mar 16 2019", "Wed, Mar 17 2019 06:00 pm",vote)),
                 (EventDate(3,"Sat, Mar 17 2019", "Wed, Mar 18 2019 06:00 pm",vote)),
                 (EventDate(4,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
                 (EventDate(5,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)),
-                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))
+                (EventDate(6,"Sun, Mar 19 2019", "Wed, Mar 20 2019 06:00 pm",vote)))*/
 
-        var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
+        //var place1 : Place = Place("Bengaluru","WhiteField, Bengaluru, Karnataka","560066","Bengaluru","India",true,12.96,77.75)
 
-        var places : List<EventPlace> = listOf((EventPlace(1,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
+        /*var places : List<EventPlace> = listOf((EventPlace(1,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
                                                (EventPlace(2,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
                                                 (EventPlace(3,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())),
-                                                (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())))
+                                                (EventPlace(4,place1,place1.name,place1.address,place1.zipcode,place1.city,place1.country,place1.map, listOf())))*/
 
-        var tasks : List<Task> = listOf(
+        /*var tasks : List<Task> = listOf(
                 Task(1,"1000","Task 1","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
                 Task(2,"1000","Task 2","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
                 Task(3,"1000","Task 3","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
                 Task(4,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""),
-                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""))
+                Task(5,"1000","Task 4","Un de chaque saveur Description (facultative) Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie.","",true,1,""))*/
 
-        var activities : List<Activity> = listOf(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote),
+        /*var activities : List<Activity> = listOf(Activity(1,place1,"1000","Activity 1","","",10,"",true,10,vote),
                 Activity(2,place1,"1000","Activity 2","","",10,"",true,10,vote),
                 Activity(3,place1,"1000","Activity 3","","",10,"",true,10,vote),
-                Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))
+                Activity(4,place1,"1000","Activity 4","","",10,"",true,10,vote))*/
 
-        comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        /*comments.add(Comment("This is the first comment of this event and this is also a test comment which will be replaced by the original data from API"))
         comments.add(Comment("This is the second comment of this event and this is also a test comment which will be replaced by the original data from API"))
         comments.add(Comment("This is the third comment of this event and this is also a test comment which will be replaced by the original data from API"))
-        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))
+        comments.add(Comment("This is the fourth comment of this event and this is also a test comment which will be replaced by the original data from API"))*/
 
-        dateInit(dates)
-        placeInit(places)
-        taskInit(tasks)
-        activityInit(activities)
-        commentsInitAdmin(comments)
+//        getDates?.let { dateInit(it) }
+        //placeInit(places)
+        //taskInit(tasks)
+        //activityInit(activities)
+        //commentsInitAdmin(comments)
 
         /*val BASE_URL = "http://93.90.204.56/"
         var retrofit: Retrofit? = null
@@ -208,9 +314,9 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
         })*/
 
         //datesList?.let { dateInit(it) }
-        placeList?.let { placeInit(it) }
-        taskList?.let { taskInit(it) }
-        activityList?.let { activityInit(it) }
+        //placeList?.let { placeInit(it) }
+        //taskList?.let { taskInit(it) }
+        //activityList?.let { activityInit(it) }
 
 
         /*mapViewPlace.getMapAsync(OnMapReadyCallback {
@@ -366,7 +472,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
         //addFragment()
     }
 
-    fun dateInit(dates : List<EventDate>){
+    fun dateInit(dates : ArrayList<EventDate>){
        /* fun dateInit(){
 
         var vote : MutableList<Int> = mutableListOf(1,2,3,4)
@@ -420,6 +526,13 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
         val recyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        if (tasks.size <= 3){
+
+            val params = recyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+            recyclerView.setLayoutParams(params)
+        }
+
         val adapter = EventActionListAdapter(tasks,this)
         recyclerView.adapter = adapter
 
@@ -435,10 +548,13 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
 
     }
 
-    fun commentsInitAdmin(comments : ArrayList<Comment>){
+    fun commentsInit(comments : ArrayList<Comment>){
+
+        val recyclerView = findViewById<RecyclerView>(R.id.commentsList) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = CommentsListAdapter(comments, this, this)
-        commentsList.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     fun activityEverybodyComeInit(participantsList : List<Int>){
@@ -451,12 +567,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
 
     }
 
-    fun everyBodyComeListAdapter(guestsList : List<Int>){
+    fun everyBodyComeInit(guestsList :ArrayList<Guests>){
 
-        val recyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerView) as RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.everybodyComeList) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = ActivityEverybodyComeListAdapter(guestsList,this)
+        val adapter = EveryBodyComeListAdapter(guestsList,this)
         recyclerView.adapter = adapter
 
     }
@@ -639,24 +755,24 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener, AddCommen
         }
     }
 
-    override fun addCommentFragmentFetch(comment: Comment) {
+    override fun addCommentFragmentFetch(comment: PostComments) {
 
         (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
                 as? AddCommentsFragment)?.dismiss()
 
         var visible : Boolean
 
-        if (comments.size == 0){
+        if (getComments.size == 0){
 
             visible = false
         }
 
         else{
 
-            visible = comments[0].visibility
+            //visible = getComments[0].visibility
         }
 
-        comments.add(Comment(comment.comment,visible))
+        postComments.add(PostComments(comment.created,comment.author,comment.message))
 
         commentsList?.adapter?.notifyDataSetChanged()
 

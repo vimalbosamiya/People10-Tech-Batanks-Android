@@ -56,39 +56,59 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
 
     }
 
-    override fun getItemCount(): Int {
-
-        return placesList.size
-
-    }
+    override fun getItemCount() = placesList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val place : EventPlace = placesList[position]
 
-        holder.placeDisplayCountTextView.text = place.id.toString()
+        //holder.placeDisplayCountTextView.text = place.id.toString()
         //holder.placeDisplayTextCountTextView.text = places.place
         holder.placeTextView.text = place.place.name
-        holder.address.text = place.place.address
+
+        val address = placesList[position].place?.address
+        val placeCity = placesList[position].place?.city
+        val placeCountry = placesList[position].place?.country
+        val placeZipcode = placesList[position].place?.zipcode
+
+        val stringBuilder = StringBuilder()
+                .append(address)
+
+                .append(" ")
+                .append(placeCity)
+
+                .append(" ")
+                .append(placeCountry)
+
+                .append(" ")
+                .append(placeZipcode)
+
+        holder.address.text = /*place.place.address*/ stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.votes.size.toString()
         holder.placeCloseButton.visibility = GONE
 
-        holder.placeMapView.apply {
+        if (place.place.map == true){
 
-            onCreate(null)
-            getMapAsync{
+            holder.placeMapView.apply {
 
-                val LATLNG = LatLng(place.place.latitude,place.place.longitude)
+                onCreate(null)
+                getMapAsync{
 
-                with(it){
+                    val LATLNG = LatLng(place.place.latitude,place.place.longitude)
 
-                    onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    addMarker(MarkerOptions().position(LATLNG))
+                    with(it){
+
+                        onResume()
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                        addMarker(MarkerOptions().position(LATLNG))
+                    }
                 }
             }
-        }
 
+        }else {
+
+            holder.mapViewHolder.visibility = GONE
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -103,6 +123,7 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         val seeOnMapLoader : ImageView = itemView.seeOnMapLoader
         val placeMapView : MapView = itemView.placeMapView
         val placeCloseButton : ImageView = itemView.placeCloseButton
+        val mapViewHolder : ConstraintLayout = itemView.mapViewHolder
     }
 
 

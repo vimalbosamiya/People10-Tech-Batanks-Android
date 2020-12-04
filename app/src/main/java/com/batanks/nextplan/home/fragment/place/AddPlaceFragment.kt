@@ -19,6 +19,8 @@ import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.swagger.model.EventPlace
 import com.batanks.nextplan.swagger.model.Place
+import com.batanks.nextplan.swagger.model.PostPlaceInfo
+import com.batanks.nextplan.swagger.model.PostPlaces
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_followups.*
 import kotlinx.android.synthetic.main.fragment_add_place.*
@@ -85,28 +87,34 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
         when (view?.id) {
             R.id.ok -> {
 
+                var zipcode : Int = 0
+
                 if (placeNameTextField.editText?.length()!! >= 2){
 
                     showLoader()
                     dismissKeyboard()
-                    val place = Place(name = placeNameTextField?.editText?.text.toString(),
+
+                    if (!TextUtils.isEmpty(zipCodeTextField?.editText?.text.toString())){
+
+                        zipcode = zipCodeTextField?.editText?.text.toString().toInt()
+
+                        println(zipcode)
+                    }
+
+                    val place = PostPlaceInfo(name = placeNameTextField?.editText?.text.toString(),
                             address = addressTextField?.editText?.text.toString(),
-                            zipcode = zipCodeTextField?.editText?.text.toString(),
+                            zipcode = zipcode,
                             city = townTextField?.editText?.text.toString(),
                             country = ccp_activity_country.getSelectedCountryName()/*countryTextField?.editText?.text.toString()*/,
-                            map = enableMapSupportCheckBox.isChecked ,
-                            latitude = 0.0,
-                            longitude = 0.0)
+                            map = enableMapSupportCheckBox.isChecked )
 
-                    val eventPlace = EventPlace(0,
-                            place,
+                    val eventPlace = PostPlaces(place,
                             name = placeNameTextField?.editText?.text.toString(),
                             address = addressTextField?.editText?.text.toString(),
-                            zipcode = zipCodeTextField?.editText?.text.toString(),
+                            zipcode = zipcode,
                             city = townTextField?.editText?.text.toString(),
                             country = ccp_activity_country.getSelectedCountryName(),
                             map = enableMapSupportCheckBox.isChecked,
-                            votes = listOf(),
                             visibility = enableMapSupportCheckBox.isChecked
                     )
 
@@ -127,11 +135,11 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
 
                         if (result.isEmpty()) {
                             //showMessage("We are unable to find the location info, Please enter a different location.")
-                            Toast.makeText(activity,"We are unable to find the location info, Please enter a different location.",Toast.LENGTH_LONG).show()
+                            Toast.makeText(activity,getString(R.string.place_not_found),Toast.LENGTH_LONG).show()
 
                         }else {
-                            place.latitude = result[0].latitude
-                            place.longitude = result[0].longitude
+                            //place.latitude = result[0].latitude
+                            //place.longitude = result[0].longitude
                             listener.addPlaceFragmentAddressFetch(eventPlace)
 
                             //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
@@ -145,7 +153,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                 }else {
 
                         //actionNameTextField.error = "Action name is Required"
-                        placeNameTextField.editText?.error = "Place name should contain atleast 2 characters"
+                        placeNameTextField.editText?.setError(getString(R.string.place_name_error))
                         placeNameTextField.requestFocus()
                         //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                 }
@@ -159,7 +167,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
     }
 
     interface AddPlaceFragmentListener {
-        fun addPlaceFragmentAddressFetch(place: EventPlace)
+        fun addPlaceFragmentAddressFetch(place: PostPlaces)
         fun cancelPlaceFragmentAddressFetch()
     }
 }

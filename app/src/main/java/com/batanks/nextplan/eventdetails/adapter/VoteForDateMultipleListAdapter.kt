@@ -20,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.layout_date_display.view.*
 
 
-class VoteForDateMultipleListAdapter(val datesList: List<EventDate>, val context: Context, private val eventDetailViewModel: EventDetailViewModel): RecyclerView.Adapter<VoteForDateMultipleListAdapter.ViewHolder>(), VoteDateClickImplementation {
+class VoteForDateMultipleListAdapter(val datesList: ArrayList<EventDate>, val context: Context, private val eventDetailViewModel: EventDetailViewModel): RecyclerView.Adapter<VoteForDateMultipleListAdapter.ViewHolder>(), VoteDateClickImplementation {
 
    /* private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()*/
@@ -52,7 +52,7 @@ class VoteForDateMultipleListAdapter(val datesList: List<EventDate>, val context
 
         val date : EventDate = datesList[position]
 
-        holder.dateDisplayCountTextView.text = date.id.toString()
+        //holder.dateDisplayCountTextView.text = date.id.toString()
         //holder.dateDisplayTextCountTextView.text = dates.date
         holder.dateTextView.text = date.start
         holder.fromTextview.text = date.start

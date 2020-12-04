@@ -28,18 +28,35 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
         view.activityDropDown.setOnClickListener {
 
-            view.eventInfoBackground.visibility = View.GONE
+            view.activityInfo.visibility = View.VISIBLE
 
-            view.eventInfobackgroundMulti.visibility = View.VISIBLE
+            view.activityDropDown.visibility = View.GONE
+
+            view.activityDropUp.visibility = View.VISIBLE
+
+            //view.activityDropDown.setImageResource(R.drawable.ic_event_details_expand_less)
+
+            //view.eventInfoBackground.visibility = View.GONE
+
+            //view.eventInfobackgroundMulti.visibility = View.VISIBLE
         }
 
-        view.activityDropDownMulti.setOnClickListener {
+        view.activityDropUp.setOnClickListener {
+
+            view.activityInfo.visibility = View.GONE
+
+            view.activityDropDown.visibility = View.VISIBLE
+
+            view.activityDropUp.visibility = View.GONE
+        }
+
+        /*view.activityDropDownMulti.setOnClickListener {
 
             view.eventInfobackgroundMulti.visibility = View.GONE
 
             view.eventInfoBackground.visibility = View.VISIBLE
 
-        }
+        }*/
 
         view.activityMapHide.setOnClickListener {
 
@@ -55,19 +72,44 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
             view.eventMapbackgroundVisible.visibility = View.VISIBLE
         }
 
-        view.activityEverybodyComehider.setOnClickListener {
+        view.activityEverybodyComehiderInitial.setOnClickListener {
 
-            view.activityEverybodyComeVisible.visibility = View.GONE
+            view.activityParticipantsListAdmin.visibility = View.VISIBLE
 
-            view.activityEverybodyComeHide.visibility = View.VISIBLE
+            view.activityEverybodyComehider.visibility = View.VISIBLE
+
+            view.participateToActivityIcon.visibility = View.VISIBLE
+
+            view.activityEverybodyComehiderInitial.visibility = View.GONE
+
+            view.costPerPersonCalenderBackground.visibility = View.GONE
         }
 
-        view.activityEverybodyComeDropDown.setOnClickListener {
+        view.activityEverybodyComehider.setOnClickListener {
+
+            view.activityParticipantsListAdmin.visibility = View.GONE
+
+            view.activityEverybodyComehider.visibility = View.GONE
+
+            view.participateToActivityIcon.visibility = View.GONE
+
+            view.activityEverybodyComehiderInitial.visibility = View.VISIBLE
+
+            view.costPerPersonCalenderBackground.visibility = View.VISIBLE
+
+            /*view.activityEverybodyComeVisible.visibility = View.GONE
+
+            view.activityEverybodyComeHide.visibility = View.VISIBLE*/
+        }
+
+
+
+        /*view.activityEverybodyComeDropDown.setOnClickListener {
 
             view.activityEverybodyComeHide.visibility = View.GONE
 
             view.activityEverybodyComeVisible.visibility = View.VISIBLE
-        }
+        }*/
 
         view.participateToActivityIcon.setOnClickListener {  }
 
@@ -88,12 +130,12 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         holder.activityIdTextView.text = activity.id.toString()
         holder.textViewActivityName.text = activity.title
         //holder.textViewActivityCost.text = activity.price
-        holder.activityNameTextView.text = activity.title
+        //holder.activityNameTextView.text = activity.title
         //holder.textViewActivityStartDate.text = activity.date
         //holder.textViewActivityTime.text = activity.duration.toString()
-        holder.textViewActivityParticipants.text = activity.participants.size.toString()
-        holder.textViewTotalParticipants.text = activity.max_participants.toString()
-        holder.activityCostTextView.text = activity.price
+        //holder.textViewActivityParticipants.text = activity.participants.size.toString()
+        //holder.textViewTotalParticipants.text = activity.max_participants.toString()
+        //holder.activityCostTextView.text = activity.price
         holder.locationName.text = activity.place.name
         holder.fullLocation.text = activity.place.address
 
@@ -120,15 +162,15 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         val activityIdTextView : TextView = itemView.activityIdTextView
         val textViewActivityName : TextView = itemView.textViewActivityName
         val textViewActivityCost : TextView = itemView.textViewActivityCost
-        val activityNameTextView : TextView = itemView.activityNameTextView
+        //val activityNameTextView : TextView = itemView.activityNameTextView
         val locationName : TextView = itemView.locationName
         val fullLocation : TextView = itemView.fullLocation
         val activityMapView : MapView = itemView.activityMapView
         val textViewActivityStartDate :TextView = itemView.textViewActivityStartDate
         val textViewActivityTime : TextView = itemView.textViewActivityTime
-        val textViewActivityParticipants : TextView = itemView.textViewActivityParticipants
-        val textViewTotalParticipants : TextView = itemView.textViewTotalParticipants
-        val activityCostTextView : TextView = itemView.activityCostTextView
+        //val textViewActivityParticipants : TextView = itemView.textViewActivityParticipants
+        //val textViewTotalParticipants : TextView = itemView.textViewTotalParticipants
+        //val activityCostTextView : TextView = itemView.activityCostTextView
         val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
 
     }

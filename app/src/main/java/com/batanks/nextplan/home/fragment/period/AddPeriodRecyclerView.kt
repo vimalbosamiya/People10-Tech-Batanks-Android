@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.EventDate
+import com.batanks.nextplan.swagger.model.PostDates
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period_card.view.*
 import java.text.SimpleDateFormat
@@ -17,7 +18,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
-                            private val modelList: ArrayList<EventDate>)
+                            private val modelList: ArrayList<PostDates>)
     : RecyclerView.Adapter<AddPeriodRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

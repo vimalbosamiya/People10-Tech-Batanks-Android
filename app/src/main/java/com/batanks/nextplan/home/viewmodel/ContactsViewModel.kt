@@ -17,7 +17,7 @@ class ContactsViewModel (private val contactsApi: ContactsAPI) : ViewModel() {
 
     fun getContactsList() {
 
-        disposables.add(contactsApi.apiContactsList(100,0)
+        disposables.add(contactsApi.apiContactsList()
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -25,7 +25,7 @@ class ContactsViewModel (private val contactsApi: ContactsAPI) : ViewModel() {
                     responseLiveData.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
-                    println(it)
+                    //println(it)
                 }.subscribe({ result ->
                     responseLiveData.setValue(ApiResponse.success(result))
                 }) { throwable ->

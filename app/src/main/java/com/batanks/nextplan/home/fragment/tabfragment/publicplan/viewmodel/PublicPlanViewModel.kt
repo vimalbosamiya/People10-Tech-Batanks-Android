@@ -18,14 +18,14 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
 
     //var response : Event? = null
 
-    var eventDate = ArrayList<EventDate>()
-    var place = ArrayList<EventPlace>()
-    var action = ArrayList<Task>()
-    var activity = ArrayList<Activity>()
+    var eventDate = ArrayList<PostDates>()
+    var place = ArrayList<PostPlaces>()
+    var action = ArrayList<PostTasks>()
+    var activity = ArrayList<PostActivities>()
     var activityDate = ArrayList<EventDate>()
 
 
-    fun createEvent(data: Event?){
+    fun createEvent(data: PostEvent?){
 
         disposables.add(eventApi.apiEventCreate(data)
                 .subscribeOn(Schedulers.io())
@@ -41,7 +41,7 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
 
     }
 
-    fun getCategory(data: Event?){
+    fun getCategory(data: PostEvent?){
 
         disposables.add(eventApi.apiEventCreate(data)
                 .subscribeOn(Schedulers.io())

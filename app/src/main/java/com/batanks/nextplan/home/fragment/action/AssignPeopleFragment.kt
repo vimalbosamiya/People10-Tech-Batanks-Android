@@ -31,7 +31,7 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
     lateinit var adapter : Assign_People_Adapter
      var selected_assignee : String = ""
     var assigneeId : Int? = 0
-    lateinit var contactList : List<ContactsList>
+    lateinit var contactList : ArrayList<ContactsList>
 
     private val contactsViewModel: ContactsViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -82,6 +82,8 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
+
+                    println(response.error?.message.toString())
                 }
             }
         })

@@ -49,7 +49,7 @@ class SearchFragment : BaseFragment(){
         tabs.setupWithViewPager(view_pager)
 
         val tabOne = LayoutInflater.from(view.context).inflate(R.layout.custom_tab, null) as TextView
-        tabOne.text = "PEOPLE"
+        tabOne.text = "ALL"
         tabOne.setTextColor(resources.getColor(R.color.colorWhite))
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_people_tablayout, 0, 0)
         tabs.getTabAt(0)?.customView = tabOne

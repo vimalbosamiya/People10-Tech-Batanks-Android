@@ -8,8 +8,8 @@ data class Event(
         val detail: String,
         @SerializedName("private")
         val _private: Boolean,
-        val category: Int,
-        val max_guests: Int,
+        val category: CategoryList,
+        val max_guests: Int?,
         val draft: Boolean,
         val periodicity: Periodicity,
         val creator: Creator,
@@ -17,8 +17,14 @@ data class Event(
         val places: ArrayList<EventPlace>,
         val tasks: ArrayList<Task>,
         val activities: ArrayList<Activity>,
-        val guests: EventInvitation,
+//        val guests: EventInvitation,
+        val comments : ArrayList<Comment>,
+        val guests : ArrayList<Guests>,
         val created: String,
         val modified: String,
         val vote_place_closed: Boolean,
-        val vote_date_closed: Boolean)
+        val vote_date_closed: Boolean,
+        val comments_closed : Boolean,
+        val price : Double?,
+        val price_currency : String
+)

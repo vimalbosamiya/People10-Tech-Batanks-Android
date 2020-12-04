@@ -2,6 +2,7 @@ package com.batanks.nextplan.forgotpassword
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
@@ -27,6 +30,7 @@ import com.batanks.nextplan.signing.SigninActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.ResetPassword
 import com.batanks.nextplan.swagger.model.mode.ResetPasswordConfirm
+import com.google.android.material.textfield.TextInputLayout
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_account_recovery2.*
 import java.util.regex.Pattern
@@ -48,9 +52,12 @@ class AccountRecovery2 : BaseAppCompatActivity() {
     lateinit var token : String
     lateinit var email : String
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_recovery2)
+
+        newPasswordTextField.markRequiredInRed()
+        confirmPasswordTextField.markRequiredInRed()
 
         val uri : Uri? = intent.data
 
@@ -87,7 +94,7 @@ class AccountRecovery2 : BaseAppCompatActivity() {
                 }
                 Status.SUCCESS -> {
 
-                    Toast.makeText(this,"Paswword Changed Successfully",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,getString(R.string.password_changed_successfully),Toast.LENGTH_LONG).show()
 
                     val intent = Intent(this, SigninActivity::class.java)
                     startActivity(intent)
@@ -179,13 +186,14 @@ class AccountRecovery2 : BaseAppCompatActivity() {
 
                 } else {
 
-                    confirmPasswordTextField.editText?.error = "New password and Confirm password doesn't match"
+                    //confirmPasswordTextField.editText?.error = "New password and Confirm password doesn't match"
+                    confirmPasswordTextField.editText?.setError(getString(R.string.password_doesnt_match))
                     confirmPasswordTextField.editText?.requestFocus()
                 }
 
             } else {
 
-                newPasswordTextField.editText?.error = "Paswword should contain atleast 6 characters with 1 lower case and 1 upeer case letter and 1 number and 1 special charatcer with no spaces"
+                newPasswordTextField.editText?.setError(getString(R.string.password_condition))
                 newPasswordTextField.editText?.requestFocus()
             }
 
@@ -231,6 +239,14 @@ class AccountRecovery2 : BaseAppCompatActivity() {
         }
     }
 
+    fun TextInputLayout.markRequiredInRed() {
+
+        hint = buildSpannedString {
+            append(hint)
+            color(Color.RED) { append(" *") }
+        }
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v: View? = getCurrentFocus()
@@ -251,7 +267,7 @@ class AccountRecovery2 : BaseAppCompatActivity() {
 
     companion object {
         //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$)(?=.*\\d).+$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
 
         //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }

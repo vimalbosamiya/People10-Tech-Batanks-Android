@@ -74,6 +74,45 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
         val activity : Activity = activityList[position]
 
         holder.textViewActivityName.text = activity.title
+        holder.textViewEventNameOfPerPersonMulti.text = activity.title
+        holder.locationName.text = activity.place.name
+
+        val address = activity.place.address
+        val placeCity = activity.place.city
+        val placeCountry = activity.place.country
+        val placeZipcode = activity.place.zipcode
+
+        val stringBuilder = StringBuilder()
+                .append(address)
+
+                .append(" ")
+                .append(placeCity)
+
+                .append(" ")
+                .append(placeCountry)
+
+                .append(" ")
+                .append(placeZipcode)
+
+        holder.fullLocation.text = stringBuilder.toString()
+        holder.textViewEventStartDate.text = activity.date
+        holder.textViewEventTime.text = activity.duration.toString()
+
+        if (activity.per_person == true){
+
+            holder.textViewCostPerPerson.setText(R.string.cost_per_person)
+            holder.textViewCostPerPersonMulti.setText(R.string.cost_per_person)
+
+        }else {
+
+            holder.textViewCostPerPerson.setText(R.string.total_cost)
+            holder.textViewCostPerPersonMulti.setText(R.string.total_cost)
+        }
+
+        holder.textViewCostPerPersonAmount.text = activity.price.toString()
+        holder.textViewCostPerPersonAmountMulti.text = activity.price.toString()
+        holder.textViewCostPerPersonSymbol.text = activity.price_currency
+        holder.textViewCostPerPersonAmountSymbol.text = activity.price_currency
 
 
         holder.activityMapView.apply {
@@ -81,7 +120,7 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
             onCreate(null)
             getMapAsync{
 
-                val LATLNG = LatLng(13.03,77.60)
+                val LATLNG = LatLng(activity.place.latitude,activity.place.longitude)
 
                 with(it){
 
@@ -96,6 +135,17 @@ class EventActivityListAdapter (val activityList : List<Activity>, val context: 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val textViewActivityName : TextView = itemView.textViewActivityName
+        val textViewEventNameOfPerPersonMulti : TextView = itemView.textViewEventNameOfPerPersonMulti
+        val locationName : TextView = itemView.locationName
+        val fullLocation : TextView = itemView.fullLocation
+        val textViewEventStartDate : TextView = itemView.textViewEventStartDate
+        val textViewEventTime : TextView = itemView.textViewEventTime
+        val textViewCostPerPerson : TextView = itemView.textViewCostPerPerson
+        val textViewCostPerPersonMulti : TextView = itemView.textViewCostPerPersonMulti
+        val textViewCostPerPersonAmount : TextView = itemView.textViewCostPerPersonAmount
+        val textViewCostPerPersonAmountMulti : TextView = itemView.textViewCostPerPersonAmountMulti
+        val textViewCostPerPersonSymbol : TextView = itemView.textViewCostPerPersonSymbol
+        val textViewCostPerPersonAmountSymbol : TextView = itemView.textViewCostPerPersonAmountSymbol
         val activityMapView : MapView = itemView.activityMapView
 
     }

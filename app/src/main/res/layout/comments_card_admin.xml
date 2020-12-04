@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/commentBackgroundHolder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    android:elevation="3dp"
+    card_view:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#1E1E1E">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commentsBackgroundConstraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/commentBackgroundHolder">
+
+        <ImageView
+            android:id="@+id/commentsBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_event_details_participants_list_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundConstraint" />
+
+        <ImageView
+            android:id="@+id/commentsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18.02dp"
+            android:background="@drawable/ic_event_details_comment_icon"
+            app:layout_constraintStart_toStartOf="@+id/commentsBackground"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <TextView
+            android:id="@+id/commentsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18dp"
+            android:text="Comments"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/commentsIcon"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <TextView
+            android:id="@+id/textViewTotalComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="26dp"
+            android:text="24"
+            android:textColor="#90CAF9"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/totalCommentsDropDown"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+        <ImageView
+            android:id="@+id/totalCommentsDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_marginTop="4.58dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_event_details_expand_more"
+            app:layout_constraintEnd_toEndOf="@+id/commentsBackground"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackground" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commentsBackgroundMulti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@drawable/ic_comments_multi_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/commentBackgroundHolder">
+
+        <ImageView
+            android:id="@+id/dummyCommentsBackgroundMulti"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
+
+        <ImageView
+            android:id="@+id/commentsIconMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18.02dp"
+            android:background="@drawable/ic_event_details_comment_icon"
+            app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
+
+        <TextView
+            android:id="@+id/textViewCommentsMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18.02dp"
+            android:layout_marginTop="18dp"
+            android:text="Comments"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/commentsIconMulti"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
+
+        <TextView
+            android:id="@+id/textViewTotalCommentsMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="26dp"
+            android:text="24"
+            android:textColor="#90CAF9"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/totalCommentsDropDownMulti"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
+
+        <ImageView
+            android:id="@+id/totalCommentsDropDownMulti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_marginTop="4.58dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_event_details_expand_less"
+            app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
+            app:layout_constraintTop_toTopOf="@+id/commentsBackgroundMulti" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentsListRecyclerViewAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti" />
+
+        <!--
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/commentBackgroundConsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCommentsMulti">
+
+            <ImageView
+                android:id="@+id/commentBackgroundLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comment_layout_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/commentUserIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comments_user_image"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact 1 pseudonym"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toEndOf="@+id/commentUserIcon"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+
+            <ImageView
+                android:id="@+id/closeButtonIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_button"
+                app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout" />
+
+            <TextView
+                android:id="@+id/commentDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/12/2021 6:30 pm"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:textColor="#DEFFFFFF"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="264dp"
+                android:layout_height="wrap_content"
+                android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                app:layout_constraintTop_toBottomOf="@+id/commentDateTime" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/commentBackgroundConsLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentBackgroundConsLayout">
+
+            <ImageView
+                android:id="@+id/commentBackgroundLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comment_layout_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/commentUserIcon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comments_user_image"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout1" />
+
+            <TextView
+                android:id="@+id/userName1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact 1 pseudonym"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toEndOf="@+id/commentUserIcon1"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout1" />
+
+            <ImageView
+                android:id="@+id/closeButtonIcon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_button"
+                app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout1"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout1" />
+
+            <TextView
+                android:id="@+id/commentDateTime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/12/2021 6:30 pm"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:textColor="#DEFFFFFF"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                app:layout_constraintTop_toBottomOf="@+id/userName1" />
+
+            <TextView
+                android:id="@+id/comment1"
+                android:layout_width="264dp"
+                android:layout_height="wrap_content"
+                android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout1"
+                app:layout_constraintTop_toBottomOf="@+id/commentDateTime1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+-->
+
+        <ImageView
+            android:id="@+id/addCommentsImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_comment_button"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="@+id/commentsBackgroundMulti"
+            app:layout_constraintEnd_toEndOf="@+id/commentsBackgroundMulti"
+            app:layout_constraintTop_toBottomOf="@+id/commentsListRecyclerViewAdmin"
+            app:layout_constraintBottom_toBottomOf="@+id/commentsBackgroundMulti"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

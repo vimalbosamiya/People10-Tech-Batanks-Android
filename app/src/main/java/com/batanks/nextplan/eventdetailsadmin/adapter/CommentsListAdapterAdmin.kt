@@ -11,7 +11,7 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Comment
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 
-class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val context: Context, private val callBack: AddCommentsRecyclerViewCallBack): RecyclerView.Adapter<CommentsListAdapterAdmin.ViewHolder>()  {
+class CommentsListAdapterAdmin (val commentsList : ArrayList<String>, val context: Context, private val callBack: AddCommentsRecyclerViewCallBack): RecyclerView.Adapter<CommentsListAdapterAdmin.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -24,11 +24,11 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val comment : Comment = commentsList[position]
+        val comment : String = commentsList[position]
 
-        holder.comment.text = comment.comment
+        holder.comment.text = comment
 
-        holder.closeButtonIcon.setOnClickListener {
+        /*holder.closeButtonIcon.setOnClickListener {
 
             commentsList.forEach{
 
@@ -49,7 +49,7 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
 
             holder.closeButtonIcon.visibility = View.GONE
 
-        }
+        }*/
 
     }
 

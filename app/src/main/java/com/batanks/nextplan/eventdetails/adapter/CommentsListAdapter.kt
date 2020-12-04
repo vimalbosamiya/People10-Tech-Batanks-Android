@@ -30,11 +30,17 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
         val comment : Comment = commentsList[position]
 
-        holder.comment.text = comment.comment
+        holder.userName.text = comment.author
 
-        holder.closeButtonIcon.visibility = View.VISIBLE
+        holder.commentDateTime.text = comment.created
 
-        holder.closeButtonIcon.setOnClickListener {
+        holder.comment.text = comment.message
+
+        println(comment.message)
+
+        holder.closeButtonIcon.visibility = View.GONE
+
+        /*holder.closeButtonIcon.setOnClickListener {
 
             commentsList.forEach{
 
@@ -44,7 +50,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
             commentsList.removeAt(position)
             callBack.closeButtonAddCommentItemListener(position)
-        }
+        }*/
 
         /*if (comment.visibility){
 
@@ -60,8 +66,11 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val userName : TextView = itemView.userName
+        val commentDateTime : TextView = itemView.commentDateTime
         val comment : TextView = itemView.comment
         val closeButtonIcon : ImageView = itemView.commentsCloseButoon
+
 
     }
 

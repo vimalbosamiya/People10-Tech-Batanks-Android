@@ -231,9 +231,9 @@
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
             android:hint="@string/phone_number"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
@@ -241,24 +241,27 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="#34CBFE"
+            android:focusableInTouchMode="true"
             app:layout_constraintLeft_toRightOf="@+id/ccp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextField">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneNumberEditField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:digits="0123456789"
-                android:maxLength="12"
+                android:imeOptions="actionDone"
                 android:inputType="phone"
+                android:maxLength="10"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
+        <!--<com.google.android.material.textview.MaterialTextView
             android:id="@+id/stayLoggedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -278,23 +281,23 @@
             app:layout_constraintEnd_toEndOf="@+id/phoneNumberTextField"
             app:layout_constraintLeft_toRightOf="@+id/stayLoggedIn"
             app:layout_constraintRight_toRightOf="parent"
-            app:useMaterialThemeColors="false" />
+            app:useMaterialThemeColors="false" />-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signIn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="114dp"
+            android:layout_width="184dp"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
             android:enabled="true"
             android:gravity="center"
-            android:text="@string/sign_in"
+            android:text="@string/create_account"
             android:textColor="@color/colorWhite"
             android:textCursorDrawable="@color/colorWhite"
             app:cornerRadius="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stayLoggedIn"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextField"
             app:strokeColor="#34CBFE" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

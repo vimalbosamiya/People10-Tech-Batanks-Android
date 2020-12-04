@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/actionLayout"
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/actionLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#1E1E1E"
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/totalCostBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/ic_event_details_total_cost_background"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,9 +49,9 @@
             android:id="@+id/actionDropDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:layout_marginTop="4.58dp"
             android:layout_marginEnd="2dp"
+            android:padding="20dp"
             android:src="@drawable/ic_event_details_expand_more"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
             app:layout_constraintTop_toTopOf="@+id/totalCostBackground" />
@@ -88,20 +93,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="12dp"
-            android:text="100,00 €"
+            android:text="100,00"
             android:textColor="#FFE082"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/totalCostBackground"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalAmountSymbol"
+            app:layout_constraintTop_toBottomOf="@+id/totalCostDivider" />
+
+        <TextView
+            android:id="@+id/textViewTotalAmountSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="€"
+            android:textColor="#FFE082"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/totalCostBackground"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackground"
-            app:layout_constraintTop_toBottomOf="@+id/totalCostDivider"
-            app:layout_constraintBottom_toBottomOf="@+id/totalCostBackground"/>
+            app:layout_constraintTop_toBottomOf="@+id/totalCostDivider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/totalCostBackgroundFull"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:background="@drawable/ic_event_details_description_background"
@@ -156,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewEventNameMulti" />
 
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/participantsBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -164,7 +183,70 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/ic_event_details_participant_background"
             app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>
+            app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>-->
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contactBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_event_details_contact_background"
+            app:layout_constraintStart_toStartOf="@+id/rowingIconMulti"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription">
+
+            <ImageView
+                android:id="@+id/contactStatus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+
+                app:layout_constraintStart_toStartOf="@+id/contactBackground"
+                app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+           <!-- <ImageView
+                android:id="@+id/contactImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/ic_event_details_contact_picture"
+                app:layout_constraintStart_toStartOf="@+id/contactBackground"
+                app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/ic_person"
+                app:layout_constraintStart_toStartOf="@+id/contactImage"
+                app:layout_constraintTop_toTopOf="@+id/contactImage"/>-->
+
+            <TextView
+                android:id="@+id/contactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gul Mohammad Shaik"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginEnd="56dp"
+                app:layout_constraintStart_toStartOf="@+id/contactBackground"
+                app:layout_constraintEnd_toEndOf="@+id/contactBackground"
+                app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+            <ImageView
+                android:id="@+id/contactSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/ic_event_details_settings"
+                app:layout_constraintStart_toEndOf="@+id/contactName"
+                app:layout_constraintEnd_toEndOf="@+id/contactBackground"
+                app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <!--<ImageView
             android:id="@+id/totalCostDivider"
             android:layout_width="wrap_content"
@@ -182,7 +264,7 @@
             android:layout_marginTop="27.98dp"
             android:layout_marginStart="18.02dp"
             android:background="@drawable/ic_event_details_dollar_icon"
-            app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
             app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull" />
 
         <TextView
@@ -194,23 +276,37 @@
             android:text="Total Cost"
             android:textColor="#99FFFFFF"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
             app:layout_constraintStart_toEndOf="@+id/dollarIconMulti" />
 
         <TextView
             android:id="@+id/textViewTotalAmountMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:text="100,00"
+            android:textColor="#FFE082"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
+            app:layout_constraintEnd_toStartOf="@+id/textViewCurrencySymbol"
+            app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
+
+        <TextView
+            android:id="@+id/textViewCurrencySymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:text="100,00 €"
+            android:text="€"
             android:textColor="#FFE082"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/participantsBackground"
+            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

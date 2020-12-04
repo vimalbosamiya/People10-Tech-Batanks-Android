@@ -3,7 +3,9 @@ package com.batanks.nextplan.search
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.batanks.nextplan.search.fragments.SearchAllEventFragment
 import com.batanks.nextplan.search.fragments.SearchPeopleFragment
+import com.batanks.nextplan.search.fragments.SearchPrivateEventFragment
 import com.batanks.nextplan.search.fragments.SearchPublicEventFragment
 
 class SearchTabsAdapter (fragmentManager: FragmentManager)
@@ -14,10 +16,10 @@ class SearchTabsAdapter (fragmentManager: FragmentManager)
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> SearchPeopleFragment()
+            0 -> SearchAllEventFragment()
             1 -> SearchPublicEventFragment()
-            2 -> SearchPublicEventFragment()
-            else -> SearchPeopleFragment()
+            2 -> SearchPrivateEventFragment()
+            else -> SearchAllEventFragment()
         }
     }
 

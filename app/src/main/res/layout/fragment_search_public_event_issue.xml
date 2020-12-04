@@ -6,7 +6,7 @@
     android:background="#1D2125"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/txt_settings_contacts_contacts_alphabetical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:background="@color/colorBlack"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_settings_contacts_contacts_alphabetical"/>
+        app:layout_constraintTop_toBottomOf="@+id/txt_settings_contacts_contacts_alphabetical"/>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/addcontactSearchTextField"
@@ -59,8 +59,9 @@
         app:hintTextColor="#34CBFE"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_seperator_settings_contactlist">
+        app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addcontactSearchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
@@ -75,68 +76,104 @@
             android:textCursorDrawable="@null"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
         android:id="@+id/eventsHolderConst"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
         android:background="@drawable/ic_search_event_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField">
+        app:layout_constraintTop_toBottomOf="@+id/addcontactSearchTextField"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/textViewNews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:text="News"
-            android:textColor="#DEFFFFFF"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
+    <TextView
+        android:id="@+id/textViewNews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="20dp"
+        android:text="News"
+        android:textColor="#DEFFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/eventsHolderConst"
+        app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24.02dp"
-            android:layout_marginEnd="24.58dp"
-            android:src="@drawable/ic_event_details_expand_less"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
+    <ImageView
+        android:id="@+id/sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_filter_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>
 
-        <View
-            android:id="@+id/view_seperator_events"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/colorBlack"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewNews"/>
+    <View
+        android:id="@+id/view_seperator_events"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNews"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/publicEventRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_seperator_events"/>
+    <ImageView
+     android:id="@+id/timeLineHightLight"
+     android:layout_width="wrap_content"
+     android:layout_height="0dp"
+     android:layout_marginStart="27dp"
+     android:src="@drawable/ic_highlight_home_screen_timeline"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintStart_toStartOf="@+id/textViewNews"
+     app:layout_constraintTop_toBottomOf="@+id/view_seperator_events" />
 
-        <ImageView
-            android:id="@+id/timeLineHightLight"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="27dp"
-            android:src="@drawable/ic_highlight_home_screen_timeline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textViewNews"
-            app:layout_constraintTop_toBottomOf="@+id/view_seperator_events" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/publicEventRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_seperator_events"
+        app:layout_constraintBottom_toBottomOf="@+id/eventsHolderConst"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <!--<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFab_followup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="CREATE FOLLOW UP"
+        app:backgroundTint="#34CBFE"
+        android:background="#1D2125"
+        app:icon="@drawable/ic_followup_black"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        app:elevation="6dp"
+        app:backgroundTint="#34CBFE"
+        app:srcCompat="@drawable/ic_followup_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,5 +10,6 @@
     <color name="lightDark">#39444E</color>
     <color name="colorLittleBlue">#90CAF9</color>
     <color name="colorLightBlue">#34CBFE</color>
+    <color name="dropDownColor">#2F2F2F</color>
 
 </resources>

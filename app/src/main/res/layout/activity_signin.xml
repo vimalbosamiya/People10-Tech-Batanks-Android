@@ -74,6 +74,7 @@
             app:passwordToggleTint="#ffffff">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passEditField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -83,9 +84,12 @@
                 android:paddingLeft="16dp"
                 android:paddingEnd="40dp"
                 android:paddingRight="16dp"
+                android:imeOptions="actionDone"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
        <!-- <com.google.android.material.textview.MaterialTextView
             android:id="@+id/stayLoggedIn"
@@ -157,6 +161,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:layout_marginEnd="10dp"
+            android:imeOptions="actionDone"
             app:layout_constraintBaseline_toBaselineOf="@+id/stayLoggedIn"
             app:layout_constraintRight_toRightOf="parent"
             app:useMaterialThemeColors="false" />
@@ -170,6 +175,7 @@
             android:text="@string/create_account"
             android:textColor="#ffffff"
             app:cornerRadius="20dp"
+
             app:layout_constraintLeft_toLeftOf="@+id/passTextField"
             app:layout_constraintTop_toBottomOf="@+id/stayLoggedIn"
             app:strokeColor="#34CBFE" />

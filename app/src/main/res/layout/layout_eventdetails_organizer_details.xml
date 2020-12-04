@@ -25,12 +25,13 @@
 
             <ImageView
                 android:id="@+id/userIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_event_details_user_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_event_details_user_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/organizerInitial" />
+
 
             <!--
             <ImageView
@@ -88,12 +89,13 @@
 
             <ImageView
                 android:id="@+id/userIconInFull"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/ic_event_details_user_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/organizerFull" />
+
 
             <!--
             <ImageView

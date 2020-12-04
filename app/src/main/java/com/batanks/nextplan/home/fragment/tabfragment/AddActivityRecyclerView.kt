@@ -1,5 +1,8 @@
 package com.batanks.nextplan.home.fragment.tabfragment
 
+import android.content.Context
+import android.location.Address
+import android.location.Geocoder
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -8,20 +11,27 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Activity
+import com.batanks.nextplan.swagger.model.PostActivities
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_add_activity_item.view.*
 
-class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCallBack , private val modelList: ArrayList<Activity>)
+class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCallBack , private val modelList: ArrayList<PostActivities>)
 : RecyclerView.Adapter<AddActivityRecyclerView.MyViewHolder>() {
+
+    lateinit var context : Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.fragment_add_activity_item, parent, false)
+
+        context = parent.context
+
         return MyViewHolder(view)
     }
 
@@ -38,6 +48,8 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
         val placeCountry = modelList[position].place.country
         val placeZipcode = modelList[position].place.zipcode
         val address = modelList[position].place.address
+        var latitude : Double = 0.0
+        var longitude : Double = 0.0
 
         /*val stringBuilder = StringBuilder()
                 .append(placeName)
@@ -65,13 +77,40 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
                 .append(" ")
                 .append(placeZipcode)
 
+
+        val stringBuilderPlaces = StringBuilder()
+                .append(placeName)
+                .append("+")
+                .append(address)
+                .append("+")
+                .append(placeCity)
+                .append("+")
+                .append(placeCountry)
+                .append("+")
+                .append(placeZipcode)
+
+        val result: List<Address> = Geocoder(context).getFromLocationName(stringBuilder.toString(), 5)
+
+
+        if (result.isEmpty()) {
+            //showMessage("We are unable to find the location info, Please enter a different location.")
+            Toast.makeText(context,context.getString(R.string.place_not_found), Toast.LENGTH_LONG).show()
+
+        }else {
+            latitude = result[0].latitude
+            longitude = result[0].longitude
+
+            //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
+        }
+
+
         holder.txt_activity_location_name.text = stringBuilder.toString()
         holder.activity_txt_date.text = modelList.get(position).date
         holder.activity_txt_time.text = modelList.get(position).duration.toString()
 
-        if (!TextUtils.isEmpty(modelList.get(position).price)){
+        if (modelList.get(position).price > 0){
 
-            holder.activity_textViewCostPerPersonAmount.text = modelList.get(position).price
+            holder.activity_textViewCostPerPersonAmount.text = modelList.get(position).price.toString()
         }
 
         //holder.activity_textViewCostPerPersonCurrency.text = modelList.get(position).price_currency
@@ -85,6 +124,19 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
            holder.activity_textViewCostPerPerson.text = "Total Cost"
         }
 
+
+        /*holder.activity_map.apply {
+            onCreate(null)
+            getMapAsync {
+                val LATLNG = LatLng(latitude, longitude)
+                with(it) {
+                    onResume()
+                    moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                    addMarker(com.google.android.gms.maps.model.MarkerOptions().position(LATLNG))
+                }
+            }
+        }*/
+
         if (modelList[position].place.map == true){
 
             holder.activityMapbackgroundHolder.visibility = View.VISIBLE
@@ -92,7 +144,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
             holder.activity_map.apply {
                 onCreate(null)
                 getMapAsync {
-                    val LATLNG = LatLng(modelList[position].place.latitude, modelList[position].place.longitude)
+                    val LATLNG = LatLng(latitude, longitude)
                     with(it) {
                         onResume()
                         moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))

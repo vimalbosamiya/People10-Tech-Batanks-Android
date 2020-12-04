@@ -2,6 +2,7 @@ package com.batanks.nextplan.registration
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
@@ -10,9 +11,13 @@ import android.util.Patterns
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
@@ -28,12 +33,13 @@ import com.batanks.nextplan.signing.viewmodel.RegistrationViewModel
 import com.batanks.nextplan.splash.SplashActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.RegisterUser
+import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.functions.Function7
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_registration.*
-import kotlinx.android.synthetic.main.activity_registration.stayLoggedInCheckBox
+/*import kotlinx.android.synthetic.main.activity_registration.stayLoggedInCheckBox*/
 import java.util.regex.Pattern
 
 class Registration : BaseAppCompatActivity(), View.OnClickListener {
@@ -52,6 +58,24 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
+        userNameTextField.markRequiredInRed()
+        firstNameTextField.markRequiredInRed()
+        lastNameTextField.markRequiredInRed()
+        emailTextField.markRequiredInRed()
+        passwordTextField.markRequiredInRed()
+        confirmPasswordTextField.markRequiredInRed()
+        phoneNumberTextField.markRequiredInRed()
+
+        /*phoneNumberEditField.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) { //Clear focus here from edittext
+
+                v.clearFocus()
+                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
+            }
+            false
+        })*/
+
         getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -65,7 +89,10 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                     showLoader()
                 }
                 Status.SUCCESS -> {
-                    Toast.makeText(this, "User account is created", Toast.LENGTH_SHORT).show()
+
+                    //Toast.makeText(this, "From success", Toast.LENGTH_SHORT).show()
+
+                    Toast.makeText(this,getString(R.string.account_created),Toast.LENGTH_SHORT).show()
                     hideLoader()
                     /*val intent = Intent(this, HomePlanPreview::class.java)
                     startActivity(intent)*/
@@ -105,7 +132,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
             charSequence.toString()
         }*/
 
-        ccp.registerCarrierNumberEditText(phoneNumberTextField?.editText)
+        //ccp.registerCarrierNumberEditText(phoneNumberTextField?.editText)
 
        /* observable = Observable.combineLatest(
                 userNameObservable,
@@ -177,6 +204,14 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
             override fun onError(e: Throwable) {}
             override fun onComplete() {}
         })*/
+    }
+
+    fun TextInputLayout.markRequiredInRed() {
+
+        hint = buildSpannedString {
+            append(hint)
+            color(Color.RED) { append(" *") }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -255,57 +290,72 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
                 if (isValidUsername(userNameTextField.editText?.text.toString()) && userNameTextField.editText?.length()!! >= 4){
 
-                    if (isEmailValid(emailTextField.editText?.text)){
+                    if(isValidUsername(firstNameTextField.editText?.text.toString()) && firstNameTextField.editText?.length()!! >= 4){
 
-                        if (isValidPassword(passwordTextField.editText?.text?.toString()) && passwordTextField.editText?.length()!! >= 6){
+                        if(isValidUsername(lastNameTextField.editText?.text.toString()) && lastNameTextField.editText?.length()!! >= 4){
 
-                            if (passwordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
+                            if (isEmailValid(emailTextField.editText?.text)){
 
-                                if (TextUtils.isEmpty(phoneNumberTextField.editText?.text.toString()) || phoneNumberTextField.editText?.length()!! >= 4 && isValidPhoneNumber(phoneNumberTextField.editText?.text.toString())){
+                                if (isValidPassword(passwordTextField.editText?.text?.toString()) && passwordTextField.editText?.length()!! >= 6){
 
-                                    showLoader()
+                                    if (passwordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
 
-                                    getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
-                                    val user = RegisterUser(
-                                            username = userNameTextField?.editText?.text.toString(),
-                                            first_name = firstNameTextField?.editText?.text.toString(),
-                                            last_name = lastNameTextField?.editText?.text.toString(),
-                                            email = emailTextField?.editText?.text.toString(),
-                                            password1 = passwordTextField?.editText?.text.toString(),
-                                            password2 = confirmPasswordTextField?.editText?.text.toString(),
-                                            phone_number = ccp.selectedCountryCodeWithPlus + phoneNumberTextField?.editText?.text.toString()
-                                    )
-                                    registrationViewModel.createUser(user)
+                                        if (isValidPhoneNumber(phoneNumberTextField.editText?.text.toString()) && phoneNumberTextField.editText?.length() == 10){
+                                       // if (TextUtils.isEmpty(phoneNumberTextField.editText?.text.toString()) || phoneNumberTextField.editText?.length()!! >= 4 && isValidPhoneNumber(phoneNumberTextField.editText?.text.toString())){
 
-                                    Toast.makeText(this,"Account Created Successfully",Toast.LENGTH_SHORT).show()
+                                            showLoader()
+
+                                            //getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
+                                            val user = RegisterUser(
+                                                    username = userNameTextField?.editText?.text.toString(),
+                                                    first_name = firstNameTextField?.editText?.text.toString(),
+                                                    last_name = lastNameTextField?.editText?.text.toString(),
+                                                    email = emailTextField?.editText?.text.toString(),
+                                                    password1 = passwordTextField?.editText?.text.toString(),
+                                                    password2 = confirmPasswordTextField?.editText?.text.toString(),
+                                                    phone_number = ccp.selectedCountryCodeWithPlus + phoneNumberTextField?.editText?.text.toString()
+                                            )
+                                            registrationViewModel.createUser(user)
+
+                                        } else {
+
+                                            phoneNumberTextField.editText?.setError(getString(R.string.phonenumber_condition))
+                                            phoneNumberTextField.editText?.requestFocus()
+                                        }
+
+                                    } else {
+
+                                        confirmPasswordTextField.editText?.setError(getString(R.string.password_dont_match))
+                                        confirmPasswordTextField.editText?.requestFocus()
+                                    }
 
                                 } else {
 
-                                    phoneNumberTextField.editText?.error = "Mobile number should contain atleast 4 numbers with no spaces"
-                                    phoneNumberTextField.editText?.requestFocus()
+                                    passwordTextField.editText?.setError(getString(R.string.password_condition))
+                                    passwordTextField.editText?.requestFocus()
                                 }
 
                             } else {
 
-                                confirmPasswordTextField.editText?.error = "Password and Confirm password doesn't match"
-                                confirmPasswordTextField.editText?.requestFocus()
+                                emailTextField.editText?.setError(getString(R.string.valid_email))
+                                emailTextField.editText?.requestFocus()
                             }
 
-                        } else {
+                        }else{
 
-                            passwordTextField.editText?.error = "Password should contain atleast 6 characters with 1 lowercase and 1 uppercase letter and 1 number and 1 special character with no spaces"
-                            passwordTextField.editText?.requestFocus()
+                            lastNameTextField.editText?.setError(getString(R.string.lastname_condition))
+                            lastNameTextField.editText?.requestFocus()
                         }
 
-                    } else {
+                    }else{
 
-                        emailTextField.editText?.error = "Enter a valid email address"
-                        emailTextField.editText?.requestFocus()
+                        firstNameTextField.editText?.setError(getString(R.string.firstname_condition))
+                        firstNameTextField.editText?.requestFocus()
                     }
 
                 } else{
 
-                    userNameTextField.editText?.error = "Username should contain atleast 4 characters with no spaces"
+                    userNameTextField.editText?.setError(getString(R.string.username_condition))
                     userNameTextField.editText?.requestFocus()
                 }
             }
@@ -319,7 +369,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
     companion object {
         //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+$)(?=.*\\d).+$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
         val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
         val PhoneNumberPattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
 

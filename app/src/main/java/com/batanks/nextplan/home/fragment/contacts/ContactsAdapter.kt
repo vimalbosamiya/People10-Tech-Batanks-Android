@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
+/*import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter*/
 import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.contact_item.view.*
 import kotlinx.android.synthetic.main.item_event_name.view.*
