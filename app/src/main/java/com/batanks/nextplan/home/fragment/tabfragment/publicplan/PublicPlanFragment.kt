@@ -3,42 +3,33 @@ package com.batanks.nextplan.home.fragment.tabfragment.publicplan
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.Html
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.NumberPicker
-import android.widget.Toast
-import androidx.core.graphics.drawable.toDrawable
+import android.widget.*
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.batanks.nextplan.MainActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.customfrequency.CustomFrequency
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
@@ -48,7 +39,6 @@ import com.batanks.nextplan.home.fragment.period.AddPeriodRecyclerView
 import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
 import com.batanks.nextplan.home.fragment.place.AddPlaceRecyclerView
 import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapter
-import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityRecyclerView
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
@@ -58,20 +48,18 @@ import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.CategoryAPI
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
+import kotlinx.android.synthetic.main.how_often_pop.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_people.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
 import kotlinx.android.synthetic.main.layout_add_plan_footer.*
-import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -96,7 +84,6 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
     val privateEvent : Boolean = true
     var pk : Int = 0
-
     var system: Resources = Resources.getSystem()
 
     /*private val publicPlanViewModel: PublicPlanViewModel by lazy {
@@ -231,6 +218,8 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         addActivityButton.setOnClickListener(this)
         addPeriodButton.setOnClickListener(this)
         addPeopleButton.setOnClickListener(this)
+        howOftenEditText.setOnClickListener(this)
+
 
         actv_category.setOnClickListener {
 
@@ -428,6 +417,12 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
                 refreshHomePlanPreviewList()
             }
+
+            R.id.howOftenEditText -> {
+
+                howOftenDialog(requireContext())
+                //println("How often working.")
+            }
         }
     }
 
@@ -439,7 +434,7 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
         handler.postDelayed({
             // do something after 1000ms
             requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit() }
-            (activity as HomePlanPreview).extFab.visibility = View.VISIBLE
+            ///(activity as HomePlanPreview).extFab.visibility = View.VISIBLE               //uncomment
         }, 1000)
     }
 
@@ -719,5 +714,46 @@ class PublicPlanFragment : BaseFragment(), ButtonContract, View.OnClickListener,
 
         (requireActivity().supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
+    }
+
+    private fun howOftenDialog(context :Context) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.how_often_pop)
+
+        val customIcon = dialog.findViewById(R.id.customIcon) as ImageView
+        val onceCheckbox = dialog.findViewById(R.id.onceCheckbox) as MaterialCheckBox
+
+        if (howOftenEditText.text.toString() == getText(R.string.once)){
+
+            onceCheckbox.isChecked = true
+
+        }
+
+        onceCheckbox.setOnClickListener {
+
+            if (onceCheckbox.isChecked){
+
+                howOftenEditText.setText(getString(R.string.once))
+
+            }else{
+
+                howOftenEditText.setText("")
+            }
+
+            dialog.dismiss()
+        }
+
+        customIcon.setOnClickListener {
+
+            val intent : Intent = Intent(context, CustomFrequency:: class.java)
+            getActivity()?.startActivity(intent)
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

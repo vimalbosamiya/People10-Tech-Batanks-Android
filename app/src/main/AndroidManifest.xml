@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Settings.Group"></activity>
+        <activity android:name=".customfrequency.CustomFrequency"></activity>
+        <activity android:name=".Settings.Group" />
         <activity android:name=".forgotpassword.AccountRecovery2">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

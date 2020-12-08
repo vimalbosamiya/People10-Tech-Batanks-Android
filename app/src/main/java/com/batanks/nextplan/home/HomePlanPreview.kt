@@ -4,38 +4,29 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.GONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.Settings.Plan_Sorting
 import com.batanks.nextplan.Settings.Settings
-import com.batanks.nextplan.Settings.viewmodel.ProfileModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
-import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
-import com.batanks.nextplan.home.fragment.CreatePlanFragment
+import com.batanks.nextplan.home.home_tabs.HomeTabsAdapter
 import com.batanks.nextplan.search.fragments.SearchFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.notifications.NotificationsFragment
-import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_home.*
-import org.json.JSONObject
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
@@ -75,19 +66,53 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
         ModelPreferencesManager.with(this)
 
-        val toolbar: Toolbar = findViewById(R.id.customToolBar)
-        setSupportActionBar(toolbar)
+        val toolbar: Toolbar = findViewById(R.id.homeToolBar)
+        setSupportActionBar(toolbar)              //uncomment
 
-        loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        val tabsPagerAdapter = HomeTabsAdapter(supportFragmentManager)
+        home_view_pager.adapter = tabsPagerAdapter
+
+        homeTabs.setupWithViewPager(home_view_pager)
+
+        val tabOne = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabOne.text = getString(R.string.all)
+        tabOne.textSize = 16F
+        tabOne.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_people_tablayout, 0, 0)
+        homeTabs.getTabAt(0)?.customView = tabOne
+
+        val tabTwo = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabTwo.text = getString(R.string._private)
+        tabTwo.textSize = 16F
+        tabTwo.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_public_plan_tablayout, 0, 0)
+        homeTabs.getTabAt(1)?.customView = tabTwo
+
+        val tabThree = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabThree.text = getString(R.string._public)
+        tabThree.textSize = 16F
+        tabThree.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_private_plan_tablayout, 0, 0)
+        homeTabs.getTabAt(2)?.customView = tabThree
+
+        homeTabs.getTabAt(0)?.icon = getDrawable(R.drawable.ic_people_tablayout)
+        homeTabs.getTabAt(1)?.icon = getDrawable(R.drawable.ic_private_plan_tablayout)
+        homeTabs.getTabAt(2)?.icon = getDrawable(R.drawable.ic_public_plan_tablayout)
+
+
+
+
+        /*loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
         recyclerView = findViewById(R.id.homeScreenRecyclerView)
         recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(this)
+        recyclerView?.layoutManager = LinearLayoutManager(this)*/
+
         //recyclerView?.adapter = HomePlanPreviewAdapter(listOf())
         //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
         //initRecyclerViews()
 
-        showLoader()
+        ///showLoader()         //uncomment
 
         /*profileViewModel.getUserProfile()
 
@@ -125,10 +150,10 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
             }
         })*/
 
-        homePlanPreviewViewModel.eventList()
+        ///homePlanPreviewViewModel.eventList()         //uncomment
         //homePlanPreviewViewModel.eventList()
 
-        homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
+       /* homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
 
             when (response.status) {
                 Status.LOADING -> {
@@ -163,21 +188,21 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
                     println(response.error?.message.toString())
                 }
             }
-        })
+        })*/            //uncomment
 
         //initRecyclerViews()
 
-        extFab.setOnClickListener(this)
+        ///extFab.setOnClickListener(this)          //uncomment
         img_settings.setOnClickListener(this)
         search.setOnClickListener(this)
         notification.setOnClickListener(this)
 
-        filterIcon.setOnClickListener {
+        /*filterIcon.setOnClickListener {
 
             intent = Intent(this, Plan_Sorting:: class.java)
             startActivity(intent)
             finish()
-        }
+        }*/     //uncomment
     }
 
     /*private fun setUpData(){
@@ -219,38 +244,41 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.extFab -> {
+            /*R.id.extFab -> {
 
-                /*finish();
+                *//*finish();
                 overridePendingTransition( 0, 0);
                 Intent.FLAG_ACTIVITY_NO_ANIMATION
                 startActivity(getIntent());
-                overridePendingTransition( 0, 0);*/
+                overridePendingTransition( 0, 0);*//*
 
-                frameLayout.visibility = View.VISIBLE
+                *//*frameLayout.visibility = View.VISIBLE
                 extFab.visibility = View.GONE
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, CreatePlanFragment(),CreatePlanFragment.TAG)
-                        .addToBackStack(CreatePlanFragment.TAG).commit()
+                        .addToBackStack(CreatePlanFragment.TAG).commit()*//*  //uncomment
 
 //                recyclerView?.adapter?.notifyItemRangeChanged(0, eventList.size);
 
                 //notifyDataSetChange()
-            }
+            }*/             //uncomment
+
             R.id.img_settings -> {
 
                 intent = Intent(this, Settings :: class.java)
                 startActivity(intent)
                 finish()
-            }
+            }                        //uncomment
 
             R.id.search -> {
 
                 frameLayout.visibility = View.VISIBLE
-                extFab.visibility = View.GONE
+                ///extFab.visibility = View.GONE            //uncomment
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, SearchFragment())
                         .addToBackStack(SearchFragment.TAG).commit()
+
+                appBarLayout.visibility = GONE
 
                // recyclerView?.adapter?.notifyItemRangeChanged(0, eventList.size);
                 //val eventListCopy : List<EventList>
@@ -266,18 +294,18 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener {
 
 
                 //notifyDataSetChange()
-            }
+            }                     //uncomment
 
             R.id.notification -> {
 
                 frameLayout.visibility = View.VISIBLE
-                extFab.visibility = View.GONE
+                ///extFab.visibility = View.GONE                //uncomment
                 supportFragmentManager.beginTransaction()
                         .add(R.id.frameLayout, NotificationsFragment())
                         .addToBackStack(NotificationsFragment.TAG).commit()
 
                // notifyDataSetChange()
-            }
+            }                 //uncomment
         }
     }
 

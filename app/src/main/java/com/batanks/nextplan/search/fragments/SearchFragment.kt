@@ -37,7 +37,9 @@ class SearchFragment : BaseFragment(){
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
-            activity?.extFab!!.visibility = View.VISIBLE
+            activity?.appBarLayout?.visibility = View.VISIBLE
+
+            ///activity?.extFab!!.visibility = View.VISIBLE             //uncomment
 
             //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
 
@@ -77,6 +79,6 @@ class SearchFragment : BaseFragment(){
     }
     override fun onDestroy() {
         super.onDestroy()
-        activity?.extFab!!.visibility = View.VISIBLE
+        ///activity?.extFab!!.visibility = View.VISIBLE                 //uncomment
     }
 }

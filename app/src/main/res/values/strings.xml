@@ -6,7 +6,7 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="forgot_your_password">Forgot your password ?</string>
     <string name="login">LOGIN</string>
-    <string name="invalid_username">Username is not valid</string>
+    <string name="invalid_username">User Name is not valid</string>
     <string name="username_condition">User Name should contain atleast 4 characters with no spaces</string>
     <string name="firstname_condition">First Name should contain atleast 4 characters with no spaces</string>
     <string name="lastname_condition">Last Name should contain atleast 4 characters with no spaces</string>
@@ -68,6 +68,10 @@
     <string name="select_period">Atleast one period is required</string>
     <string name="select_place">Atleast one place is required</string>
     <string name="pname">Plan name</string>
+    <string name="how_often_title">How often ?</string>
+    <string name="how_often">How often</string>
+    <string name="once">Once</string>
+    <string name="custom">Custom</string>
     <string name="event_frequency">Enter a frequency for your event</string>
     <string name="place_name_error">Place name should contain atleast 2 characters</string>
     <string name="place_not_found">We are unable to find the location info, Please enter a different location.</string>
@@ -77,6 +81,20 @@
     <string name="max_number_of_attendees">The max number of attendees</string>
     <string name="total_cost">Total Cost</string>
     <string name="cost_per_person">Cost Per Person</string>
+
+    <string name="custom_frequency">Custom frequency</string>
+    <string name="repeat">Repeat</string>
+    <string name="how_many_times">How many times</string>
+    <string name="until_when">Until when</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+
+
+    <string name="all">ALL</string>
+    <string name="_private">PRIVATE</string>
+    <string name="_public">PUBLIC</string>
 
     <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>
     <string name="asteriskred"><font color='#cc0029'>*</font></string>
