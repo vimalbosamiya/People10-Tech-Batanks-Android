@@ -35,9 +35,7 @@ class HomePlanPreviewAdapter(private val myList: List<GetEventListHome>) : Recyc
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         context = parent.context
-
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_event_name, parent, false)
-
         return MyViewHolder(view)
     }
 
@@ -147,7 +145,7 @@ class HomePlanPreviewAdapter(private val myList: List<GetEventListHome>) : Recyc
             holder.eventItem.visibility = GONE
             println(position)
             holder.eventItemFull.visibility = VISIBLE
-            notifyDataSetChanged()
+            //notifyDataSetChanged()
             /*it.visibility = GONE
             it?.eventItemFull?.visibility = VISIBLE*/
         }
