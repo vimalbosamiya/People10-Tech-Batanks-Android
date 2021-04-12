@@ -6,6 +6,7 @@ import com.batanks.nextplan.arch.response.ApiResponse
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.Contact
 import com.batanks.nextplan.swagger.model.Group
+import com.batanks.nextplan.swagger.model.GroupEdit
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -33,7 +34,7 @@ class GroupListViewModel (private val groupApi : GroupsAPI) : ViewModel()  {
                 })
     }
 
-    fun renameGroup(id : String, data : Group) {
+    fun renameGroup(id : String, data : GroupEdit) {
 
         disposables.add(groupApi.apiGroupsUpdate(id, data)
                 .subscribeOn(Schedulers.io())

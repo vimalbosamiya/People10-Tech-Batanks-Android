@@ -12,12 +12,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar"
+        android:id="@+id/searchToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#1D2125"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/myplans" />
+        app:title="@string/search" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"

@@ -16,21 +16,24 @@ import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.fragment.contacts.ContactsAdapter
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.AssignActivityParticipantsAdapter
 import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.ContactsAPI
-import com.batanks.nextplan.swagger.model.ContactsList
-import com.batanks.nextplan.swagger.model.InlineResponse2001
+import com.batanks.nextplan.swagger.model.*
 import kotlinx.android.synthetic.main.assign_people_fragment.*
 
-class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): BaseDialogFragment() , View.OnClickListener ,
-        Assign_People_Adapter.assignPeopleRecyclerViewCallBack {
+class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner,private val event : Event?, private val fromAction : Boolean,
+                            private var defaultSelectedGuests : ArrayList<ActivityParticipant>?) : BaseDialogFragment(), View.OnClickListener,
+                            Assign_People_Adapter.assignPeopleRecyclerViewCallBack, AssignActivityParticipantsAdapter.assignPeopleActivityRecyclerViewCallBack {
 
     protected lateinit var rootView: View
     lateinit var assign_people_recyclerview: RecyclerView
     lateinit var adapter : Assign_People_Adapter
-     var selected_assignee : String = ""
-    var assigneeId : Int? = 0
+     var selected_assignee : String? = null
+     var selected_Contact : Guests? = null
+     var activityParticipants : ArrayList<Guests>? = null
+    var assigneeId : Int? = null
     lateinit var contactList : ArrayList<ContactsList>
 
     private val contactsViewModel: ContactsViewModel by lazy {
@@ -60,7 +63,16 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
 
         loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
-        contactsViewModel.getContactsList()
+        if(fromAction == true){
+
+            assign_people_recyclerview.adapter = Assign_People_Adapter(this, event!!.guests)
+
+        } else {
+
+            assign_people_recyclerview.adapter = AssignActivityParticipantsAdapter(this, event!!.guests, defaultSelectedGuests)
+        }
+
+        /*contactsViewModel.getContactsList()
 
         contactsViewModel.responseLiveData.observe(viewLifecycleOwner, Observer{ response ->
 
@@ -77,7 +89,7 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
 
                     println(contactList)
 
-                    assign_people_recyclerview.adapter = Assign_People_Adapter(this, contactList)
+                    //assign_people_recyclerview.adapter = Assign_People_Adapter(this, contactList)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -86,63 +98,53 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner): 
                     println(response.error?.message.toString())
                 }
             }
-        })
+        })*/
 
         assign_people_Button.setOnClickListener(this)
     }
 
-    private fun initView(){
-        //initializeRecyclerView()
-    }
-
-    private fun initializeRecyclerView() {
-        assign_people_recyclerview = rootView.findViewById(R.id.assign_people_recyclerview)
-        assign_people_recyclerview.layoutManager = LinearLayoutManager(activity)
-        //select_contacts_phone_checkbox = rootView.findViewById(R.id.select_contacts_phone_checkbox)
-        //setUpDummyData();
-        //recyclerView.adapter = adapter
-    }
-
-    /*private fun setUpDummyData(){
-        var list: ArrayList<ContactsModel> = ArrayList<ContactsModel>()
-        list.add(ContactsModel("User 1", "12345", true))
-        list.add(ContactsModel("User 2", "12345", false))
-        list.add(ContactsModel("User 3", "12345", false))
-        list.add(ContactsModel("User 4", "12345", false))
-        list.add(ContactsModel("User 5", "12345", false))
-        list.add(ContactsModel("User 6", "12345", false))
-        list.add(ContactsModel("User 7", "12345", false))
-        list.add(ContactsModel("User 8", "12345", false))
-        list.add(ContactsModel("User 9", "12345", false))
-        adapter = Assign_People_Adapter(this, list)
-        assign_people_recyclerview.adapter = adapter
-        //loadContacts();
-    }*/
-
-    override fun assignSelectedContact(selection: String, selected: Boolean, id: Int) {
-        selected_assignee = selection
+    override fun assignSelectedContact(selection: Guests?, selected: Boolean, id: Int?) {
+        selected_Contact = selection
+        selected_assignee = selection?.name
         assigneeId = id
+    }
 
+    override fun assignSelectedContactsActivity(selection: ArrayList<Guests>?) {
+
+        activityParticipants = selection
     }
 
     interface AssignPeopleFragmentListner {
-        fun AddSelectedAssignee(contact : String, id: Int)
+        fun AddSelectedAssignee(contact : Guests?, id: Int?)
+        fun AddSelectedActivityParticipants(activityParticipants : ArrayList<Guests>?)
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.assign_people_Button ->{
 
-                if(!TextUtils.isEmpty(selected_assignee)){
+                if(fromAction == true){
 
-                    assigneeId?.let { listner.AddSelectedAssignee(selected_assignee, it) }
-                    dismiss()
+                    if(!TextUtils.isEmpty(selected_assignee)){
+
+                        //assigneeId?.let { selected_assignee?.let { it1 -> listner.AddSelectedAssignee(it1, it) } }
+
+                        listner.AddSelectedAssignee(selected_Contact, assigneeId)
+                        dismiss()
+
+                    }else {
+
+                        dismiss()
+                    }
 
                 }else {
 
+                    listner.AddSelectedActivityParticipants(activityParticipants)
                     dismiss()
                 }
             }
         }
     }
+
+
 }

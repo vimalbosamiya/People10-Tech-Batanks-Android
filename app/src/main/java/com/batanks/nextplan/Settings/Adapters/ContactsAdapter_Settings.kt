@@ -1,5 +1,6 @@
 package com.batanks.nextplan.Settings.Adapters
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -13,10 +14,14 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Contact
+import com.batanks.nextplan.Settings.UsersInfo
+import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.home.viewmodel.ContactsViewModel
@@ -27,10 +32,10 @@ import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 import java.security.AccessController.getContext
 
-class ContactsAdapter_Settings (private val myList: List<ContactsList>, val contactsViewModel: ContactsViewModel ) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
+class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val contactsViewModel: ContactsViewModel) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
 
     private var context: Context? = null
-    var Id : Int? = 0
+    //var id : Int? = 0
 
    /* private val contactsViewModel: ContactsViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -44,8 +49,6 @@ class ContactsAdapter_Settings (private val myList: List<ContactsList>, val cont
         }).get(ContactsViewModel::class.java)
     }*/
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_settings_contacts_item, parent, false)
@@ -58,16 +61,29 @@ class ContactsAdapter_Settings (private val myList: List<ContactsList>, val cont
 
         //val itemView = holder.itemView
 
-        holder.contactName.text = myList.get(position).first_name
+        holder.contactName.text = myList.get(position).username
 
         holder.img_contact_list_item_dots.setOnClickListener(View.OnClickListener {
 
-            Id = myList.get(position).id
+            //id = myList.get(position).id
 
-            println("Id from onBind : " +" " +Id)
-
-            context?.let { it1 -> showDialog(it1) }
+            context?.let { it1 -> showDialog(it1, myList.get(position).id) }
         })
+
+        holder.contactName.setOnClickListener {
+
+            val intent = Intent(context, UsersInfo::class.java)
+            intent.putExtra("ID",myList.get(position).id)
+            intent.putExtra("NAME",myList.get(position).username)
+            intent.putExtra("FIRST_NAME",myList.get(position).first_name)
+            intent.putExtra("LAST_NAME",myList.get(position).last_name)
+            intent.putExtra("EMAIL",myList.get(position).email)
+            intent.putExtra("PHNO",myList.get(position).phone_number)
+            intent.putExtra("PIC",myList.get(position).picture)
+            intent.putExtra("CONTACT",true)
+            context?.startActivity(intent)
+            //(context as Activity).finish()
+        }
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
@@ -75,27 +91,28 @@ class ContactsAdapter_Settings (private val myList: List<ContactsList>, val cont
         val img_contact_list_item_dots : ImageView = item.img_contact_list_item_dots
     }
 
-    private fun showDialog(context :Context) {
+    private fun showDialog(context :Context, id : Int) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_edit_contacts)
 
-        val edit = dialog.findViewById(R.id.rl_edit_contact_edit) as RelativeLayout
+        //val edit = dialog.findViewById(R.id.rl_edit_contact_edit) as RelativeLayout
         val delete = dialog.findViewById(R.id.rl_edit_contact_delete) as RelativeLayout
-        val addToGroup = dialog.findViewById(R.id.img_contact_add_to_group_right_icon) as ImageView
+        //val addToGroup = dialog.findViewById(R.id.img_contact_add_to_group_right_icon) as ImageView
+        val addToGroup = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout
         //val add_to_contacts = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout
 
-        edit.setOnClickListener {
+        /*edit.setOnClickListener {
 
             dialog.dismiss()
 
-        }
+        }*/
 
         delete.setOnClickListener {
 
-            contactsViewModel.deleteContact(Id.toString())
+            contactsViewModel.deleteContact(id.toString())
 
             //println("Id from delete Click : " +" " +Id)
 
@@ -107,10 +124,10 @@ class ContactsAdapter_Settings (private val myList: List<ContactsList>, val cont
         addToGroup.setOnClickListener {
 
             val intent : Intent = Intent(context, AddToGroupActivity:: class.java)
-            intent.putExtra("Id", Id)
-            //println(Id!!)
-
+            intent.putExtra("Id", id)
             ContextCompat.startActivity(context, intent, null)
+
+            (context as Activity).finish()
 
             dialog.dismiss()
         }

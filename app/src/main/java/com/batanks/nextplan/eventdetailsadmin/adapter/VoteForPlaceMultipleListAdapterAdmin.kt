@@ -10,8 +10,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.swagger.model.EventPlace
+import com.batanks.nextplan.swagger.model.VotePlace
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -20,9 +22,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_place_display.view.*
 
 class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace>, val context: Context,
-                                            private val eventDetailViewModelAdmin: EventDetailViewModelAdmin,
-                                            private val callBack: AddPlaceRecyclerViewCallBack)
+                                            private val eventDetailViewModel: EventDetailViewModel,
+                                            private val callBack: AddPlaceRecyclerViewCallBack, private val eventId : String)
                                             : RecyclerView.Adapter<VoteForPlaceMultipleListAdapterAdmin.ViewHolder>() {
+
+    private var voteList : ArrayList<Int> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -51,42 +55,73 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val place = placesList[position]
+        val place : EventPlace = placesList[position]
 
-        holder.closeButton.setOnClickListener {
+        holder.placeDisplayCountTextView.text = place.number.toString()
+        holder.placeDisplayTextCountTextView.text = place.string_value
+        holder.placeTextView.text = place.place.name
 
-            placesList.forEach{
+        val address = placesList[position].place?.address
+        val placeCity = placesList[position].place?.city
+        val placeCountry = placesList[position].place?.country
+        val placeZipcode = placesList[position].place?.zipcode
 
-                it.visibility = false
+        val stringBuilder = StringBuilder()
+                .append(address)
 
+                .append(" ")
+                .append(placeCity)
+
+                .append(" ")
+                .append(placeCountry)
+
+                .append(" ")
+                .append(placeZipcode)
+
+
+
+        holder.address.text = stringBuilder.toString()
+        holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
+
+        if (place.current_user_have_vote == true){
+
+            holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite)
+
+        } else {
+
+            holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite_border)
+        }
+
+        if (place.place.map == true){
+
+            holder.placeMapView.apply {
+
+                onCreate(null)
+                getMapAsync{
+
+                    val LATLNG = LatLng(place.place.latitude,place.place.longitude)
+
+                    with(it){
+
+                        onResume()
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                        addMarker(MarkerOptions().position(LATLNG))
+                    }
+                }
             }
 
-            placesList.removeAt(position)
-            callBack.closeButtonAddPlaceItemListener(position)
-        }
-        holder.placeDisplayCountTextView.text = place.id.toString()
-        holder.placeTextView.text = place.place.name
-        holder.address.text = place.place.address
-        holder.noOfVotesPlaceTextview.text = place.votes.size.toString()
+        }else {
 
-        if (place.visibility){
-
-            holder.closeButton.visibility = View.VISIBLE
+            holder.mapViewHolder.visibility = GONE
         }
 
-        else{
-
-            holder.closeButton.visibility = GONE
-
-        }
-
-        if (place.place.map == false){
+       /* if (place.place.map == false){
 
             holder.seeOnMapLayout.visibility = GONE
-        }
+        }*/
 
         //val LATLNG = LatLng(place.place.latitude,place.place.longitude)
-        holder.placeMapView.apply {
+        /*holder.placeMapView.apply {
 
             onCreate(null)
             getMapAsync{
@@ -98,18 +133,53 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
                     //addMarker(MarkerOptions().position(LATLNG))
                 }
             }
+        }*/
+
+        holder.placeFavouriteIcon.setOnClickListener {
+
+            voteList.add(place.id)
+
+            eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
+        }
+
+        holder.placeCloseButton.setOnClickListener {
+
+            placesList.forEach{
+
+                it.visibility = false
+
+            }
+
+            placesList.removeAt(position)
+            callBack.closeButtonAddPlaceItemListener(position)
+        }
+
+        if (place.visibility){
+
+            holder.placeCloseButton.visibility = View.VISIBLE
+
+        } else{
+
+            holder.placeCloseButton.visibility = GONE
+
         }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val closeButton: ImageView = itemView.placeCloseButton
         val placeDisplayCountTextView :TextView = itemView.placeDisplayCountTextView
+        val placeDisplayTextCountTextView : TextView = itemView.placeDisplayTextCountTextView
         val placeTextView : TextView = itemView.placeTextView
         val address : TextView = itemView.address
         val placeMapView : MapView = itemView.placeMapView
         val noOfVotesPlaceTextview : TextView = itemView.noOfVotesPlaceTextview
         val seeOnMapLayout : ConstraintLayout = itemView.seeOnMapLayout
+        val mapViewHolder : ConstraintLayout = itemView.mapViewHolder
+        val placeFavouriteIcon : ImageView = itemView.placeFavouriteIcon
+        val hideMapLayout : ConstraintLayout = itemView.hideMapLayout
+        val seeOnMapLoader : ImageView = itemView.seeOnMapLoader
+        val placeCloseButton : ImageView = itemView.placeCloseButton
+
     }
 
     interface AddPlaceRecyclerViewCallBack {

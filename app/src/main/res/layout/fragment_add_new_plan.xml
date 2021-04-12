@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="#39444E"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/myplans" />
+            app:title="@string/add_plan" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

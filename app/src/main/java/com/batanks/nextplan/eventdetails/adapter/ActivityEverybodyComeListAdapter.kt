@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.swagger.model.ActivityParticipant
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
-class ActivityEverybodyComeListAdapter(val contactList: List<Int>, val context: Context): RecyclerView.Adapter<ActivityEverybodyComeListAdapter.ViewHolder>() {
+class ActivityEverybodyComeListAdapter(val contactList: ArrayList<ActivityParticipant>, val context: Context) :
+                                        RecyclerView.Adapter<ActivityEverybodyComeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -18,18 +21,21 @@ class ActivityEverybodyComeListAdapter(val contactList: List<Int>, val context: 
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-       return contactList.size
-    }
+    override fun getItemCount() = contactList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        holder.contactName.text = contactList[position].username
+        holder.contactStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
+        holder.contactSettings.visibility = View.GONE
+        //Glide.with(context).load(contactList[position].picture).circleCrop().into(holder.contactImage)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val contactStatus : ImageView = itemView.contactStatus
-        val contactImage : ImageView = itemView.contactImage
+        //val contactImage : ImageView = itemView.contactImage
+        //val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
         val contactSettings : ImageView = itemView.contactSettings
 

@@ -27,15 +27,23 @@ class EveryBodyComeListAdapter (val guestsList : ArrayList<Guests>, val context:
         val guest : Guests = guestsList[position]
 
         holder.contactName.text = guest.name
-        //holder.contactSettings.visibility = View.GONE
+        holder.contactSettings.visibility = View.GONE
 
+        if (guest.status == "AC"){
+
+            holder.contactStatus.setImageResource(R.drawable.ic_user_accepted)
+
+        } else if(guest.status == "DN"){
+
+            holder.contactStatus.setImageResource(R.drawable.ic_user_declined)
+        }
     }
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val contactStatus : ImageView = itemView.contactStatus
-        val contactImage : ImageView = itemView.contactImage
+        //val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
         val contactSettings : ImageView = itemView.contactSettings
     }

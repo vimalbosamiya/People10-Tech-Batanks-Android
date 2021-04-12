@@ -26,7 +26,18 @@
             android:id="@+id/closeButtonIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:src="@drawable/ic_close_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/editButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_edit_white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +46,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Place"
+            android:layout_marginEnd="8dp"
+            android:text="@string/place_title"
             app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
             app:layout_constraintEnd_toStartOf="@+id/closeButtonIcon"
             app:layout_constraintStart_toEndOf="@+id/datePeriodIcon"
@@ -46,16 +58,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Address"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/address"
             app:layout_constraintEnd_toStartOf="@+id/closeButtonIcon"
             app:layout_constraintStart_toStartOf="@+id/placeNameTextView"
-            app:layout_constraintTop_toBottomOf="@+id/placeNameTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/placeNameTextView"
+            app:layout_constraintBottom_toTopOf="@+id/mapView"/>
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="290dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

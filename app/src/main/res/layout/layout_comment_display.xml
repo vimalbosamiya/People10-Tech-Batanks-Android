@@ -3,80 +3,121 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/commentBackgroundConsLayout"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#7A000000"
+        android:elevation="10dp"
+        app:cardCornerRadius="24dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/commentBackgroundLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_comment_layout_background"
+            android:background="#7A000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/commentUserIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_comments_user_image"
-            app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
-            app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+            <!--<ImageView
+                android:id="@+id/commentBackgroundLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comment_layout_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>-->
 
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contact 1 pseudonym"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/commentUserIcon"
-            app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
+            <ImageView
+                android:id="@+id/commentUserIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_comments_user_image"
+                app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
 
-        <ImageView
-            android:id="@+id/commentsCloseButoon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:src="@drawable/ic_close_button"
-            app:layout_constraintRight_toRightOf="@+id/commentBackgroundConsLayout"
-            app:layout_constraintTop_toTopOf="@+id/commentBackgroundConsLayout" />
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Contact 1 pseudonym"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toEndOf="@+id/commentUserIcon"
+                app:layout_constraintEnd_toStartOf="@+id/closeEditHolder"
+                app:layout_constraintTop_toTopOf="@+id/commentBackgroundLayout" />
 
-        <TextView
-            android:id="@+id/commentDateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="01/12/2021 6:30 pm"
-            android:textSize="16sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:textColor="#DEFFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
-            app:layout_constraintTop_toBottomOf="@+id/userName" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/closeEditHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="264dp"
-            android:layout_height="wrap_content"
-            android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
-            android:textSize="16sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/commentBackgroundLayout"
-            app:layout_constraintTop_toBottomOf="@+id/commentDateTime" />
+                <ImageView
+                    android:id="@+id/commentsCloseButoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_close_button"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/commentsSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_event_details_settings"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/commentDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="01/12/2021 6:30 pm"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                android:textColor="#DEFFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/commentUserIcon" />
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="264dp"
+                android:layout_height="wrap_content"
+                android:text="Cupcake ipsum dolor sit amet apple pie icing sweet. I love soufflé lollipop fruitcake tootsie roll cookie sweet roll candy canes marshmallow. Wafer danish pudding candy ice cream sweet roll."
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/commentDateTime"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,7 @@
             android:id="@+id/txt_contacts_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contacts"
+            android:text="@string/contacts"
             android:layout_toRightOf="@id/img_contacts_close"
             android:padding="10dp"
             android:textAppearance="?android:textAppearanceLarge"
@@ -73,14 +73,14 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
-                android:hint="Search for..."
+                android:hint="@string/search_for"
                 android:textColorHint="#ffffff"
                 app:boxBackgroundColor="#000000"
                 app:boxStrokeColor="@color/text_input_layout_stroke_color"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_search_icon"
                 app:endIconTint="@color/colorWhite"
-                app:helperText="Enter a name or category of plans"
+                app:helperText="@string/search_contact_helper"
                 app:helperTextEnabled="true"
                 app:helperTextTextColor="#ffffff"
                 app:hintAnimationEnabled="true"
@@ -91,12 +91,13 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addcontactHeader">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/settings_contactSearchEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
                     android:inputType="text"
-                    android:maxLength="15"
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -142,7 +143,7 @@
                         android:id="@+id/txt_settings_contacts_contacts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Contacts"
+                        android:text="@string/friends"
                         app:layout_constraintTop_toTopOf="@id/settings_contacts_list_section"
                         app:layout_constraintLeft_toRightOf="@id/img_settings_contacts_contacts"
                         android:padding="10dp"
@@ -271,7 +272,7 @@
                         android:id="@+id/txt_settings_contacts_groups"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Groups"
+                        android:text="@string/groups"
                         android:padding="10dp"
                         android:textAppearance="?android:textAppearanceMedium"
                         app:layout_constraintTop_toTopOf="@id/settings_contacts_list_groups"
@@ -302,6 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="270dp"
                         android:padding="10dp"
+                        android:layout_marginStart="20dp"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="@+id/img_settings_contacts_groups"
                         app:layout_constraintTop_toBottomOf="@id/img_settings_contacts_groups" />
@@ -381,7 +383,7 @@
                         android:id="@+id/txt_users"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Users"
+                        android:text="@string/users"
                         android:padding="10dp"
                         android:textAppearance="?android:textAppearanceMedium"
                         app:layout_constraintTop_toTopOf="@id/users_constraint_layout"
@@ -419,7 +421,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
-
+<!--
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addcontactinviteEmail"
                 style="@style/MaterialTextInputLayoutTheme"
@@ -555,7 +557,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -572,7 +574,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="News"
+            android:text="@string/news"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textAppearance="?android:textAppearanceMedium"
@@ -580,6 +582,7 @@
             android:padding="16dp"
             android:layout_centerVertical="true"/>
         <ImageView
+            android:id="@+id/loadHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_event_details_expand_less"

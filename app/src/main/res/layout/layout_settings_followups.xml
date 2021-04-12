@@ -19,6 +19,7 @@
         android:id="@+id/txt_followups_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="Contacts Name"
         android:layout_toRightOf="@id/img_followups_list_item"
         android:textAppearance="?android:textAppearanceMedium"

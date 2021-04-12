@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_add_plan_add_place_card.view.*
 
-class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<PostPlaces>) :
+class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, private val modelList: ArrayList<PostPlaces>, private val editButtonClicked : Boolean) :
         RecyclerView.Adapter<AddPlaceRecyclerView.MyViewHolder>() {
 
     lateinit var context : Context
@@ -37,19 +37,22 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.closeButton.setOnClickListener {
-            modelList.removeAt(position)
+            //modelList.removeAt(position)
             callBack.closeButtonAddPlaceItemListener(position)
         }
-        holder.placeName.text = modelList[position].name
-        holder.placeAddress.text = modelList[position].address
 
-        val name : String = modelList[position].name
-        val address : String = modelList[position].address
-        val city : String = modelList[position].city
-        val country : String = modelList[position].country
-        val zipcode : Int = modelList[position].zipcode
+        holder.placeName.text = modelList[position].name
+
+
+        val name : String = modelList[position].name!!
+        var address : String = modelList[position].address!!
+        val city : String = modelList[position].city!!
+        val country : String = modelList[position].country!!
+        val zipcode : String? = modelList[position].zipcode
         var latitude : Double = 0.0
         var longitude : Double = 0.0
+
+        address = address.replace("\\s".toRegex(), " ")
 
 
         val stringBuilder = StringBuilder()
@@ -62,6 +65,33 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
                 .append(country)
                 .append("+")
                 .append(zipcode)
+
+        val stringBuilderAddress = StringBuilder()
+                .append(name)
+
+                .append(" ")
+                .append(address)
+
+                .append(" ")
+                .append(city)
+
+                .append("\n")
+
+                .append(" ")
+                .append(country)
+
+                .append(" ")
+                .append(zipcode)
+
+        if (!stringBuilderAddress.toString().isNullOrEmpty()){
+
+            holder.placeAddress.text = stringBuilderAddress.toString()
+            holder.placeAddress.visibility = View.VISIBLE
+
+        } else {
+
+            holder.placeAddress.visibility = View.GONE
+        }
 
         val result: List<Address> = Geocoder(context).getFromLocationName(stringBuilder.toString(), 5)
 
@@ -95,6 +125,22 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
             }
         }
 
+        if (editButtonClicked == true){
+
+            holder.editButtonIcon.visibility = View.VISIBLE
+            holder.closeButton.visibility = View.GONE
+
+        }else{
+
+            holder.editButtonIcon.visibility = View.GONE
+            holder.closeButton.visibility = View.VISIBLE
+        }
+
+        holder.editButtonIcon.setOnClickListener {
+
+            callBack.editButtonAddPlaceItemListener(position)
+        }
+
 
     }
 
@@ -102,10 +148,12 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
         val placeName: TextView = item.placeNameTextView
         val placeAddress: TextView = item.placeAddressTextView
         val closeButton: ImageView = item.closeButtonIcon
+        val editButtonIcon: ImageView = item.editButtonIcon
         val map: MapView = item.mapView
     }
 
     interface AddPlaceRecyclerViewCallBack {
         fun closeButtonAddPlaceItemListener(pos: Int)
+        fun editButtonAddPlaceItemListener(pos: Int)
     }
 }

@@ -9,15 +9,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.PostTasks
 import com.batanks.nextplan.swagger.model.Task
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_add_action_card.view.*
 
-class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack, private val modelList: ArrayList<PostTasks>) :
-        RecyclerView.Adapter<AddActionRecyclerView.MyViewHolder>() {
+class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack, private val modelList: ArrayList<PostTasks>, private val editButtonClicked : Boolean,
+                             private val deleteButtonClicked : Boolean, private val event : Event?) : RecyclerView.Adapter<AddActionRecyclerView.MyViewHolder>() {
 
     lateinit var context: Context
 
@@ -32,8 +35,8 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.closeButton.setOnClickListener {
-            modelList.removeAt(position)
+        holder.actioncloseButtonIcon.setOnClickListener {
+            //modelList.removeAt(position)
             callBack.closeButtonAddActionItemListener(position)
         }
 
@@ -43,10 +46,11 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
             costTitle = "Cost Per Person"
 
+            holder.img_add_action_cost.setImageResource(R.drawable.ic_cost_perperson_icon)
+
         } else if (modelList[position].per_person == false) {
 
-            costTitle = "Total Cost"
-        }
+            costTitle = "Total Cost" }
 
         holder.txt_actionname.text = modelList[position].name
 
@@ -55,21 +59,41 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
             holder.txt_description.visibility = View.VISIBLE
             holder.txt_description.text = modelList[position].description
 
-        } else {
+        } else { holder.txt_description.visibility = View.GONE }
 
-            holder.txt_description.visibility = View.GONE
-        }
-
-
-        //if (!TextUtils.isEmpty(modelList[position].price)){
-        if (modelList[position].price > 0){
-
-            holder.txt_add_action_cost_value.text = modelList[position].price.toString()
-        }
+        if (modelList[position].price > 0){ holder.txt_add_action_cost_value.text = modelList[position].price.toString() }
 
         val id: Int = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getInt("ID", 0)!!
+        val currency : String? = context?.getSharedPreferences("SAVED_CURREN", AppCompatActivity.MODE_PRIVATE)?.getString("SAVED_CURRENCY","USD")
 
         holder.txt_add_action_cost_title.text = costTitle
+        holder.txt_add_action_cost_symbol.text = currency
+
+        if (editButtonClicked == true){
+
+            holder.actionEditButtonIcon.visibility = View.VISIBLE
+            holder.actioncloseButtonIcon.visibility = View.GONE
+
+        }else if (deleteButtonClicked == true) {
+
+            holder.actionEditButtonIcon.visibility = View.GONE
+            holder.actioncloseButtonIcon.visibility = View.VISIBLE
+
+        } else {}
+
+        holder.actionEditButtonIcon.setOnClickListener { callBack.editButtonAddActionItemListener(position) }
+
+        if(editButtonClicked == true){
+
+            if (event!!.tasks[position].assignee != null){
+
+                holder.contactBackground.visibility = View.VISIBLE
+
+                holder.contactName.setText(event!!.tasks[position].assignee?.username)
+                Glide.with(context).load(event!!.tasks[position].assignee?.picture).circleCrop().into(holder.contactImage)
+            }
+        } else{}
+
         //holder.txt_add_action_assignee_name.text = modelList[position].assigneeName
 
         /*if (!TextUtils.isEmpty(modelList[position].assigneeName)){
@@ -92,6 +116,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
         }*/
 
         //holder.placeAddress.text = modelList[position].address
+
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
@@ -101,12 +126,18 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
         val txt_add_action_cost_symbol : TextView = item.txt_add_action_cost_symbol
         val txt_add_action_cost_title :TextView = item.txt_add_action_cost_title
         val txt_add_action_assignee_name : TextView = item.contactName
-        val rl_add_action_assignee : ConstraintLayout = item .contactBackground
+        val contactName : TextView = item.contactName
+        val contactBackground : ConstraintLayout = item .contactBackground
         //val placeAddress: TextView = item.placeAddressTextView
-        val closeButton: ImageView = item.actioncloseButtonIcon
+        val actioncloseButtonIcon: ImageView = item.actioncloseButtonIcon
+        val actionEditButtonIcon: ImageView = item.actionEditButtonIcon
+        val img_add_action_cost: ImageView = item.img_add_action_cost
+        val contactImage: ImageView = item.contactImage
+
     }
 
     interface AddActionRecyclerViewCallBack {
         fun closeButtonAddActionItemListener(pos: Int)
+        fun editButtonAddActionItemListener(pos: Int)
     }
 }

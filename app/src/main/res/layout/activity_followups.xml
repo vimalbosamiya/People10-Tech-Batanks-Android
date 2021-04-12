@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,7 +31,7 @@
             android:id="@+id/txt_followups_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Follow ups"
+            android:text="@string/follow_ups"
             android:layout_toRightOf="@id/img_followups_close"
             android:padding="10dp"
             android:textAppearance="?android:textAppearanceLarge"
@@ -55,6 +56,32 @@
         />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/followup_extFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="48dp"
+        app:elevation="6dp"
+        android:text="@string/create_follow_up"
+        app:backgroundTint="#34CBFE"
+        app:icon="@drawable/ic_followup_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/followup_extFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="48dp"
+        app:elevation="6dp"
+        app:backgroundTint="#34CBFE"
+        app:srcCompat="@drawable/ic_followup_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>-->
+
+   <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFab_followup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,6 +94,6 @@
         android:textAppearance="?android:textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item android:drawable="@drawable/circle"/>
-    <!--<item android:drawable="@drawable/ic_launcher"/>-->
+    <!--<item android:drawable="@mipmap/ic_launcher"/>-->
 
 </layer-list>
+
+
+<!--
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:drawable="@drawable/circle"/>
+    &lt;!&ndash;<item android:drawable="@drawable/ic_launcher"/>&ndash;&gt;
+
+</layer-list>-->

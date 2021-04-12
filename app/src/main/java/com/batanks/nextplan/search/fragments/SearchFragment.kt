@@ -28,12 +28,12 @@ class SearchFragment : BaseFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val ref = requireActivity() as AppCompatActivity
-        ref.setSupportActionBar(toolBar)
+        ref.setSupportActionBar(searchToolBar)
         ref.supportActionBar?.title = "Search"
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
-        toolBar.setNavigationOnClickListener {
+        searchToolBar.setNavigationOnClickListener {
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
@@ -45,8 +45,8 @@ class SearchFragment : BaseFragment(){
 
         }
 
-        val tabsPagerAdapter = SearchTabsAdapter(childFragmentManager)
-        view_pager.adapter = tabsPagerAdapter
+       // val tabsPagerAdapter = SearchTabsAdapter(childFragmentManager)
+        //view_pager.adapter = tabsPagerAdapter
 
         tabs.setupWithViewPager(view_pager)
 

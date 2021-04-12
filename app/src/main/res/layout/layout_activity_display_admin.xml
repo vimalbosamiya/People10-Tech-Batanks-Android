@@ -12,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Activity"
+        android:text="@string/activity"
         android:textColor="#DEFFFFFF"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/activityDivider"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+ <!--   <TextView
         android:id="@+id/activityIdTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,15 +28,15 @@
         android:textSize="18sp"
         android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@+id/textViewActivity"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageView
+   <!-- <ImageView
         android:id="@+id/activitySettingsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_event_details_settings"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/activityDivider"/>
+        app:layout_constraintEnd_toEndOf="@+id/activityDivider"/>-->
 
     <ImageView
         android:id="@+id/activityDivider"
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Show Map"
+                        android:text="@string/show_map"
                         android:textSize="14sp"
                         android:textColor="#DEFFFFFF"
                         android:layout_marginStart="20dp"
@@ -317,7 +317,7 @@
                 app:layout_constraintStart_toStartOf="@+id/activityInfo"
                 app:layout_constraintTop_toBottomOf="@+id/eventInfoStartDate" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textViewActivityTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -327,7 +327,52 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="72dp"
                 app:layout_constraintStart_toStartOf="@+id/activityInfo"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityStartDate"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityStartDate"/>-->
+
+            <TextView
+                android:id="@+id/textViewEventTimeHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="72dp"
+                android:text="0"
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/activityInfo"
+                app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+            <TextView
+                android:id="@+id/textViewHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="h "
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewEventTimeHours"
+                app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+            <TextView
+                android:id="@+id/textViewEventTimeMins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="00"
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewHours"
+                app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+            <TextView
+                android:id="@+id/textViewMins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="mn"
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewEventTimeMins"
+                app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -357,7 +402,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19.02dp"
-                android:text="Everybody come"
+                android:text="@string/everybody_come"
                 android:textSize="14sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginStart="16.98dp"
@@ -369,14 +414,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19.02dp"
-                android:text="999"
+                android:text="0"
                 android:textSize="16sp"
                 android:textColor="#A5D6A7"
                 android:layout_marginStart="14dp"
                 app:layout_constraintStart_toEndOf="@+id/everybodyComeTextViewInitial"
                 app:layout_constraintTop_toBottomOf="@+id/everybodyComeCostDivider" />
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/votesSeperatorInitial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -393,12 +438,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19.02dp"
-                android:text="999"
+                android:text="0"
                 android:textSize="16sp"
                 android:textColor="#90CAF9"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toEndOf="@+id/votesSeperatorInitial"
-                app:layout_constraintTop_toBottomOf="@+id/everybodyComeCostDivider" />
+                app:layout_constraintTop_toBottomOf="@+id/everybodyComeCostDivider" />-->
 
             <ImageView
                 android:id="@+id/activityEverybodyComehiderInitial"
@@ -447,14 +492,14 @@
                 android:id="@+id/perPersonCostDivider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44.02dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/ic_event_details_divider_total_cost"
                 app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
                 app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
                 app:layout_constraintTop_toBottomOf="@+id/activityParticipantsListAdmin" />
 
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/participateToActivityIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -463,16 +508,14 @@
                 android:background="@drawable/ic_participate_to_activity_icon"
                 app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
                 app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
-                app:layout_constraintTop_toBottomOf="@+id/activityParticipantsListAdmin"/>
-
-
+                app:layout_constraintTop_toBottomOf="@+id/activityParticipantsListAdmin"/>-->
 
             <ImageView
                 android:id="@+id/costPerPersonCalenderBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/ic_event_details_cost_per_person_calender"
                 app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
                 app:layout_constraintTop_toBottomOf="@+id/everybodyComeInitial"
@@ -515,14 +558,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="27dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="12dp"
-                android:text="10,00 €"
+                android:text="10,00"
                 android:textColor="#FFE082"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
+                app:layout_constraintEnd_toStartOf="@+id/textViewCostPerPersonAmountSymbol"
                 app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider"
                 app:layout_constraintBottom_toBottomOf="@+id/eventInfoBackground"/>
+
+            <TextView
+                android:id="@+id/textViewCostPerPersonAmountSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                android:text="€"
+                android:textColor="#FFE082"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/eventInfoBackground"
+                app:layout_constraintEnd_toEndOf="@+id/eventInfoBackground"
+                app:layout_constraintTop_toTopOf="@+id/textViewActivityCost" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

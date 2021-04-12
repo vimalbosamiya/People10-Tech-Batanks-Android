@@ -18,10 +18,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="@string/pname"
+            android:hint="@string/plan_name"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
-            app:helperText="Enter a name for your event"
+            app:helperText="@string/plan_name_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -53,11 +53,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Detail &amp; Description"
+            android:hint="@string/detail_description"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
-            app:helperText="Tell more about your plan"
+            app:helperText="@string/detail_description_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -68,6 +68,7 @@
             app:layout_constraintTop_toBottomOf="@+id/planNameTextField">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detailDescriptionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -94,7 +95,7 @@
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
-            app:helperText="Enter a category of your event"
+            app:helperText=""
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintEnabled="false"
@@ -112,7 +113,7 @@
                 android:gravity="center_vertical"
                 android:editable="false"
                 android:inputType="none"
-                android:text="Category *" />
+                android:text="@string/category" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <include
@@ -235,7 +236,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="24dp"
-            android:text="Max Participants"
+            android:text="@string/max_participants"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/howOftenTextField" />
 
@@ -259,11 +260,11 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Number"
+            android:hint="@string/number"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
-            app:helperText="@string/max_number_of_attendees"
+            app:helperText="@string/max_participants"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -276,6 +277,7 @@
             app:layout_constraintTop_toBottomOf="@+id/howMuchDividerIcon">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maxParticipantsEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -299,6 +301,36 @@
             app:layout_constraintStart_toStartOf="@+id/maxParticipantsTextField"
             app:layout_constraintTop_toBottomOf="@+id/maxParticipantsTextField" />
 
+        <ImageView
+            android:id="@+id/commentsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_comments_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addPeopleLayout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_comments"
+            android:layout_marginStart="18.02dp"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@+id/commentsIcon"
+            app:layout_constraintTop_toTopOf="@+id/commentsIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/commentsIcon"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10.02dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/commentsIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/commentsIcon"/>
+
         <include
             android:id="@+id/addFooterLayout"
             layout="@layout/layout_add_plan_footer"
@@ -306,7 +338,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="@+id/addPeopleLayout"
-            app:layout_constraintTop_toBottomOf="@+id/addPeopleLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/commentsIcon" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

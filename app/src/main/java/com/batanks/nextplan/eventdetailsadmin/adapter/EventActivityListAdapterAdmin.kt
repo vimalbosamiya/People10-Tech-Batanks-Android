@@ -9,8 +9,10 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.adapter.ActivityEverybodyComeListAdapter
 import com.batanks.nextplan.swagger.model.Activity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.layout_activity_display_admin.view.*
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
 
 class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val context: Context,
                                      private val callBack: AddActivityRecyclerViewCallBack): RecyclerView.Adapter<EventActivityListAdapterAdmin.ViewHolder>() {
@@ -78,7 +81,7 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             view.activityEverybodyComehider.visibility = View.VISIBLE
 
-            view.participateToActivityIcon.visibility = View.VISIBLE
+            //view.participateToActivityIcon.visibility = View.VISIBLE
 
             view.activityEverybodyComehiderInitial.visibility = View.GONE
 
@@ -91,7 +94,7 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             view.activityEverybodyComehider.visibility = View.GONE
 
-            view.participateToActivityIcon.visibility = View.GONE
+            //view.participateToActivityIcon.visibility = View.GONE
 
             view.activityEverybodyComehiderInitial.visibility = View.VISIBLE
 
@@ -111,7 +114,7 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
             view.activityEverybodyComeVisible.visibility = View.VISIBLE
         }*/
 
-        view.participateToActivityIcon.setOnClickListener {  }
+        //view.participateToActivityIcon.setOnClickListener {  }
 
         return  ViewHolder(view)
     }
@@ -122,57 +125,105 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
         val activity : Activity = activityList[position]
 
-        holder.activitySettingsIcon.setOnClickListener {
-
-            activityDeleteDialog(position)
-        }
-
-        holder.activityIdTextView.text = activity.id.toString()
+       /* holder.activityIdTextView.text = (position + 1).toString()*/
         holder.textViewActivityName.text = activity.title
-        //holder.textViewActivityCost.text = activity.price
-        //holder.activityNameTextView.text = activity.title
-        //holder.textViewActivityStartDate.text = activity.date
-        //holder.textViewActivityTime.text = activity.duration.toString()
-        //holder.textViewActivityParticipants.text = activity.participants.size.toString()
-        //holder.textViewTotalParticipants.text = activity.max_participants.toString()
-        //holder.activityCostTextView.text = activity.price
-        holder.locationName.text = activity.place.name
-        holder.fullLocation.text = activity.place.address
+        holder.comingVotesInitial.text = activity.participants.size.toString()
+        //holder.totalNoOfVotesInitial.text = activity.max_participants.toString()
 
+        holder.textViewActivityCost.text = activity.price.toString()
+        holder.textViewCostPerPersonAmountSymbol.text = activity.price_currency
 
-        holder.activityMapView.apply {
+        if (activity.place != null){
 
-            onCreate(null)
-            getMapAsync{
+            holder.locationName.text = activity.place.name
 
-                //val LATLNG = LatLng(activity.place.latitude,activity.place.longitude)
+            val address = activity.place.address
+            val placeCity = activity.place.city
+            val placeCountry = activity.place.country
+            val placeZipcode = activity.place.zipcode
 
-                with(it){
+            val stringBuilder = StringBuilder()
+                    .append(address)
 
-                    onResume()
-                    //moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                   // addMarker(MarkerOptions().position(LATLNG))
+                    .append(" ")
+                    .append(placeCity)
+
+                    .append(" ")
+                    .append(placeCountry)
+
+                    .append(" ")
+                    .append(placeZipcode)
+
+            holder.fullLocation.text = stringBuilder.toString()
+
+            holder.activityMapView.apply {
+
+                onCreate(null)
+                getMapAsync{
+
+                    val LATLNG = LatLng(activity.place.latitude,activity.place.longitude)
+
+                    with(it){
+
+                        onResume()
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                        addMarker(MarkerOptions().position(LATLNG))
+                    }
                 }
             }
         }
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val outputFormat = SimpleDateFormat("E, MMM dd yyyy h:mm a")
+        val startDate = inputFormat.parse(activity.date)
+        val formattedStartDate = outputFormat.format(startDate)
+
+        holder.textViewActivityStartDate.text = formattedStartDate
+
+        val hours : Int = activity.duration/60
+        val mins : Int = activity.duration % 60
+
+        holder.textViewEventTimeHours.text = hours.toString()
+        holder.textViewEventTimeMins.text = mins.toString()
+
+
+        if (activity.per_person == true){
+
+            holder.textViewCostPerPerson.setText(R.string.cost_per_person)
+
+        }else {
+
+            holder.textViewCostPerPerson.setText(R.string.total_cost)
+        }
+
+        holder.activityParticipantsListAdmin.layoutManager = LinearLayoutManager(context)
+        holder.activityParticipantsListAdmin.adapter = ActivityEverybodyComeListAdapterAdmin(activity.participants,context)
+
+      /*  holder.activitySettingsIcon.setOnClickListener {
+
+            //activityDeleteDialog(position)
+            callBack.settingsButtonAddActivityItemListener(position)
+        }*/
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val activityIdTextView : TextView = itemView.activityIdTextView
+        /*val activityIdTextView : TextView = itemView.activityIdTextView*/
         val textViewActivityName : TextView = itemView.textViewActivityName
+        val comingVotesInitial : TextView = itemView.comingVotesInitial
+        //val totalNoOfVotesInitial : TextView = itemView.totalNoOfVotesInitial
+        val textViewCostPerPerson : TextView = itemView.textViewCostPerPerson
         val textViewActivityCost : TextView = itemView.textViewActivityCost
+        val textViewEventTimeHours : TextView = itemView.textViewEventTimeHours
+        val textViewEventTimeMins : TextView = itemView.textViewEventTimeMins
+        val textViewCostPerPersonAmountSymbol : TextView = itemView.textViewCostPerPersonAmountSymbol
         //val activityNameTextView : TextView = itemView.activityNameTextView
         val locationName : TextView = itemView.locationName
         val fullLocation : TextView = itemView.fullLocation
         val activityMapView : MapView = itemView.activityMapView
         val textViewActivityStartDate :TextView = itemView.textViewActivityStartDate
-        val textViewActivityTime : TextView = itemView.textViewActivityTime
-        //val textViewActivityParticipants : TextView = itemView.textViewActivityParticipants
-        //val textViewTotalParticipants : TextView = itemView.textViewTotalParticipants
-        //val activityCostTextView : TextView = itemView.activityCostTextView
-        val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
-
+        //val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
+        val activityParticipantsListAdmin : RecyclerView = itemView.activityParticipantsListAdmin
     }
 
     private fun activityDeleteDialog(position: Int) {
@@ -200,6 +251,7 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
     interface AddActivityRecyclerViewCallBack {
         fun closeButtonAddActivityItemListener(pos: Int)
+        fun settingsButtonAddActivityItemListener(pos: Int)
     }
 
 }

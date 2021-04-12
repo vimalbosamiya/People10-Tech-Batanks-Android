@@ -2,21 +2,26 @@ package com.batanks.nextplan.customfrequency
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.Window
 import android.widget.TextView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
+import com.batanks.nextplan.swagger.model.Periodicity
 import kotlinx.android.synthetic.main.activity_custom_frequency.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CustomFrequency : AppCompatActivity() {
+
+class CustomFrequency(/*var listener: CustomFrequencyListener? = null*/) : BaseAppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +37,9 @@ class CustomFrequency : AppCompatActivity() {
             finish()
         }
 
-        repeatTextField.setOnClickListener {
+        ok.setOnClickListener(this)
+
+        repeatEditText.setOnClickListener {
 
             howOftenDialog()
         }
@@ -91,8 +98,6 @@ class CustomFrequency : AppCompatActivity() {
 
                 untilWhenTextField.visibility = GONE
             }
-
-
         }
     }
 
@@ -135,4 +140,72 @@ class CustomFrequency : AppCompatActivity() {
 
         dialog.show()
     }
+
+    override fun onClick(v: View?) {
+
+        when (v?.id) {
+
+            R.id.ok -> {
+
+                var unit : String? = null
+
+                if (repeatEditText.text.toString() == getString(R.string.day)){
+
+                    unit = "d"
+
+                } else if (repeatEditText.text.toString() == getString(R.string.week)){
+
+                    unit = "w"
+
+                }else if (repeatEditText.text.toString() == getString(R.string.month)){
+
+                    unit = "m"
+
+                }else if (repeatEditText.text.toString() == getString(R.string.year)){
+
+                    unit = "y"
+                }
+
+                var occurence : Int? = null
+
+                if (howManyTimesCheckBox.isChecked && !TextUtils.isEmpty(howManyTimesEditText.text)){
+
+                    occurence = howManyTimesEditText.text.toString().toInt()
+
+                }
+
+                var end_date : String? = null
+
+                if (UntilWhenCheckBox.isChecked && !TextUtils.isEmpty(untilWhenEditText.text)){
+
+                    end_date = untilWhenEditText.text.toString()
+                }
+
+                val periodicity = Periodicity(unit,occurence.toString(),end_date)
+
+                val intent = Intent()
+
+                intent.putExtra(PublicPlanFragment.UNIT,unit)
+                intent.putExtra(PublicPlanFragment.OCCURENCE,occurence.toString())
+                intent.putExtra(PublicPlanFragment.END_DATE, end_date)
+                setResult(PublicPlanFragment.RESULT_CODE,intent)
+                finish()
+
+                // listener?.customFrequencyHowOftenFetch(periodicity)
+            }
+
+        }
+
+    }
+
+    interface CustomFrequencyListener{
+
+        fun customFrequencyHowOftenFetch(periodicity: Periodicity)
+
+    }
+
+    /*fun setCustomFrequencyListener(listener: CustomFrequencyListener?){
+
+        this.listener = listener
+    }*/
 }

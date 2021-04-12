@@ -55,14 +55,14 @@ class AddCommentsFragment (val listener: AddCommentsFragmentListener) : BaseDial
             showLoader()
             dismissKeyboard()
 
-            val comment = PostComments("","",tip_add_comment?.editText?.text.toString())
+            val comment = PostComments(tip_add_comment?.editText?.text.toString())
             //val comment = Comment(comment = tip_add_comment?.editText?.text.toString())
 
             if (tip_add_comment?.editText?.text.isNullOrEmpty()){
 
                 //Toast.makeText(activity , "Comment can't be Empty"  , Toast.LENGTH_SHORT).show()
 
-                tip_add_comment.editText?.error = "Comment field cannot be empty"
+                tip_add_comment.editText?.setError(getString(R.string.comment_field_error))
                 tip_add_comment.requestFocus()
 
                 /*  val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -25,12 +25,11 @@
             android:id="@+id/txt_settings_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings"
             android:layout_toRightOf="@id/img_settings_close"
             android:padding="10dp"
             android:textAppearance="?android:textAppearanceLarge"
-            android:layout_centerVertical="true"
-            />
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
     <View
         android:id="@+id/view_seperator_account"
@@ -72,7 +71,7 @@
                 android:id="@+id/txt_settings_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account"
+                android:text="@string/account"
                 android:layout_toRightOf="@+id/img_settings_account"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -148,7 +147,7 @@
                 android:id="@+id/txt_settings_followup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Follow ups"
+                android:text="@string/follow_ups"
                 android:layout_toRightOf="@id/img_settings_followup"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -186,7 +185,7 @@
                 android:id="@+id/txt_settings_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logout"
+                android:text="@string/logout"
                 android:layout_toRightOf="@+id/img_settings_logout"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -215,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:text="By e-mail"
+                android:text="@string/by_email"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -233,7 +232,8 @@
                 android:layout_marginBottom="10dp"
                 />
         </RelativeLayout>
-        <RelativeLayout
+
+       <!-- <RelativeLayout
             android:id="@+id/rl_settings_sms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -270,12 +270,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 />
-        </RelativeLayout>
+        </RelativeLayout>-->
+
         <RelativeLayout
             android:id="@+id/rl_settings_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rl_settings_sms"
+            android:layout_below="@id/rl_settings_email"
             android:background="#1D2125"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
@@ -290,7 +291,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:text="Comments"
+                android:text="@string/comments"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -328,7 +329,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:text="Invitations"
+                android:text="@string/invitations"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -366,7 +367,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:text="Public Plans"
+                android:text="@string/public_plans"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -401,13 +402,13 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginRight="16dp"
-            android:hint="English"
+            android:hint="@string/language"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
-            app:helperText="Select a language"
+            app:helperText="@string/language_hint"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -440,14 +441,14 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Euro (€)"
+            android:hint="@string/currency"
             android:textColorHint="#ffffff"
             android:popupBackground="#2F2F2F"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
-            app:helperText="Select a currency"
+            app:helperText="@string/currency_hint"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -485,7 +486,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="News"
+            android:text="@string/news"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textAppearance="?android:textAppearanceMedium"
@@ -493,6 +494,7 @@
             android:padding="16dp"
             android:layout_centerVertical="true"/>
         <ImageView
+            android:id="@+id/loadHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_event_details_expand_less"

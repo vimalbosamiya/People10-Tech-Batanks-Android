@@ -5,13 +5,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
-import android.util.Patterns
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -26,7 +23,9 @@ import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.home.HomePlanPreview
+import com.batanks.nextplan.home.*
+import com.batanks.nextplan.home.isEmailValid
+import com.batanks.nextplan.home.isValidUsername
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.signing.SigninActivity
 import com.batanks.nextplan.signing.viewmodel.RegistrationViewModel
@@ -66,16 +65,6 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
         confirmPasswordTextField.markRequiredInRed()
         phoneNumberTextField.markRequiredInRed()
 
-        /*phoneNumberEditField.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) { //Clear focus here from edittext
-
-                v.clearFocus()
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
-            }
-            false
-        })*/
-
         getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -86,27 +75,23 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
 
             when (response.status) {
                 Status.LOADING -> {
-                    showLoader()
+                    //showLoader()
                 }
                 Status.SUCCESS -> {
 
-                    //Toast.makeText(this, "From success", Toast.LENGTH_SHORT).show()
-
                     Toast.makeText(this,getString(R.string.account_created),Toast.LENGTH_SHORT).show()
-                    hideLoader()
-                    /*val intent = Intent(this, HomePlanPreview::class.java)
-                    startActivity(intent)*/
+                    //hideLoader()
                     finish()
                 }
                 Status.ERROR -> {
-                    hideLoader()
+                    //hideLoader()
                     showMessage(response.error?.message.toString())
                     Log.d("error", response.error.toString())
                 }
             }
         })
 
-        loadingDialog = this.getLoadingDialog(0, R.string.creating_user_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = this.getLoadingDialog(0, R.string.creating_user_please_wait, theme = R.style.AlertDialogCustom)
 
         signIn.setOnClickListener(this)
 
@@ -287,12 +272,11 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                     passwordTextField.editText?.requestFocus()
                 }*/
 
+                if (isValidUsername(userNameTextField.editText?.text.toString()) && userNameTextField.editText?.length()!! >= 2){
 
-                if (isValidUsername(userNameTextField.editText?.text.toString()) && userNameTextField.editText?.length()!! >= 4){
+                    if(/*isValidUsername(firstNameTextField.editText?.text.toString()) &&*/ firstNameTextField.editText?.length()!! >= 2){
 
-                    if(isValidUsername(firstNameTextField.editText?.text.toString()) && firstNameTextField.editText?.length()!! >= 4){
-
-                        if(isValidUsername(lastNameTextField.editText?.text.toString()) && lastNameTextField.editText?.length()!! >= 4){
+                        if(/*isValidUsername(lastNameTextField.editText?.text.toString()) &&*/ lastNameTextField.editText?.length()!! >= 2){
 
                             if (isEmailValid(emailTextField.editText?.text)){
 
@@ -303,7 +287,7 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                                         if (isValidPhoneNumber(phoneNumberTextField.editText?.text.toString()) && phoneNumberTextField.editText?.length() == 10){
                                        // if (TextUtils.isEmpty(phoneNumberTextField.editText?.text.toString()) || phoneNumberTextField.editText?.length()!! >= 4 && isValidPhoneNumber(phoneNumberTextField.editText?.text.toString())){
 
-                                            showLoader()
+                                            //showLoader()
 
                                             //getSharedPreferences(SplashActivity.PREF_NAME, Context.MODE_PRIVATE).edit().putBoolean(SplashActivity.PREF_NAME, stayLoggedInCheckBox.isChecked).apply()
                                             val user = RegisterUser(
@@ -360,19 +344,5 @@ class Registration : BaseAppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-    }
-
-    private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
-    private fun isValidUsername(textToCheck: String?) : Boolean = userNamePattern.matcher(textToCheck).matches()
-    private fun isValidPhoneNumber(textToCheck: String?) : Boolean = PhoneNumberPattern.matcher(textToCheck).matches()
-
-    companion object {
-        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
-        val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
-        val PhoneNumberPattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
-
-        //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }
 }

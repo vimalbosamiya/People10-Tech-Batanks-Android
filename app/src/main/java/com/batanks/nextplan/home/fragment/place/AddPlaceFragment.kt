@@ -1,6 +1,7 @@
 package com.batanks.nextplan.home.fragment.place
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Rect
 import android.location.Address
 import android.location.Geocoder
@@ -14,20 +15,33 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
+import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
+import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
+import com.batanks.nextplan.home.markRequiredInRed
+import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.EventPlace
 import com.batanks.nextplan.swagger.model.Place
 import com.batanks.nextplan.swagger.model.PostPlaceInfo
 import com.batanks.nextplan.swagger.model.PostPlaces
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_followups.*
 import kotlinx.android.synthetic.main.fragment_add_place.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragment(), View.OnClickListener {
+class AddPlaceFragment(val listener: AddPlaceFragmentListener, private val position : Int, private val placeList : ArrayList<PostPlaces>) : BaseDialogFragment(), View.OnClickListener {
 
     lateinit var fragview: View
+
+    private val newPlace : Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +56,24 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadingDialog = requireContext().getLoadingDialog(0, R.string.fetching_location, theme = R.style.AlertDialogCustom)
+
+
+        //loadingDialog = requireContext().getLoadingDialog(0, R.string.fetching_location, theme = R.style.AlertDialogCustom)
+
+        placeNameTextField.markRequiredInRed()
+
+        if (position >= 0){
+
+            planNameEditText.setText(placeList[position].name)
+            addressEditText.setText(placeList[position].address)
+            zipCodeEditText.setText(placeList[position].zipcode)
+            townEditText.setText(placeList[position].city)
+
+            val countrycode : String? = placeList[position].country?.let { getCountryCode(it) }
+            ccp_activity_country.setCountryForNameCode(countrycode)
+
+            enableMapSupportCheckBox.isChecked = placeList[position].map!!
+        }
 
         fragview.setOnTouchListener(object : View.OnTouchListener {
 
@@ -83,11 +114,14 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
         })
     }
 
+    fun getCountryCode(countryName: String) =
+            Locale.getISOCountries().find { Locale("", it).displayCountry == countryName }
+
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.ok -> {
 
-                var zipcode : Int = 0
+                var zipcode : String? = ""
 
                 if (placeNameTextField.editText?.length()!! >= 2){
 
@@ -96,14 +130,14 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
 
                     if (!TextUtils.isEmpty(zipCodeTextField?.editText?.text.toString())){
 
-                        zipcode = zipCodeTextField?.editText?.text.toString().toInt()
+                        zipcode = zipCodeTextField?.editText?.text.toString()
 
                         println(zipcode)
                     }
 
                     val place = PostPlaceInfo(name = placeNameTextField?.editText?.text.toString(),
                             address = addressTextField?.editText?.text.toString(),
-                            zipcode = zipcode,
+                            zipcode = zipcode.toString(),
                             city = townTextField?.editText?.text.toString(),
                             country = ccp_activity_country.getSelectedCountryName()/*countryTextField?.editText?.text.toString()*/,
                             map = enableMapSupportCheckBox.isChecked )
@@ -111,7 +145,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                     val eventPlace = PostPlaces(place,
                             name = placeNameTextField?.editText?.text.toString(),
                             address = addressTextField?.editText?.text.toString(),
-                            zipcode = zipcode,
+                            zipcode = zipcode.toString(),
                             city = townTextField?.editText?.text.toString(),
                             country = ccp_activity_country.getSelectedCountryName(),
                             map = enableMapSupportCheckBox.isChecked,
@@ -140,13 +174,28 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
                         }else {
                             //place.latitude = result[0].latitude
                             //place.longitude = result[0].longitude
-                            listener.addPlaceFragmentAddressFetch(eventPlace)
 
-                            //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
+                            if (position >= 0){
+
+                                listener.addPlaceFragmentAddressFetch(position,eventPlace)
+
+                            } else{
+
+                                listener.addPlaceFragmentAddressFetch(newPlace,eventPlace)
+                            }
                         }
                     } else {
 
-                        listener.addPlaceFragmentAddressFetch(eventPlace)
+                        if (position >= 0){
+
+                            listener.addPlaceFragmentAddressFetch(position, eventPlace)
+
+                        } else{
+
+                            listener.addPlaceFragmentAddressFetch(newPlace, eventPlace)
+                        }
+
+
                     }
 
                     hideLoader()
@@ -167,7 +216,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener) : BaseDialogFragm
     }
 
     interface AddPlaceFragmentListener {
-        fun addPlaceFragmentAddressFetch(place: PostPlaces)
+        fun addPlaceFragmentAddressFetch(updatedPosition : Int ,place: PostPlaces)
         fun cancelPlaceFragmentAddressFetch()
     }
 }

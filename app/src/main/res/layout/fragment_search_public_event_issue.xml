@@ -45,18 +45,21 @@
         android:layout_marginTop="23dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:hint="Search for..."
+        android:hint="@string/search_for"
         android:textColorHint="#ffffff"
         app:boxBackgroundColor="#000000"
-        app:boxStrokeColor="#34CBFE"
-        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/text_input_layout_stroke_color"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_search_icon"
         app:endIconTint="@color/colorWhite"
-        app:helperText="Enter a name or category of plans"
+        app:helperText="@string/enter_a_name_or_category_of_plans"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
         app:hintTextColor="#34CBFE"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -66,7 +69,7 @@
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="20"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -95,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_marginStart="20dp"
-        android:text="News"
+        android:text="@string/news"
         android:textColor="#DEFFFFFF"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/eventsHolderConst"
@@ -162,7 +165,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -173,7 +176,7 @@
         app:backgroundTint="#34CBFE"
         app:srcCompat="@drawable/ic_followup_black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

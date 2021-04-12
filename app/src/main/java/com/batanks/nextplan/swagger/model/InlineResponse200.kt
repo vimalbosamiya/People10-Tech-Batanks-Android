@@ -4,4 +4,4 @@ data class InlineResponse200(
         val count: Int,
         val next: String,
         val previous: String,
-        val results: List<CategoryList>)
+        val results: ArrayList<CategoryList>)

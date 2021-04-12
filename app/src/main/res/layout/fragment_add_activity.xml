@@ -16,7 +16,7 @@
             android:layout_height="65dp"
             android:layout_margin="16dp"
             android:gravity="center_vertical"
-            android:text="Add Activity"
+            android:text="@string/add_activity_title"
             android:textSize="24sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -38,13 +38,13 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Activity name *"
+            android:hint="@string/activity_name"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorWhite"
-            app:helperText="A name for the activity is mandatory"
+            app:helperText="@string/activity_name_hint"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintAnimationEnabled="true"
@@ -55,6 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addActivityHeader">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activityNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -62,6 +63,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
+                android:paddingEnd="40dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
@@ -95,12 +97,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/howMuchLayout" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/addPeopleRecyclerViewEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/whoWithLayout"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/activity_add_people"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="23dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="23dp"
             android:text="ADD PEOPLE"
             android:textColor="#ffffff"
@@ -112,10 +124,10 @@
             app:iconTintMode="add"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/whoWithLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPeopleRecyclerViewEdit"
             app:strokeColor="#34CBFE" />
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/rl_activity_enable_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,16 +161,17 @@
                 android:layout_alignParentRight="true"
                 android:padding="10dp"
                 app:useMaterialThemeColors="false" />
-        </RelativeLayout>
+        </RelativeLayout>-->
+
         <View
             android:id="@+id/footerDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@color/colorBlack"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rl_activity_enable_comments" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_add_people" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_activity_ok"

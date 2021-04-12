@@ -2,6 +2,7 @@ package com.batanks.nextplan.eventdetailsadmin.adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -11,19 +12,22 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.EventDetailView
+import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
-import com.batanks.nextplan.swagger.model.ContactsList
-import com.batanks.nextplan.swagger.model.EventDate
-import com.batanks.nextplan.swagger.model.Guests
+import com.batanks.nextplan.search.AddToGroupActivity
+import com.batanks.nextplan.swagger.model.*
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
 class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val context: Context,
-                                     private val eventDetailViewModelAdmin: EventDetailViewModelAdmin,
-                                     private val callBack: AddPeopleRecyclerViewCallBack): RecyclerView.Adapter<EveryBodyComeListAdapterAdmin.ViewHolder>() {
+                                     private val eventDetailViewModel: EventDetailViewModel,
+                                     private val callBack: AddPeopleRecyclerViewCallBack, private val eventId : Int): RecyclerView.Adapter<EveryBodyComeListAdapterAdmin.ViewHolder>() {
 
     private var dialogContext: Context? = null
 
@@ -44,31 +48,35 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         holder.contactName.text = contact.name
 
-        holder.contactSettings.setOnClickListener {
+        if (contact.status == "AC"){
 
-            if(position ==0){
+            holder.contactStatus.setImageResource(R.drawable.ic_user_accepted)
 
-                dialogContext?.let { it1 -> showDialog(it1) }
+        } else if(contact.status == "DN"){
 
-            } else if (position == 1){
-
-                dialogContext?.let { it1 -> showDialogNo(it1) }
-
-            } else {
-
-
-                dialogContext?.let { it1 -> showDialogYes(it1) }
-            }
-
-
-
-            println("working fine ")
+            holder.contactStatus.setImageResource(R.drawable.ic_user_declined)
         }
 
+        holder.contactSettings.setOnClickListener {
+
+            if(contact.status == "PD"){
+
+                dialogContext?.let { it1 -> showDialog(it1, contact.user_id!!, contact.invitation_id.toString()) }
+
+            } else if (contact.status == "AC"){
+
+                context?.let { it1 -> showDialogNo(it1, contact.user_id!!, contact.invitation_id.toString()) }
+
+            } else if (contact.status == "DN") {
+
+                dialogContext?.let { it1 -> showDialogYes(it1, contact.user_id!!, contact.invitation_id.toString()) }
+            }
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val contactStatus : ImageView = itemView.contactStatus
         val contactName: TextView = itemView.contactName
         val contactSettings: ImageView = itemView.contactSettings
 
@@ -98,13 +106,14 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         dialog.show()
     }*/
 
-    private fun showDialog(context :Context) {
+    private fun showDialog(context :Context, guestId : Int, invitationId: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.edit_propriety)
 
+        val addToGroupIcon = dialog.findViewById(R.id.addToGroupIcon) as ImageView
         val substract = dialog.findViewById(R.id.substract) as ImageView
         val add = dialog.findViewById(R.id.add) as ImageView
         val countTextview = dialog.findViewById(R.id.countTextview) as TextView
@@ -117,7 +126,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
             var count : Int = countTextview.text.toString().toInt()
 
-            if (count > 0){
+            if (count > 1){
 
                 count -= 1
 
@@ -152,6 +161,15 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         okButton.setOnClickListener {
 
+            if (yesCheckbox.isChecked == true){
+
+               accept(countTextview.text.toString().toInt(), invitationId, true)
+
+            }else if (noCheckbox.isChecked == true){
+
+                accept(countTextview.text.toString().toInt(), invitationId, false)
+            }
+
             dialog.dismiss()
         }
 
@@ -160,16 +178,24 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             dialog.dismiss()
         }
 
+        addToGroupIcon.setOnClickListener {
+
+            addToGroup(guestId)
+
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
-    private fun showDialogNo(context :Context) {
+    private fun showDialogNo(context :Context, guestId : Int, invitationId: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.edit_propriety_no)
 
+        val addToGroupIcon = dialog.findViewById(R.id.addToGroupIcon) as ImageView
         val substract = dialog.findViewById(R.id.substract) as ImageView
         val add = dialog.findViewById(R.id.add) as ImageView
         val countTextview = dialog.findViewById(R.id.countTextview) as TextView
@@ -182,7 +208,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
             var count : Int = countTextview.text.toString().toInt()
 
-            if (count > 0){
+            if (count > 1){
 
                 count -= 1
 
@@ -217,6 +243,11 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         okButton.setOnClickListener {
 
+            if (noCheckbox.isChecked == true){
+
+                accept(countTextview.text.toString().toInt(), invitationId, false)
+            }
+
             dialog.dismiss()
         }
 
@@ -225,16 +256,24 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             dialog.dismiss()
         }
 
+        addToGroupIcon.setOnClickListener {
+
+            addToGroup(guestId)
+
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
-    private fun showDialogYes(context :Context) {
+    private fun showDialogYes(context :Context, guestId : Int, invitationId: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.edit_propriety_yes)
 
+        val addToGroupIcon = dialog.findViewById(R.id.addToGroupIcon) as ImageView
         val substract = dialog.findViewById(R.id.substract) as ImageView
         val add = dialog.findViewById(R.id.add) as ImageView
         val countTextview = dialog.findViewById(R.id.countTextview) as TextView
@@ -247,7 +286,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
             var count : Int = countTextview.text.toString().toInt()
 
-            if (count > 0){
+            if (count > 1){
 
                 count -= 1
 
@@ -282,6 +321,11 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         okButton.setOnClickListener {
 
+            if (yesCheckbox.isChecked == true){
+
+                accept(countTextview.text.toString().toInt(), invitationId, true)
+            }
+
             dialog.dismiss()
         }
 
@@ -290,7 +334,46 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             dialog.dismiss()
         }
 
+        addToGroupIcon.setOnClickListener {
+
+            addToGroup(guestId)
+
+            dialog.dismiss()
+        }
+
         dialog.show()
+    }
+
+    private fun accept(amount: Int, invitationId : String, accept : Boolean){
+
+        if (accept == true){
+
+            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(ACCEPT,amount))
+
+        } else if (accept == false){
+
+            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(DECLINE,0))
+        }
+    }
+
+   /* private fun decline(invitationId : String){
+
+        eventDetailViewModel.eventInvitationAccepted(eventId.toString(), EventAccept(DECLINE,0))
+    }*/
+
+    private fun addToGroup(guestId : Int){
+
+        val intent = Intent(context, AddToGroupActivity::class.java)
+        intent.putExtra("Id", guestId)
+        ContextCompat.startActivity(context, intent, null)
+        //(context as EventDetailViewAdmin).finish()
+    }
+
+    companion object{
+
+        const val ACCEPT : String = "AC"
+        const val PENDING : String = "PD"
+        const val DECLINE : String = "DN"
     }
 
     interface AddPeopleRecyclerViewCallBack {

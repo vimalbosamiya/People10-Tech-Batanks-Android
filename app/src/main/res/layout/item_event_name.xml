@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_homeplan_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    android:elevation="10dp">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/newsBackGround">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/eventItemHolder"
@@ -51,7 +55,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_privateeventcategoryacceptedicon"
+                android:src="@drawable/ic_event_category_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,18 +65,20 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/ic_event_private_category"
+                android:src="@drawable/ic_event_category_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/eventName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
                 android:text="Private Event Name"
-                app:layout_constraintLeft_toLeftOf="@+id/eventPrivateCategoryIcon"
+                app:layout_constraintStart_toStartOf="@+id/eventPrivateCategoryIcon"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -84,7 +90,7 @@
                 app:layout_constraintStart_toStartOf="@+id/eventName"
                 app:layout_constraintTop_toBottomOf="@+id/eventName" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/fromTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,36 +98,40 @@
                 android:text="From"
                 app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
                 app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
-                app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
+                app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />-->
 
             <TextView
                 android:id="@+id/fromResponseTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
                 android:text="From Response"
-                app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
-                app:layout_constraintLeft_toRightOf="@+id/fromTextView"
-                app:layout_constraintTop_toTopOf="@+id/fromTextView" />
+                app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
+                app:layout_constraintStart_toEndOf="@+id/datePeriodIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/toTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="To"
                 app:layout_constraintStart_toStartOf="@+id/fromTextView"
-                app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/fromTextView" />-->
 
             <TextView
                 android:id="@+id/toResponseTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="5dp"
                 android:text="To Response"
-                app:layout_constraintBottom_toBottomOf="@+id/toTextView"
-                app:layout_constraintEnd_toEndOf="@+id/fromResponseTextView"
-                app:layout_constraintTop_toTopOf="@+id/toTextView" />
+                app:layout_constraintStart_toStartOf="@+id/fromResponseTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fromResponseTextView" />
 
             <ImageView
                 android:id="@+id/mapPlaceIcon"
@@ -138,9 +148,10 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginEnd="16dp"
                 android:text="Bangalore"
                 app:layout_constraintStart_toEndOf="@+id/mapPlaceIcon"
-                app:layout_constraintEnd_toEndOf="@+id/fromResponseTextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mapPlaceIcon"
                 app:layout_constraintBottom_toBottomOf="@+id/eventItem"/>
             <!-- android:maxLines="2"-->
@@ -256,12 +267,22 @@
                 app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
 
             <ImageView
-                android:id="@+id/eventPrivateCategoryIconFull"
+                android:id="@+id/eventStatusFull"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/ic_event_private_category"
+                android:src="@drawable/ic_event_category_icon"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
+
+            <ImageView
+                android:id="@+id/eventPrivateCategoryIconFull"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_event_category_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/eventPrivateCategoryBackGround" />
 
@@ -289,11 +310,12 @@
                 android:id="@+id/eventDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:maxHeight="85dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="14sp"
-                android:text="This is an event created to display in Application"
+                android:text="This is an event created to display in Application ."
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventPrivateCategoryBackGround" />
@@ -374,4 +396,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/eventFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</androidx.cardview.widget.CardView>

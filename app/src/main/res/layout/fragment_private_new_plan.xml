@@ -1,9 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#1D2125">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1D2125">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/planNameTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/plan_name"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:helperText="@string/plan_name_helpertext"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/planNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="textMultiLine"
+                android:maxLength="20"
+                android:maxLines="5"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@null"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/detailDescriptionTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/detail_description"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:helperText="@string/detail_description_helpertext"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/planNameTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detailDescriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="4"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@null"  />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="@color/colorWhite"
+            app:helperText=""
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
+            app:startIconDrawable="@drawable/ic_category"
+            app:startIconTint="#ffffff">
+
+            <AutoCompleteTextView
+                android:id="@+id/actv_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:editable="false"
+                android:inputType="none"
+                android:text="@string/category" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/addPeriodLayout"
+            layout="@layout/layout_add_plan_add_period_public"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/categoryTextField"
+            app:layout_constraintTop_toBottomOf="@+id/categoryTextField" />
+
+        <include
+            android:id="@+id/addPlaceLayout"
+            layout="@layout/layout_add_plan_add_place_public"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addPeriodLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPeriodLayout" />
+
+        <include
+            android:id="@+id/addActionLayout"
+            layout="@layout/layout_add_plan_add_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addPlaceLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addPlaceLayout" />
+
+        <include
+            android:id="@+id/addActivityLayout"
+            layout="@layout/layout_add_plan_add_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/addActionLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addActionLayout" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/howOftenTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/how_often_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addActivityLayout" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/howOftenDividerIcon"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="#7A000000"
+            app:layout_constraintLeft_toLeftOf="@+id/howOftenTextView"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenTextView"
+            android:textCursorDrawable="@null" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/howOftenTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/how_often"
+            android:paddingBottom="16dp"
+            android:gravity="center_vertical"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ccp_ic_arrow_drop_down"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="@string/event_frequency"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenDividerIcon"
+            app:startIconTint="#ffffff">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/howOftenEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:maxLines="1"
+                android:focusable="false"
+                android:clickable="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@color/colorWhite"  />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/howMuchTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/max_participants"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howOftenTextField" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/howMuchDividerIcon"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="#7A000000"
+            app:layout_constraintLeft_toLeftOf="@+id/howMuchTextView"
+            app:layout_constraintRight_toRightOf="@+id/howOftenTextField"
+            app:layout_constraintTop_toBottomOf="@+id/howMuchTextView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/maxParticipantsTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/number"
+            android:textColorHint="#ffffff"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:helperText="@string/max_participants"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/howMuchDividerIcon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maxParticipantsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="number"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@null"  />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/addPeopleLayout"
+            layout="@layout/layout_add_plan_add_people_public"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@+id/maxParticipantsTextField"
+            app:layout_constraintTop_toBottomOf="@+id/maxParticipantsTextField" />
+
+        <ImageView
+            android:id="@+id/commentsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_comments_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addPeopleLayout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_comments"
+            android:layout_marginStart="18.02dp"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@+id/commentsIcon"
+            app:layout_constraintTop_toTopOf="@+id/commentsIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/commentsIcon"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/privateCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10.02dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/commentsIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/commentsIcon"/>
+
+        <include
+            android:id="@+id/addFooterLayout"
+            layout="@layout/layout_add_plan_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="@+id/addPeopleLayout"
+            app:layout_constraintTop_toBottomOf="@+id/commentsIcon"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

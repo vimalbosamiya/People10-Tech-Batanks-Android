@@ -55,6 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addcontactHeader">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addcontactSearchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
@@ -425,7 +426,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:src="@drawable/ccp_ic_arrow_drop_down"
+                    android:src="@drawable/ic_event_details_hide_map_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 

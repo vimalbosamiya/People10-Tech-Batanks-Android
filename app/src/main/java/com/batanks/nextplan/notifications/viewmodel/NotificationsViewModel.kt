@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
 import com.batanks.nextplan.swagger.api.NotificationsAPI
-import com.batanks.nextplan.swagger.model.InlineResponse2003
-import com.batanks.nextplan.swagger.model.NotificationsList
+import com.batanks.nextplan.swagger.model.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -14,14 +13,14 @@ class NotificationsViewModel (private val notificationsApi: NotificationsAPI) : 
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
-    var response : InlineResponse2003? = null
-    var notificationsList :  ArrayList<NotificationsList> = arrayListOf()
-    val publicnotificationsList : ArrayList<NotificationsList> = arrayListOf()
-    val privatenotificationsList :  ArrayList<NotificationsList> = arrayListOf()
+    val responseLiveDataMarkAsRead: MutableLiveData<ApiResponse> = MutableLiveData()
+    var response : NotificationsResponse? = null
+    var notificationsList :  ArrayList<NotificationModel> = arrayListOf()
+
 
     fun getNotifications() {
 
-        disposables.add(notificationsApi.apiNotificationsList(100,0)
+        disposables.add(notificationsApi.apiNotificationsList()
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -35,5 +34,33 @@ class NotificationsViewModel (private val notificationsApi: NotificationsAPI) : 
                 }) { throwable ->
                     responseLiveData.setValue(ApiResponse.error(throwable))
                 })
+    }
+
+    fun apiNotificationMarkAsRead(data: NotificationRead?) {
+
+        disposables.add(notificationsApi.apiNotificationMarkAsRead(data)
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    responseLiveDataMarkAsRead.setValue(ApiResponse.loading())
+                }
+                .doOnNext {
+                    //println(it)
+                }.subscribe({ result ->
+                    responseLiveDataMarkAsRead.setValue(ApiResponse.success(result))
+                }) { throwable ->
+                    responseLiveDataMarkAsRead.setValue(ApiResponse.error(throwable))
+                })
+    }
+
+    override fun onCleared() {
+        disposables.clear()
+    }
+
+    companion object{
+
+        var publicnotificationsList : ArrayList<NotificationModel> = arrayListOf()
+        var privatenotificationsList :  ArrayList<NotificationModel> = arrayListOf()
     }
 }

@@ -3,6 +3,7 @@ package com.batanks.nextplan.swagger.api
 import com.batanks.nextplan.swagger.model.*
 import com.batanks.nextplan.swagger.model.mode.ResetPasswordConfirm
 import io.reactivex.Observable
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -18,7 +19,7 @@ interface AuthenticationAPI {
     fun apiAuthenticationIosCreate(@Body device: APNSDevice): Call<APNSDevice>
 
     @GET("api/authentication/")
-    fun apiAuthenticationList(): Call<Void>
+    fun apiAuthenticationList(): Observable<Void>
 
     @POST("api/authentication/login/")
     fun apiAuthenticationLoginCreate(@Body login: Login): Call<Login>
@@ -41,8 +42,9 @@ interface AuthenticationAPI {
     @GET("api/authentication/profile/")
     fun apiAuthenticationProfileReadObservable(): Observable<User>
 
+    /*@Multipart*/
     @PUT("api/authentication/profile/")
-    fun apiAuthenticationProfileUpdate(@Body user: User): Call<User>
+    fun apiAuthenticationProfileUpdate(@Body user: EditUser/*, @Part filepart: MultipartBody.Part*/): Observable<UpdatedUser>
 
     @POST("api/authentication/register/")
     fun apiAuthenticationRegisterCreate(@Body user: RegisterUser): Call<RegisterUser>
@@ -52,4 +54,13 @@ interface AuthenticationAPI {
 
     @POST("api/authentication/reset/")
     fun apiAuthenticationResetPassword(@Body resetPassword: ResetPasswordConfirm): Observable<ResetPassword>
+
+    @GET("api/authentication/settings")
+    fun apiAuthenticationGetSetings(): Observable<SettingsGet>
+
+    @PUT("api/authentication/settings")
+    fun apiAuthenticationPutSetings(@Body data: SettingsGet): Observable<SettingsGet>
+
+    @PATCH("api/authentication/settings")
+    fun apiAuthenticationPatchSetings(@Body data: SettingsGet): Observable<SettingsGet>
 }

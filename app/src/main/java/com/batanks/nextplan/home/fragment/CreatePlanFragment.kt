@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
+import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.tabfragment.TabsPagerAdapter
+import com.batanks.nextplan.swagger.model.GetEventListHome
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
 
-class CreatePlanFragment : BaseFragment() {
+class CreatePlanFragment (private val draft : Boolean, private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean): BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,7 @@ class CreatePlanFragment : BaseFragment() {
 
         val ref = requireActivity() as AppCompatActivity
         ref.setSupportActionBar(toolBar)
-        ref.supportActionBar?.title = "Add Plan"
+        ref.supportActionBar?.setTitle(R.string.add_plan)
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
@@ -35,13 +37,19 @@ class CreatePlanFragment : BaseFragment() {
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
-            ///activity?.extFab!!.visibility = View.VISIBLE                     //uncomment
+            if (editButtonClicked == false && deleteButtonClicked == false){
+
+                homeScreenItemsVisible()
+
+            } else if (editButtonClicked == true ){
+
+
+            }
 
             //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
-
         }
 
-        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager)
+        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager, draft, eventId, editButtonClicked, deleteButtonClicked)
         view_pager.adapter = tabsPagerAdapter
 
         tabs.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
@@ -49,13 +57,13 @@ class CreatePlanFragment : BaseFragment() {
         tabs.setupWithViewPager(view_pager)
 
         val tabOne = LayoutInflater.from(view.context).inflate(R.layout.custom_tab, null) as TextView
-        tabOne.text = "PRIVATE"
+        tabOne.text = getString(R.string._private)
         tabOne.setTextColor(resources.getColor(R.color.colorWhite))
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_private_plan_tablayout, 0, 0)
         tabs.getTabAt(0)?.customView = tabOne
 
         val tabTwo = LayoutInflater.from(view.context).inflate(R.layout.custom_tab, null) as TextView
-        tabTwo.text = "PUBLIC"
+        tabTwo.text = getString(R.string._public)
         tabTwo.setTextColor(resources.getColor(R.color.colorWhite))
         tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_public_plan_tablayout, 0, 0)
         tabs.getTabAt(1)?.customView = tabTwo
@@ -70,5 +78,14 @@ class CreatePlanFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         ///activity?.extFab!!.visibility = View.VISIBLE             //uncomment
+    }
+
+    private fun homeScreenItemsVisible(){
+
+        activity?.appBarLayout?.visibility = View.VISIBLE
+        activity?.extFab!!.visibility = View.VISIBLE
+        activity?.search!!.visibility = View.VISIBLE
+        activity?.notification!!.visibility = View.VISIBLE
+        activity?.img_settings!!.visibility = View.VISIBLE
     }
 }

@@ -9,5 +9,5 @@ import retrofit2.http.Query
 interface CategoryAPI {
 
     @GET("api/category/")
-    fun apiCategoryList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Observable<InlineResponse200>
+    fun apiCategoryList(/*@Query("limit") limit: Int?, @Query("offset") offset: Int?*/): Observable<InlineResponse200>
 }

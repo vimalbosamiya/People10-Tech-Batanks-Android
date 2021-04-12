@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
     <ImageView
@@ -31,14 +32,27 @@
         android:padding="10dp"
         android:text="Myname"/>
 
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cb_assign_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:buttonTint="@color/colorWhite"
         android:padding="10dp"
-        android:checked="false"/>
+        android:checked="false"
+        app:useMaterialThemeColors="false" />
+
+
+
+    <!--<com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/stayLoggedInCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:layout_marginEnd="10dp"
+        android:imeOptions="actionDone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/stayLoggedIn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:useMaterialThemeColors="false" />-->
 
 </RelativeLayout>

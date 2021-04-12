@@ -1,24 +1,23 @@
 package com.batanks.nextplan.signing
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
-import com.batanks.nextplan.Settings.viewmodel.ProfileModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
@@ -28,24 +27,18 @@ import com.batanks.nextplan.registration.Registration
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.forgotpassword.AccountRecovery1
+import com.batanks.nextplan.home.isValidPassword
 import com.batanks.nextplan.signing.viewmodel.SigninViewModel
 import com.batanks.nextplan.splash.SplashActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.Login
 import com.batanks.nextplan.swagger.model.User
 import com.google.android.material.textfield.TextInputLayout
-import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.regex.Pattern
 
 class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
-
-    private var observable: Observable<Boolean>? = null
-
-    //val sharedPref = getSharedPreferences("USER_TOKEN_PREF", Context.MODE_PRIVATE)
 
     private val signinViewModel: SigninViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -62,26 +55,9 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         loginTextField.markRequiredInRed()
         passTextField.markRequiredInRed()
 
-        /*passEditField.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getWindow().getDecorView().clearFocus()
-                //v.clearFocus()
-                //passEditField.clearFocus()
-
-
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
-            }
-            false
-        })*/
-
         dismissKeyboard()
 
         getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().clear().apply()
-
-        /* val editor = sharedPref.edit()
-        editor.putInt("USER_LOGIN_TOKEN", yourIntValue)
-        editor.apply()*/
 
         forgotPassword.setOnClickListener {
 
@@ -98,19 +74,26 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                 }
                 Status.SUCCESS -> {
 
-                    //println(response.data)
                     val response_User = response.data as User
 
-                    //getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().putString(RetrofitClient.USER_TOKEN_PREF,response_User.token).apply()
+                    val id: Int? = response_User?.id
+                    val userName: String? = response_User?.username
+                    val firstName: String? = response_User?.first_name
+                    val lastName: String? = response_User?.last_name
+                    val email: String? = response_User?.email
+                    val phoneNumber: String? = response_User?.phone_number
+                    val image : String? = response_User?.picture
 
-                    //RetrofitClient.getRetrofitInstance(this).sharedPref.edit().putString("USER_LOGIN_TOKEN",response_User.token).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putInt("ID", id!!).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PROFILEIMAGE", image).apply()
 
                     getSharedPreferences(RetrofitClient.USER_TOKEN_PREF, Context.MODE_PRIVATE).edit().putString("USER_LOGIN_TOKEN",response_User.token).apply()
 
-                    //RetrofitClient.token = response_User.token
-
-                    //println("token from Sign in activity" + RetrofitClient.token)
-                    //println(response_User)
                     hideLoader()
                     val intent = Intent(this, HomePlanPreview::class.java)
                     startActivity(intent)
@@ -119,17 +102,15 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
-                    Toast.makeText(this,"Username or Password is incorrect",Toast.LENGTH_LONG).show()
                 }
             }
         })
 
-      loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
+      //loadingDialog = this.getLoadingDialog(0, R.string.signing_in_please_wait, theme = R.style.AlertDialogCustom)
 
         createAccount.setOnClickListener {
             val intent = Intent(this, Registration::class.java)
             startActivity(intent)
-            //finish()
         }
 
         /*val loginEditTextObservable: Observable<String>? = loginTextField?.editText?.textChanges()?.skip(1)?.map { charSequence ->
@@ -193,9 +174,8 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.login -> {
-                //Toast.makeText(this,"working",Toast.LENGTH_SHORT).show()
 
-                if (isValidUsername(loginTextField.editText?.text.toString()) && loginTextField.editText?.length()!! >= 4){
+                if (isValidUsername(loginTextField.editText?.text.toString()) && loginTextField.editText?.length()!! >= 2){
 
                     if (isValidPassword(passTextField.editText?.text?.toString()) && passTextField.editText?.length()!! >= 6){
 
@@ -248,14 +228,52 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
+    override fun onBackPressed() {
+
+        showDialog()
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.exit_pop_up)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        /*val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)*/
+
+        val btn_create_followups_cancel = dialog.findViewById(R.id.btn_create_followups_cancel) as Button
+        val btn_create_followups_ok = dialog.findViewById(R.id.btn_create_followups_ok) as Button
+
+        btn_create_followups_cancel.setOnClickListener { dialog.dismiss() }
+
+        btn_create_followups_ok.setOnClickListener {
+
+            dialog.dismiss()
+
+            finishAffinity()
+        }
+
+        dialog.show()
+
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                v.clearFocus()
+            }
+            false
+        }
+    }
+
+    //private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
     private fun isValidUsername(textToCheck: String?) : Boolean = userNamePattern.matcher(textToCheck).matches()
 
     companion object {
-        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#?!@$%^&()\\[\\\\\\]<>*~:_/|`-])(?=\\S+$)(?=.*\\d).+$")
         val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
-
-        //(?=.*\d).+  (?=.*[@#\$%^&+=])
     }
 }

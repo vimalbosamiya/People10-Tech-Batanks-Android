@@ -30,6 +30,7 @@ import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.contacts.GroupsAdapter
+import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.home.viewmodel.GroupsViewModel
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.search.adapters.AddToGroupsAdapter
@@ -154,10 +155,84 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
                         params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                         groupsRecyclerView.setLayoutParams(params)
                     }
-                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList)
+                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList,groupsViewModel, Id!!)
                     //groupAdapter.notifyDataSetChanged()
 
                     println(groupList)
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                    println("error from get" +response.error?.message.toString())
+                }
+            }
+        })
+
+        groupsViewModel.responseLiveDataPost.observe(this, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    groupsViewModel.getGroupsList()
+
+                    Toast.makeText(context(),R.string.group_created,Toast.LENGTH_SHORT).show()
+
+                    /*groupsViewModel.response = response.data as List<Group>
+
+                    groupList = response.data
+
+                    //groupAdapter = AddToGroupsAdapter(groupList)
+
+                    if(groupList.size <=5) {
+                        val params = groupsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        groupsRecyclerView.setLayoutParams(params)
+                    }
+                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList)
+                    //groupAdapter.notifyDataSetChanged()
+
+                    println(groupList)*/
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                    println("error from post" + response.error?.message.toString())
+                }
+            }
+        })
+
+        groupsViewModel.responseLiveDataAddContact.observe(this, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    /*groupsViewModel.response = response.data as List<Group>
+
+                    groupList = response.data
+
+                    //groupAdapter = AddToGroupsAdapter(groupList)
+
+                    if(groupList.size <=5) {
+                        val params = groupsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        groupsRecyclerView.setLayoutParams(params)
+                    }
+                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList)
+                    //groupAdapter.notifyDataSetChanged()
+
+                    println(groupList)*/
+
+                    Toast.makeText(context(),R.string.contact_added_to_group,Toast.LENGTH_SHORT).show()
 
                 }
                 Status.ERROR -> {
@@ -173,9 +248,8 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
             finish()
 
-          /*  val contactIntent = Intent(this, Contact::class.java)
-
-            startActivity(contactIntent)*/
+            val contactIntent = Intent(this, Contact::class.java)
+            startActivity(contactIntent)
 
            /* supportFragmentManager.beginTransaction()
                     .add(R.id.frameLayout, SearchFragment())
@@ -231,6 +305,8 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
         val tip_create_group_gname = dialog.findViewById(R.id.tip_create_group_gname) as TextInputLayout
         val input_create_group_gname = dialog.findViewById(R.id.input_create_group_gname) as TextInputEditText
 
+        tip_create_group_gname.markRequiredInRed()
+
 
         btn_create_group_ok.setOnClickListener {
 
@@ -252,13 +328,13 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
                 //onResume()
 
-                notifyDataSetChange()
+                //notifyDataSetChange()
 
                 //groupAdapter.notifyDataSetChanged()
 
             } else {
 
-                tip_create_group_gname.editText?.error = "Group name should contain atleast one character"
+                tip_create_group_gname.editText?.setError(getString(R.string.group_name_error))
                 input_create_group_gname.requestFocus()
             }
 
@@ -331,7 +407,7 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
                         params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                         groupsRecyclerView.setLayoutParams(params)
                     }
-                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList)
+                    groupsRecyclerView.adapter = Id?.let { AddToGroupsAdapter(groupList,groupsViewModel, it) }
                     //groupAdapter.notifyDataSetChanged()
 
                     groupsRecyclerView.adapter?.notifyDataSetChanged()

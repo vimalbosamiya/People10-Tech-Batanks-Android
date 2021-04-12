@@ -17,16 +17,26 @@
 
         <ImageView
             android:id="@+id/contactStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_contact_not_confirmed"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_user_pending"
             app:layout_constraintStart_toStartOf="@+id/contactBackground"
             app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/contactImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_user_pending"
+            app:layout_constraintStart_toStartOf="@+id/contactStatus"
+            app:layout_constraintEnd_toEndOf="@+id/contactStatus"
+            app:layout_constraintTop_toTopOf="@+id/contactBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/contactBackground"/>-->
+
+<!--        <ImageView
+            android:id="@+id/contactImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="4dp"
             android:background="@drawable/ic_event_details_contact_picture"
             app:layout_constraintStart_toStartOf="@+id/contactBackground"
@@ -39,7 +49,7 @@
             android:layout_margin="11dp"
             android:background="@drawable/ic_person"
             app:layout_constraintStart_toStartOf="@+id/contactImage"
-            app:layout_constraintTop_toTopOf="@+id/contactImage"/>
+            app:layout_constraintTop_toTopOf="@+id/contactImage"/>-->
 
         <TextView
             android:id="@+id/contactName"

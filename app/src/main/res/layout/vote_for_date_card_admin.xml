@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
-            android:text="Vote for date"
+            android:text="@string/vote_for_date"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/dateThumbsUpDown"
@@ -175,7 +175,7 @@
             android:id="@+id/textviewVoteForMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vote for date"
+            android:text="@string/vote_for_date"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp"
@@ -216,9 +216,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti" />
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti"
+            app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"/>
 
         <!--<ImageView
             android:id="@+id/addPeriodImg"
@@ -232,7 +234,7 @@
             app:layout_constraintTop_toBottomOf="@+id/VoteForDateMultipleRecyclerViewAdmin"
             app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"/>-->
 
-        <TextView
+        <!--<TextView
             android:id="@+id/dateCloseVotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -245,7 +247,7 @@
             app:layout_constraintStart_toStartOf="@+id/dateDropDownBackgroundMultiple"
             app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"
             app:layout_constraintTop_toBottomOf="@+id/VoteForDateMultipleRecyclerViewAdmin"
-            app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"/>
+            app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

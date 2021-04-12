@@ -12,6 +12,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +23,7 @@ import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 /*import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter*/
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.CategoryViewModel
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
@@ -34,24 +36,20 @@ import com.batanks.nextplan.swagger.api.SearchAPI
 import com.batanks.nextplan.swagger.model.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.jakewharton.rxbinding2.widget.RxTextView
+import com.jakewharton.rxbinding3.widget.afterTextChangeEvents
 import kotlinx.android.synthetic.main.fragment_search_public_event_issue.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.selects.whileSelect
+import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class SearchAllEventFragment : BaseFragment()  {
+class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineScope, CategoryAdapter.CategoryRecyclerViewCallBack {
 
     lateinit var eventsRecyclerView : RecyclerView
-    //lateinit var categoryRecyclerView : RecyclerView
-    var categoryRecyclerView : RecyclerView? = null
-    //lateinit var eventsAdapter : HomePlanPreviewAdapter
-
-    private val homePlanPreviewViewModel: HomePlanPreviewViewModel by lazy {
-        ViewModelProvider(this, GenericViewModelFactory {
-            getContext()?.let {
-                RetrofitClient.getRetrofitInstance(it)?.create(EventAPI::class.java)?.let {
-                    HomePlanPreviewViewModel(it)
-                }
-            }
-        }).get(HomePlanPreviewViewModel::class.java)
-    }
 
     private val searchViewModel: SearchViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -73,41 +71,83 @@ class SearchAllEventFragment : BaseFragment()  {
         }).get(CategoryViewModel::class.java)
     }
 
-    lateinit var eventList : ArrayList<GetEventListHome>
-    lateinit var searchList : ArrayList<GetEventListHome>
-    lateinit var categoryList : List<CategoryList>
-    //var categoryList : List<CategoryList>? = null
+    var eventList : ArrayList<GetEventListHome> = arrayListOf()
+    var dummyList : ArrayList<GetEventListHome> = arrayListOf()
+    lateinit var categoryList : ArrayList<CategoryList>
 
-    var recyclerView: RecyclerView? = null
+    private var searchKeyword : String? = null
+    private var searchCategory : CategoryList? = null
+    private var searchCategoryId : String? = "-1"
+
+    private var textChangedJob: Job? = null
+    private lateinit var textListener: TextWatcher
+    private lateinit var job: Job
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view = inflater.inflate(R.layout.fragment_search_public_event_issue, container, false)
 
         eventsRecyclerView = view.findViewById(R.id.publicEventRecyclerView)
+        eventsRecyclerView?.setHasFixedSize(true)
         eventsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView)
-        categoryRecyclerView?.layoutManager = LinearLayoutManager(activity)
+        job = Job()
 
-        //eventsRecyclerView.adapter = HomePlanPreviewAdapter(listOf<String>())
+        textListener = object : TextWatcher {
+            private var searchFor = "A" // Or view.editText.text.toString()
+
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText != searchFor) {
+                    searchFor = searchText
+
+                    textChangedJob?.cancel()
+                    textChangedJob = launch(Dispatchers.Main) {
+                        //delay(2000L)
+                        if (searchText == searchFor) {
+
+                            searchKeyword = searchText
+
+                            if (searchCategory != null){
+
+                                searchCategoryId = searchCategory!!.pk.toString()
+
+                                searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+
+                            } else if (searchCategory == null){
+
+                                searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),searchKeyword)
+                            }
+
+                           // view.hideKeyboard()
+
+                            println(searchText )
+                            //loadList(searchText)
+                        }
+                    }
+                }
+            }
+        }
 
         return view
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
 
-        /*categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView)
-        categoryRecyclerView?.layoutManager = LinearLayoutManager(activity)*/
-        //categoryRecyclerView.layoutManager = LinearLayoutManager(activity)
+        addcontactSearchEditText.setText(filter)
 
-        loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
-        homePlanPreviewViewModel.eventList()
+        searchViewModel.apiSearchListWithType("ALL")
 
-        homePlanPreviewViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
+        searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
             when (response.status) {
                 Status.LOADING -> {
@@ -116,24 +156,11 @@ class SearchAllEventFragment : BaseFragment()  {
                 Status.SUCCESS -> {
                     hideLoader()
 
-                    homePlanPreviewViewModel.response = response.data as InlineResponse2002
+                    searchViewModel.response = response.data as InlineResponse2002
 
-                    eventList = homePlanPreviewViewModel.response!!.results
+                    eventList = searchViewModel.response!!.results
 
-                    //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList)
-
-                    //eventAdapter.notifyDataSetChanged()
-                    //var events_list = listOf(response.data as EventList)
-                    //var res : EventListResponse = response.data as EventListResponse
-                    //println(response.data )
-                    //println(eventList)
-                    //var events_list = res.results
-                    //eventList = res.results
-                    //if(events_list != null)
-                    //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-                    //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
-                    //println(events_list)
-
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -157,9 +184,9 @@ class SearchAllEventFragment : BaseFragment()  {
 
                     categoryViewModel.categoryList = categoryViewModel.response!!.results
 
-                    categoryList = response.data.results
+                    categoryList = categoryViewModel.response!!.results
 
-                    //categoryRecyclerView?.adapter = CategoryAdapter(categoryList)
+//                    categoryRecyclerView?.adapter = CategoryAdapter(categoryList,view.context)
 
                     println(categoryViewModel.categoryList)
                 }
@@ -170,246 +197,10 @@ class SearchAllEventFragment : BaseFragment()  {
             }
         })
 
-        floating_action_button.setOnClickListener {
-
-            showDialog(view!!.context)
-        }
-
         sort.setOnClickListener {
 
             showSortDialog(view!!.context)
         }
-
-        addcontactSearchTextField.addOnEditTextAttachedListener {
-
-            //println("Typing")
-        }
-
-        addcontactSearchEditText.doOnTextChanged { text, start, count, after ->
-
-            /*Handler().postDelayed({
-
-                println(addcontactSearchEditText.text)
-
-            },3 * 1000)*/
-        }
-
-        addcontactSearchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-                Handler().postDelayed({
-
-                    println(addcontactSearchEditText.text )
-
-                    searchViewModel.getSearchList("PRIVATE",null, addcontactSearchEditText.text.toString())
-
-                    searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
-
-                        when (response.status) {
-                            Status.LOADING -> {
-                                showLoader()
-                            }
-                            Status.SUCCESS -> {
-                                hideLoader()
-
-                                searchViewModel.response = response.data as InlineResponse2002
-
-                                searchList = searchViewModel.response!!.results
-
-                                //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(searchList)
-
-                                /*eventAdapter.notifyDataSetChanged()
-                                var events_list = listOf(response.data as EventList)
-                                var res : EventListResponse = response.data as EventListResponse
-                                println(response.data )
-                                println(eventList)
-                                var events_list = res.results
-                                eventList = res.results
-                                if(events_list != null)
-                                recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-                                recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
-                                println(events_list)*/
-
-                            }
-                            Status.ERROR -> {
-                                hideLoader()
-                                showMessage(response.error?.message.toString())
-                            }
-                        }
-                    })
-
-                },3 * 1000)
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-
-            }
-        })
-
-        fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-            this.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(editable: Editable?) {
-                    afterTextChanged.invoke(editable.toString())
-                }
-            })
-        }
-
-        /*addcontactSearchEditText.afterTextChanged {
-
-            Handler().postDelayed({
-
-                println(addcontactSearchEditText.text )
-
-                *//*searchViewModel.getSearchList("PRIVATE",null, addcontactSearchEditText.text.toString())
-
-                searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
-
-                    when (response.status) {
-                        Status.LOADING -> {
-                            showLoader()
-                        }
-                        Status.SUCCESS -> {
-                            hideLoader()
-
-                            searchViewModel.response = response.data as InlineResponse2002
-
-                            searchList = searchViewModel.response!!.results
-
-                            eventsRecyclerView?.adapter = HomePlanPreviewAdapter(searchList)
-
-                            //eventAdapter.notifyDataSetChanged()
-                            //var events_list = listOf(response.data as EventList)
-                            //var res : EventListResponse = response.data as EventListResponse
-                            //println(response.data )
-                            //println(eventList)
-                            //var events_list = res.results
-                            //eventList = res.results
-                            //if(events_list != null)
-                            //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-                            //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
-                            //println(events_list)
-
-                        }
-                        Status.ERROR -> {
-                            hideLoader()
-                            showMessage(response.error?.message.toString())
-                        }
-                    }
-                })*//*
-
-            },3 * 1000)
-        }*/
-
-
-    }
-
-    private fun showDialog(context : Context) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.layout_create_followups)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        /*val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)*/
-
-        val btn_create_followups_cancel = dialog.findViewById(R.id.btn_create_followups_cancel) as Button
-        val btn_create_followups_ok = dialog.findViewById(R.id.btn_create_followups_ok) as Button
-        val tip_create_followups_name = dialog.findViewById(R.id.tip_create_followups_name) as TextInputLayout
-        val input_create_followups_name = dialog.findViewById(R.id.input_create_followups_name) as TextInputEditText
-
-        /*dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-        tip_create_followups_name.editText?.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })*/
-
-        /*input_create_followups_name.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })*/
-
-
-        btn_create_followups_cancel.setOnClickListener {
-
-            dialog.dismiss()
-        }
-
-        btn_create_followups_ok.setOnClickListener {
-
-            //            if (TextUtils.isEmpty(tip_create_followups_name.editText?.text.toString())){
-            if (tip_create_followups_name.editText?.length()!! >= 1){
-
-                dialog.dismiss()
-
-            } else {
-
-                tip_create_followups_name.editText?.error = "Follow Up name should contain atleast one character"
-                input_create_followups_name.requestFocus()
-            }
-        }
-
-        //input_create_followups_name.requestFocus()
-
-        dialog.show()
-
-        /*dialog.window?.decorView?.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })*/
-
-        dialog.window?.decorView?.setOnTouchListener { v, event ->
-
-            if (event?.action == MotionEvent.ACTION_DOWN) {
-
-                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                v.clearFocus()
-            }
-            false
-        }
-
-        /*view.setOnTouchListener(object : View.OnTouchListener {
-
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
-                if (event?.action == MotionEvent.ACTION_DOWN) {
-
-                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                    v.clearFocus()
-                }
-
-                return false
-            }
-        })*/
-
     }
 
     private fun showSortDialog(context : Context) {
@@ -419,37 +210,12 @@ class SearchAllEventFragment : BaseFragment()  {
         dialog.setContentView(R.layout.category_pop_up)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        //categoryRecyclerView?.adapter = CategoryAdapter(categoryViewModel.categoryList!!)
-        categoryRecyclerView?.adapter = CategoryAdapter(categoryList)
-
-        /*val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)*/
-
         val btn_cancel = dialog.findViewById(R.id.btn_cancel) as Button
         val btn_ok = dialog.findViewById(R.id.btn_ok) as Button
+        val categoryRecyclerView = dialog.findViewById(R.id.categoryRecyclerView) as RecyclerView
+        categoryRecyclerView?.layoutManager = LinearLayoutManager(activity)
 
-        /*dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);*/
-
-        /*tip_create_followups_name.editText?.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })
-
-        input_create_followups_name.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })*/
-
+        categoryRecyclerView?.adapter = view?.context?.let { CategoryAdapter(categoryList, it,this, searchCategoryId?.toInt()) }
 
         btn_cancel.setOnClickListener {
 
@@ -458,22 +224,41 @@ class SearchAllEventFragment : BaseFragment()  {
 
         btn_ok.setOnClickListener {
 
+            println(searchCategory?.name)
 
+            dialog.dismiss()
+
+            if (searchCategory != null ){
+
+                searchCategoryId = searchCategory!!.pk.toString()
+
+            }
+
+            if (searchCategory != null && searchKeyword != null){
+
+               // searchCategoryId = searchCategory!!.pk.toString()
+
+                searchViewModel.getSearchList("ALL",searchCategoryId.toString(),searchKeyword)
+
+            } else if (searchCategory == null && searchKeyword != null){
+
+                searchViewModel.apiSearchListWithTypeAndKeyword("ALL",searchKeyword)
+
+            }else if (searchCategory == null && searchKeyword == null){
+
+                searchViewModel.apiSearchListWithType("ALL")
+
+            }else if(searchCategory != null && searchKeyword == null){
+
+                //searchCategoryId = searchCategory!!.pk.toString()
+
+                searchViewModel.apiSearchListWithTypeAndCategory("ALL", searchCategoryId.toString())
+            }
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategory?.pk.toString(),searchKeyword)
         }
 
-        //input_create_followups_name.requestFocus()
-
         dialog.show()
-
-        /*dialog.window?.decorView?.setOnFocusChangeListener(object:View.OnFocusChangeListener {
-
-            override fun onFocusChange(v:View, hasFocus:Boolean) {
-                if (hasFocus)
-                {
-                    dialog.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                }
-            }
-        })*/
 
         dialog.window?.decorView?.setOnTouchListener { v, event ->
 
@@ -485,21 +270,67 @@ class SearchAllEventFragment : BaseFragment()  {
             }
             false
         }
+    }
 
-        /*view.setOnTouchListener(object : View.OnTouchListener {
 
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
 
-                if (event?.action == MotionEvent.ACTION_DOWN) {
+        if (isVisibleToUser && isResumed()){
 
-                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                    v.clearFocus()
-                }
+            onResume()
 
-                return false
-            }
-        })*/
+        } else{
+
+            println("All visible text set to null")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        addcontactSearchEditText.addTextChangedListener(textListener)
+
+        if (!getUserVisibleHint()) { return }
+
+        searchViewModel.apiSearchListWithType("ALL")
+
+        //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
+
+        addcontactSearchEditText.setText("")
+
+        // eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
+        //(eventsRecyclerView?.adapter as HomePlanPreviewAdapter).notifyDataSetChanged()
+
+        /*val fragment : SearchAllEventFragment = SearchAllEventFragment(null)
+
+        fragmentManager?.beginTransaction()?.detach(fragment)?.attach(fragment)?.commit()*/
 
     }
+
+    override fun onPause() {
+        addcontactSearchEditText.removeTextChangedListener(textListener)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        textChangedJob?.cancel()
+        super.onDestroy()
+    }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun selectedCategory(selectedCategory: CategoryList?) {
+
+        searchCategory = selectedCategory
+
+        //println(searchCategory)
+    }
+
+
 }

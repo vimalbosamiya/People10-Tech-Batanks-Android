@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
-                            private val modelList: ArrayList<PostDates>)
+                            private val modelList: ArrayList<PostDates>, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean)
     : RecyclerView.Adapter<AddPeriodRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -33,40 +33,90 @@ class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
         val itemView = holder.itemView
 
         holder.close.setOnClickListener {
-            modelList.removeAt(position)
+            //modelList.removeAt(position)
+
+            if (deleteButtonClicked == false){
+
+                modelList.removeAt(position)
+            }
+
             callBack.closeButtonAddPeriodItemListener(position)
         }
 
         val cal = Calendar.getInstance()
         val inputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val dateFormatter = SimpleDateFormat("E, MMM dd yyyy hh:mm a")
+        val Formatter = SimpleDateFormat("E, MMM dd yyyy HH:mm")
 
-        val tempStartDate : String = modelList[position].start
-        val tempEndDate : String = modelList[position].end
+        if (editButtonClicked == true || deleteButtonClicked == true){
 
-        val startDate : Date = inputFormatter.parse(tempStartDate)
-        val endDate : Date = inputFormatter.parse(tempEndDate)
+            val tempStartDate : String = modelList[position].start!!
+            val startDate : Date = inputFormatter.parse(tempStartDate)
+            val finalStartDate = Formatter.format(startDate)
+            holder.from.text = finalStartDate
 
-        val finalStartDate = dateFormatter.format(startDate)
-        val finalEndDate = dateFormatter.format(endDate)
+            if (modelList[position].end != null){
 
-        println(finalStartDate)
-        println(finalEndDate)
+                val tempEndDate : String = modelList[position]?.end!!
+                val endDate : Date = inputFormatter.parse(tempEndDate)
+                val finalEndDate = Formatter.format(endDate)
+                holder.to.text = finalEndDate
+            }
+        } else {
+            val tempStartDate : String = modelList[position].start!!
+            val startDate : Date = inputFormatter.parse(tempStartDate)
+            val finalStartDate = Formatter.format(startDate)
+            holder.from.text = finalStartDate
 
-        /*val startDate = dateFormatter.format(modelList[position].start)
-        val endDate = dateFormatter.format(modelList[position].end)*/
+            if (modelList[position].end.isNullOrEmpty()){
 
-        holder.from.text = finalStartDate
-        holder.to.text = finalEndDate
+                holder.to.text = ""
+
+            } else {
+
+                val tempEndDate : String = modelList[position]?.end!!
+                val endDate : Date = inputFormatter.parse(tempEndDate)
+                val finalEndDate = Formatter.format(endDate)
+                holder.to.text = finalEndDate
+            }
+
+        }
+
+        //var finalEndDate : String? = null
+
+        /*if (modelList[position].end != null){
+
+            val tempEndDate : String = modelList[position]?.end!!
+            //val endDate : Date = Formatter.parse(tempEndDate)
+            //finalEndDate = dateFormatter.format(endDate)
+        }*/
+
+        if (editButtonClicked == true){
+
+            holder.editButtonIcon.visibility = View.VISIBLE
+            holder.close.visibility = View.GONE
+
+        } else {
+
+            holder.editButtonIcon.visibility = View.GONE
+            holder.close.visibility = View.VISIBLE
+        }
+
+        holder.editButtonIcon.setOnClickListener {
+
+            callBack.editButtonAddPeriodItemListener(position)
+        }
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val from: TextView = item.fromResponseTextView
         val to: TextView = item.toResponseTextView
         val close: ImageView = item.closeButtonIcon
+        val editButtonIcon: ImageView = item.editButtonIcon
     }
 
     interface AddPeriodRecyclerViewCallBack {
         fun closeButtonAddPeriodItemListener(pos: Int)
+        fun editButtonAddPeriodItemListener(pos: Int)
     }
 }

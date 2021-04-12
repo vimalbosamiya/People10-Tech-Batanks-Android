@@ -13,6 +13,7 @@ class ContactsViewModel (private val contactsApi: ContactsAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataDel: MutableLiveData<ApiResponse> = MutableLiveData()
     var response : InlineResponse2001? = null
 
     fun getContactsList() {
@@ -40,14 +41,14 @@ class ContactsViewModel (private val contactsApi: ContactsAPI) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
+                    responseLiveDataDel.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
                     println(it)
                 }.subscribe({ result ->
-                    responseLiveData.setValue(ApiResponse.success(result))
+                    responseLiveDataDel.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
+                    responseLiveDataDel.setValue(ApiResponse.error(throwable))
                 })
     }
 

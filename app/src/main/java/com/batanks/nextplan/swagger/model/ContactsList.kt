@@ -9,6 +9,6 @@ data class ContactsList(/*val dummy: Int*/
                         val last_name : String,
                         val username : String,
                         val email : String,
-                        val phone_number : Long,
+                        val phone_number : String,
                         val picture: String,
-                        var selection : Boolean)
+                        var selection : Boolean = false)
