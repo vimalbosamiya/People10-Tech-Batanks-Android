@@ -8,11 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.swagger.model.Contact
 import kotlinx.android.synthetic.main.contacts_in_group_item.view.*
 
 
-public class GroupListAdapter (private val myList: ArrayList<Contact>) : RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
+public class GroupListAdapter (private val myList: ArrayList<Contact>, val closeButtonVisible : Boolean, val contactsViewModel: ContactsViewModel) : RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
 
     private var context: Context? = null
 
@@ -27,7 +28,22 @@ public class GroupListAdapter (private val myList: ArrayList<Contact>) : Recycle
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.contactName.text = myList[position].first_name
-        holder.img_close.visibility = View.GONE
+
+        if (closeButtonVisible == false){
+
+            holder.img_close.visibility = View.GONE
+
+        }else if(closeButtonVisible == true) {
+
+            holder.img_close.visibility = View.VISIBLE
+
+        }
+
+        holder.img_close.setOnClickListener {
+
+            contactsViewModel.deleteContact(myList[position].id.toString())
+        }
+
     }
 
      class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

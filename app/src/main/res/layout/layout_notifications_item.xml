@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notificationItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="#1D2125"
-    android:paddingLeft="16dp"
-    >
+    android:paddingLeft="16dp">
 
     <ImageView
         android:id="@+id/img_followups_list_item"
@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New public plan"
+        android:padding="5dp"
         android:layout_toRightOf="@id/img_followups_list_item"
         android:layout_marginStart="9dp"
         android:textAppearance="?android:textAppearanceMedium"
@@ -43,7 +44,7 @@
         android:layout_height="1dp"
         android:background="@color/colorBlack"
         android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="24dp"
         android:layout_alignStart="@id/txt_followups_list_item"
         android:layout_below="@id/img_followups_list_item"/>
 

@@ -15,14 +15,23 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataCategory: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataUpdate: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataPartialUpdate: MutableLiveData<ApiResponse> = MutableLiveData()
 
     //var response : Event? = null
 
     var eventDate = ArrayList<PostDates>()
+    var publicEventDate = ArrayList<PostDates>()
     var place = ArrayList<PostPlaces>()
+    var publicPlace = ArrayList<PostPlaces>()
     var action = ArrayList<PostTasks>()
+    var publicAction = ArrayList<PostTasks>()
     var activity = ArrayList<PostActivities>()
-    var activityDate = ArrayList<EventDate>()
+    var publicActivity = ArrayList<PostActivities>()
+    var participants : PostGuests? = null
+    var publicParticipants : PostGuests? = null
+
 
 
     fun createEvent(data: PostEvent?){
@@ -38,8 +47,52 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
                 }) { throwable ->
                     responseLiveData.setValue(ApiResponse.error(throwable))
                 })
-
     }
+
+    fun updateEvent(id: String?, data: PostEvent?){
+
+        disposables.add(eventApi.apiEventUpdate(id, data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    responseLiveDataUpdate.setValue(ApiResponse.loading())
+                }.doOnNext {}.subscribe({ result ->
+                    //RetrofitClient.cookieJar?.persist()
+                    responseLiveDataUpdate.setValue(ApiResponse.success(result))
+                }) { throwable ->
+                    responseLiveDataUpdate.setValue(ApiResponse.error(throwable))
+                })
+    }
+
+    fun apiEventPartialUpdate(id: String?, data: PostEvent?){
+
+        disposables.add(eventApi.apiEventPartialUpdate(id, data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    responseLiveDataPartialUpdate.setValue(ApiResponse.loading())
+                }.doOnNext {}.subscribe({ result ->
+                    //RetrofitClient.cookieJar?.persist()
+                    responseLiveDataPartialUpdate.setValue(ApiResponse.success(result))
+                }) { throwable ->
+                    responseLiveDataPartialUpdate.setValue(ApiResponse.error(throwable))
+                })
+    }
+
+    /*fun apiEventPartialUpdate(id: String?, data: PostEvent?){
+
+        eventApi.apiEventPartialUpdate(id, data)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe {
+                    responseLiveDataPartialUpdate.setValue(ApiResponse.loading())
+                }?.doOnNext {}?.subscribe({ result ->
+                    //RetrofitClient.cookieJar?.persist()
+                    responseLiveData.setValue(result?.let { ApiResponse.success(it) })
+                }) { throwable ->
+                    responseLiveData.setValue(ApiResponse.error(throwable))
+                }?.let { disposables.add(it) }
+    }*/
 
     fun getCategory(data: PostEvent?){
 
@@ -47,12 +100,12 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
+                    responseLiveDataCategory.setValue(ApiResponse.loading())
                 }.doOnNext {}.subscribe({ result ->
                     //RetrofitClient.cookieJar?.persist()
-                    responseLiveData.setValue(ApiResponse.success(result))
+                    responseLiveDataCategory.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
+                    responseLiveDataCategory.setValue(ApiResponse.error(throwable))
                 })
 
     }

@@ -8,7 +8,7 @@ import com.batanks.nextplan.search.fragments.SearchPeopleFragment
 import com.batanks.nextplan.search.fragments.SearchPrivateEventFragment
 import com.batanks.nextplan.search.fragments.SearchPublicEventFragment
 
-class SearchTabsAdapter (fragmentManager: FragmentManager)
+class SearchTabsAdapter (fragmentManager: FragmentManager, val filter : String?)
     : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)  {
 
 
@@ -16,10 +16,10 @@ class SearchTabsAdapter (fragmentManager: FragmentManager)
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> SearchAllEventFragment()
+            0 -> SearchAllEventFragment(filter)
             1 -> SearchPublicEventFragment()
             2 -> SearchPrivateEventFragment()
-            else -> SearchAllEventFragment()
+            else -> SearchAllEventFragment(filter)
         }
     }
 

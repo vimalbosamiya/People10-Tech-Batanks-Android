@@ -10,19 +10,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.swagger.model.ContactsList
+import com.batanks.nextplan.swagger.model.Guests
 import kotlinx.android.synthetic.main.item_assign_people.view.*
 
 
-class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: List</*ContactsModel*/ContactsList>) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
+class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: ArrayList<Guests>) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
 
     private var lastChecked: CheckBox? = null
-    private var currentChecked: CheckBox? = null
     private var lastCheckedPos = -1
+    private var currentChecked: CheckBox? = null
     private var lastCheckedPosition = 0
     private var currentCheckedPosition = 0
 
+    private var positionArray : ArrayList<Int> = arrayListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_assign_people, parent, false)
+
+        for(item in myList){
+
+            positionArray.add(0)
+        }
+
         return MyViewHolder(view)
     }
 
@@ -32,7 +42,8 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
         //val itemView = holder.itemView
 
-        holder.txt_assign_people_name.text = myList.get(position).first_name
+        holder.txt_assign_people_name.text = myList.get(position).name
+        //println(myList.get(position).user_id)
 
         //myList.get(position).id
 
@@ -78,16 +89,17 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
                 myList.get(clickedPos).selection = (cb.isChecked)
                 //Toast.makeText(v.context , "" + myList.get(clickedPos).contactname , Toast.LENGTH_SHORT).show()
-                val selection = myList.get(clickedPos).first_name /*+ " " + myList.get(clickedPos).contactNumber;*/
-                val selectedId = myList.get(position).id
-                listner.assignSelectedContact(selection, cb.isChecked, selectedId)
+                val selection = myList.get(clickedPos).name /*+ " " + myList.get(clickedPos).contactNumber;*/
+                val selectedId = myList.get(position).user_id
+                println(selectedId)
+                listner.assignSelectedContact(myList.get(clickedPos), cb.isChecked, selectedId)
 
             }
 
             else{
 
                 lastChecked = null
-                listner.assignSelectedContact("", cb.isChecked, 0)
+                listner.assignSelectedContact(null, cb.isChecked, null)
             }
 
             /*myList.get(clickedPos).selection = (cb.isChecked)
@@ -111,7 +123,8 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
         val txt_assign_people_name: TextView = item.txt_assign_people_name
         val checkBox : CheckBox = item.cb_assign_contact
     }
+
     interface assignPeopleRecyclerViewCallBack {
-        fun assignSelectedContact(selection : String, selected : Boolean, id : Int)
+        fun assignSelectedContact(selection : Guests?, selected : Boolean, id : Int?)
     }
 }

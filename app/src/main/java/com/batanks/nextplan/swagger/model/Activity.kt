@@ -6,7 +6,7 @@ data class Activity(
 //        val price: String,
         val price : Double,
         //val participants: List<Int>,
-        val participants : List<String>,
+        val participants : ArrayList<ActivityParticipant>,
         val title: String,
         val detail: String,
         val date: String,

@@ -25,10 +25,14 @@ import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
+import com.batanks.nextplan.home.markRequiredInRed
+import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.swagger.api.ContactsAPI
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.Contact
 import com.batanks.nextplan.swagger.model.Group
+import com.batanks.nextplan.swagger.model.GroupEdit
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_group.*
@@ -42,6 +46,7 @@ class Group : BaseAppCompatActivity() {
     var group : Group? = null
     var renamedGroup : Group? = null
     var id : Int = 0
+    var closeButtonVisible = false
 
     private val groupListViewModel: GroupListViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -51,6 +56,14 @@ class Group : BaseAppCompatActivity() {
         }).get(GroupListViewModel::class.java)
     }
 
+    private val contactsViewModel: ContactsViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(ContactsAPI::class.java)?.let {
+                ContactsViewModel(it)
+            }
+        }).get(ContactsViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
@@ -58,17 +71,17 @@ class Group : BaseAppCompatActivity() {
          id  = intent.getIntExtra("ID", 0)
         val groupName : String? = intent.getStringExtra("Group_Name")
 
-        textViewGroup.text = groupName
+        //textViewGroup.text = groupName
 
-        loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
         groupListViewModel.getGroupList(id.toString())
 
         backButton.setOnClickListener {
 
             finish()
-            val intent = Intent(this, com.batanks.nextplan.Settings.Contact :: class.java)
-            startActivity(intent)
+            /*val intent = Intent(this, com.batanks.nextplan.Settings.Contact :: class.java)
+            startActivity(intent)*/
         }
 
         groupRecyclerView = findViewById(R.id.groupRecyclerView)
@@ -87,11 +100,13 @@ class Group : BaseAppCompatActivity() {
 
                     id = response.data.id
 
+                    textViewGroup.text = group!!.name
+
                     groupList = group!!.users
 
                     groupListViewModel.response = group!!.users
 
-                    adapter = GroupListAdapter(groupList)
+                    adapter = GroupListAdapter(groupList,closeButtonVisible,contactsViewModel)
 
                     groupRecyclerView.adapter = adapter
 
@@ -105,15 +120,53 @@ class Group : BaseAppCompatActivity() {
             }
         })
 
+        contactsViewModel.responseLiveDataDel.observe(this, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    groupListViewModel.getGroupList(id.toString())
+
+                    /* contactsViewModel.response = response.data as InlineResponse2001
+
+                     contactList = contactsViewModel.response!!.results
+
+                     adapter = ContactsAdapter_Settings(contactList,contactsViewModel,)
+
+                     if(contactList.size <=5) {
+                         val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
+                         params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                         rv_settings_contacts.setLayoutParams(params)
+                     }
+                     rv_settings_contacts.adapter = adapter*/
+
+                    //println(contactList)
+                    println("from contacts delete API")
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+
+                    //contactsViewModel.getContactsList()
+                    //showMessage(response.error?.message.toString())
+                    println("from contacts delete API Error")
+                }
+            }
+        })
+
         settingsButton.setOnClickListener {
 
-            showDialog(this)
+            showDialogSettings(this)
 
         }
 
     }
 
-    private fun showDialog(context : Context) {
+    private fun showDialogSettings(context : Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -131,7 +184,13 @@ class Group : BaseAppCompatActivity() {
         }
         removeUser.setOnClickListener {
 
+            closeButtonVisible = true
 
+            adapter = GroupListAdapter(groupList,closeButtonVisible,contactsViewModel)
+            groupRecyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
+
+            dialog.dismiss()
         }
 
         deleteGroup.setOnClickListener {
@@ -190,6 +249,8 @@ class Group : BaseAppCompatActivity() {
         val tip_create_group_gname = dialog.findViewById(R.id.tip_create_group_gname) as TextInputLayout
         val input_create_group_gname = dialog.findViewById(R.id.input_create_group_gname) as TextInputEditText
 
+        tip_create_group_gname.markRequiredInRed()
+
         btn_create_group_cancel.setOnClickListener {
 
             dialog.dismiss()
@@ -201,9 +262,7 @@ class Group : BaseAppCompatActivity() {
 
                 dialog.dismiss()
 
-                val editedGroup : Group = Group(id,groupList,input_create_group_gname.text.toString())
-
-                groupListViewModel.renameGroup(id.toString(),editedGroup)
+                groupListViewModel.renameGroup(id.toString(), GroupEdit(input_create_group_gname.text.toString()))
 
                 groupListViewModel.responseLiveData2.observe(this, Observer{ response ->
 
@@ -216,20 +275,7 @@ class Group : BaseAppCompatActivity() {
                         Status.SUCCESS -> {
                             hideLoader()
 
-                            renamedGroup = response.data as Group
-
-                            textViewGroup.text = renamedGroup!!.name
-
-                            groupList = group!!.users
-
-                            groupListViewModel.response = group!!.users
-
-                            adapter = GroupListAdapter(groupList)
-
-                            groupRecyclerView.adapter = adapter
-
-                            //textViewGroup.text = input_create_group_gname.text.toString()
-
+                            groupListViewModel.getGroupList(id.toString())
                         }
                         Status.ERROR -> {
                             hideLoader()
@@ -238,11 +284,9 @@ class Group : BaseAppCompatActivity() {
                     }
                 })
 
-                //textViewGroup.text = tip_create_group_gname.editText!!.text
-
             } else {
 
-                tip_create_group_gname.editText?.error = "Group name should contain atleast one character"
+                tip_create_group_gname.editText?.setError(getString(R.string.group_name_error))
                 input_create_group_gname.requestFocus()
             }
         }

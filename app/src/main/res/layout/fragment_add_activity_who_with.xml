@@ -40,8 +40,8 @@
         app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
-        android:hint="Max Participants"
-        app:helperText="The max number of participants"
+        android:hint="@string/max_participants_hint"
+        app:helperText="@string/max_participants_helper_text"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"
@@ -53,11 +53,12 @@
         app:startIconTint="#ffffff">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/max_participantsEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
             android:inputType="number"
-            android:maxLength="10"
+            android:maxLength="3"
             android:maxLines="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

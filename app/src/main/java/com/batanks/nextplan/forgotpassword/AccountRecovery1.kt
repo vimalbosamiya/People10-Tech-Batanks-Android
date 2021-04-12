@@ -128,11 +128,11 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
 
             when (response.status) {
                 Status.LOADING -> {
-                    showLoader()
+                    //showLoader()
                 }
                 Status.SUCCESS -> {
 
-                    hideLoader()
+                    //hideLoader()
 
                     tvPasswordSent.visibility = VISIBLE
                     extFab_back.visibility = VISIBLE
@@ -141,13 +141,13 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
                     //Toast.makeText(this,response.status.toString(),Toast.LENGTH_LONG).show()
                 }
                 Status.ERROR -> {
-                    hideLoader()
+                    //hideLoader()
                     showMessage(response.error?.message.toString())
                 }
             }
         })
 
-        loadingDialog = this.getLoadingDialog(0, R.string.submitting_mail_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = this.getLoadingDialog(0, R.string.submitting_mail_please_wait, theme = R.style.AlertDialogCustom)
 
         backArrow.setOnClickListener {
 

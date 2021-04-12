@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,10 +13,10 @@ import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.notifications.adapters.NotificationsTabsAdapter
 import com.batanks.nextplan.notifications.viewmodel.NotificationsViewModel
 import com.batanks.nextplan.swagger.api.NotificationsAPI
 import com.batanks.nextplan.swagger.model.InlineResponse2003
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 class NotificationsFragment : BaseFragment(){
@@ -34,38 +33,33 @@ class NotificationsFragment : BaseFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_notifications, container, false)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val ref = requireActivity() as AppCompatActivity
-        ref.setSupportActionBar(toolBar)
+        ref.setSupportActionBar(notificationToolBar)
         ref.supportActionBar?.title = "Notifications "
         ref.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ref.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_header)
 
-        toolBar.setNavigationOnClickListener {
+        notificationToolBar.setNavigationOnClickListener {
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
             ///activity?.extFab!!.visibility = View.VISIBLE             //uncomment
 
             //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
-
         }
 
 
         notificationsViewModel.getNotifications()
 
-        notificationsViewModel.responseLiveData.observe(viewLifecycleOwner, Observer{ response ->
+        /*notificationsViewModel.responseLiveData.observe(viewLifecycleOwner, Observer{ response ->
 
             when(response.status){
                 Status.LOADING -> {
@@ -127,21 +121,18 @@ class NotificationsFragment : BaseFragment(){
 
                     //println(notificationsViewModel.response)
 
-                    /*notificationsViewModel.response.results
+                    *//*notificationsViewModel.response.results
 
                     populateCategory(categoryViewModel.categoryList!!)
 
-                    println(categoryViewModel.categoryList)*/
+                    println(categoryViewModel.categoryList)*//*
                 }
                 Status.ERROR -> {
                     hideLoader()
                     showMessage(response.error?.message.toString())
                 }
             }
-        })
-
-
-
+        })*/
 
     }
 

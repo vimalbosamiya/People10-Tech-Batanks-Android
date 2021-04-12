@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
-            android:text="Vote for place"
+            android:text="@string/vote_for_place"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/locationIcon"
@@ -152,7 +152,7 @@
             android:id="@+id/textviewVoteForPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vote for place"
+            android:text="@string/vote_for_place"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp"
@@ -181,12 +181,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace" />
 
         <TextView
+            android:id="@+id/inVotingPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp"
-            android:text="In Voting..."
+            android:text="@string/in_voting"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/VoteForPlaceMultipleRecyclerView"

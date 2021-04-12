@@ -3,9 +3,6 @@ package com.batanks.nextplan.home.home_tabs
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.batanks.nextplan.notifications.AllNotificationsFragment
-import com.batanks.nextplan.notifications.PrivateNotificationsFragment
-import com.batanks.nextplan.notifications.PublicNotificationsFragment
 
 class HomeTabsAdapter (fragmentManager: FragmentManager)
     : FragmentPagerAdapter(fragmentManager/*, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT*/) {
@@ -15,9 +12,9 @@ class HomeTabsAdapter (fragmentManager: FragmentManager)
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> AllHomeFragment()
-            1 -> PrivateNotificationsFragment()
-            2 -> PublicNotificationsFragment()
-            else ->{PublicNotificationsFragment()}
+            1 -> PrivateHomeFragment()
+            2 -> PublicHomeFragment()
+            else ->{AllHomeFragment()}
         }
     }
 

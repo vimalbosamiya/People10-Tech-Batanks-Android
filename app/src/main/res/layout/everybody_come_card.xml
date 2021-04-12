@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16.98dp"
             android:layout_marginTop="18dp"
-            android:text="Everybody come"
+            android:text="@string/everybody_come"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/participantsIcon"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="4dp"
-            android:text="999"
+            android:text="0"
             android:textColor="#A5D6A7"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/textViewSlash"
@@ -75,8 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="26dp"
-            android:text="999"
-            android:textColor="#90CAF9"
+            android:text="0"
+            android:textColor="@color/colorWhite"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/totalParticipantsDropDown"
             app:layout_constraintTop_toTopOf="@+id/participantsListBackground" />
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16.98dp"
             android:layout_marginTop="18dp"
-            android:text="Everybody come"
+            android:text="@string/everybody_come"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/participantsIconMulti"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="4dp"
-            android:text="999"
+            android:text="0"
             android:textColor="#A5D6A7"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/textViewSlashMulti"
@@ -163,8 +163,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="26dp"
-            android:text="999"
-            android:textColor="#90CAF9"
+            android:text="0"
+            android:textColor="@color/colorWhite"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/totalParticipantsDropDownMulti"
             app:layout_constraintTop_toTopOf="@+id/participantsListBackgroundMulti" />
@@ -186,8 +186,10 @@
              android:layout_height="wrap_content"
              android:layout_marginStart="20dp"
              android:layout_marginTop="30dp"
+             android:layout_marginBottom="24dp"
              app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
-             app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti" />
+             app:layout_constraintTop_toBottomOf="@+id/textViewEverybodyComeMulti"
+             app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>
 
        <!-- <ImageView
             android:id="@+id/contactBackgroundTemp"
@@ -334,7 +336,7 @@
             app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
             app:layout_constraintTop_toBottomOf="@+id/tempimg2"/>-->
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/addPeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -344,7 +346,7 @@
             android:background="@drawable/ic_event_details_add_people_icon"
             app:layout_constraintStart_toStartOf="@+id/participantsListBackgroundMulti"
             app:layout_constraintTop_toBottomOf="@+id/everybodyComeList"
-            app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>
+            app:layout_constraintBottom_toBottomOf="@+id/participantsListBackgroundMulti"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

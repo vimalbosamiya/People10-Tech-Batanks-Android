@@ -6,5 +6,5 @@ data class PostTasks (
         val name : String,
         val description : String,
         val per_person : Boolean,
-        val assignee : Int
+        val assignee : Int?
 )

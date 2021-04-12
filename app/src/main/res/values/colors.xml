@@ -11,5 +11,9 @@
     <color name="colorLittleBlue">#90CAF9</color>
     <color name="colorLightBlue">#34CBFE</color>
     <color name="dropDownColor">#2F2F2F</color>
+    <color name="newsBackGround">#121212</color>
+    <color name="lightGreen">#A5D6A7</color>
+    <color name="pink">#EF9A9A</color>
+    <color name="darkGrey">#272727</color>
 
 </resources>

@@ -21,7 +21,7 @@
                 android:id="@+id/txt_edit_accounts_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit account"
+                android:text="@string/edit_account"
                 android:padding="10dp"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:layout_centerVertical="true"
@@ -43,11 +43,11 @@
             >
             <ImageView
                 android:id="@+id/img_edit_account_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_account_defaut_user_icon"
                 />
@@ -55,7 +55,7 @@
                 android:id="@+id/txt_edit_account_set_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SET IMAGE"
+                android:text="@string/set_image"
                 android:padding="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
@@ -65,12 +65,13 @@
                 android:layout_toRightOf="@id/img_edit_account_icon"
                 />
         </RelativeLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_edit_account_name"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name *"
+            android:hint="@string/user_name"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -88,6 +89,8 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="true"
                 android:inputType="text"
+                android:clickable="false"
+                android:focusable="false"
                 android:maxLength="30"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
@@ -95,12 +98,13 @@
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_edit_account_fname"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="First name"
+            android:hint="@string/first_name"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -125,12 +129,13 @@
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_edit_account_pseudonym"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Last name"
+            android:hint="@string/last_name"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -155,12 +160,13 @@
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tip_edit_account_email"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email_hint"
+            android:hint="@string/email"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -191,7 +197,7 @@
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone Number"
+            android:hint="@string/phone_number"
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             android:layout_margin="16dp"
@@ -216,6 +222,7 @@
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <View
             android:id="@+id/footerDivider"
             android:layout_width="match_parent"
@@ -233,7 +240,7 @@
             android:enabled="true"
             android:gravity="center"
             android:paddingBottom="24dp"
-            android:text="OK"
+            android:text="@string/ok"
             android:textColor="@color/colorWhite"
             android:layout_alignParentRight="true"
             android:layout_below="@id/footerDivider" />
@@ -247,7 +254,7 @@
             android:enabled="true"
             android:gravity="center"
             android:paddingBottom="24dp"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:textColor="#90CAF9"
             android:layout_toLeftOf="@id/edit_account_ok"
             android:layout_below="@id/footerDivider"/>

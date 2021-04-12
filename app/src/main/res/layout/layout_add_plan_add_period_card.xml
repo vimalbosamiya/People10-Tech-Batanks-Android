@@ -25,7 +25,18 @@
             android:id="@+id/closeButtonIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:src="@drawable/ic_close_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/editButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_edit_white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,19 +45,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="From"
+            android:text="@string/from"
             app:layout_constraintBottom_toBottomOf="@+id/datePeriodIcon"
             app:layout_constraintLeft_toRightOf="@+id/datePeriodIcon"
             app:layout_constraintTop_toTopOf="@+id/datePeriodIcon" />
 
         <TextView
             android:id="@+id/fromResponseTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
             android:text="From Response"
             app:layout_constraintBottom_toBottomOf="@+id/fromTextView"
-            app:layout_constraintLeft_toRightOf="@+id/fromTextView"
+            app:layout_constraintStart_toEndOf="@+id/fromTextView"
+            app:layout_constraintEnd_toStartOf="@+id/closeButtonIcon"
             app:layout_constraintTop_toTopOf="@+id/fromTextView" />
 
         <TextView
@@ -54,18 +67,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="To"
+            android:text="@string/to"
             app:layout_constraintStart_toStartOf="@+id/fromTextView"
             app:layout_constraintTop_toBottomOf="@+id/fromTextView" />
 
         <TextView
             android:id="@+id/toResponseTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="To Response"
             app:layout_constraintBottom_toBottomOf="@+id/toTextView"
-            app:layout_constraintLeft_toRightOf="@+id/toTextView"
             app:layout_constraintStart_toStartOf="@+id/fromResponseTextView"
+            app:layout_constraintEnd_toEndOf="@+id/fromResponseTextView"
             app:layout_constraintTop_toTopOf="@+id/toTextView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

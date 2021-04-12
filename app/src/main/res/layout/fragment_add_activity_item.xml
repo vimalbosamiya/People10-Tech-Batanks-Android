@@ -28,17 +28,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_button"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/activityEditButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_edit_white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_activity_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18.03dp"
+            android:layout_marginEnd="8dp"
             android:text="Action Name"
             app:layout_constraintBottom_toBottomOf="@+id/activityIcon"
             app:layout_constraintStart_toEndOf="@+id/activityIcon"
+            app:layout_constraintEnd_toStartOf="@+id/activitycloseButtonIcon"
             app:layout_constraintTop_toTopOf="@+id/activityIcon" />
 
         <ImageView
@@ -213,13 +226,46 @@
                 android:id="@+id/activity_txt_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sat, Mar 16 2020 - 08:00 PM"
+                android:text="01"
                 android:textSize="14sp"
                 android:textColor="#DEFFFFFF"
                 android:layout_marginTop="3dp"
                 android:layout_marginStart="20dp"
                 app:layout_constraintStart_toEndOf="@id/activity_img_time"
                 app:layout_constraintTop_toTopOf="@+id/activity_img_time"/>
+
+            <TextView
+                android:id="@+id/textViewHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="h "
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/activity_txt_time"
+                app:layout_constraintTop_toTopOf="@+id/activity_img_time" />
+
+            <TextView
+                android:id="@+id/textViewEventTimeMins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="00"
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewHours"
+                app:layout_constraintTop_toTopOf="@+id/activity_img_time" />
+
+            <TextView
+                android:id="@+id/textViewMins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="mn"
+                android:textColor="#DEFFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewEventTimeMins"
+                app:layout_constraintTop_toTopOf="@+id/activity_img_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -268,14 +314,14 @@
                 android:id="@+id/activity_comingVotes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="999"
+                android:text="0"
                 android:textSize="16sp"
                 android:textColor="#A5D6A7"
                 android:layout_marginStart="14dp"
                 app:layout_constraintStart_toEndOf="@+id/activity_everybodyComeTextView"
                 app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/activity_votesSeperator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -295,7 +341,7 @@
                 android:textColor="#90CAF9"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toEndOf="@+id/activity_votesSeperator"
-                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>-->
 
             <ImageView
                 android:id="@+id/activity_hideEverybodyCome"
@@ -304,8 +350,20 @@
                 android:layout_marginEnd="22dp"
                 android:layout_marginStart="26dp"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_event_details_expand_less"
-                app:layout_constraintStart_toEndOf="@+id/activity_totalNoOfVotes"
+                app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
+                app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
+
+            <ImageView
+                android:id="@+id/activity_showEverybodyCome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="26dp"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_event_details_expand_more"
                 app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeVisible"
                 app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible"/>
 
@@ -315,6 +373,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="20dp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
                 app:layout_constraintTop_toBottomOf="@+id/activity_everybodyComeTextView" />
 
@@ -326,7 +385,7 @@
             android:id="@+id/activity_InfoDivider3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/ic_event_details_event_info_divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -337,6 +396,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:visibility="gone"
             android:background="@drawable/ic_participate_to_activity_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -346,24 +406,24 @@
             android:id="@+id/activity_img_cost_per_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="22dp"
             android:layout_marginStart="20dp"
             android:background="@drawable/ic_event_details_contact_dollar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+            app:layout_constraintTop_toBottomOf="@+id/activity_InfoDivider3"/>
 
 
         <TextView
             android:id="@+id/activity_textViewCostPerPerson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cost Per Person"
+            android:text="@string/cost_per_person"
             android:textSize="14sp"
             android:textColor="#DEFFFFFF"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="18dp"
             app:layout_constraintStart_toEndOf="@+id/activity_img_cost_per_person"
-            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+            app:layout_constraintTop_toBottomOf="@+id/activity_InfoDivider3"/>
 
         <TextView
             android:id="@+id/activity_textViewCostPerPersonAmount"
@@ -372,10 +432,11 @@
             android:text="0"
             android:textSize="20sp"
             android:textColor="#FFE082"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/activity_textViewCostPerPersonCurrency"
-            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
+            app:layout_constraintTop_toBottomOf="@+id/activity_InfoDivider3"/>
 
         <TextView
             android:id="@+id/activity_textViewCostPerPersonCurrency"
@@ -384,17 +445,12 @@
             android:text=" €"
             android:textSize="20sp"
             android:textColor="#FFE082"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_participateToActivityIcon"/>
-
-
-
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/activity_InfoDivider3"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

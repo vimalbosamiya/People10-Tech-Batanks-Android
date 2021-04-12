@@ -35,6 +35,8 @@ class SplashActivity : BaseAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        println("coming to splash")
+
         Handler().postDelayed(Runnable {
 
             if (getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean(PREF_NAME, false)) {
@@ -63,21 +65,23 @@ class SplashActivity : BaseAppCompatActivity() {
 
                     user_obj = response.data as User
 
-                    val id: Int? = user_obj?.id
+                    /*val id: Int? = user_obj?.id
                     val userName: String? = user_obj?.username
                     val firstName: String? = user_obj?.first_name
                     val lastName: String? = user_obj?.last_name
                     val email: String? = user_obj?.email
-                    val phoneNumber: String? = user_obj?.phone_number
+                    val phoneNumber: String? = user_obj?.phone_number*/
 
-                    ModelPreferencesManager.put(user_obj, "USER_DATA")
+                    //ModelPreferencesManager.put(user_obj, "USER_DATA")
 
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putInt("ID", id!!).apply()
+                    //println(user_obj)
+
+                    /*getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putInt("ID", id!!).apply()
                     getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
                     getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
                     getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
                     getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
+                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()*/
                 }
                 Status.ERROR -> {
                     //hideLoader()

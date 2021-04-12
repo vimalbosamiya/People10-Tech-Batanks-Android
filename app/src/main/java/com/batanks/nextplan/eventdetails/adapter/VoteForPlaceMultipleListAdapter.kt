@@ -11,10 +11,12 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetails.dataclass.MultipleDateDisplay
 import com.batanks.nextplan.eventdetails.dataclass.MultiplePlaceDisplay
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.swagger.model.EventPlace
+import com.batanks.nextplan.swagger.model.VotePlace
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
@@ -23,17 +25,19 @@ import kotlinx.android.synthetic.main.layout_date_display.view.*
 import kotlinx.android.synthetic.main.layout_date_display.view.noOfVotesTextview
 import kotlinx.android.synthetic.main.layout_place_display.view.*
 
-class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val context: Context,private val eventDetailViewModel: EventDetailViewModel)
-                                        : RecyclerView.Adapter<VoteForPlaceMultipleListAdapter.ViewHolder>() {
+class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val context: Context,private val eventDetailViewModel: EventDetailViewModel, private val eventId : String)
+                                        : RecyclerView.Adapter<VoteForPlaceMultipleListAdapter.ViewHolder>(), EventDetailView.VotePlaceClickImplementation {
+
+    private var voteList : ArrayList<Int> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_place_display, parent, false)
 
-        view.placeFavouriteIcon.setOnClickListener {
+       /* view.placeFavouriteIcon.setOnClickListener {
 
             //eventDetailViewModel.placeVoteClicked()
-        }
+        }*/
 
         view.seeOnMapIcon.setOnClickListener {
 
@@ -62,8 +66,8 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
 
         val place : EventPlace = placesList[position]
 
-        //holder.placeDisplayCountTextView.text = place.id.toString()
-        //holder.placeDisplayTextCountTextView.text = places.place
+        holder.placeDisplayCountTextView.text = place.number.toString()
+        holder.placeDisplayTextCountTextView.text = place.string_value
         holder.placeTextView.text = place.place.name
 
         val address = placesList[position].place?.address
@@ -84,7 +88,17 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
                 .append(placeZipcode)
 
         holder.address.text = /*place.place.address*/ stringBuilder.toString()
-        holder.noOfVotesPlaceTextview.text = place.votes.size.toString()
+        holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
+
+        if (place.current_user_have_vote == true){
+
+            holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite)
+
+        } else {
+
+            holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite_border)
+        }
+
         holder.placeCloseButton.visibility = GONE
 
         if (place.place.map == true){
@@ -109,6 +123,13 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
 
             holder.mapViewHolder.visibility = GONE
         }
+
+        holder.placeFavouriteIcon.setOnClickListener {
+
+            voteList.add(place.id)
+
+            eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -124,6 +145,11 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         val placeMapView : MapView = itemView.placeMapView
         val placeCloseButton : ImageView = itemView.placeCloseButton
         val mapViewHolder : ConstraintLayout = itemView.mapViewHolder
+        val placeFavouriteIcon : ImageView = itemView.placeFavouriteIcon
+    }
+
+    override fun voteIconClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 

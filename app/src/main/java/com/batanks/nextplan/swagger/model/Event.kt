@@ -11,7 +11,7 @@ data class Event(
         val category: CategoryList,
         val max_guests: Int?,
         val draft: Boolean,
-        val periodicity: Periodicity,
+        val periodicity: Periodicity?,
         val creator: Creator,
         val dates: ArrayList<EventDate>,
         val places: ArrayList<EventPlace>,

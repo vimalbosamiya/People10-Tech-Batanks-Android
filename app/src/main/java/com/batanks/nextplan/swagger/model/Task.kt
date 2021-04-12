@@ -10,4 +10,4 @@ data class Task(
         val per_person: Boolean,
         //val assignee: Int?,
         //val assigneeName :String,
-        val assignee : Assignee)
+        val assignee : Assignee?)

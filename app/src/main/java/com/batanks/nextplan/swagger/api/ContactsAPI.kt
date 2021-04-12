@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ContactsAPI {
 
     @DELETE("api/contacts/{id}/")
-    fun apiContactsDelete(@Path("id") id: String?): Observable<Void>
+    fun apiContactsDelete(@Path("id") id: String?): Observable<String>
 
     @GET("api/contacts/")
     fun apiContactsList(/*@Query("limit") limit: Int?, @Query("offset") offset: Int?*/): Observable<InlineResponse2001>

@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
-            android:text="Vote for place"
+            android:text="@string/vote_for_place"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/locationIcon"
@@ -152,7 +152,7 @@
             android:id="@+id/textviewVoteForPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vote for place"
+            android:text="@string/vote_for_place"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp"
@@ -176,11 +176,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="27dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace" />
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace"
+            app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"/>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/addPlaceImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -190,7 +192,7 @@
             app:layout_constraintStart_toStartOf="@+id/placeDropDownBackgroundMultiple"
             app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"
             app:layout_constraintTop_toBottomOf="@+id/VoteForPlaceMultipleRecyclerViewAdmin"
-            app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"/>
+            app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"/>-->
 
         <!--<TextView
             android:layout_width="wrap_content"

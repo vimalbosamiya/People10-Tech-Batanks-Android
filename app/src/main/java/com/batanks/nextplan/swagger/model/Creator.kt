@@ -6,5 +6,6 @@ data class Creator (
         val email: String,
         val first_name: String,
         val last_name: String,
-        val phone_number: Long?,
-        val picture: String)
+        val phone_number: String?,
+        val picture: String,
+        val is_in_contacts : Boolean)

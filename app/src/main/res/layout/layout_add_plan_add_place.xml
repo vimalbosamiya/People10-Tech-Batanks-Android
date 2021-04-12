@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Where ?"
+        android:text="@string/where"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
-        android:text="ADD A PLACE *"
+        android:text="@string/add_place"
         android:textColor="#ffffff"
         app:cornerRadius="25dp"
         app:icon="@drawable/ic_add"

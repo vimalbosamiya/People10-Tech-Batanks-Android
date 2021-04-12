@@ -15,11 +15,11 @@ class CategoryViewModel (private val categoryApi: CategoryAPI) : ViewModel() {
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
     var response : InlineResponse200? = null
-    var categoryList : List<CategoryList>? = null
+    var categoryList : ArrayList<CategoryList>? = null
 
     fun getCategoryList() {
 
-        disposables.add(categoryApi.apiCategoryList(20,0)
+        disposables.add(categoryApi.apiCategoryList()
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

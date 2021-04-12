@@ -194,7 +194,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginBottom="28dp"
-                android:text="ADD CONTACT"
+                android:visibility="visible"
+                android:text="@string/add_contact"
                 android:textColor="#90CAF9"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -203,10 +204,12 @@
                 app:layout_constraintBottom_toBottomOf="@+id/organizerFull"/>
 
             <ImageView
+                android:id="@+id/addContactIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="18dp"
+                android:visibility="visible"
                 android:background="@drawable/ic_event_details_add_contact_icon"
                 app:layout_constraintEnd_toStartOf="@+id/textViewAddContact"
                 app:layout_constraintTop_toBottomOf="@+id/organizerMobileNumber"/>

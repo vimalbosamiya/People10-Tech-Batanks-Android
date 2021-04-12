@@ -13,39 +13,29 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.swagger.model.CategoryList
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_plan_sorting_item.view.*
 
-class Plan_Sorting_Adapter (private val myList: List<ContactsModel>) : RecyclerView.Adapter<Plan_Sorting_Adapter.MyViewHolder>() {
-    private var context: Context? = null
+class Plan_Sorting_Adapter (private val categoryList: List<CategoryList>) : RecyclerView.Adapter<Plan_Sorting_Adapter.MyViewHolder>() {
+
+//    private var context: Context? = null
+    lateinit var context: Context
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_plan_sorting_item, parent, false)
         return MyViewHolder(view)
     }
 
-    override fun getItemCount() = myList.size
+    override fun getItemCount() = categoryList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        //val itemView = holder.itemView
-        if(position <=3){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_sort_plan)
-        } else if(position == 4){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_trip)
-        }else if(position == 5){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_professional)
-        } else if(position == 6){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_leisure)
-        } else if(position == 7){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_institutional)
-        } else if(position == 8){
-            holder.img_plan_sorting_list_item.setImageResource(R.drawable.ic_category_icon)
-        }
+        val category = categoryList[position]
 
-        holder.txt_plan_sorting_list_item.text = myList.get(position).contactname
-        holder.cb_plan_sorting_list_item.setOnClickListener(View.OnClickListener {
-            context?.let { it1 -> showDialog(it1) }
-        })
+        holder.txt_plan_sorting_list_item.text = category.name
+        Glide.with(context).load(category.picture).into(holder.img_plan_sorting_list_item)
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

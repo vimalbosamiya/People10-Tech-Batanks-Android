@@ -7,15 +7,15 @@ data class Guests (
         val user : String,
         val user_id : Int,
         val isUser : Boolean*/
-        val invitation_id : Int,
-        val status : String,
-        val name : String,
-        val user_id : Int,
-        val is_current_user : Boolean,
-        val price : String,
-        val price_currency : String,
-        val email : String,
-        val phone_number : String,
-        val people_coming : Int
-
+        val invitation_id : Int?,
+        val status : String?,
+        val name : String?,
+        val user_id : Int?,
+        val is_current_user : Boolean?,
+        val price : String?,
+        val price_currency : String?,
+        val email : String?,
+        val phone_number : String?,
+        val people_coming : Int?,
+        var selection : Boolean = false
 )

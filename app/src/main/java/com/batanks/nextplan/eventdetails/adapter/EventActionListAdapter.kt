@@ -8,6 +8,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.swagger.model.Task
@@ -43,8 +44,26 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
 
         val action : Task = actionList[position]
 
+        holder.contactSettings.visibility = View.GONE
         holder.textViewEventName.text = action.name
         holder.textViewEventNameMulti.text = action.name
+
+        if (action.assignee != null){
+
+            holder.contactBackground.visibility = View.VISIBLE
+            holder.contactName.text = action.assignee.username
+
+            if (!action.assignee?.picture.isNullOrEmpty()){
+
+                Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
+                holder.contactImage.visibility = GONE
+                holder.userImage.visibility = GONE
+            }
+
+        } else if (action.assignee == null){
+
+            holder.contactBackground.visibility = View.GONE
+        }
 
         if (action.per_person == true){
 
@@ -59,13 +78,20 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
 
         holder.textViewTotalAmount.text = action.price.toString()
         holder.textViewTotalAmountMulti.text = action.price.toString()
-        holder.textViewCurrencySymbol.text = action.price_currency.toString()
-        holder.textViewTotalAmountSymbol.text = action.price_currency.toString()
+        holder.textViewCurrencySymbol.text = action.price_currency
+        holder.textViewTotalAmountSymbol.text = action.price_currency
         holder.textViewEventDescription.text = action.description
-        Glide.with(context).load(action.assignee.picture).circleCrop().into(holder.contactStatus)
 
-        println("Assigne pic : " + action.assignee.picture)
-        holder.contactName.text = action.assignee.username
+      /*  if (!action.assignee?.picture.isNullOrEmpty()){
+
+            Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
+            holder.contactBackground.visibility = View.VISIBLE
+        }*/
+
+       /* if (action.assignee?.username != null){
+
+            holder.contactName.text = action.assignee.username
+        }*/
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -81,5 +107,9 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
         val textViewTotalAmountMulti : TextView = itemView.textViewTotalAmountMulti
         val textViewCurrencySymbol : TextView = itemView.textViewCurrencySymbol
         val contactStatus : ImageView = itemView.contactStatus
+        val contactImage : ImageView = itemView.contactImage
+        val userImage : ImageView = itemView.userImage
+        val contactSettings : ImageView = itemView.contactSettings
+        val contactBackground : ConstraintLayout = itemView.contactBackground
     }
 }

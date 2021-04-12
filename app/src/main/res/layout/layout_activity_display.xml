@@ -389,15 +389,48 @@
             app:layout_constraintTop_toBottomOf="@+id/eventInfoStartDate" />
 
         <TextView
-            android:id="@+id/textViewEventTime"
+            android:id="@+id/textViewEventTimeHours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginStart="72dp"
-            android:text="01h 30mn"
+            android:text="0"
             android:textColor="#DEFFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+            app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+        <TextView
+            android:id="@+id/textViewHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="h "
+            android:textColor="#DEFFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textViewEventTimeHours"
+            app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+        <TextView
+            android:id="@+id/textViewEventTimeMins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="00"
+            android:textColor="#DEFFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textViewHours"
+            app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
+
+        <TextView
+            android:id="@+id/textViewMins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="mn"
+            android:textColor="#DEFFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textViewEventTimeMins"
             app:layout_constraintTop_toTopOf="@+id/eventInfoTimeIcon" />
 
         <ImageView
@@ -408,20 +441,21 @@
             android:background="@drawable/ic_event_details_event_info_divider"
             app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEventTime" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewEventTimeHours" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/activityEverybodyComeHolder"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventInfoDivider2">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activityEverybodyComeVisible"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -441,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21.02dp"
-                    android:layout_marginStart="16.98dp"
+
                     android:background="@drawable/ic_event_details_everybody_come_icon"
                     app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />
@@ -470,7 +504,7 @@
                     app:layout_constraintStart_toEndOf="@+id/everybodyComeTextView"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/votesSeperator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -492,7 +526,7 @@
                     android:textColor="#90CAF9"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/votesSeperator"
-                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />
+                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />-->
 
                 <ImageView
                     android:id="@+id/hideEverybodyCome"
@@ -635,7 +669,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/activityEverybodyComeHide"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -677,7 +711,7 @@
                     app:layout_constraintStart_toEndOf="@+id/everybodyComeTextViewHide"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />
 
-                <TextView
+              <!--  <TextView
                     android:id="@+id/votesSeperatorHide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -699,7 +733,7 @@
                     android:textColor="#90CAF9"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/votesSeperatorHide"
-                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />
+                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />-->
 
                 <ImageView
                     android:id="@+id/hideEverybodyComeHide"
@@ -710,8 +744,7 @@
                     android:layout_marginEnd="22dp"
                     android:padding="20dp"
                     android:src="@drawable/ic_event_details_expand_more"
-                    app:layout_constraintEnd_toEndOf="@+id/activityEverybodyComeHide"
-                    app:layout_constraintStart_toEndOf="@+id/totalNoOfVotesHide"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -728,7 +761,7 @@
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
             app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeHolder" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/participateToActivityIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -736,7 +769,45 @@
             android:src="@drawable/ic_participate_to_activity_icon"
             app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeHolder" />
+            app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeHolder" />-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/participateIconHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
+            app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
+            app:layout_constraintTop_toBottomOf="@+id/activityEverybodyComeHolder">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/participateToActivityIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:elevation="6dp"
+                android:visibility="visible"
+                android:text="@string/participate_to_activity"
+                app:backgroundTint="#34CBFE"
+                app:icon="@drawable/ic_participate_to_activity_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/unsubscribeFromActivityIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:elevation="6dp"
+                android:visibility="gone"
+                android:text="@string/unsubscribe_from_activity"
+                app:backgroundTint="#34CBFE"
+                app:icon="@drawable/ic_unsubscribe_from_activity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <ImageView
             android:layout_width="wrap_content"
@@ -745,7 +816,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_event_details_contact_dollar"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/participateIconHolder" />
 
 
         <TextView
@@ -758,7 +829,7 @@
             android:textColor="#DEFFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/participateIconHolder" />
 
         <TextView
             android:id="@+id/textViewCostPerPersonAmountMulti"
@@ -772,7 +843,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/eventInfobackgroundMulti"
             app:layout_constraintEnd_toStartOf="@+id/textViewCostPerPersonAmountSymbol"
-            app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/participateIconHolder" />
 
         <TextView
             android:id="@+id/textViewCostPerPersonAmountSymbol"
@@ -786,7 +857,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/eventInfobackgroundMulti"
             app:layout_constraintEnd_toEndOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/participateToActivityIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/participateIconHolder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

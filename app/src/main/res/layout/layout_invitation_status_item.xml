@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/guestInfoHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_corners"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <ImageView
+            android:id="@+id/userStatus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_publiceventcategoryiconaccepted"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/userIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_event_category_icon"
+            app:layout_constraintStart_toStartOf="@+id/userStatus"
+            app:layout_constraintEnd_toEndOf="@+id/userStatus"
+            app:layout_constraintTop_toTopOf="@+id/userStatus"
+            app:layout_constraintBottom_toBottomOf="@+id/userStatus"/>
+        
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:text="Graphiste"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/userStatus"
+            app:layout_constraintEnd_toStartOf="@+id/plusSymbol"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/plusSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="+"
+            android:textColor="#A5D6A7"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guestsCount"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/guestsCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:text="2"
+            android:textColor="#A5D6A7"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guestImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/guestImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_guest_icon"
+            app:layout_constraintEnd_toStartOf="@+id/settings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_event_details_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/dollarSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_dollar"
+        app:layout_constraintStart_toStartOf="@+id/guestInfoHolder"
+        app:layout_constraintTop_toBottomOf="@+id/guestInfoHolder"/>
+    
+    <TextView
+        android:id="@+id/costPerPerson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/cost_per_person"
+        app:layout_constraintStart_toEndOf="@+id/dollarSymbol"
+        app:layout_constraintEnd_toStartOf="@+id/cost"
+        app:layout_constraintTop_toTopOf="@+id/dollarSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSymbol"/>
+
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="10,00"
+        android:textColor="#FFE082"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/currencySymbol"
+        app:layout_constraintTop_toTopOf="@+id/dollarSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSymbol"/>
+
+    <TextView
+        android:id="@+id/currencySymbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text=" €"
+        android:textColor="#FFE082"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/guestInfoHolder"
+        app:layout_constraintTop_toTopOf="@+id/dollarSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSymbol"/>
+
+    <ImageView
+        android:id="@+id/dollarSquareSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21.98dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="34.98dp"
+        android:src="@drawable/ic_dollar_square"
+        app:layout_constraintStart_toStartOf="@+id/guestInfoHolder"
+        app:layout_constraintTop_toBottomOf="@+id/dollarSymbol"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/totalCost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/total_cost"
+        app:layout_constraintStart_toEndOf="@+id/dollarSquareSymbol"
+        app:layout_constraintEnd_toStartOf="@+id/costInTotal"
+        app:layout_constraintTop_toTopOf="@+id/dollarSquareSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSquareSymbol"/>
+
+    <TextView
+        android:id="@+id/costInTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="10,00"
+        android:textColor="#FFE082"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/currencySymbolForTotal"
+        app:layout_constraintTop_toTopOf="@+id/dollarSquareSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSquareSymbol"/>
+
+    <TextView
+        android:id="@+id/currencySymbolForTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text=" €"
+        android:textColor="#FFE082"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/guestInfoHolder"
+        app:layout_constraintTop_toTopOf="@+id/dollarSquareSymbol"
+        app:layout_constraintBottom_toBottomOf="@+id/dollarSquareSymbol"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

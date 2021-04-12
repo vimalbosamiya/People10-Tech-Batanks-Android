@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#2F2F2F"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_contact_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_contact_delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_person"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/txt_contact_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_contact"
+            android:padding="5dp"
+            android:layout_toRightOf="@id/img_contact_delete_icon"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_centerVertical="true"/>
+        <View
+            android:id="@+id/view_seperator_delete_contact"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_contact_delete_icon"
+            android:layout_below="@id/img_contact_delete_icon"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_contact_add_to_groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/rl_edit_contact_delete">
+
+        <ImageView
+            android:id="@+id/img_contact_add_to_group_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_groups"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/txt_contact_add_to_group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_group"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/img_contact_add_to_group_icon"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/img_contact_add_to_group_right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_right_arrow_white"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
