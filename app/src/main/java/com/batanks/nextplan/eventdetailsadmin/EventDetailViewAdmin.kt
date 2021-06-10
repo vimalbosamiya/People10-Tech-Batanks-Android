@@ -39,6 +39,7 @@ import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
 import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
 import com.batanks.nextplan.invitationstatus.InvitationStatus
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.EventAPI
@@ -68,27 +69,27 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         EveryBodyComeListAdapterAdmin.AddPeopleRecyclerViewCallBack,
         AddCommentsFragment.AddCommentsFragmentListener,
         CommentsListAdapterAdmin.AddCommentsRecyclerViewCallBack,
-        AddContactsFragment.AddContactsFragmentListner{
+        AddContactsFragment.AddContactsFragmentListner {
 
-    var event_obj : Event? = null
-    var creator : Creator? = null
-    private var creatorId : Int = 0
-    private var id : Int = 0
-    private val position : Int = -1
+    var event_obj: Event? = null
+    var creator: Creator? = null
+    private var creatorId: Int = 0
+    private var id: Int = 0
+    private val position: Int = -1
 
-    private var userName : String? = null
+    private var userName: String? = null
 
-    var getCategory : CategoryList? = null
-    var getPeriodicity : Periodicity? = null
-    var getCreator :  Creator? = null
+    var getCategory: CategoryList? = null
+    var getPeriodicity: Periodicity? = null
+    var getCreator: Creator? = null
 
-    var getDates : ArrayList<EventDate> = arrayListOf()
-    var getPlaces : ArrayList<EventPlace> = arrayListOf()
-    var getTasks : ArrayList<Task> = arrayListOf()
-    var getActivities : ArrayList<Activity> = arrayListOf()
-    var getGuests : ArrayList<Guests> = arrayListOf()
-    var attendingGuests : ArrayList<Guests> = arrayListOf()
-    var getComments : ArrayList<Comment> = arrayListOf()
+    var getDates: ArrayList<EventDate> = arrayListOf()
+    var getPlaces: ArrayList<EventPlace> = arrayListOf()
+    var getTasks: ArrayList<Task> = arrayListOf()
+    var getActivities: ArrayList<Activity> = arrayListOf()
+    var getGuests: ArrayList<Guests> = arrayListOf()
+    var attendingGuests: ArrayList<Guests> = arrayListOf()
+    var getComments: ArrayList<Comment> = arrayListOf()
 
     /*var dates = ArrayList<EventDate>()
     var places = ArrayList<EventPlace>()
@@ -105,25 +106,33 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         }).get(EventDetailViewModel::class.java)
     }
 
-    var postDates : ArrayList<PostDates> = arrayListOf()
-    var postPlaces : ArrayList<PostPlaces> = arrayListOf()
-    var postTasks : ArrayList<PostTasks> = arrayListOf()
-    var postActivities : ArrayList<PostActivities> = arrayListOf()
-    var postGuests : PostGuests? = null
-    var postComments : ArrayList<PostComments> = arrayListOf()
-    var postContacts : ArrayList<String> = arrayListOf()
+    /*private val publicPlanViewModel: PublicPlanViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(EventAPI::class.java)?.let {
+                PublicPlanViewModel(it)
+            }
+        }).get(PublicPlanViewModel::class.java)
+    }*/
+
+    var postDates: ArrayList<PostDates> = arrayListOf()
+    var postPlaces: ArrayList<PostPlaces> = arrayListOf()
+    var postTasks: ArrayList<PostTasks> = arrayListOf()
+    var postActivities: ArrayList<PostActivities> = arrayListOf()
+    var postGuests: PostGuests? = null
+    var postComments: ArrayList<PostComments> = arrayListOf()
+    var postContacts: ArrayList<String> = arrayListOf()
 
     lateinit var addPeopleRecyclerView: RecyclerView
-    lateinit var commentsListRecyclerViewAdmin :RecyclerView
+    lateinit var commentsListRecyclerViewAdmin: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view_admin)
 
-        id  = intent.getIntExtra("ID",0)
+        id = intent.getIntExtra("ID", 0)
 
-        userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME",null)
+        userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME", null)
 
         addPeopleRecyclerView = findViewById(R.id.addPeopleRecyclerView)
         addPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -137,7 +146,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         guestsHolder.setOnClickListener {
 
-            intent = Intent(this, InvitationStatus :: class.java)
+            intent = Intent(this, InvitationStatus::class.java)
             intent.putExtra("ID", id)
             startActivity(intent)
             //finish()
@@ -170,14 +179,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                     organizerMobileNumber.text = creator!!.phone_number.toString()
                     //println(creator!!.phone_number.toString())
 
-                    if (!TextUtils.isEmpty(creator!!.picture)){
+                    if (!TextUtils.isEmpty(creator!!.picture)) {
 
                         userIcon.background = null
                         Glide.with(this).load(creator!!.picture).circleCrop().into(userIcon)
                         Glide.with(this).load(creator!!.picture).circleCrop().into(userIconInFull)
                     }
 
-                    if(creator!!.is_in_contacts == true){
+                    if (creator!!.is_in_contacts == true) {
 
                         textViewAddContact.visibility = GONE
                         addToContact.visibility = GONE
@@ -187,11 +196,11 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                     category.text = event_obj!!.category.name
                     Glide.with(this).load(event_obj!!.category.picture).circleCrop().into(tripIcon)
 
-                    if (event_obj!!._private == true){
+                    if (event_obj!!._private == true) {
 
                         privateIcon.visibility = VISIBLE
 
-                    }else {
+                    } else {
 
                         privateIcon.visibility = GONE
                     }
@@ -225,18 +234,18 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                         }
                     }*/
 
-                    val acceptedGuests : ArrayList<Guests> = arrayListOf()
-                    val DeclinedGuests : ArrayList<Guests> = arrayListOf()
+                    val acceptedGuests: ArrayList<Guests> = arrayListOf()
+                    val DeclinedGuests: ArrayList<Guests> = arrayListOf()
 
-                    for (item in event_obj!!.guests){
+                    for (item in event_obj!!.guests) {
 
-                        if (item.status == "AC"){
+                        if (item.status == "AC") {
 
                             acceptedGuests.add(item)
 
                             noOfParticipants.text = acceptedGuests.size.toString()
 
-                        } else  if (item.status == "DN"){
+                        } else if (item.status == "DN") {
 
                             DeclinedGuests.add(item)
 
@@ -274,11 +283,11 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     attendingGuests.clear()
 
-                    for (item in getGuests){
+                    for (item in getGuests) {
 
-                        if (item.status == "AC"){
+                        if (item.status == "AC") {
 
-                            if (!attendingGuests.contains(item)){
+                            if (!attendingGuests.contains(item)) {
 
                                 attendingGuests.add(item)
                             }
@@ -300,7 +309,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 }
 
                 Status.ERROR -> {
-                   // hideLoader()
+                    // hideLoader()
                     showMessage(response.error?.message.toString())
                     println(response.error)
                     //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
@@ -410,7 +419,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     hideLoader()
 
-                   /* val responseComment = response.data as Comment
+                    /* val responseComment = response.data as Comment
 
                     getComments.add(responseComment)
 
@@ -447,7 +456,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     hideLoader()
 
-                    intent = Intent(this, HomePlanPreview :: class.java)
+                    intent = Intent(this, HomePlanPreview::class.java)
                     startActivity(intent)
                     finish()
 
@@ -462,6 +471,31 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 }
             }
         })
+
+        /*publicPlanViewModel.responseLiveDataUpdate.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    //planEdited = response.data as Event
+
+                     supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { supportFragmentManager.beginTransaction().remove(it).commit()}
+
+                    Toast.makeText(this,getString(R.string.plan_updated), Toast.LENGTH_SHORT).show()
+
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                    println("Error coming from here" + response.error )
+                }
+            }
+        })*/
 
 
         dateInitAdmin(getDates)
@@ -489,7 +523,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         //addPeriodImg.setOnClickListener(this)
         //dateCloseVotes.setOnClickListener(this)
         /*addPlaceImg.setOnClickListener(this)*/
-      /*  addActionBackgroundImg.setOnClickListener(this)
+        /*  addActionBackgroundImg.setOnClickListener(this)
         addActivityBackgroundImg.setOnClickListener(this)*/
         /*addPeople.setOnClickListener(this)
         addPeopleInitial.setOnClickListener(this)*/
@@ -514,7 +548,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         return super.dispatchTouchEvent(event)
     }
 
-    fun addGuestsDialogShow(){
+    fun addGuestsDialogShow() {
 
         val addGuestsView = Dialog(this/*,android.R.style.Theme_Translucent_NoTitleBar*/)
         addGuestsView.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -532,7 +566,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         addGuestsView.add.setOnClickListener {
 
-            var count : Int = addGuestsView.countTextView.text.toString().toInt()
+            var count: Int = addGuestsView.countTextView.text.toString().toInt()
 
             count += 1
 
@@ -541,9 +575,9 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         addGuestsView.substract.setOnClickListener {
 
-            var count : Int = addGuestsView.countTextView.text.toString().toInt()
+            var count: Int = addGuestsView.countTextView.text.toString().toInt()
 
-            if (count > 0){
+            if (count > 0) {
 
                 count -= 1
 
@@ -595,26 +629,26 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     }
 
-    fun dateInitAdmin(dates : ArrayList<EventDate>){
+    fun dateInitAdmin(dates: ArrayList<EventDate>) {
 
         val dateRecyclerView = findViewById<RecyclerView>(R.id.VoteForDateMultipleRecyclerViewAdmin) as RecyclerView
         dateRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = VoteForDateMultipleListAdapterAdmin(dates,this,eventDetailViewModel ,this/*,thispublicPlanViewModel.eventDate*/, id.toString())
+        val adapter = VoteForDateMultipleListAdapterAdmin(dates, this, eventDetailViewModel, this/*,thispublicPlanViewModel.eventDate*/, id.toString())
         dateRecyclerView.adapter = adapter
     }
 
-    fun placeInitAdmin(places : ArrayList<EventPlace>){
+    fun placeInitAdmin(places: ArrayList<EventPlace>) {
 
         val placeRecyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerViewAdmin) as RecyclerView
         placeRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = VoteForPlaceMultipleListAdapterAdmin(places,this,eventDetailViewModel,this /*publicPlanViewModel.place*/, id.toString())
+        val adapter = VoteForPlaceMultipleListAdapterAdmin(places, this, eventDetailViewModel, this /*publicPlanViewModel.place*/, id.toString())
         placeRecyclerView.adapter = adapter
 
     }
 
-    fun taskInitAdmin(tasks : ArrayList<Task>){
+    fun taskInitAdmin(tasks: ArrayList<Task>) {
 
         val actionRecyclerViewAdmin = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerViewAdmin.layoutManager = LinearLayoutManager(this)
@@ -626,35 +660,33 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
             actionRecyclerViewAdmin.setLayoutParams(params)
         }*/
 
-        val adapter = EventActionListAdapterAdmin(tasks,this,this, eventDetailViewModel, id)
+        val adapter = EventActionListAdapterAdmin(tasks, this, this, eventDetailViewModel, id)
         actionRecyclerViewAdmin.adapter = adapter
 
     }
 
-    fun activityInitAdmin(activity : ArrayList<Activity>){
+    fun activityInitAdmin(activity: ArrayList<Activity>) {
 
         val activityRecyclerView = findViewById<RecyclerView>(R.id.activityRecyclerViewAdmin) as RecyclerView
         activityRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EventActivityListAdapterAdmin(activity,this,this)
+        val adapter = EventActivityListAdapterAdmin(activity, this, this)
         activityRecyclerView.adapter = adapter
 
     }
 
-    fun peopleInitAdmin(guests : ArrayList<Guests>){
+    fun peopleInitAdmin(guests: ArrayList<Guests>) {
 
-        val adapter = EveryBodyComeListAdapterAdmin(guests,this,eventDetailViewModel,this, id)
+        val adapter = EveryBodyComeListAdapterAdmin(guests, this, eventDetailViewModel, this, id)
         addPeopleRecyclerView.adapter = adapter
 
     }
 
-    fun commentsInitAdmin(comments : ArrayList<Comment>){
+    fun commentsInitAdmin(comments: ArrayList<Comment>) {
 
         val adapter = CommentsListAdapterAdmin(comments, this, this, userName, eventDetailViewModel, id)
         commentsListRecyclerViewAdmin.adapter = adapter
     }
-
-
 
 
     override fun addPeriodClicked() {
@@ -754,7 +786,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                         }
 
                         //dates.add(EventDate((dates.size + 1), mutableListOf() ,startDate, endDate, visible))
-                        postDates.add(PostDates(startDate,endDate))
+                        postDates.add(PostDates(startDate, endDate))
                         dateRecyclerView?.adapter?.notifyDataSetChanged()
 
                     }, mHour, mMin, false)
@@ -774,11 +806,11 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         fromDate.show()
     }
 
-    override fun addPlaceClicked(placePosition : Int,placeList : ArrayList<PostPlaces>) {
+    override fun addPlaceClicked(placePosition: Int, placeList: ArrayList<PostPlaces>) {
 
         this.supportFragmentManager
                 .beginTransaction()
-                .add(AddPlaceFragment(this,position, arrayListOf()), AddPlaceFragment::class.java.canonicalName)
+                .add(AddPlaceFragment(this, position, arrayListOf()), AddPlaceFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
 
         val placeRecyclerView = findViewById<RecyclerView>(R.id.VoteForPlaceMultipleRecyclerViewAdmin) as RecyclerView
@@ -786,7 +818,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         placeRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
-    override fun addActionClicked(taskPosition : Int, taskList : ArrayList<PostTasks>, editButtonClicked : Boolean) {
+    override fun addActionClicked(taskPosition: Int, taskList: ArrayList<PostTasks>, editButtonClicked: Boolean) {
 
         this.supportFragmentManager
                 .beginTransaction()
@@ -798,7 +830,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
-    override fun addActivityClicked(activityPosition : Int, activityList : ArrayList<PostActivities>, editButtonClicked : Boolean) {
+    override fun addActivityClicked(activityPosition: Int, activityList: ArrayList<PostActivities>, editButtonClicked: Boolean) {
 
         this.supportFragmentManager
                 .beginTransaction()
@@ -812,16 +844,16 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     override fun addPeopleClicked() {
 
-        this.supportFragmentManager
+        /*this.supportFragmentManager
                 .beginTransaction()
                 .add(AddContactsFragment(this), AddContactsFragment::class.java.canonicalName)
-                .commitAllowingStateLoss()
+                .commitAllowingStateLoss()*/
 
         addPeopleRecyclerView.adapter?.notifyDataSetChanged()
 
     }
 
-    override fun addCommentClicked(){
+    override fun addCommentClicked() {
 
         this.supportFragmentManager
                 .beginTransaction()
@@ -833,25 +865,23 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun addPlaceFragmentAddressFetch(updatedPosition : Int ,place: PostPlaces) {
+    override fun addPlaceFragmentAddressFetch(updatedPosition: Int, place: PostPlaces) {
 
         (this.supportFragmentManager.findFragmentByTag(AddPlaceFragment::class.java.canonicalName)
                 as? AddPlaceFragment)?.dismiss()
 
-        var visible : Boolean
+        var visible: Boolean
 
-        if (getPlaces.size == 0){
+        if (getPlaces.size == 0) {
 
             visible = false
-        }
-
-        else{
+        } else {
 
             visible = getPlaces[0].visibility
         }
 
         //places.add(EventPlace(places.size + 1, place.place, /*place.name, place.address, place.zipcode, place.city, place.country, place.map,*/ mutableListOf(),visible))
-        postPlaces.add(PostPlaces(place.place,place.name,place.address,place.zipcode,place.city,place.country,place.map,visible))
+        postPlaces.add(PostPlaces(place.place, place.name, place.address, place.zipcode, place.city, place.country, place.map, visible))
 
         //Toast.makeText(this,place.map.toString(),Toast.LENGTH_LONG).show()
 
@@ -866,13 +896,13 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun AddActionFragmentFetch(updatedPosition : Int , task: PostTasks) {
+    override fun AddActionFragmentFetch(updatedPosition: Int, task: PostTasks) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
 
         //tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee/*,task.assigneeName*/))
-        postTasks.add(PostTasks(task.price,task.name,task.description,task.per_person,task.assignee))
+        postTasks.add(PostTasks(task.price, task.name, task.description, task.per_person, task.assignee))
 
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerView?.adapter?.notifyDataSetChanged()
@@ -885,17 +915,17 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
 
-    override fun AddActivityFragmentFetch(updatedPosition : Int ,activity: PostActivities) {
+    override fun AddActivityFragmentFetch(updatedPosition: Int, activity: PostActivities) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
 
         //val place1 : Place = Place("Nellore","Buchi","524305","Nellore","India",true,27.2038,77.5011)
 
-        postActivities.add(PostActivities(activity.place,activity.price,activity.participants,activity.title,activity.detail,activity.date,
-                                          activity.max_participants,activity.per_person,activity.duration))
+        postActivities.add(PostActivities(activity.place, activity.price, activity.participants, activity.title, activity.detail, activity.date,
+                activity.max_participants, activity.per_person, activity.duration))
 
-       /*activities.add(Activity(activities.size + 1,activity.place,activity.price,acti,activity.title,activity.detail,activity.date,
+        /*activities.add(Activity(activities.size + 1,activity.place,activity.price,acti,activity.title,activity.detail,activity.date,
                                 activity.max_participants,activity.price_currency,activity.per_person,activity.duration,activity.participants))*/
 
         val activityRecyclerView = findViewById<RecyclerView>(R.id.activityRecyclerViewAdmin) as RecyclerView
@@ -915,14 +945,12 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         (this.supportFragmentManager.findFragmentByTag(AddCommentsFragment::class.java.canonicalName)
                 as? AddCommentsFragment)?.dismiss()
 
-        var visible : Boolean
+        var visible: Boolean
 
-        if (getComments.size == 0){
+        if (getComments.size == 0) {
 
             visible = false
-        }
-
-        else{
+        } else {
 
             //visible = getComments[0].visibility
         }
@@ -953,10 +981,10 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
 
-        deletePopup.setOnClickListener{
+        deletePopup.setOnClickListener {
 
 
-            getDates.forEach{
+            getDates.forEach {
 
                 it.visibility = true
 
@@ -987,10 +1015,10 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
 
-        deletePopup.setOnClickListener{
+        deletePopup.setOnClickListener {
 
 
-            getPlaces.forEach{
+            getPlaces.forEach {
 
                 it.visibility = true
 
@@ -1021,10 +1049,10 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
 
-        deletePopup.setOnClickListener{
+        deletePopup.setOnClickListener {
 
 
-            getComments.forEach{
+            getComments.forEach {
 
                 //it.visibility = true
 
@@ -1101,7 +1129,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 organizerInitial.visibility = VISIBLE
             }
 
-         /*  R.id.dateSettingsIcon -> {
+            /*  R.id.dateSettingsIcon -> {
 
 
 
@@ -1177,7 +1205,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
             }
 
-           /* R.id.dateCloseVotes -> {
+            /* R.id.dateCloseVotes -> {
 
                 //addPeriodClicked()
 
@@ -1191,17 +1219,17 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
             }*/
 
-          /*  R.id.addPlaceImg -> {
+            /*  R.id.addPlaceImg -> {
 
                 //addPlaceClicked()
             }*/
 
-          /*  R.id.addActionBackgroundImg -> {
+            /*  R.id.addActionBackgroundImg -> {
 
                 addActionClicked()
             }*/
 
-           /* R.id.addActivityBackgroundImg -> {
+            /* R.id.addActivityBackgroundImg -> {
 
                 addActivityClicked()
             }*/
@@ -1231,7 +1259,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
             R.id.backArrow -> {
 
-                intent = Intent(this, HomePlanPreview :: class.java)
+                intent = Intent(this, HomePlanPreview::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -1246,14 +1274,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
             R.id.hamburger -> {
 
                 showDialog()
-          }
+            }
 
-           /* R.id.placeSettingsIcon -> {
+            /* R.id.placeSettingsIcon -> {
 
                 showDialog()
             }*/
 
-           /* R.id.commentsSettingsIcon -> {
+            /* R.id.commentsSettingsIcon -> {
 
                 showDialog()
                 //frameLayoutAdmin.visibility = View.VISIBLE
@@ -1267,18 +1295,16 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         }
     }
 
-    private fun editPlan(editButtonClicked : Boolean, deleteButtonClicked : Boolean){
+    private fun editPlan(editButtonClicked: Boolean, deleteButtonClicked: Boolean) {
 
         val draft: Boolean = false
 
         Handler().postDelayed({
 
-
-
         }, DELAY)
 
         supportFragmentManager.beginTransaction()
-                .add(R.id.frameLayoutAdmin, CreatePlanFragment(draft, id, editButtonClicked, deleteButtonClicked), CreatePlanFragment.TAG)
+                .add(R.id.frameLayoutAdmin, CreatePlanFragment(draft, id, editButtonClicked, deleteButtonClicked, null), CreatePlanFragment.TAG)
                 .addToBackStack(CreatePlanFragment.TAG).commit()
 
         frameLayoutAdmin.visibility = View.VISIBLE
@@ -1310,14 +1336,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
     companion object {
-        const val DELAY : Long = 3 * 1000 //times in milliseconds
+        const val DELAY: Long = 3 * 1000 //times in milliseconds
     }
 
-    override fun AddSelectedParticipants(participants: ArrayList<ActivityParticipants>) {
+    override fun AddSelectedParticipants(participants: ArrayList<ContactsList>) {
 
         println()
     }
-
+}
 
 
 
@@ -1351,7 +1377,3 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     }*/
 
-
-
-
-}

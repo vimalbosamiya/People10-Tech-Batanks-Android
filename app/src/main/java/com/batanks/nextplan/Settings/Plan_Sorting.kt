@@ -150,22 +150,22 @@ class Plan_Sorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sorti
 
     private fun filterData(){
 
-       val filterlist : ArrayList<String> = ArrayList<String>()
+       /*val filterlist : ArrayList<String> = ArrayList<String>()
 
         filterlist.add("Drafts")
         filterlist.add("Mines")
-        filterlist.add("Invited to")
+        filterlist.add("Invited to")*/
 
-        completeList.add("Drafts")
-        completeList.add("Mines")
-        completeList.add("Invited to")
+        completeList.add(getString(R.string.drafts))
+        completeList.add(getString(R.string.mines))
+        completeList.add(getString(R.string.invited_to))
 
        /* adapter = Filter_Sorting_Adapter(filterlist, true)
         rv_filters.adapter = adapter*/
 
-        filters.add(Filter("Drafts", null, FilterType.EVENTTYPE, false))
-        filters.add(Filter("Mines", null,  FilterType.EVENTTYPE, false))
-        filters.add(Filter("Invited to", null, FilterType.EVENTTYPE, false))
+        filters.add(Filter(getString(R.string.drafts), null, FilterType.EVENTTYPE, false))
+        filters.add(Filter(getString(R.string.mines), null,  FilterType.EVENTTYPE, false))
+        filters.add(Filter(getString(R.string.invited_to), null, FilterType.EVENTTYPE, false))
    }
 
     private fun loadData() {

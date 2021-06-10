@@ -67,7 +67,7 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
 
             //id = myList.get(position).id
 
-            context?.let { it1 -> showDialog(it1, myList.get(position).id) }
+            context?.let { it1 -> showDialog(it1, myList.get(position).id!!) }
         })
 
         holder.contactName.setOnClickListener {

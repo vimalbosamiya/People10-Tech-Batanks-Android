@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.Contact
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.Group
 import com.batanks.nextplan.swagger.model.GroupEdit
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +18,7 @@ class GroupListViewModel (private val groupApi : GroupsAPI) : ViewModel()  {
     val responseLiveData1: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveData2: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveData3: MutableLiveData<ApiResponse> = MutableLiveData()
-    var response : ArrayList<Contact> = arrayListOf()
+    var response : ArrayList<ContactsList> = arrayListOf()
 
     fun getGroupList(id : String) {
 

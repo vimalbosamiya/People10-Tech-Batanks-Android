@@ -334,6 +334,7 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
 
             var file = File(data!!.data!!.path)
             var requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
+            //var requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
             filePart = MultipartBody.Part.createFormData("upload_file", file.name, requestBody)
 
             //println(data?.data)

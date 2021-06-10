@@ -1,6 +1,7 @@
 package com.batanks.nextplan.home.fragment.tabfragment.publicplan
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
@@ -13,14 +14,13 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.text.buildSpannedString
-import androidx.core.text.color
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,10 +29,12 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.customfrequency.CustomFrequency
+import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
+import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
 import com.batanks.nextplan.home.fragment.action.AddActionRecyclerView
@@ -47,6 +49,7 @@ import com.batanks.nextplan.home.fragment.tabfragment.AddActivityRecyclerView
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.CategoryViewModel
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
+import com.batanks.nextplan.home.home_tabs.AllHomeFragment
 import com.batanks.nextplan.home.markInRed
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.home.markRequiredRed
@@ -62,18 +65,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
-import kotlinx.android.synthetic.main.fragment_public_new_plan.planNameEditText
-import kotlinx.android.synthetic.main.layout_add_date.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_action.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_activity.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_people.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_period.*
 import kotlinx.android.synthetic.main.layout_add_plan_add_place.*
 import kotlinx.android.synthetic.main.layout_add_plan_footer.*
-import kotlinx.android.synthetic.main.layout_date_display.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PublicPlanFragment (private var draft : Boolean,  private val eventId : Int?, private val listener: PublicPlanFragmentListener?, private val editButtonClicked : Boolean,
                           private val deleteButtonClicked : Boolean, private val isPrivtaeEvent : Boolean): BaseFragment(), ButtonContract, View.OnClickListener,
@@ -94,7 +93,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
     private var activityRecyclerView : RecyclerView? = null
     private var addpeopleRecyclerView : RecyclerView? = null
     private var planCreatedResponse : GetEventListHome? = null
-    private var addedparticipants: ArrayList<ActivityParticipants> = arrayListOf()
+    private var addedparticipants: ArrayList<ContactsList> = arrayListOf()
     private var planEditedResponse : Event? = null
     private var planEdited : Event? = null
     private var periodicity : Periodicity? = null
@@ -108,6 +107,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     //val privateEvent : Boolean = true
     var catregoryId : Int = 0
+    private var userId : Int = 0
     var system: Resources = Resources.getSystem()
     var event : Event? = null
     var getDates : ArrayList<EventDate> = arrayListOf()
@@ -172,6 +172,8 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userId  = activity?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)!!.getInt("ID",0)
 
 
         if (editButtonClicked == true){
@@ -298,6 +300,20 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     activity?.notification!!.visibility = View.VISIBLE
                     activity?.img_settings!!.visibility = View.VISIBLE
 
+                   /* if (planCreatedResponse!!.creator.id == userId){
+
+                        val intent = Intent(context, EventDetailViewAdmin::class.java)
+                        intent.putExtra("ID", planCreatedResponse!!.pk)
+                        startActivity(intent)
+
+                    } else if (planCreatedResponse!!.creator.id != userId){
+
+                        val intent = Intent(context, EventDetailView::class.java)
+                        intent.putExtra("ID", planCreatedResponse!!.pk)
+                        startActivity(intent)
+
+                    }*/
+
                     if (planCreatedResponse!!.draft == true){
 
                         Toast.makeText(context,getString(R.string.draft_created), Toast.LENGTH_SHORT).show()
@@ -307,8 +323,9 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                         Toast.makeText(context,getString(R.string.plan_created), Toast.LENGTH_SHORT).show()
                     }
 
-
-                    listener?.refreshHomeFragmentData(true)
+                    (listener as HomePlanPreview).refreshHomeFragmentData(true)
+                    //(listener as AllHomeFragment).refreshHomeFragmentData(true)
+                   // listener?.refreshHomeFragmentData(true)
 
                     //homePlanPreviewViewModel.eventList()
 
@@ -332,7 +349,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
             }
         })
 
-        publicPlanViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
+        /*publicPlanViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
             when (response.status) {
                 Status.LOADING -> {
@@ -371,20 +388,20 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     hideLoader()
                     showMessage(response.error?.message.toString())
                     //homePlanPreviewViewModel.eventList()
-/*
+*//*
                     requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit()}
 
                     activity?.appBarLayout?.visibility = View.VISIBLE
                     activity?.extFab!!.visibility = View.VISIBLE
                     activity?.search!!.visibility = View.VISIBLE
                     activity?.notification!!.visibility = View.VISIBLE
-                    activity?.img_settings!!.visibility = View.VISIBLE*/
+                    activity?.img_settings!!.visibility = View.VISIBLE*//*
 
                     println("Error coming from here" + response.error )
 
                 }
             }
-        })
+        })*/
 
         publicPlanViewModel.responseLiveDataUpdate.observe(viewLifecycleOwner, Observer { response ->
 
@@ -398,21 +415,13 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
                     planEdited = response.data as Event
 
-                    requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit()}
-                    //requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+                    //val eventDetailViewAdmin = EventDetailViewAdmin()
 
-                    /*activity?.appBarLayout?.visibility = View.VISIBLE
-                    activity?.extFab!!.visibility = View.VISIBLE
-                    activity?.search!!.visibility = View.VISIBLE
-                    activity?.notification!!.visibility = View.VISIBLE
-                    activity?.img_settings!!.visibility = View.VISIBLE*/
+                    //eventDetailViewAdmin.recreate()
+
+                    requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit()}
 
                     Toast.makeText(context,getString(R.string.plan_updated), Toast.LENGTH_SHORT).show()
-
-
-                    //listener.refreshHomeFragmentData(true)
-
-                    //homePlanPreviewViewModel.eventList()
 
                 }
                 Status.ERROR -> {
@@ -444,6 +453,8 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     activity?.search!!.visibility = View.VISIBLE
                     activity?.notification!!.visibility = View.VISIBLE
                     activity?.img_settings!!.visibility = View.VISIBLE
+
+
 
                     //requireActivity().supportFragmentManager.findFragmentByTag(CreatePlanFragment.TAG)?.let { requireActivity().supportFragmentManager.beginTransaction().remove(it).commit()}
 
@@ -622,6 +633,8 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
             println(catregoryId)
         }
 
+
+
 //        populateCategory()
 
         createPlanButton.setOnClickListener(this)
@@ -731,7 +744,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
                         for (item in event!!.guests){
 
-                            val finalConvertedGuests = item.toActivityParticipants()
+                            val finalConvertedGuests = item.toContactsList()
 
                             addedparticipants?.add(finalConvertedGuests)
                         }
@@ -1063,7 +1076,19 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     override fun addPeriodClicked() {
 
-        context?.let { showDialog(it,position) }
+        /*if (publicPlanViewModel.eventDate.size> 0 && publicPlanViewModel.activity.size > 1){
+
+            Toast.makeText(context,getString(R.string.cannot_add_multiple_dates),Toast.LENGTH_LONG).show()
+
+        } else {
+
+            context?.let { showDialog(it,position) }
+        }*/
+
+        //addPeriodCheck(position)
+        context?.let { showDialog(it, position) }
+
+
 
 /*
         val mCal = Calendar.getInstance()
@@ -1131,6 +1156,18 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
         fromDate.show()*/
     }
 
+    fun addPeriodCheck(pos: Int){
+
+        if (publicPlanViewModel.eventDate.size> 0 && publicPlanViewModel.activity.size > 1){
+
+            Toast.makeText(context,getString(R.string.cannot_add_multiple_dates),Toast.LENGTH_LONG).show()
+
+        } else {
+
+            context?.let { showDialog(it, pos) }
+        }
+    }
+
     /*override fun fromAddPeriodClicked() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -1176,6 +1213,18 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
         if (isPrivtaeEvent == true){
 
+           /* if (publicPlanViewModel.eventDate.size> 1 && publicPlanViewModel.activity.size > 0){
+
+                Toast.makeText(context,getString(R.string.cannot_add_multiple_activities),Toast.LENGTH_LONG).show()
+
+            } else {
+
+                requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .add(AddActivityFragment(this, activityPosition, activityList, event, editButtonClicked), AddActivityFragment::class.java.canonicalName)
+                        .commitAllowingStateLoss()
+            }*/
+
             requireActivity().supportFragmentManager
                     .beginTransaction()
                     .add(AddActivityFragment(this, activityPosition, activityList, event, editButtonClicked), AddActivityFragment::class.java.canonicalName)
@@ -1191,7 +1240,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
     override fun addPeopleClicked() {
         requireActivity().supportFragmentManager
                 .beginTransaction()
-                .add(AddContactsFragment(this), AddContactsFragment::class.java.canonicalName)
+                .add(AddContactsFragment(this, addedparticipants), AddContactsFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
     }
 
@@ -1222,9 +1271,20 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
         //addPeriodClicked()
 
+        //context?.let { showDialog(it, pos) }
+
+        /*if (publicPlanViewModel.eventDate.size> 0 && publicPlanViewModel.activity.size > 1){
+
+            Toast.makeText(context,getString(R.string.cannot_add_multiple_dates),Toast.LENGTH_LONG).show()
+
+        } else {
+
+            context?.let { showDialog(it, pos) }
+        }*/
+
+        //addPeriodCheck(pos)
         context?.let { showDialog(it, pos) }
     }
-
 
     override fun closeButtonAddPlaceItemListener(pos: Int) {
 
@@ -1381,9 +1441,11 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
         }else {
 
-            publicPlanViewModel.place.add(place)
+           // publicPlanViewModel.place.add(place)
+            publicPlanViewModel.place.add(0, place)
             addPlaceRecyclerView?.adapter = AddPlaceRecyclerView(this, publicPlanViewModel.place, editButtonClicked)
             addPlaceRecyclerView?.adapter?.notifyDataSetChanged()
+            publicPlanScrollView.smoothScrollTo(0,addPlaceRecyclerView?.getAdapter()?.getItemCount()!!)
         }
     }
 
@@ -1463,7 +1525,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
     }
 
 
-    override fun AddSelectedParticipants(participants: ArrayList<ActivityParticipants>) {
+    override fun AddSelectedParticipants(participants: ArrayList<ContactsList>) {
 
         for(item in participants){
 
@@ -1558,7 +1620,11 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                  endDate = dateFormatter.format(parsedDate)
              }
 
+             howOftenTextField.setHint(R.string.custom)
+
              periodicity = Periodicity(unit, occurence!!,endDate)
+
+             println(periodicity)
          }
     }
 
@@ -1786,9 +1852,12 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     } else {
 
                         publicPlanViewModel.eventDate.add(PostDates(start = fromDate, end = toDate))
+                        //publicPlanViewModel.eventDate.add(0, PostDates(start = fromDate, end = toDate))
                         addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
-                        addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!! - 1)
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                        //publicPlanScrollView.smoothScrollTo(0,addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
+                        //addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!! - 1)
+
                         addPeriodButton.setText(getString(R.string.add_another_period))
                     }
 
@@ -1813,9 +1882,15 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
             }else {
 
                 publicPlanViewModel.eventDate.add(PostDates(start = fromDate, end = null))
+                //publicPlanViewModel.eventDate.add(0, PostDates(start = fromDate, end = null))
+                //Collections.reverse(publicPlanViewModel.eventDate)
                 addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
-                addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!! - 1)
                 addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
+                //addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
+                //addPeriodRecyclerView?.scrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
+                //appBarLayout.syncOffsetDelayed();
+                //publicPlanScrollView.smoothScrollTo(0,addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
+
                 addPeriodButton.setText(getString(R.string.add_another_period))
             }
 
@@ -1877,10 +1952,22 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
             map = map
     )
 
-    fun Guests.toActivityParticipants() = ActivityParticipants(
+   /* fun Guests.toActivityParticipants() = ActivityParticipants(
 
             participantName = name,
             id = user_id
+    )*/
+
+    fun Guests.toContactsList() = ContactsList(
+
+            id = user_id,
+            first_name = null,
+            last_name = null,
+            username = name,
+            email = email,
+            phone_number = phone_number,
+            picture = null,
+            selection = false
     )
 
   /*  fun Task.toPostTasks() = PostTasks(

@@ -42,14 +42,17 @@ import com.batanks.nextplan.swagger.api.SearchAPI
 import com.batanks.nextplan.swagger.model.*
 import kotlinx.android.synthetic.main.add_contact_fragment.*
 import kotlinx.coroutines.*
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
-class AddContactsFragment(private val listner : AddContactsFragmentListner/*, private val participants : ArrayList<Guests>*/) : BaseDialogFragment(), FriendsAdapter.friendsAdapterRecyclerViewCallBack
+class AddContactsFragment(private val listner : AddContactsFragmentListner, private val addedParticipants : ArrayList<ContactsList>) : BaseDialogFragment(), FriendsAdapter.friendsAdapterRecyclerViewCallBack
                                                                                                   , GroupsAdapter.groupsAdapterRecyclerViewCallBack
-                                                                                                  , UsersAdapter.usersAdapterRecyclerViewCallBack, CoroutineScope{
+                                                                                                  , UsersAdapter.usersAdapterRecyclerViewCallBack, ContactsAdapter.contactsAdapterRecyclerViewCallBack
+                                                                                                  ,CoroutineScope{
 
     lateinit var phone_contacts_RecyclerView :RecyclerView
-    var phoneContactsList : ArrayList<PhoneContacts>?  = null
+    var phoneContactsList : ArrayList<PhoneContacts> = arrayListOf()
     lateinit var phoneAdapter : ContactsAdapter
 
     protected lateinit var rootView: View
@@ -59,10 +62,11 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
     lateinit var add_contacts_users_RecyclerView :RecyclerView
 
     var participantsList : ArrayList<ActivityParticipants> = arrayListOf()
-    var finalParticipantsList : ArrayList<ActivityParticipants> = arrayListOf()
-    var participantsListContacts : ArrayList<ActivityParticipants> = arrayListOf()
-    var participantsListGroups : ArrayList<ActivityParticipants> = arrayListOf()
-    var participantsListUsers : ArrayList<ActivityParticipants> = arrayListOf()
+    var finalParticipantsList : ArrayList<ContactsList> = arrayListOf()
+    var participantsListContacts : ArrayList<ContactsList> = arrayListOf()
+    var participantsListGroups : ArrayList<ContactsList> = arrayListOf()
+    //var participantsListUsers : ArrayList<ContactsList> = arrayListOf()
+    var convertedParticipantsList : ArrayList<ContactsList> = arrayListOf()
 
     lateinit var select_contacts_phone_checkbox : CheckBox
     /*lateinit var select_contacts_contacts_checkbox : CheckBox
@@ -78,14 +82,16 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
     companion object {
         val PERMISSIONS_REQUEST_READ_CONTACTS = 100
 
-        var participants : ArrayList<ActivityParticipants> = arrayListOf()
+        var participants : ArrayList<ContactsList> = arrayListOf()
     }
 
     lateinit var contactList : ArrayList<ContactsList>
+    var contactsId : ArrayList<Int> = arrayListOf()
+    var participantsId : ArrayList<Int> = arrayListOf()
     var contactListSearched : ArrayList<ContactsList> = arrayListOf()
     lateinit var groupList : List<Group>
     var groupListSearched : ArrayList<Group> = arrayListOf()
-    var usersList : ArrayList<UserSearchResults> = arrayListOf()
+    var usersList : ArrayList<ContactsList> = arrayListOf()
 
     var phContactsList : ArrayList<EventInvitationPhone>?  = null
 
@@ -138,8 +144,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
         rootView =  inflater.inflate(R.layout.add_contact_fragment, container, false)
 
         //initView()
-
-        participants.clear()
+        //participants.clear()
 
         add_contacts_contacts_RecyclerView = rootView.findViewById(R.id.add_contacts_contacts_RecyclerView)
         add_contacts_contacts_RecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -223,7 +228,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
                 }
             }
 
-            for (item in participantsListUsers){
+            for (item in searchViewModel.participantsListUsers){
 
                 if (!finalParticipantsList.contains(item)){
 
@@ -265,7 +270,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
                                 for(item in contactList){
 
-                                    if (item.username.contains(searchText, ignoreCase = true)){
+                                    if (item.username!!.contains(searchText, ignoreCase = true)){
 
                                         contactListSearched.add(item)
                                     }
@@ -314,6 +319,14 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
         loadContacts()
 
+        /*if (participants.size > 0){
+
+            for (item in participants){
+
+                item.id?.let { participantsId.add(it) }
+            }
+        }*/
+
         //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
         contactsViewModel.getContactsList()
@@ -332,7 +345,43 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
                     contactList = contactsViewModel.response!!.results
 
-                    adapter = FriendsAdapter(this,contactList)
+
+
+                    if (addedParticipants.size > 0){
+
+                        /*for (participant in participants){
+
+                            val convertedParticipant = participant.toContactsList()
+
+                            convertedParticipantsList.add(convertedParticipant)
+                        }*/
+
+                        for (item in contactList){
+
+                            item.selection = addedParticipants.contains(item)
+                        }
+                    }
+
+                    /*if (participants.size > 0){
+
+                        for (item in participants){
+
+                           for (contact in contactList){
+
+                               if (item.participantName == contact.username && item.id == contact.id) {
+
+                                   contact.selection = true
+
+                               } else {
+
+                                   contact.selection = false
+                               }
+                           }
+                        }
+                    }*/
+
+                    adapter = FriendsAdapter(this,contactList/*, participants*/)
+
 
                     if(contactList.size <=5) {
                         val params = add_contacts_contacts_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
@@ -340,6 +389,8 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
                         add_contacts_contacts_RecyclerView.setLayoutParams(params)
                     }
                     add_contacts_contacts_RecyclerView.adapter = adapter
+
+                    adapter.notifyDataSetChanged()
 
                     //println(contactList)
 
@@ -405,7 +456,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
                         hideUsersRecyclerView()
                     }
 
-                    add_contacts_users_RecyclerView.adapter = UsersAdapter(this, usersList)
+                    add_contacts_users_RecyclerView.adapter = UsersAdapter(this, usersList, searchViewModel)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -479,7 +530,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
             img_ph_contacts_up_arrow_icon.visibility = VISIBLE
 
-            loadContacts()
+            //loadContacts()
 
             //loadContacts()
 
@@ -499,6 +550,26 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
             img_ph_contacts_up_arrow_icon.visibility = GONE
 
             img_ph_contacts_down_arrow_icon.visibility = VISIBLE
+        }
+
+        select_contacts_phone_checkbox.setOnClickListener{
+
+            if (select_contacts_phone_checkbox.isChecked){
+
+                for (item in phoneContactsList){
+
+                    item.selection = true
+                }
+            }else {
+
+                for (item in phoneContactsList){
+
+                    item.selection = false
+                }
+            }
+
+            phone_contacts_RecyclerView.adapter = ContactsAdapter(this, phoneContactsList!!)
+            phone_contacts_RecyclerView.adapter?.notifyDataSetChanged()
         }
 
         view.setOnTouchListener(object : View.OnTouchListener {
@@ -528,7 +599,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
             img_contacts_up_arrow_icon.visibility = VISIBLE
         }
 
-        adapter = FriendsAdapter(this,friendsList)
+        adapter = FriendsAdapter(this,friendsList/*, participants*/)
         add_contacts_contacts_RecyclerView.adapter = adapter
     }
 
@@ -583,7 +654,6 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
         img_user_down_arrow_icon.visibility = VISIBLE
     }
 
-
     private fun loadContacts() {
 
         var builder = StringBuilder()
@@ -600,13 +670,15 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
             phoneContactsList = getContacts()
 
+            phoneContactsList!!.sortBy { it.username?.toLowerCase(Locale.ROOT) }
+
             if(phoneContactsList!!.size <=5) {
                 val params = phone_contacts_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
                 params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                 phone_contacts_RecyclerView.setLayoutParams(params)
             }
 
-            phone_contacts_RecyclerView.adapter = ContactsAdapter(phoneContactsList!!)
+            phone_contacts_RecyclerView.adapter = ContactsAdapter(this,phoneContactsList!!)
         }
     }
 
@@ -626,74 +698,6 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
             }
         }
     }
-
-   /* private fun getContacts(): ArrayList<PhoneContacts>{
-
-         var phcontacts : ArrayList<PhoneContacts>? = arrayListOf()
-        var test : ArrayList<String>? = null
-       // var phonecontacts : ArrayList<EventInvitationPhone>? = null
-
-        //val builder = StringBuilder()
-        val resolver: ContentResolver? = activity?.contentResolver
-        val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
-                null)
-
-        if (cursor != null) {
-
-            if (cursor.count > 0) {
-
-                while (cursor.moveToNext()) {
-
-                    val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it) }
-
-                    val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-
-                    val phoneNumber = (cursor.getString(
-                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
-
-                    if (phoneNumber > 0) {
-                        val cursorPhone = activity?.contentResolver?.query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
-
-                        if (cursorPhone != null) {
-                            if(cursorPhone.count > 0) {
-                                while (cursorPhone.moveToNext()) {
-                                    val phoneNumValue = cursorPhone.getString(
-                                            cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-                                    *//*builder.append("Contact: ").append(name).append(", Phone Number: ").append(
-                                            phoneNumValue).append("\n\n")*//*
-
-                                    //var contactList : ContactsList = ContactsList(name,"",0,"",false)
-
-                                    //phcontacts?.add(ContactsList(0,"","",name,"",phoneNumber,"",false))
-
-                                    println(phcontacts)
-
-                                    //phcontacts?.add(contactList)
-
-                                }
-                            }
-                        }
-
-                        if (cursorPhone != null) {
-                            cursorPhone.close()
-                        }
-                    }
-                }
-
-            } else {
-                //toast("No contacts available!")
-
-                Toast.makeText(context,"No contacts available",Toast.LENGTH_LONG).show()
-            }
-        }
-        if (cursor != null) {
-            cursor.close()
-        }
-        return phcontacts!!
-    }*/
 
     private fun getContacts(): ArrayList<PhoneContacts>{
 
@@ -756,51 +760,255 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
         }
 
         return phcontacts!!
+    }
 
-        /*val resolver: ContentResolver? = this?.contentResolver
-        val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
-                null)
+    override fun onResume() {
+        super.onResume()
+        addcontactSearchEditText.addTextChangedListener(textListener)
+    }
 
-        if (cursor != null) {
+    override fun onPause() {
+        addcontactSearchEditText.removeTextChangedListener(textListener)
+        super.onPause()
+    }
 
-            if (cursor.count > 0) {
+    override fun onDestroy() {
+        textChangedJob?.cancel()
+        super.onDestroy()
+    }
 
-                while (cursor.moveToNext()) {
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 
-                    val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it)}
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
-                    val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+    interface AddContactsFragmentListner {
+        fun AddSelectedParticipants(participants : ArrayList<ContactsList>)
+    }
 
-                    val phoneNumber = (cursor.getString(
-                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
+   /* override fun addSelectedContacts(contacts: ArrayList<ActivityParticipants>) {
+
+        participantsList = contacts
+    }*/
+
+    override fun addSelectedContactsFriends(contacts: ArrayList<ContactsList>) {
+
+        participantsListContacts.clear()
+
+        for (item in contacts){
+
+            if (!participantsListContacts.contains(item)){
+
+                participantsListContacts.add(item)
+                //participantsListContacts.
+
+                //listner.AddSelectedParticipants(participantsList)
+            }
+        }
+    }
+
+    override fun addSelectedFriends(friends: ArrayList<ContactsList>) {
+
+        convertedParticipantsList = friends
+    }
+
+    override fun addSelectedContactsGroups(contacts: ArrayList<Group>) {
+
+        participantsListGroups.clear()
+
+        for (item in contacts){
+
+            for (list in item.users){
+
+                if (!participantsListGroups.contains(list)){
+
+                    participantsListGroups.add(list)
+
+                    //listner.AddSelectedParticipants(participantsList)
+                }
+            }
+        }
+    }
+
+    override fun addSelectedContactsUsers(contacts: ArrayList<ContactsList>) {
+
+        searchViewModel.participantsListUsers.clear()
+
+        for (item in contacts){
+
+            if (!searchViewModel.participantsListUsers.contains(item)){
+
+                searchViewModel.participantsListUsers.add(item)
+
+                println(searchViewModel.participantsListUsers)
+
+                //listner.AddSelectedParticipants(participantsList)
+            }
+        }
+    }
+
+    override fun contactUnchecked(list: ArrayList<PhoneContacts>) {
+
+        for (item in list){
+
+            if (item.selection){
+
+                select_contacts_phone_checkbox.isChecked = true
+
+            }else {
+
+                select_contacts_phone_checkbox.isChecked = false
+                break
+            }
+        }
+
+      /*  if (isUnchecked){
+
+            select_contacts_phone_checkbox.isChecked = false
+        }*/
+    }
+
+    fun ActivityParticipants.toContactsList() = ContactsList(
+
+             id = id!!,
+             first_name = null,
+             last_name = null,
+             username = participantName!!,
+             email = null,
+             phone_number = null,
+             picture = null,
+             selection  = selection
+    )
+}
 
 
 
-                    while (cursor1?.moveToNext()!!){
-
-                        val  username = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-
-                        val useremail = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-
-                        println(username)
-                        println(useremail)
-
-                    }
 
 
 
-                    if (phoneNumber > 0) {
-                        val cursorPhone = this?.contentResolver?.query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
+
+
+
+
+
+
+
+
+/* private fun getContacts(): ArrayList<PhoneContacts>{
+
+        var phcontacts : ArrayList<PhoneContacts>? = arrayListOf()
+       var test : ArrayList<String>? = null
+      // var phonecontacts : ArrayList<EventInvitationPhone>? = null
+
+       //val builder = StringBuilder()
+       val resolver: ContentResolver? = activity?.contentResolver
+       val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
+               null)
+
+       if (cursor != null) {
+
+           if (cursor.count > 0) {
+
+               while (cursor.moveToNext()) {
+
+                   val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it) }
+
+                   val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+
+                   val phoneNumber = (cursor.getString(
+                           cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
+
+                   if (phoneNumber > 0) {
+                       val cursorPhone = activity?.contentResolver?.query(
+                               ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                               null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
+
+                       if (cursorPhone != null) {
+                           if(cursorPhone.count > 0) {
+                               while (cursorPhone.moveToNext()) {
+                                   val phoneNumValue = cursorPhone.getString(
+                                           cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                                   *//*builder.append("Contact: ").append(name).append(", Phone Number: ").append(
+                                            phoneNumValue).append("\n\n")*//*
+
+                                    //var contactList : ContactsList = ContactsList(name,"",0,"",false)
+
+                                    //phcontacts?.add(ContactsList(0,"","",name,"",phoneNumber,"",false))
+
+                                    println(phcontacts)
+
+                                    //phcontacts?.add(contactList)
+
+                                }
+                            }
+                        }
 
                         if (cursorPhone != null) {
-                            if(cursorPhone.count > 0) {
-                                while (cursorPhone.moveToNext()) {
-                                    val phoneNumValue = cursorPhone.getString(
-                                            cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                            cursorPhone.close()
+                        }
+                    }
+                }
 
-                                    *//*builder.append("Contact: ").append(name).append(", Phone Number: ").append(
+            } else {
+                //toast("No contacts available!")
+
+                Toast.makeText(context,"No contacts available",Toast.LENGTH_LONG).show()
+            }
+        }
+        if (cursor != null) {
+            cursor.close()
+        }
+        return phcontacts!!
+    }*/
+
+/*val resolver: ContentResolver? = this?.contentResolver
+       val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
+               null)
+
+       if (cursor != null) {
+
+           if (cursor.count > 0) {
+
+               while (cursor.moveToNext()) {
+
+                   val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it)}
+
+                   val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+
+                   val phoneNumber = (cursor.getString(
+                           cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
+
+
+
+                   while (cursor1?.moveToNext()!!){
+
+                       val  username = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+
+                       val useremail = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+
+                       println(username)
+                       println(useremail)
+
+                   }
+
+
+
+                   if (phoneNumber > 0) {
+                       val cursorPhone = this?.contentResolver?.query(
+                               ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                               null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
+
+                       if (cursorPhone != null) {
+                           if(cursorPhone.count > 0) {
+                               while (cursorPhone.moveToNext()) {
+                                   val phoneNumValue = cursorPhone.getString(
+                                           cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                                   *//*builder.append("Contact: ").append(name).append(", Phone Number: ").append(
                                             phoneNumValue).append("\n\n")*//*
 
                                     //var contactList : ContactsList = ContactsList(name,"",0,"",false)
@@ -831,10 +1039,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
         }*/
 
 
-    }
-
-
-    /*private fun getContacts(): StringBuilder {
+/*private fun getContacts(): StringBuilder {
 
         val builder = StringBuilder()
         val resolver: ContentResolver? = activity?.contentResolver
@@ -899,48 +1104,48 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
         return builder
     }*/
 
-   /* private fun getContacts(): ArrayList<String>?{
+/* private fun getContacts(): ArrayList<String>?{
 
-        //var phcontacts : ArrayList<ContactsList>? = null
-        // var phonecontacts : ArrayList<EventInvitationPhone>? = null
+     //var phcontacts : ArrayList<ContactsList>? = null
+     // var phonecontacts : ArrayList<EventInvitationPhone>? = null
 
-        var phName :ArrayList<String>? = null
+     var phName :ArrayList<String>? = null
 
-        val builder = StringBuilder()
-        val resolver: ContentResolver? = activity?.contentResolver
-        val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
-                null)
+     val builder = StringBuilder()
+     val resolver: ContentResolver? = activity?.contentResolver
+     val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
+             null)
 
-        if (cursor != null) {
+     if (cursor != null) {
 
-            if (cursor.count > 0) {
+         if (cursor.count > 0) {
 
-                while (cursor.moveToNext()) {
+             while (cursor.moveToNext()) {
 
-                    val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it) }
+                 val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it) }
 
-                    val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                 val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                    val phoneNumber = (cursor.getString(
-                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toInt()
+                 val phoneNumber = (cursor.getString(
+                         cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toInt()
 
-                    if (phoneNumber > 0) {
-                        val cursorPhone = activity?.contentResolver?.query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
+                 if (phoneNumber > 0) {
+                     val cursorPhone = activity?.contentResolver?.query(
+                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                             null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
 
-                        if (cursorPhone != null) {
-                            if(cursorPhone.count > 0) {
-                                while (cursorPhone.moveToNext()) {
-                                    val phoneNumValue = cursorPhone.getString(
-                                            cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                     if (cursorPhone != null) {
+                         if(cursorPhone.count > 0) {
+                             while (cursorPhone.moveToNext()) {
+                                 val phoneNumValue = cursorPhone.getString(
+                                         cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                                    builder.append("Contact: ").append(name).append(", Phone Number: ").append(
-                                            phoneNumValue).append("\n\n")
+                                 builder.append("Contact: ").append(name).append(", Phone Number: ").append(
+                                         phoneNumValue).append("\n\n")
 
-                                    phName?.add(name)
+                                 phName?.add(name)
 
-                                    *//*phoneContactsList?.add(ContactsList(name,"",0,"",false))
+                                 *//*phoneContactsList?.add(ContactsList(name,"",0,"",false))
 
                                     phone_contacts_RecyclerView.adapter = phoneContactsList?.let { ContactsAdapter(it) }*//*
 
@@ -981,23 +1186,23 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
     }*/
 
 
- /*   private fun initView(){
-        //initializeRecyclerView()
-    }
+/*   private fun initView(){
+       //initializeRecyclerView()
+   }
 
-    private fun initializeRecyclerView() {
-        //recyclerView = rootView.findViewById(R.id.phone_contacts_RecyclerView)
-        //add_contacts_contacts_RecyclerView = rootView.findViewById(R.id.add_contacts_contacts_RecyclerView);
-        add_contacts_groups_RecyclerView = rootView.findViewById(R.id.add_contacts_groups_RecyclerView);
-        add_contacts_users_RecyclerView = rootView.findViewById(R.id.add_contacts_users_RecyclerView);
+   private fun initializeRecyclerView() {
+       //recyclerView = rootView.findViewById(R.id.phone_contacts_RecyclerView)
+       //add_contacts_contacts_RecyclerView = rootView.findViewById(R.id.add_contacts_contacts_RecyclerView);
+       add_contacts_groups_RecyclerView = rootView.findViewById(R.id.add_contacts_groups_RecyclerView);
+       add_contacts_users_RecyclerView = rootView.findViewById(R.id.add_contacts_users_RecyclerView);
 
-        //add_contacts_contacts_RecyclerView.layoutManager = LinearLayoutManager(activity)
-        //recyclerView.layoutManager = LinearLayoutManager(activity)
-        add_contacts_groups_RecyclerView.layoutManager = LinearLayoutManager(activity)
-        add_contacts_users_RecyclerView.layoutManager = LinearLayoutManager(activity)
+       //add_contacts_contacts_RecyclerView.layoutManager = LinearLayoutManager(activity)
+       //recyclerView.layoutManager = LinearLayoutManager(activity)
+       add_contacts_groups_RecyclerView.layoutManager = LinearLayoutManager(activity)
+       add_contacts_users_RecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        select_contacts_phone_checkbox = rootView.findViewById(R.id.select_contacts_phone_checkbox)
-        *//*  select_contacts_contacts_checkbox = rootView.findViewById(R.id.select_contacts_contacts_checkbox)
+       select_contacts_phone_checkbox = rootView.findViewById(R.id.select_contacts_phone_checkbox)
+       *//*  select_contacts_contacts_checkbox = rootView.findViewById(R.id.select_contacts_contacts_checkbox)
           select_contacts_group_checkbox = rootView.findViewById(R.id.select_contacts_group_checkbox)
           select_contacts_users_checkbox = rootView.findViewById(R.id.select_contacts_users_checkbox)*//*
         add_contacts_ok = rootView.findViewById(R.id.add_contacts_ok)
@@ -1055,109 +1260,6 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner/*, pr
 
         //loadContacts();
     }*/
-
-    override fun onResume() {
-        super.onResume()
-        addcontactSearchEditText.addTextChangedListener(textListener)
-    }
-
-    override fun onPause() {
-        addcontactSearchEditText.removeTextChangedListener(textListener)
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        textChangedJob?.cancel()
-        super.onDestroy()
-    }
-
-    fun View.hideKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    interface AddContactsFragmentListner {
-        fun AddSelectedParticipants(participants : ArrayList<ActivityParticipants>)
-    }
-
-   /* override fun addSelectedContacts(contacts: ArrayList<ActivityParticipants>) {
-
-        participantsList = contacts
-    }*/
-
-    override fun addSelectedContactsFriends(contacts: ArrayList<ActivityParticipants>) {
-
-        participantsListContacts.clear()
-
-        for (item in contacts){
-
-            if (!participantsListContacts.contains(item)){
-
-                participantsListContacts.add(item)
-
-                //listner.AddSelectedParticipants(participantsList)
-            }
-        }
-    }
-
-    override fun addSelectedContactsGroups(contacts: ArrayList<Group>) {
-
-        participantsListGroups.clear()
-
-        for (item in contacts){
-
-            for (list in item.users){
-
-                if (!participantsListGroups.contains(ActivityParticipants(list.first_name, list.id))){
-
-                    participantsListGroups.add(ActivityParticipants(list.first_name, list.id))
-
-                    //listner.AddSelectedParticipants(participantsList)
-                }
-            }
-        }
-    }
-
-    override fun addSelectedContactsUsers(contacts: ArrayList<ActivityParticipants>) {
-
-        participantsListUsers.clear()
-
-        for (item in contacts){
-
-            if (!participantsListUsers.contains(item)){
-
-                participantsListUsers.add(item)
-
-                //listner.AddSelectedParticipants(participantsList)
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //phoneContactsList?.add(ContactsList(name,"",0,"",false))

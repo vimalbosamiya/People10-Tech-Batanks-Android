@@ -38,7 +38,7 @@
     <string name="myplans">Mes Plans</string>
     <string name="all">Tous</string>
     <string name="_private">" Privé"</string>
-    <string name="_public">Public</string>
+    <string name="_public">Publique</string>
     <string name="add_plan">Nouveau Plan</string>
     <string name="news">Accueil</string>
     <string name="search">Recherche</string>
@@ -80,7 +80,7 @@
     <string name="groups">Groupes</string>
     <string name="users">Utilisateurs</string>
     <string name="contact_added">" Le contact a été ajouté avec succès"</string>
-    <string name="delete">retirer</string>
+    <!--<string name="delete">retirer</string>-->
     <string name="edit">Editer</string>
     <string name="rename">Renommer</string>
     <string name="remove_user">Retirer du groupe</string>
@@ -143,7 +143,7 @@
     <string name="activity_date_error">Le champs date est obligatoire</string>
     <!--<string name="max_number_of_attendees">Nombre max de participants</string>-->
     <string name="total_cost">Cout total</string>
-    <string name="add_people">Ajouter un Invité</string>
+    <string name="add_guest">Inviter</string>
     <string name="everybody_come">Liste des invités</string>
     <string name="sign_in">Créer votre compte</string>
     <string name="loading_list_please_wait">Chargement ... Veuillez Patientez...</string>
@@ -154,7 +154,7 @@
     <string name="guests">Invités</string>
     <string name="participants">Participants</string>
     <string name="declin">Refuser</string>
-    <string name="add_contact">Invite</string>
+    <!--<string name="add_contact">Invite</string>-->
     <string name="vote_for_date">" Voter pour une date"</string>
     <string name="in_voting">Votes ouverts</string>
     <string name="place_name">Nom du lieu</string>
@@ -178,7 +178,7 @@
     <string name="declin_caps">Refuser</string>
     <string name="guests_caps">Invités</string>
     <string name="participants_caps">Participants</string>
-    <string name="total_cost_for_you_with_guests">" Votre coût total"</string>
+    <string name="total_cost_for_you_with_guests">" Votre coût total et ceux que tu as invités"</string>
     <string name="per_person_caps">"Par personne "</string>
     <string name="add_comment_caps">Commenter</string>
     <string name="hide_map">Cacher la carte</string>
@@ -188,4 +188,28 @@
     <string name="show_map">Afficher la carte</string>
     <string name="add_another_activity">Ajouter une autre activité</string>
     <string name="contacts">Contacts</string>
+    <string name="decline_invitation_caps">Refuser linvitation</string>
+    <string name="take_part_caps">"Participer"</string>
+    <string name="remove">"Supprimer "</string>
+    <string name="custom_frequency">"Personnaliser "</string>
+    <string name="repeat">"Repetez "</string>
+    <string name="how_many_times">Combien de fois ?</string>
+    <string name="enter_a_number_between_1_99">Choisir un nombre entre 1 et 99</string>
+    <string name="until_when">"Jusqu'au "</string>
+    <string name="day">"Quotidien "</string>
+    <string name="week">"Hebdomadaire "</string>
+    <string name="month">"Mensuel "</string>
+    <string name="year">"Annuel "</string>
+    <string name="drafts">Brouillon</string>
+    <string name="mines">Mes plans crées</string>
+    <string name="invited_to">" Mes invitations reçues"</string>
+    <string name="how_much">"Combien "</string>
+    <string name="max_participants_hint">Nombre max de participants</string>
+    <string name="max_participants_helper_text">Nombre max de participants</string>
+    <string name="update_plan">Mettre à jour</string>
+    <string name="add_assignee_toast">le plan doit d\'abord être créé</string>
+    <string name="add_people_toast">le plan doit d\'abord être créé</string>
+    <string name="enable_comments">Autoriser les commentaires</string>
+
+
 </resources>

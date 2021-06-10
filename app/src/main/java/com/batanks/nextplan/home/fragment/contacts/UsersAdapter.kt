@@ -6,15 +6,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.search.viewmodel.SearchViewModel
 import com.batanks.nextplan.swagger.model.ActivityParticipants
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.UserSearch
 import com.batanks.nextplan.swagger.model.UserSearchResults
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.contact_item.view.*
 
-class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, private val myList: ArrayList<UserSearchResults>) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
+class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, private val myList: ArrayList<ContactsList>, private val searchViewModel: SearchViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>() {
 
-    var participantsUsers : ArrayList<ActivityParticipants> = arrayListOf()
+    //var participantsUsers : ArrayList<ContactsList> = arrayListOf()
+    //var participants : ArrayList<ContactsList> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -31,6 +34,8 @@ class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, priv
         if (myList[position].selection){
 
             holder.cb_select_contact.isChecked = true
+            searchViewModel.participantsUsers.add(myList[position])
+            listner.addSelectedContactsUsers(searchViewModel.participantsUsers)
 
         } else {
 
@@ -43,7 +48,7 @@ class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, priv
 
                 myList[position].selection = true
 
-                participantsUsers.add(ActivityParticipants(myList[position].username,myList[position].id))
+                searchViewModel.participantsUsers.add(myList[position])
 
                 /*if (participantsFriends.size > 0){
 
@@ -69,21 +74,21 @@ class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, priv
                     participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
                 }*/
 
-                listner.addSelectedContactsUsers(participantsUsers)
+                listner.addSelectedContactsUsers(searchViewModel.participantsUsers)
 
             } else if (holder.cb_select_contact.isChecked == false) {
 
                 myList[position].selection = false
 
-                val iterator = participantsUsers.iterator()
+                val iterator = searchViewModel.participantsUsers.iterator()
 
-                if (participantsUsers.size > 0) {
+                if (searchViewModel.participantsUsers.size > 0) {
 
                     while(iterator.hasNext()){
 
                         val item = iterator.next()
 
-                        if (item.participantName == myList[position].username && item.id == myList[position].id){
+                        if (item.username == myList[position].username && item.id == myList[position].id){
 
                             iterator.remove()
                         }
@@ -98,7 +103,7 @@ class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, priv
                      }*/
                 }
 
-                listner.addSelectedContactsUsers(participantsUsers)
+                listner.addSelectedContactsUsers(searchViewModel.participantsUsers)
             }
         }
 
@@ -124,6 +129,6 @@ class UsersAdapter (private val listner : usersAdapterRecyclerViewCallBack, priv
     }
 
     interface usersAdapterRecyclerViewCallBack {
-        fun addSelectedContactsUsers(contacts : ArrayList<ActivityParticipants>)
+        fun addSelectedContactsUsers(contacts : ArrayList<ContactsList>)
     }
 }

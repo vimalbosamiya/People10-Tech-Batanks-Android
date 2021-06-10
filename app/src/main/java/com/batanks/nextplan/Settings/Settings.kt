@@ -2,6 +2,7 @@ package com.batanks.nextplan.Settings
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,6 +35,9 @@ import com.batanks.nextplan.utils.LocaleHelper
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_signin.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Settings : BaseAppCompatActivity() {
 
@@ -83,10 +87,12 @@ class Settings : BaseAppCompatActivity() {
         if (langCode == "en"){
 
             input_settings_language.setText("English")
+            selectedLangPut = "en-us"
 
         } else if (langCode == "fr"){
 
             input_settings_language.setText("Français")
+            selectedLangPut = "fr-fr"
 
         } else {
 
@@ -180,10 +186,9 @@ class Settings : BaseAppCompatActivity() {
                         }
 
                         println("language list is " + languageList)
-
                         println("languageModel is " + languageViewModel.response)
 
-                        val adapter = ArrayAdapter(applicationContext,android.R.layout.simple_list_item_1,languageList)
+                        /*val adapter = ArrayAdapter(applicationContext,android.R.layout.simple_list_item_1,languageList)
                         input_settings_language.setAdapter(adapter)
                         input_settings_language.threshold = 1
                         //input_settings_language.setDropDownBackgroundResource((R.color.dropDownColor))
@@ -201,13 +206,14 @@ class Settings : BaseAppCompatActivity() {
                                 settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
                                         rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
 
-                                restartApp()
+                                //restartApp()
+                                setLocale("en")
 
                                 //attachBaseContext(this)
 
-                              /*  val loc: LocaleHelper = LocaleHelper()
+                              *//*  val loc: LocaleHelper = LocaleHelper()
 
-                                loc.onAttach(this,"fr")*/
+                                loc.onAttach(this,"fr")*//*
 
                             }else if(selectedItem == "Français") {
 
@@ -218,46 +224,47 @@ class Settings : BaseAppCompatActivity() {
                                 settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
                                         rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
 
-                                restartApp()
+                                //restartApp()
+                                setLocale("fr")
 
                                 //attachBaseContext(this)
 
                             }else if(selectedItem == "Deutsch") {
 
-                                /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "de").apply()
+                                *//*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "de").apply()
 
                                 selectedLanguage = "de-de"
 
                                 settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
                                         rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
 
-                                restartApp()*/
+                                restartApp()*//*
 
                                 //attachBaseContext(this)
 
                             }else if(selectedItem == "Español") {
 
-                                /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "es").apply()
+                                *//*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "es").apply()
 
                                 selectedLanguage = "es-es"
 
                                 settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
                                         rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
 
-                                restartApp()*/
+                                restartApp()*//*
 
                                 //attachBaseContext(this)
 
                             }else if(selectedItem == "Português") {
 
-                              /*  getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "pt").apply()
+                              *//*  getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "pt").apply()
 
                               selectedLanguage = "pt-pt"
 
                                 settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
                                         rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
 
-                                restartApp()*/
+                                restartApp()*//*
 
                                 //attachBaseContext(this)
                             }
@@ -279,7 +286,7 @@ class Settings : BaseAppCompatActivity() {
                                 input_settings_language.showDropDown()
                                 //input_settings_currency.setBackgroundColor(resources.getColor(R.color.dropDownColor))
                             }
-                        }
+                        }*/
                     }
                 }
                 Status.ERROR -> {
@@ -343,6 +350,108 @@ class Settings : BaseAppCompatActivity() {
             }
         })
 
+
+        val adapter = ArrayAdapter(applicationContext,android.R.layout.simple_list_item_1,languageList)
+        input_settings_language.setAdapter(adapter)
+        input_settings_language.threshold = 1
+        //input_settings_language.setDropDownBackgroundResource((R.color.dropDownColor))
+
+        input_settings_language.onItemClickListener = AdapterView.OnItemClickListener{
+            parent,view,position,id->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+
+            if (selectedItem == "English"){
+
+                selectedLangPut = "en-us"
+                saveAndUpdateLang("en", selectedLangPut)
+
+                /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "en").apply()
+
+                settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                        rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+                setLocale("en")*/
+                //restartApp()
+                //println("English selected")
+                //attachBaseContext(this)
+                /*  val loc: LocaleHelper = LocaleHelper()
+
+                  loc.onAttach(this,"fr")*/
+
+            }else if(selectedItem == "Français") {
+
+                selectedLangPut = "fr-fr"
+                saveAndUpdateLang("fr", selectedLangPut)
+
+               /* getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "fr").apply()
+
+                settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                        rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+                setLocale("fr")*/
+                //restartApp()
+                //println("France selected")
+                //attachBaseContext(this)
+
+            }else if(selectedItem == "Deutsch") {
+
+                /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "de").apply()
+
+                selectedLanguage = "de-de"
+
+                settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                        rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+                restartApp()*/
+
+                //attachBaseContext(this)
+
+            }else if(selectedItem == "Español") {
+
+                /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "es").apply()
+
+                selectedLanguage = "es-es"
+
+                settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                        rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+                restartApp()*/
+
+                //attachBaseContext(this)
+
+            }else if(selectedItem == "Português") {
+
+                /*  getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "pt").apply()
+
+                selectedLanguage = "pt-pt"
+
+                  settingsViewModel.putSettings(SettingsGet(selectedLanguage, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                          rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+                  restartApp()*/
+
+                //attachBaseContext(this)
+            }
+
+            // Display the clicked item using toast
+            //Toast.makeText(this,"Selected : $selectedItem",Toast.LENGTH_SHORT).show()
+        }
+
+        input_settings_language.setOnDismissListener {
+            //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
+
+            //natureOfTheCostTextField.hint = null
+        }
+
+        input_settings_language.onFocusChangeListener = View.OnFocusChangeListener{
+            view, b ->
+            if(b){
+                // Display the suggestion dropdown on focus
+                input_settings_language.showDropDown()
+                //input_settings_currency.setBackgroundColor(resources.getColor(R.color.dropDownColor))
+            }
+        }
+
         println(currencyList)
 
         //val tempList: ArrayList<String> = arrayListOf("US", "ENG", "GUL")
@@ -350,12 +459,7 @@ class Settings : BaseAppCompatActivity() {
 
         img_settings_close.setOnClickListener {
 
-            settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
-                    rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
-
-            intent = Intent(this, HomePlanPreview :: class.java)
-            startActivity(intent)
-            finish()
+            saveChangesAndFinishActivity()
         }
 
         rl_settings_account.setOnClickListener(View.OnClickListener {
@@ -389,6 +493,21 @@ class Settings : BaseAppCompatActivity() {
             overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+
+        saveChangesAndFinishActivity()
+    }
+
+    fun saveChangesAndFinishActivity(){
+
+        settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+        intent = Intent(this, HomePlanPreview :: class.java)
+        startActivity(intent)
+        finish()
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -434,6 +553,16 @@ class Settings : BaseAppCompatActivity() {
         }
     }
 
+    private fun saveAndUpdateLang(updateSharedPref : String, updateLangPut : String){
+
+        getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", updateSharedPref).apply()
+
+        settingsViewModel.putSettings(SettingsGet(updateLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
+                rb_settings_invitations.isChecked, rb_settings_public_plans.isChecked, rb_settings_comments.isChecked))
+
+        setLocale(updateSharedPref)
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v: View? = currentFocus
@@ -456,6 +585,39 @@ class Settings : BaseAppCompatActivity() {
         i?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(i)
+    }
+
+    fun setLocale(lang:String) {
+        val myLocale = Locale(lang)
+        val res = getResources()
+        val dm = res.getDisplayMetrics()
+        val conf = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+        onConfigurationChanged(conf)
+        //recreate()
+
+        println("FromSetLocale")
+        finish()
+        val  refresh : Intent =  Intent(this, Settings::class.java)
+        startActivity(refresh)
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        // refresh your views here
+        //lblLang.setText(R.string.langselection)
+        super.onConfigurationChanged(newConfig)
+
+        println("FromonConfigurationChanged")
+
+        // Checks the active language
+        if (newConfig.locale === Locale.ENGLISH)
+        {
+            Toast.makeText(this, "English", Toast.LENGTH_SHORT).show()
+        }
+        else if (newConfig.locale === Locale.FRENCH)
+        {
+            Toast.makeText(this, "French", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

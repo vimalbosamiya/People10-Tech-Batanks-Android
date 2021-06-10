@@ -166,7 +166,9 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     organizerEmail.text = creator!!.email
                     //val mobileNumber : String = "+"+creator!!.phone_number.toString()
                     organizerMobileNumber.text = creator!!.phone_number.toString()
-                    //println(creator!!.phone_number.toString())
+
+                    val perPersonCost = (event_obj!!.price)!! /event_obj!!.guests.size
+                    perPersonAmount.text = String.format("%.2f",perPersonCost)
 
                     if (!TextUtils.isEmpty(creator!!.picture)){
 
@@ -240,6 +242,10 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     costPerPersonSymbol.text = event_obj!!.price_currency
                     eventDescription.text = event_obj!!.detail
 
+                    //if (event_obj!!.dates.size > 1){ inVotingDate.visibility = View.VISIBLE } else { inVotingDate.visibility = View.GONE }
+
+                    //if (event_obj!!.places.size > 1){ inVotingPlace.visibility = View.VISIBLE } else { inVotingPlace.visibility = View.GONE }
+
                     getDates = event_obj!!.dates
 
                     getDates?.let { dateInit(it) }
@@ -293,23 +299,9 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
                     textViewTotalCommentsMulti.text = event_obj!!.comments.size.toString()
 
-                    if (event_obj!!.vote_date_closed == true){
+                    //if (event_obj!!.vote_date_closed == true){ inVotingDate.visibility = GONE }else if (event_obj!!.vote_date_closed == false){ inVotingDate.visibility = VISIBLE }
 
-                        inVotingDate.visibility = GONE
-
-                    }else if (event_obj!!.vote_date_closed == false){
-
-                        inVotingDate.visibility = VISIBLE
-                    }
-
-                    if (event_obj!!.vote_place_closed == true){
-
-                        inVotingPlace.visibility = GONE
-
-                    }else if (event_obj!!.vote_place_closed == false){
-
-                        inVotingPlace.visibility = VISIBLE
-                    }
+                    //if (event_obj!!.vote_place_closed == true){ inVotingPlace.visibility = GONE }else if (event_obj!!.vote_place_closed == false){ inVotingPlace.visibility = VISIBLE }
                 }
 
                 Status.ERROR -> {
@@ -640,7 +632,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
         totalCommentsDropDown.setOnClickListener(this)
         totalCommentsDropDownMulti.setOnClickListener(this)
         tripCalenderBackground.setOnClickListener(this)
-        takePartVisible.setOnClickListener(this)
+        takePartImage.setOnClickListener(this)
         backArrow.setOnClickListener(this)
         addComment.setOnClickListener {
 
@@ -855,7 +847,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                 accept(amount)
             }
 
-            R.id.takePartVisible -> {
+            R.id.takePartImage -> {
 
                 accept(amount)
             }
@@ -894,7 +886,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
         tripCalenderBackground.visibility = GONE
         addGuestBackground.visibility = VISIBLE
-        takePartVisible.visibility = GONE
+        takePartImage.visibility = GONE
         addGuestVisible.visibility = VISIBLE
         declineBackground.visibility = VISIBLE
     }
@@ -903,7 +895,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
         tripCalenderBackground.visibility = VISIBLE
         addGuestBackground.visibility = GONE
-        takePartVisible.visibility = VISIBLE
+        takePartImage.visibility = VISIBLE
         addGuestVisible.visibility = GONE
         declineBackground.visibility = GONE
     }
@@ -912,7 +904,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
         tripCalenderBackground.visibility = VISIBLE
         addGuestBackground.visibility = GONE
-        takePartVisible.visibility = VISIBLE
+        takePartImage.visibility = VISIBLE
         addGuestVisible.visibility = GONE
         declineBackground.visibility = VISIBLE
     }

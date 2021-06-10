@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/publicPlanScrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -21,6 +22,8 @@
             android:hint="@string/plan_name"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
             app:helperText="@string/plan_name_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
@@ -40,6 +43,7 @@
                 android:maxLength="20"
                 android:maxLines="5"
                 android:paddingLeft="16dp"
+                android:paddingEnd="40dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null"/>
@@ -57,6 +61,8 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorWhite"
             app:helperText="@string/detail_description_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
@@ -76,6 +82,7 @@
                 android:maxLength="500"
                 android:maxLines="4"
                 android:paddingLeft="16dp"
+                android:paddingEnd="40dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
                 android:textCursorDrawable="@null"  />

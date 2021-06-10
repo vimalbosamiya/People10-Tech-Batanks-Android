@@ -78,12 +78,12 @@ open class BaseAppCompatActivity : AppCompatActivity(), BaseContract.BasicLoadin
         super.attachBaseContext(localeUpdatedContext)
     }*/
 
-    override fun attachBaseContext(newBase: Context?) {
+    /*override fun attachBaseContext(newBase: Context?) {
 
         language   = newBase?.getSharedPreferences("SAVED_LANG", MODE_PRIVATE)?.getString("SAVED_LANGUAGE","en")
         //println("Saved Language from base is : " + language)
 
-       /* settingsViewModel.getSettings()
+       *//* settingsViewModel.getSettings()
 
         settingsViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -117,13 +117,13 @@ open class BaseAppCompatActivity : AppCompatActivity(), BaseContract.BasicLoadin
         } else {
 
             lang = language
-        }*/
+        }*//*
 
         val localeToSwitchTo = Locale(language)
         println(language)
         val localeUpdatedContext = ContextUtils.updateLocale(newBase!!, localeToSwitchTo)
         super.attachBaseContext(localeUpdatedContext)
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -31,6 +31,7 @@ import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.ContactsAPI
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.Contact
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.Group
 import com.batanks.nextplan.swagger.model.GroupEdit
 import com.google.android.material.textfield.TextInputEditText
@@ -42,7 +43,7 @@ class Group : BaseAppCompatActivity() {
 
     lateinit var groupRecyclerView : RecyclerView
     lateinit var adapter : GroupListAdapter
-    var groupList: ArrayList<Contact> = arrayListOf()
+    var groupList: ArrayList<ContactsList> = arrayListOf()
     var group : Group? = null
     var renamedGroup : Group? = null
     var id : Int = 0

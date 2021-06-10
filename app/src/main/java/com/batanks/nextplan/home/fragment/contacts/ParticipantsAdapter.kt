@@ -19,9 +19,10 @@ import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.ActivityParticipants
 import com.batanks.nextplan.swagger.model.AddContact
+import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
-class ParticipantsAdapter ( private val myList: ArrayList<ActivityParticipants>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<ParticipantsAdapter.MyViewHolder>() {
+class ParticipantsAdapter (private val myList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<ParticipantsAdapter.MyViewHolder>() {
 
     private var context: Context? = null
     var id : Int? = 0
@@ -40,7 +41,7 @@ class ParticipantsAdapter ( private val myList: ArrayList<ActivityParticipants>,
 
         id = myList[position].id
 
-        holder.contactName.text = myList[position].participantName
+        holder.contactName.text = myList[position].username
 
         holder.contactSettings.setOnClickListener {
 

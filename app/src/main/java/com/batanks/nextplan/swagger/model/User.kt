@@ -15,7 +15,7 @@ data class User(
         val language: String,
         val currency: String,
         val notify_email: Boolean,
-        val notify_sms: Boolean,
-        val notify_push: Boolean,
+        val notify_invitations: Boolean,
+        val notify_searches: Boolean,
         val notify_comment: Boolean,
         val token: String) : Serializable

@@ -51,6 +51,7 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
         if (action.assignee != null){
 
             holder.contactBackground.visibility = View.VISIBLE
+            holder.assignMeButton.visibility = View.GONE
             holder.contactName.text = action.assignee.username
 
             if (!action.assignee?.picture.isNullOrEmpty()){
@@ -63,6 +64,8 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
         } else if (action.assignee == null){
 
             holder.contactBackground.visibility = View.GONE
+            holder.assignMeButton.visibility = View.VISIBLE
+
         }
 
         if (action.per_person == true){
@@ -111,5 +114,6 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
         val userImage : ImageView = itemView.userImage
         val contactSettings : ImageView = itemView.contactSettings
         val contactBackground : ConstraintLayout = itemView.contactBackground
+        val assignMeButton : ConstraintLayout = itemView.assignMeButton
     }
 }

@@ -426,6 +426,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tripHolder" />
 
+        <!--<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/takePartImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:visibility="visible"
+            android:text="@string/_private"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#000000"
+            app:icon="@drawable/ic_iconprivatemini"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />-->
+
         <!--<ImageView
             android:id="@+id/eventIconBackground"
             android:layout_width="wrap_content"
@@ -4320,13 +4334,24 @@
               app:layout_constraintStart_toStartOf="@+id/takePartAddGuestHolder"
               app:layout_constraintTop_toTopOf="@+id/takePartAddGuestHolder">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/takePartImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_take_part_button"
                 app:layout_constraintStart_toStartOf="@+id/takePartVisible"
-                app:layout_constraintTop_toTopOf="@+id/takePartVisible" />
+                app:layout_constraintTop_toTopOf="@+id/takePartVisible" />-->
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/takePartImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/take_part_caps"
+                android:padding="10dp"
+                app:backgroundTint="#34CBFE"
+                app:icon="@drawable/ic_take_part_icon"
+                app:layout_constraintStart_toStartOf="@+id/takePartVisible"
+                app:layout_constraintTop_toTopOf="@+id/takePartVisible"  />
 
             <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                  android:id="@+id/followup_extFab"

@@ -206,11 +206,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti" />
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForMulti"
+            app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"/>
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/inVotingDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -222,7 +224,7 @@
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/VoteForDateMultipleRecyclerView"
             app:layout_constraintBottom_toBottomOf="@+id/dateDropDownBackgroundMultiple"
-            app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"/>
+            app:layout_constraintEnd_toEndOf="@+id/dateDropDownBackgroundMultiple"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

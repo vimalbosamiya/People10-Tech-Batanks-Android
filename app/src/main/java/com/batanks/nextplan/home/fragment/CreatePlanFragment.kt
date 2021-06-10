@@ -11,11 +11,13 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.tabfragment.TabsPagerAdapter
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
 import com.batanks.nextplan.swagger.model.GetEventListHome
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
 
-class CreatePlanFragment (private val draft : Boolean, private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean): BaseFragment() {
+class CreatePlanFragment (private val draft : Boolean, private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,
+                          private val listener : PublicPlanFragment.PublicPlanFragmentListener?): BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ class CreatePlanFragment (private val draft : Boolean, private val eventId : Int
             //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
         }
 
-        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager, draft, eventId, editButtonClicked, deleteButtonClicked)
+        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager, draft, eventId, editButtonClicked, deleteButtonClicked, listener)
         view_pager.adapter = tabsPagerAdapter
 
         tabs.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));

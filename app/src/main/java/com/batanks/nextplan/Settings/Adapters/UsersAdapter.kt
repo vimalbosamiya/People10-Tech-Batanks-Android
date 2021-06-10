@@ -23,12 +23,13 @@ import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.AddContact
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.UserSearchResults
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 
-class UsersAdapter (private val usersList: ArrayList<UserSearchResults>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(),
+class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(),
                                                                                                                                  Filterable {
-    private var searchedUsersList: ArrayList<UserSearchResults> = usersList
+    private var searchedUsersList: ArrayList<ContactsList> = usersList
     private var context: Context? = null
     //var id : Int? = 0
     private var pos : ArrayList<Int> = arrayListOf()
@@ -53,7 +54,7 @@ class UsersAdapter (private val usersList: ArrayList<UserSearchResults>, private
 
         holder.img_contact_list_item_dots.setOnClickListener(View.OnClickListener {
 
-            context?.let { it1 -> showDialog(it1, usersList[position].id) }
+            context?.let { it1 -> showDialog(it1, usersList[position].id!!) }
         })
 
         holder.contactName.setOnClickListener {
@@ -117,7 +118,7 @@ class UsersAdapter (private val usersList: ArrayList<UserSearchResults>, private
                 if (constraint.isNullOrBlank()) {
                     searchedUsersList.addAll(usersList)
                 } else {
-                    val searchResults = usersList.filter { it.username.contains(constraint) }
+                    val searchResults = usersList.filter { it.username!!.contains(constraint) }
                     searchedUsersList.addAll(searchResults)
                 }
                 return filterResults.also {
@@ -130,7 +131,7 @@ class UsersAdapter (private val usersList: ArrayList<UserSearchResults>, private
                /* if (searchedUsersList.isNullOrEmpty())
                     onNothingFound?.invoke()*/
 
-                searchedUsersList = results?.values as ArrayList<UserSearchResults>
+                searchedUsersList = results?.values as ArrayList<ContactsList>
                 notifyDataSetChanged()
 
             }

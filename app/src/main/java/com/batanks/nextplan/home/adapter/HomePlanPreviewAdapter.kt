@@ -135,8 +135,8 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
 
         } else if (event.status == "DN" && event.private == true){
 
-            holder.eventStatus.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
-            holder.eventStatusFull.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
+            holder.eventStatus.setImageResource(R.drawable.ic_private_event_category_icon_declined)
+            holder.eventStatusFull.setImageResource(R.drawable.ic_private_event_category_icon_declined)
 
         } else if (event.status == null && event.private == true){
 
@@ -252,6 +252,8 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
             holder.eventItem.visibility = GONE
 
             holder.eventItemFull.visibility = VISIBLE
+
+            holder.eventItemHolder.requestFocus()
         }
 
        if(myList[position].isExpanded) {
@@ -307,7 +309,7 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
             val draft: Boolean = true
 
             (context as HomePlanPreview).supportFragmentManager.beginTransaction()
-                            .add(R.id.frameLayout, CreatePlanFragment(draft, event.pk, false, false), CreatePlanFragment::class.java.canonicalName).commitAllowingStateLoss()
+                            .add(R.id.frameLayout, CreatePlanFragment(draft, event.pk, false, false,null), CreatePlanFragment::class.java.canonicalName).commitAllowingStateLoss()
 
             (context as HomePlanPreview).frameLayout.visibility = VISIBLE
             (context as HomePlanPreview). appBarLayout.visibility = GONE
@@ -328,6 +330,7 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
         val to: TextView = item.toResponseTextView
         val eventItem : ConstraintLayout = item.eventItem
         val eventItemFull : ConstraintLayout = item.eventItemFull
+        val eventItemHolder : ConstraintLayout = item.eventItemHolder
         val header : ImageView = item.header
         val body : ImageView = item.body
         val eventNextButton : ImageView = item.eventNextButton

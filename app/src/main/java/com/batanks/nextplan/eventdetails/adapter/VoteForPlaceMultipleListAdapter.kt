@@ -90,6 +90,19 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         holder.address.text = /*place.place.address*/ stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
 
+        if (placesList.size > 1){
+
+            holder.placeFavouriteIcon.visibility = View.VISIBLE
+            holder.placePersonIcon.visibility = View.VISIBLE
+            holder.noOfVotesPlaceTextview.visibility = View.VISIBLE
+
+        }else {
+
+            holder.placeFavouriteIcon.visibility = View.GONE
+            holder.placePersonIcon.visibility = View.GONE
+            holder.noOfVotesPlaceTextview.visibility = View.GONE
+        }
+
         if (place.current_user_have_vote == true){
 
             holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite)
@@ -138,7 +151,6 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         val placeDisplayTextCountTextView : TextView = itemView.placeDisplayTextCountTextView
         val placeTextView : TextView = itemView.placeTextView
         val address : TextView = itemView.address
-        val noOfVotesPlaceTextview : TextView = itemView.noOfVotesPlaceTextview
         val seeOnMapLayout : ConstraintLayout = itemView.seeOnMapLayout
         val hideMapLayout : ConstraintLayout = itemView.hideMapLayout
         val seeOnMapLoader : ImageView = itemView.seeOnMapLoader
@@ -146,6 +158,8 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         val placeCloseButton : ImageView = itemView.placeCloseButton
         val mapViewHolder : ConstraintLayout = itemView.mapViewHolder
         val placeFavouriteIcon : ImageView = itemView.placeFavouriteIcon
+        val placePersonIcon : ImageView = itemView.placePersonIcon
+        val noOfVotesPlaceTextview : TextView = itemView.noOfVotesPlaceTextview
     }
 
     override fun voteIconClicked() {

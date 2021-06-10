@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
 import com.batanks.nextplan.swagger.api.SearchAPI
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.InlineResponse2002
 import com.batanks.nextplan.swagger.model.UserSearch
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,6 +17,8 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataUsers: MutableLiveData<ApiResponse> = MutableLiveData()
     var response : InlineResponse2002? = null
+    var participantsListUsers : ArrayList<ContactsList> = arrayListOf()
+    var participantsUsers : ArrayList<ContactsList> = arrayListOf()
     //var usersSearchResponse : UserSearch? = null
 
     fun getSearchList(type:String, category:String?, keywords:String?) {

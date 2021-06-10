@@ -33,7 +33,7 @@
             android:id="@+id/textViewGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group 1"
+            android:text=""
             android:textSize="24sp"
             android:layout_marginStart="23.98dp"
             android:layout_marginTop="12dp"

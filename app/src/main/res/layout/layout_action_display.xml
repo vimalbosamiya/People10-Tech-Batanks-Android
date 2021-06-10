@@ -184,15 +184,52 @@
             app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
             app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription"/>-->
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/assigneHolder"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:visibility="visible"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/rowingIconMulti"
+        app:layout_constraintEnd_toStartOf="@+id/actionDropDownMulti"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/assignMeButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:visibility="visible"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/oval_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/assignMeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Assign Me"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginEnd="56dp"
+                app:layout_constraintStart_toStartOf="@+id/assignMeButton"
+                app:layout_constraintEnd_toEndOf="@+id/assignMeButton"
+                app:layout_constraintTop_toTopOf="@+id/assignMeButton"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contactBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="16dp"
             android:background="@drawable/ic_event_details_contact_background"
-            app:layout_constraintStart_toStartOf="@+id/rowingIconMulti"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEventDescription">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/contactStatus"
@@ -245,6 +282,11 @@
                 app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <!--<ImageView
             android:id="@+id/totalCostDivider"
             android:layout_width="wrap_content"
@@ -262,7 +304,7 @@
             android:layout_marginTop="27.98dp"
             android:layout_marginStart="18.02dp"
             android:background="@drawable/ic_event_details_dollar_icon"
-            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
+            app:layout_constraintTop_toBottomOf="@+id/assigneHolder"
             app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull" />
 
         <TextView
@@ -274,7 +316,7 @@
             android:text="Total Cost"
             android:textColor="#99FFFFFF"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
+            app:layout_constraintTop_toBottomOf="@+id/assigneHolder"
             app:layout_constraintStart_toEndOf="@+id/dollarIconMulti" />
 
         <TextView
@@ -287,7 +329,7 @@
             android:text="100,00"
             android:textColor="#FFE082"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
+            app:layout_constraintTop_toBottomOf="@+id/assigneHolder"
             app:layout_constraintEnd_toStartOf="@+id/textViewCurrencySymbol"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
 
@@ -301,7 +343,7 @@
             android:text="€"
             android:textColor="#FFE082"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/contactBackground"
+            app:layout_constraintTop_toBottomOf="@+id/assigneHolder"
             app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
             app:layout_constraintBottom_toBottomOf="@+id/totalCostBackgroundFull"/>
 

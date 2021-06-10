@@ -20,24 +20,20 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Settings
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
-import com.batanks.nextplan.home.home_tabs.AllHomeFragment
 import com.batanks.nextplan.home.home_tabs.HomeTabsAdapter
-import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
+import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.notifications.Notification
 import com.batanks.nextplan.search.Search
 import com.batanks.nextplan.swagger.api.EventAPI
-import com.batanks.nextplan.swagger.model.*
+import com.batanks.nextplan.swagger.model.InlineResponse2002
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPlanFragment.PublicPlanFragmentListener/*, HomePlanPreviewAdapter.HomePlanPreviewAdapterListener*/ {
@@ -89,37 +85,17 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         ModelPreferencesManager.with(this)
 
         val toolbar: Toolbar = findViewById(R.id.homeToolBar)
-        setSupportActionBar(toolbar)              //uncomment
+        setSupportActionBar(toolbar)
 
-        val tabsPagerAdapter = HomeTabsAdapter(supportFragmentManager)
-        home_view_pager.adapter = tabsPagerAdapter
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_next_plan_logo_small)
 
-        homeTabs.setupWithViewPager(home_view_pager)
+        homeToolBar.setNavigationOnClickListener {
 
-        val tabOne = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
-        tabOne.text = getString(R.string.all)
-        tabOne.textSize = 16F
-        tabOne.setTextColor(resources.getColor(R.color.colorWhite))
-        //tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_people_tablayout, 0, 0)
-        homeTabs.getTabAt(0)?.customView = tabOne
+            setTabsAdapter()
+        }
 
-        val tabTwo = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
-        tabTwo.text = getString(R.string._private)
-        tabTwo.textSize = 16F
-        tabTwo.setTextColor(resources.getColor(R.color.colorWhite))
-        //tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_public_plan_tablayout, 0, 0)
-        homeTabs.getTabAt(1)?.customView = tabTwo
-
-        val tabThree = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
-        tabThree.text = getString(R.string._public)
-        tabThree.textSize = 16F
-        tabThree.setTextColor(resources.getColor(R.color.colorWhite))
-        //tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_private_plan_tablayout, 0, 0)
-        homeTabs.getTabAt(2)?.customView = tabThree
-
-        homeTabs.getTabAt(0)?.icon = getDrawable(R.drawable.ic_people_tablayout)
-        homeTabs.getTabAt(1)?.icon = getDrawable(R.drawable.ic_private_plan_tablayout)
-        homeTabs.getTabAt(2)?.icon = getDrawable(R.drawable.ic_public_plan_tablayout)
+        setTabsAdapter()
 
        /* pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
@@ -236,6 +212,39 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         }*/     //uncomment
     }
 
+    private fun setTabsAdapter(){
+
+        val tabsPagerAdapter = HomeTabsAdapter(supportFragmentManager)
+        home_view_pager.adapter = tabsPagerAdapter
+
+        homeTabs.setupWithViewPager(home_view_pager)
+
+        val tabOne = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabOne.text = getString(R.string.all)
+        tabOne.textSize = 16F
+        tabOne.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_people_tablayout, 0, 0)
+        homeTabs.getTabAt(0)?.customView = tabOne
+
+        val tabTwo = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabTwo.text = getString(R.string._private)
+        tabTwo.textSize = 16F
+        tabTwo.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_public_plan_tablayout, 0, 0)
+        homeTabs.getTabAt(1)?.customView = tabTwo
+
+        val tabThree = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
+        tabThree.text = getString(R.string._public)
+        tabThree.textSize = 16F
+        tabThree.setTextColor(resources.getColor(R.color.colorWhite))
+        //tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_private_plan_tablayout, 0, 0)
+        homeTabs.getTabAt(2)?.customView = tabThree
+
+        homeTabs.getTabAt(0)?.icon = getDrawable(R.drawable.ic_people_tablayout)
+        homeTabs.getTabAt(1)?.icon = getDrawable(R.drawable.ic_private_plan_tablayout)
+        homeTabs.getTabAt(2)?.icon = getDrawable(R.drawable.ic_public_plan_tablayout)
+    }
+
     override fun onBackPressed() {
 
         showDialog()
@@ -331,7 +340,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
                 extFab.visibility = View.GONE
 
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.frameLayout, CreatePlanFragment(edit, null, false, false),CreatePlanFragment.TAG)
+                        .add(R.id.frameLayout, CreatePlanFragment(edit, null, false, false, this),CreatePlanFragment.TAG)
                         .addToBackStack(CreatePlanFragment.TAG).commit()  //uncomment
 
                 Handler().postDelayed({
@@ -405,22 +414,9 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         }
     }
 
-
     companion object {
         const val DELAY : Long = 1 * 1000 //times in milliseconds
     }
-
-    /*override fun openPlanFragment(getEventListHome: GetEventListHome) {
-
-        *//*supportFragmentManager.beginTransaction()
-                .add(R.id.frameLayout, CreatePlanFragment(),CreatePlanFragment.TAG)
-                .addToBackStack(CreatePlanFragment.TAG).commit()  //uncomment
-        appBarLayout.visibility = GONE
-        frameLayout.visibility = View.VISIBLE
-        extFab.visibility = View.GONE*//*
-
-        println("Open called ")
-    }*/
 
     public fun refreshData(){
 
@@ -439,7 +435,14 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
 
     override fun refreshHomeFragmentData(success: Boolean) {
 
-        println("Came to HomePlanPreview")
+        if (success){
+
+            println("Came to HomePlanPreview and it's working fine now")
+            val intent = intent
+            finish()
+            startActivity(intent)
+
+        }
 
         /*finish()
         startActivity(getIntent())*/
@@ -447,6 +450,20 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         /*val allHomeFragment = AllHomeFragment()
         allHomeFragment.updateList(success)*/
     }
+
+    /*override fun openPlanFragment(getEventListHome: GetEventListHome) {
+
+        *//*supportFragmentManager.beginTransaction()
+                .add(R.id.frameLayout, CreatePlanFragment(),CreatePlanFragment.TAG)
+                .addToBackStack(CreatePlanFragment.TAG).commit()  //uncomment
+        appBarLayout.visibility = GONE
+        frameLayout.visibility = View.VISIBLE
+        extFab.visibility = View.GONE*//*
+
+        println("Open called ")
+    }*/
+
+
 
     /*internal fun notifyDataSetChange(){
    if(true){

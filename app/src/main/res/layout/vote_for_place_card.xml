@@ -176,11 +176,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace" />
+            app:layout_constraintTop_toBottomOf="@+id/textviewVoteForPlace"
+            app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"/>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/inVotingPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,7 +194,7 @@
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/VoteForPlaceMultipleRecyclerView"
             app:layout_constraintBottom_toBottomOf="@+id/placeDropDownBackgroundMultiple"
-            app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"/>
+            app:layout_constraintEnd_toEndOf="@+id/placeDropDownBackgroundMultiple"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -104,7 +104,7 @@ class PrivatePlanFragment (private var draft : Boolean, private val eventId : In
     private var planEdited : Event? = null
     var event : Event? = null
 
-    private var addedparticipants: ArrayList<ActivityParticipants> = arrayListOf()
+    private var addedparticipants: ArrayList<ContactsList> = arrayListOf()
     var getDates : ArrayList<EventDate> = arrayListOf()
 
     var participantsIds : ArrayList<Int> = arrayListOf()
@@ -714,7 +714,7 @@ class PrivatePlanFragment (private var draft : Boolean, private val eventId : In
 
                         for (item in event!!.guests){
 
-                            val finalConvertedGuests = item.toActivityParticipants()
+                            val finalConvertedGuests = item.toContactsList()
 
                             addedparticipants?.add(finalConvertedGuests)
                         }
@@ -1069,10 +1069,10 @@ class PrivatePlanFragment (private var draft : Boolean, private val eventId : In
 
     override fun addPeopleClicked() {
 
-        requireActivity().supportFragmentManager
+        /*requireActivity().supportFragmentManager
                 .beginTransaction()
                 .add(AddContactsFragment(this), AddContactsFragment::class.java.canonicalName)
-                .commitAllowingStateLoss()
+                .commitAllowingStateLoss()*/
     }
 
 
@@ -1246,7 +1246,7 @@ class PrivatePlanFragment (private var draft : Boolean, private val eventId : In
     }
 
 
-    override fun AddSelectedParticipants(participants: ArrayList<ActivityParticipants>) {
+    override fun AddSelectedParticipants(participants: ArrayList<ContactsList>) {
 
         //addpeopleRecyclerView = requireActivity().findViewById(R.id.addpeopleRecyclerViewPublic)
 
@@ -1561,9 +1561,21 @@ class PrivatePlanFragment (private var draft : Boolean, private val eventId : In
             map = map
     )
 
-    fun Guests.toActivityParticipants() = ActivityParticipants(
+   /* fun Guests.toActivityParticipants() = ActivityParticipants(
 
             participantName = name,
             id = user_id
+    )*/
+
+    fun Guests.toContactsList() = ContactsList(
+
+            id = user_id,
+            first_name = null,
+            last_name = null,
+            username = name,
+            email = email,
+            phone_number = phone_number,
+            picture = null,
+            selection = false
     )
 }

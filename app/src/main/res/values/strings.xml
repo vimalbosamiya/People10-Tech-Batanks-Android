@@ -38,7 +38,7 @@
     <string name="new_password">New Password</string>
     <string name="new_password_hint">Choose a new password</string>
     <string name="confirm_password_hint">Re-Enter your new password</string>
-    <string name="password_changed_successfully">Paswword Changed Successfully</string>
+    <string name="password_changed_successfully">Password Changed Successfully</string>
     <string name="password_doesnt_match">New Password &amp; Confirm Password doesn\'t match.</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
@@ -149,7 +149,8 @@
 
     <!-- Edit Contacts Pop Up -->
 
-    <string name="delete">Remove</string>
+    <!--<string name="delete">Remove</string>-->
+    <string name="remove">Remove</string>
     <string name="delete_contact">Remove from your Contacts</string>
 
 
@@ -177,7 +178,7 @@
 
     <!-- Edit Follow Up Dialog -->
 
-    <string name="edit_follow_up">" Edit Filter"</string>
+    <string name="edit_follow_up">"Edit Filter"</string>
     <string name="edit_follow_up_desc">You will rename your filter. Please enter your new filter name</string>
     <string name="edit_up_name_hint">Give a name to change the filter</string>
 
@@ -203,7 +204,7 @@
     <!--<string name="add_period">Select date</string>-->
     <string name="select_period">Atleast one period is required</string>
     <string name="from_date">From Date</string>
-    <string name="add_period_error">From Date is requied </string>
+    <string name="add_period_error">From Date is requied</string>
     <string name="from_date_hint">Start date is mandatory</string>
     <string name="to_date">To Date</string>
     <string name="to_date_hint">Select to date</string>
@@ -214,8 +215,9 @@
     <string name="add_another_place">Add another place</string>
     <string name="select_place">Atleast one place is required</string>
     <string name="start_date_required">Start date is mandatory</string>
-    <string name="start_date_error">end date should be greater than start date </string>
-    <string name="public_start_date_error">You can add only one date for a Public Plan </string>
+    <string name="cannot_add_multiple_dates">Cannot add multiple dates when you have more than one Activity</string>
+    <string name="start_date_error">end date should be greater than start date</string>
+    <string name="public_start_date_error">You can add only one date for a Public Plan</string>
     <string name="public_place_error">You can add only one place for a Public Plan </string>
     <string name="add_place_title">Add Place</string>
     <string name="place_name">Place name </string>
@@ -243,6 +245,7 @@
     <string name="action_cost">Cost of the action</string>
     <string name="action_cost_hint">Task Cost</string>
     <string name="nature_of_cost">The nature of the cost</string>
+    <string name="how_much">How much ?</string>
     <string name="nature_of_cost_hint">Cost per person or Total cost ?</string>
     <string name="who_with">Who with ?</string>
     <string name="assignee_people">ASSIGN People</string>
@@ -253,6 +256,8 @@
     <string name="add_activity_title">Add Activity</string>
     <string name="add_an_activity">Add an activity</string>
     <string name="add_another_activity">Add another activity</string>
+    <string name="activity_cost">Cost of the activity</string>
+    <string name="activity_cost_hint">How much does this activity cost?</string>
     <string name="activity_name">Activity name </string>
     <string name="activity_name_hint">A name for the activity is mandatory</string>
     <string name="max_participants_hint">Max Participants</string>
@@ -278,13 +283,14 @@
     <string name="total_cost">Total Cost</string>
     <string name="total_cost_caps">TOTAL COST</string>
     <string name="cost_per_person">Cost Per Person</string>
-    <string name="add_assignee_toast">You can only assign people after creating a Plan</string>
-    <string name="add_people_toast">You can only add people after creating a Plan</string>
+    <string name="add_assignee_toast">Plan must be created at first</string>
+    <string name="add_people_toast">Plan must be created at first</string>
     <string name="max_participants">Max Participants</string>
     <string name="number">Number</string>
-    <string name="add_people">Add guest</string>
+    <string name="add_guest">Add guest</string>
     <string name="everybody_come">Guest list</string>
     <string name="create_plan">CREATE PLAN</string>
+    <string name="update_plan">UPDATE PLAN</string>
     <string name="save_draft">SAVE DRAFT</string>
     <string name="plan_created">Plan Created Successfully</string>
     <string name="draft_created">Draft Created Successfully</string>
@@ -292,9 +298,11 @@
     <string name="plan_updated">Plan Updated Successfully</string>
     <string name="cannot_add_task">You cannot add a Task for public event</string>
     <string name="cannot_add_activity">You cannot add an Activity for public event</string>
+    <string name="cannot_add_multiple_activities">Cannot add multiple activities when you have more than one Date</string>
     <string name="custom_frequency">Custom frequency</string>
     <string name="repeat">Repeat</string>
     <string name="how_many_times">How many times</string>
+    <string name="enter_a_number_between_1_99">Enter a number between 1 - 99</string>
     <string name="until_when">Until when</string>
     <string name="day">Daily</string>
     <string name="week">Weekly</string>
@@ -325,13 +333,13 @@
     <!--<string name="phonenumber_condition">Mobile number should contain atleast 4 numbers with no spaces</string>-->
 
 
-    <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>
+   <!-- <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>-->
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
 
-    <string name="not_valid_email">Email is not valid.</string>
+    <!--<string name="not_valid_email">Email is not valid.</string>-->
 
 
     <string name="fetching_location" tools:ignore="TypographyEllipsis">Fetching the location info... Please wait...</string>
@@ -341,7 +349,7 @@
     <!--<string name="follow_up_name_empty">Follow Up name cannot be empty</string>-->
 
 
-    <string name="follow_up_exist"><font fgcolor='#000000'>Follow Up already exists</font></string>
+    <!--<string name="follow_up_exist"><font fgcolor='#000000'>Follow Up already exists</font></string>-->
 
 
     <string name="invitation_status">Invitation Status</string>
@@ -351,7 +359,7 @@
     <string name="declin_caps">DECLIN</string>
 
 
-    <string name="add_contact">Add guest</string>
+    <!--<string name="add_contact">Add guest</string>-->
 
     <string name="invite_accepted">Invite Accepted Successfully</string>
     <string name="invite_declined">Invite Declined Successfully</string>
@@ -383,14 +391,20 @@
     <string name="action">Task</string>
     <string name="activity">Activity</string>
 
+    <!--Sort Page-->
 
-    <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>
-    <string name="asteriskred"><font color='#cc0029'>*</font></string>
+    <string name="drafts">Drafts</string>
+    <string name="mines">Mines</string>
+    <string name="invited_to">Invited to</string>
 
 
-    <string name="close_votes">CLOSE VOTES</string>
+   <!-- <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>-->
+    <!--<string name="asteriskred"><font color='#cc0029'>*</font></string>-->
+
+
+    <!--<string name="close_votes">CLOSE VOTES</string>-->
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
     <string name="add_period">select date</string>
 </resources>

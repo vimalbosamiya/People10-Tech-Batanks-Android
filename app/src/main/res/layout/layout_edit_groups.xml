@@ -56,7 +56,7 @@
             android:id="@+id/txt_groups_delete_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
+            android:text="@string/remove"
             android:paddingLeft="10dp"
             android:layout_toRightOf="@id/img_groups_delete_icon"
             android:textAppearance="?android:textAppearanceMedium"

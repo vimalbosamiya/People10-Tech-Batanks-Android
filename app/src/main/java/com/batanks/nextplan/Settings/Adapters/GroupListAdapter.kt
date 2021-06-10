@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.swagger.model.Contact
+import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.contacts_in_group_item.view.*
 
 
-public class GroupListAdapter (private val myList: ArrayList<Contact>, val closeButtonVisible : Boolean, val contactsViewModel: ContactsViewModel) : RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
+public class GroupListAdapter (private val myList: ArrayList<ContactsList>, val closeButtonVisible : Boolean, val contactsViewModel: ContactsViewModel) : RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
 
     private var context: Context? = null
 
@@ -27,7 +28,7 @@ public class GroupListAdapter (private val myList: ArrayList<Contact>, val close
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.contactName.text = myList[position].first_name
+        holder.contactName.text = myList[position].username
 
         if (closeButtonVisible == false){
 

@@ -130,7 +130,7 @@
         android:hint="@string/how_many_times"
         app:boxBackgroundColor="#000000"
         app:boxStrokeColor="@color/text_input_layout_stroke_color"
-        app:helperText="Enter a number between 1 - 99"
+        app:helperText="@string/enter_a_number_between_1_99"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"
@@ -246,7 +246,7 @@
         android:layout_marginBottom="2dp"
         android:gravity="center"
         android:paddingBottom="24dp"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -260,7 +260,7 @@
         android:layout_marginBottom="2dp"
         android:gravity="center"
         android:paddingBottom="24dp"
-        android:text="CANCEL"
+        android:text="@string/cancel"
         android:textColor="@color/colorLittleBlue"
         app:layout_constraintRight_toLeftOf="@+id/ok"
         app:layout_constraintBottom_toBottomOf="parent" />

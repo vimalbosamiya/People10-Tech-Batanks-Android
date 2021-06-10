@@ -83,9 +83,9 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
     lateinit var groups_adapter : GroupsAdapter_Settings
 
     lateinit var rv_users: RecyclerView
-    lateinit var usersList : ArrayList<UserSearchResults>
+    lateinit var usersList : ArrayList<ContactsList>
     var usersSearchResponse : UserSearch? = null
-    var usersListSearched : ArrayList<UserSearchResults> = arrayListOf()
+    var usersListSearched : ArrayList<ContactsList> = arrayListOf()
     lateinit var users_adapter : UsersAdapter
 
     //lateinit var rv_phone_contacts: RecyclerView
@@ -197,7 +197,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                                 for(item in contactList){
 
-                                    if (item.username.contains(searchText, ignoreCase = true)){
+                                    if (item.username!!.contains(searchText, ignoreCase = true)){
 
                                         contactListSearched.add(item)
                                     }
@@ -207,7 +207,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                                     if (sort == 0){
 
-                                        contactListSearched.sortBy { it.username.toLowerCase(Locale.ROOT) }
+                                        contactListSearched.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                                         sort = 1
                                     }
@@ -260,7 +260,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                                 for(item in usersList){
 
-                                    if (item.username.contains(searchText, ignoreCase = true)){
+                                    if (item.username!!.contains(searchText, ignoreCase = true)){
 
                                         usersListSearched.add(item)
 
@@ -349,7 +349,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                             println(item.first_name)
                         }*/
 
-                        contactList.sortBy { it.username.toLowerCase(Locale.ROOT) }
+                        contactList.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                         /*for(item in contactList){
 
@@ -546,10 +546,12 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                 Status.SUCCESS -> {
                     hideLoader()
 
-                    if (sortFilter.isNullOrEmpty()){
+                   /* if (sortFilter.isNullOrEmpty()){
 
                         contactsViewModel.getContactsList()
-                    }
+                    }*/
+
+                    contactsViewModel.getContactsList()
 
                     //settings_contactSearchEditText.addTextChangedListener(textListener)
 
@@ -603,13 +605,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                 if (sort == 0){
 
-                    contactList.sortBy { it.username.toLowerCase(Locale.ROOT) }
+                    contactList.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 1
 
                 }else if (sort == 1){
 
-                    contactList.sortByDescending { it.username.toLowerCase(Locale.ROOT) }
+                    contactList.sortByDescending { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 0
                 }
@@ -622,13 +624,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                 if (sort == 0){
 
-                    contactListSearched.sortBy { it.username.toLowerCase(Locale.ROOT) }
+                    contactListSearched.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 1
 
                 }else if (sort == 1){
 
-                    contactListSearched.sortByDescending { it.username.toLowerCase(Locale.ROOT) }
+                    contactListSearched.sortByDescending { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 0
                 }

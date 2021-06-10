@@ -349,7 +349,7 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
         }
     }
 
-    /*override fun refreshHomeFragmentData(success: Boolean) {
+  /*  override fun refreshHomeFragmentData(success: Boolean) {
 
         println("came to All Home Fragment")
     }*/

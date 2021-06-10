@@ -224,6 +224,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         rv_settings_followups.setHasFixedSize(true)
         adapter = followUpList?.let { FollowupsAdapter_Settings(this,it) }!!
         rv_settings_followups.adapter = adapter
+        //rv_settings_followups?.getAdapter()?.getItemCount()?.let { rv_settings_followups.smoothScrollToPosition(it) }
 }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.batanks.nextplan.R
+import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.markRequiredInRed
 import com.google.android.material.textfield.TextInputEditText
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_search.searchToolBar
 import kotlinx.android.synthetic.main.fragment_search.tabs
 import kotlinx.android.synthetic.main.fragment_search.view_pager
 
-class Search : AppCompatActivity() {
+class Search : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

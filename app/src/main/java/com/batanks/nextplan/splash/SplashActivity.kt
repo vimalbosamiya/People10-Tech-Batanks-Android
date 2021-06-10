@@ -2,11 +2,15 @@ package com.batanks.nextplan.splash
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.Settings
+import com.batanks.nextplan.Settings.viewmodel.SettingsViewModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
@@ -17,7 +21,10 @@ import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.signing.SigninActivity
 import com.batanks.nextplan.signing.viewmodel.SplashViewModel
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
+import com.batanks.nextplan.swagger.model.SettingsGet
 import com.batanks.nextplan.swagger.model.User
+import kotlinx.android.synthetic.main.activity_settings.*
+import java.util.*
 
 class SplashActivity : BaseAppCompatActivity() {
 
@@ -27,6 +34,14 @@ class SplashActivity : BaseAppCompatActivity() {
                 SplashViewModel(it)
             }
         }).get(SplashViewModel::class.java)
+    }
+
+    private val settingsViewModel: SettingsViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
+                SettingsViewModel(it)
+            }
+        }).get(SettingsViewModel::class.java)
     }
 
     var user_obj : User? = null
@@ -41,6 +56,7 @@ class SplashActivity : BaseAppCompatActivity() {
 
             if (getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean(PREF_NAME, false)) {
 
+                settingsViewModel.getSettings()
                 splashViewModel.getUserProfile()
 
             } else {
@@ -49,7 +65,7 @@ class SplashActivity : BaseAppCompatActivity() {
             }
         }, SPLASH_SCREEN_TIMEOUT)
 
-        loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = this.getLoadingDialog(0, R.string.loading_please_wait, theme = R.style.AlertDialogCustom)
 
         splashViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -60,10 +76,10 @@ class SplashActivity : BaseAppCompatActivity() {
                 Status.SUCCESS -> {
                     //hideLoader()
 
+                    user_obj = response.data as User
+
                     startActivity(Intent(this, HomePlanPreview::class.java))
                     finish()
-
-                    user_obj = response.data as User
 
                     /*val id: Int? = user_obj?.id
                     val userName: String? = user_obj?.username
@@ -91,6 +107,68 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
             }
         })
+
+        settingsViewModel.responseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    settingsViewModel.settingsResponse = response.data as SettingsGet
+
+                    init(settingsViewModel.settingsResponse!!)
+
+                }
+
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+    }
+
+    private fun init(resp : SettingsGet){
+
+        if (resp.language == "English"){
+
+            setLocale("en")
+
+        } else if (resp.language == "Français") {
+
+            setLocale("fr")
+        }
+    }
+
+    fun setLocale(lang:String) {
+        val myLocale = Locale(lang)
+        val res = getResources()
+        val dm = res.getDisplayMetrics()
+        val conf = res.getConfiguration()
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+        onConfigurationChanged(conf)
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        // refresh your views here
+        //lblLang.setText(R.string.langselection)
+        super.onConfigurationChanged(newConfig)
+
+        println("FromonConfigurationChanged")
+
+        // Checks the active language
+        if (newConfig.locale === Locale.ENGLISH)
+        {
+            Toast.makeText(this, "English", Toast.LENGTH_SHORT).show()
+        }
+        else if (newConfig.locale === Locale.FRENCH)
+        {
+            Toast.makeText(this, "French", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {
