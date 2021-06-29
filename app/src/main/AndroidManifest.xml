@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".forgotpassword.AccountRecovery1" />
-        <activity android:name=".Settings.Plan_Sorting" />
+        <activity android:name=".Settings.PlanSorting" />
         <activity android:name=".Settings.Followups" />
         <activity
             android:name=".Settings.Contact"
@@ -66,5 +66,4 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-
 </manifest>

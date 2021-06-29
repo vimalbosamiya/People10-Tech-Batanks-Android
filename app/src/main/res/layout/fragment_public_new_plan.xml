@@ -102,7 +102,7 @@
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
             app:endIconMode="dropdown_menu"
             app:endIconTint="@color/colorWhite"
-            app:helperText=""
+            app:helperText="@string/category_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
             app:hintEnabled="false"
@@ -117,8 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:editable="false"
+                android:gravity="center_vertical"
                 android:inputType="none"
                 android:text="@string/category" />
         </com.google.android.material.textfield.TextInputLayout>

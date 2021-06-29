@@ -41,7 +41,7 @@
         app:endIconMode="clear_text"
         app:endIconTint="@color/colorWhite"
         android:hint="@string/max_participants_hint"
-        app:helperText="@string/max_participants_helper_text"
+        app:helperText="@string/max_participants_hint"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#ffffff"
         app:hintAnimationEnabled="true"

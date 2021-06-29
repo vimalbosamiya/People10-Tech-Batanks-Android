@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.Adapters.ContactsAdapter_Settings
+import com.batanks.nextplan.Settings.Adapters.UsersAdapter
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
@@ -26,19 +28,22 @@ import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.api.ContactsAPI
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.AddContact
+import com.batanks.nextplan.swagger.model.ContactsList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_users_info.*
 
-class UsersInfo : BaseAppCompatActivity() {
+class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoListener {
 
     var id : Int? = 0
-    var userName : String? = null
+    var picture : String? = null
+    var isContact : Boolean? = true
+    var friend : ContactsList? = null
+
+  /*  var userName : String? = null
     var firstName : String? = null
     var lastName : String? = null
     var email : String? = null
-    var picture : String? = null
-    var phNo : String? = null
-    var isContact : Boolean? = true
+    var phNo : String? = null*/
 
     private val addContactViewModel: AddContactViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -60,7 +65,7 @@ class UsersInfo : BaseAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users_info)
 
-        id = intent.getIntExtra("ID",0)
+        /*id = intent.getIntExtra("ID",0)
         userName = intent.getStringExtra("NAME")
         firstName = intent.getStringExtra("FIRST_NAME")
         lastName = intent.getStringExtra("LAST_NAME")
@@ -73,12 +78,23 @@ class UsersInfo : BaseAppCompatActivity() {
         txt_accounts_org_fname.text = firstName
         txt_accounts_org_pseudo.text = lastName
         txt_accounts_org_mailid.text = email
-        txt_accounts_org_contactno.text = phNo.toString()
+        txt_accounts_org_contactno.text = phNo.toString()*/
+
+        id = friend?.id
+        picture = friend?.picture
+        isContact = intent.getBooleanExtra("CONTACT", true)
+
+        txt_accounts_org_name.text = friend?.username
+        txt_accounts_org_fname.text = friend?.first_name
+        txt_accounts_org_pseudo.text = friend?.last_name
+        txt_accounts_org_mailid.text = friend?.email
+        txt_accounts_org_contactno.text = friend?.phone_number
 
         if (picture != null){
 
             Glide.with(this).load(picture).circleCrop().into(img_account_icon)
-        }
+
+        } else {}
 
         addContactViewModel.responseLiveData.observe(this, Observer{ response ->
 
@@ -109,8 +125,12 @@ class UsersInfo : BaseAppCompatActivity() {
 
                     Toast.makeText(this,getString(R.string.contact_deleted), Toast.LENGTH_SHORT).show()
 
-                    val intent : Intent = Intent(this, Contact:: class.java)
-                    startActivity( intent)
+                    //listener.onFriendDeleted(true)
+
+                    finish()
+
+                    /*val intent : Intent = Intent(this, Contact:: class.java)
+                    startActivity( intent)*/
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -206,5 +226,10 @@ class UsersInfo : BaseAppCompatActivity() {
 
         dialog.show()
 
+    }
+
+    override fun itemClicked(friendInfo: ContactsList) {
+
+        friend = friendInfo
     }
 }

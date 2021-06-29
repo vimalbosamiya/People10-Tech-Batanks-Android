@@ -114,7 +114,7 @@ class DeclineFragment (private val eventId : Int) : BaseFragment()  {
         })
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+    /*override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
 
         if (view != null && isVisibleToUser) {
@@ -126,5 +126,37 @@ class DeclineFragment (private val eventId : Int) : BaseFragment()  {
         } else {
             isViewShown = false
         }
+    }*/
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+
+        /*if (view != null && isVisibleToUser) {
+
+            isViewShown = true
+
+            eventDetailViewModel.getEventData(eventId.toString())
+
+        } else {
+            isViewShown = false
+        }*/
+
+        if (isVisibleToUser && isResumed()){
+
+            onResume()
+
+        } else{
+
+            println("Declined Participants of the event")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!getUserVisibleHint()) { return }
+
+        eventDetailViewModel.getEventData(eventId.toString())
+
     }
 }

@@ -22,11 +22,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context : Context, private val callBack: AddCommentsRecyclerViewCallBack,
                            val userName : String?, private val eventDetailViewModel : EventDetailViewModel, private val eventId: Int): RecyclerView.Adapter<CommentsListAdapter.ViewHolder>() {
-
-    private var id : Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -43,13 +43,15 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
         val comment : Comment = commentsList[position]
 
-        id = comment.id
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+        val createdDate: Date = inputFormat.parse(comment.created)
+        inputFormat.setTimeZone(TimeZone.getDefault())
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val outFormat = SimpleDateFormat("EEE, MMM d yyyy")
-        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
-        val createdDate = inputFormat.parse(comment.created)
-        //val formattedCreateDate = outFormat.format(createdDate)
+        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm", Locale.ENGLISH)
+        outputFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+        outputFormat.setTimeZone(TimeZone.getDefault())
+
         val formattedCreateDate = outputFormat.format(createdDate)
 
         if (comment.author == userName){
@@ -68,9 +70,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
         holder.commentsSettings.setOnClickListener {
 
-            println(id)
-
-            showDialog(context, id, eventId, comment.message)
+            editDialog(context, comment.id, eventId, comment.message)
         }
     }
 
@@ -83,7 +83,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
         val commentsSettings : ImageView = itemView.commentsSettings
     }
 
-    private fun showDialog(context : Context, id : Int, eventId : Int, comment: String) {
+    private fun editDialog(context : Context, id : Int, eventId : Int, comment: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -95,18 +95,15 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
         edit.setOnClickListener {
 
             editCommentDialog(context,id,eventId,comment)
-
             dialog.dismiss()
         }
         delete.setOnClickListener {
 
             eventDetailViewModel.deleteComment(eventId.toString(), id.toString())
-
             dialog.dismiss()
 
         }
         dialog.show()
-
     }
 
     private fun editCommentDialog(context : Context, id : Int, eventId : Int, comment: String) {
@@ -135,10 +132,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
 
             dialog.dismiss()
         }
-        btn_add_comment_cancel.setOnClickListener {
-
-            dialog.dismiss()
-        }
+        btn_add_comment_cancel.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
 

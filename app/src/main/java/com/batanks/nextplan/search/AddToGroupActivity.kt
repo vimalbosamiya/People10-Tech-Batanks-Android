@@ -248,8 +248,8 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
             finish()
 
-            val contactIntent = Intent(this, Contact::class.java)
-            startActivity(contactIntent)
+            /*val contactIntent = Intent(this, Contact::class.java)
+            startActivity(contactIntent)*/
 
            /* supportFragmentManager.beginTransaction()
                     .add(R.id.frameLayout, SearchFragment())

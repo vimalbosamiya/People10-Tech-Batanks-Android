@@ -26,6 +26,7 @@ import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.forgotpassword.viewmodel.AccountRecoveryViewModel
+import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.signing.SigninActivity
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
@@ -35,9 +36,7 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_account_recovery1.*
 
 
-class AccountRecovery1 :  BaseAppCompatActivity() {
-
-    private var observable: Observable<Boolean>? = null
+class AccountRecovery1 :  BaseAppCompatActivity(), View.OnClickListener {
 
     private val accountRecoveryViewModel: AccountRecoveryViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -51,78 +50,9 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_recovery1)
 
+        //loadingDialog = this.getLoadingDialog(0, R.string.submitting_mail_please_wait, theme = R.style.AlertDialogCustom)
+
         emailTextField.markRequiredInRed()
-
-        /*emailEditField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) { //Clear focus here from edittext
-
-                v.clearFocus()
-
-                //emailEditField.clearFocus()
-                //emailTextField.clearFocus()
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
-
-
-                //emailEditField.setFocusableInTouchMode(true)
-                //emailEditField.setCursorVisible(false)
-            }
-            false
-
-            *//*if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val imm: InputMethodManager = this?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-                v.clearFocus()
-                //getWindow().getDecorView().clearFocus()
-                //currentFocus?.clearFocus()
-                extFab_submit.requestFocus()
-                //extFab_submit.clearFocus()
-                //binding.suffixDropdown.showDropDown()
-                return@OnEditorActionListener true
-            }
-            false*//*
-        })*/
-
-        /*emailEditField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getWindow().getDecorView().clearFocus()
-                v.clearFocus()
-                emailEditField.clearFocus()
-                emailTextField.clearFocus()
-
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
-               // emailEditField.setFocusableInTouchMode(true)
-                //emailEditField.isFocusable = false
-                //dismissKeyboard()
-
-               *//* if (event.action == MotionEvent.ACTION_DOWN){
-                    val v: View? = getCurrentFocus()
-                    if (v is EditText) {
-                        val outRect = Rect()
-                        v.getGlobalVisibleRect(outRect)
-
-                            v.clearFocus()
-                            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                            imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                    }
-                }*//*
-
-                //Toast.makeText(this,"working",Toast.LENGTH_LONG).show()
-            }
-            false
-        })*/
-
-       /* emailEditField.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // Hide Keyboard
-                emailTextField.clearFocus()
-                val inputMethodManager = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(emailEditField.getWindowToken(), 0)
-                true
-            }
-            false
-        }*/
 
         accountRecoveryViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -133,12 +63,9 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
                 Status.SUCCESS -> {
 
                     //hideLoader()
-
                     tvPasswordSent.visibility = VISIBLE
                     extFab_back.visibility = VISIBLE
                     extFab_submit.visibility = GONE
-
-                    //Toast.makeText(this,response.status.toString(),Toast.LENGTH_LONG).show()
                 }
                 Status.ERROR -> {
                     //hideLoader()
@@ -147,64 +74,9 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
             }
         })
 
-        //loadingDialog = this.getLoadingDialog(0, R.string.submitting_mail_please_wait, theme = R.style.AlertDialogCustom)
-
-        backArrow.setOnClickListener {
-
-            val intent = Intent(this, SigninActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        extFab_submit.setOnClickListener {
-
-           /* val intent = Intent(this, AccountRecovery2::class.java)
-            startActivity(intent)
-            finish()*/
-
-            /*tvPasswordSent.visibility = VISIBLE
-            extFab_back.visibility = VISIBLE
-            extFab_submit.visibility = GONE*/
-
-            if (isEmailValid(emailTextField.editText?.text)){
-
-                val password = PasswordLost(email = emailTextField?.editText?.text.toString())
-                accountRecoveryViewModel.sendMail(password)
-
-            }else {
-
-                emailTextField.editText?.setError(getString(R.string.valid_email))
-                emailTextField.editText?.requestFocus()
-
-            }
-
-          /*  if (!TextUtils.isEmpty(emailTextField?.editText?.text.toString())){
-
-                val password = PasswordLost(email = emailTextField?.editText?.text.toString())
-                accountRecoveryViewModel.sendMail(password)
-
-            } else { }*/
-
-            /*tvPasswordSent.visibility = VISIBLE
-            extFab_back.visibility = VISIBLE
-            extFab_submit.visibility = GONE*/
-        }
-
-        extFab_back.setOnClickListener {
-
-            val intent = Intent(this, SigninActivity::class.java)
-            startActivity(intent)
-            finish()
-
-        }
-    }
-
-    fun TextInputLayout.markRequiredInRed() {
-
-        hint = buildSpannedString {
-            append(hint)
-            color(Color.RED) { append(" *") }
-        }
+        backArrow.setOnClickListener(this)
+        extFab_submit.setOnClickListener(this)
+        extFab_back.setOnClickListener(this)
     }
 
     private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -223,5 +95,35 @@ class AccountRecovery1 :  BaseAppCompatActivity() {
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    override fun onClick(v: View?) {
+
+        when (v?.id) {
+
+            R.id.backArrow -> { loadSignInIntent() }
+            R.id.extFab_back -> { loadSignInIntent() }
+
+            R.id.extFab_submit -> {
+
+                if (isEmailValid(emailTextField.editText?.text)){
+
+                    val password = PasswordLost(email = emailTextField?.editText?.text.toString())
+                    accountRecoveryViewModel.sendMail(password)
+
+                }else {
+
+                    emailTextField.editText?.setError(getString(R.string.valid_email))
+                    emailTextField.editText?.requestFocus()
+                }
+            }
+        }
+    }
+
+    private fun loadSignInIntent(){
+
+        val intent = Intent(this, SigninActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

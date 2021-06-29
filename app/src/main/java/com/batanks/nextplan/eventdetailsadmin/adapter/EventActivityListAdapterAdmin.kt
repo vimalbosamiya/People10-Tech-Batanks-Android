@@ -36,12 +36,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
             view.activityDropDown.visibility = View.GONE
 
             view.activityDropUp.visibility = View.VISIBLE
-
-            //view.activityDropDown.setImageResource(R.drawable.ic_event_details_expand_less)
-
-            //view.eventInfoBackground.visibility = View.GONE
-
-            //view.eventInfobackgroundMulti.visibility = View.VISIBLE
         }
 
         view.activityDropUp.setOnClickListener {
@@ -52,14 +46,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             view.activityDropUp.visibility = View.GONE
         }
-
-        /*view.activityDropDownMulti.setOnClickListener {
-
-            view.eventInfobackgroundMulti.visibility = View.GONE
-
-            view.eventInfoBackground.visibility = View.VISIBLE
-
-        }*/
 
         view.activityMapHide.setOnClickListener {
 
@@ -81,8 +67,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             view.activityEverybodyComehider.visibility = View.VISIBLE
 
-            //view.participateToActivityIcon.visibility = View.VISIBLE
-
             view.activityEverybodyComehiderInitial.visibility = View.GONE
 
             view.costPerPersonCalenderBackground.visibility = View.GONE
@@ -94,27 +78,10 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             view.activityEverybodyComehider.visibility = View.GONE
 
-            //view.participateToActivityIcon.visibility = View.GONE
-
             view.activityEverybodyComehiderInitial.visibility = View.VISIBLE
 
             view.costPerPersonCalenderBackground.visibility = View.VISIBLE
-
-            /*view.activityEverybodyComeVisible.visibility = View.GONE
-
-            view.activityEverybodyComeHide.visibility = View.VISIBLE*/
         }
-
-
-
-        /*view.activityEverybodyComeDropDown.setOnClickListener {
-
-            view.activityEverybodyComeHide.visibility = View.GONE
-
-            view.activityEverybodyComeVisible.visibility = View.VISIBLE
-        }*/
-
-        //view.participateToActivityIcon.setOnClickListener {  }
 
         return  ViewHolder(view)
     }
@@ -125,11 +92,8 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
         val activity : Activity = activityList[position]
 
-       /* holder.activityIdTextView.text = (position + 1).toString()*/
         holder.textViewActivityName.text = activity.title
         holder.comingVotesInitial.text = activity.participants.size.toString()
-        //holder.totalNoOfVotesInitial.text = activity.max_participants.toString()
-
         holder.textViewActivityCost.text = activity.price.toString()
         holder.textViewCostPerPersonAmountSymbol.text = activity.price_currency
 
@@ -137,22 +101,17 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             holder.locationName.text = activity.place.name
 
-            val address = activity.place.address
-            val placeCity = activity.place.city
-            val placeCountry = activity.place.country
-            val placeZipcode = activity.place.zipcode
-
             val stringBuilder = StringBuilder()
-                    .append(address)
+                    .append(activity.place.address)
 
                     .append(" ")
-                    .append(placeCity)
+                    .append(activity.place.city)
 
                     .append(" ")
-                    .append(placeCountry)
+                    .append(activity.place.country)
 
                     .append(" ")
-                    .append(placeZipcode)
+                    .append(activity.place.zipcode)
 
             holder.fullLocation.text = stringBuilder.toString()
 
@@ -186,7 +145,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         holder.textViewEventTimeHours.text = hours.toString()
         holder.textViewEventTimeMins.text = mins.toString()
 
-
         if (activity.per_person == true){
 
             holder.textViewCostPerPerson.setText(R.string.cost_per_person)
@@ -198,12 +156,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
         holder.activityParticipantsListAdmin.layoutManager = LinearLayoutManager(context)
         holder.activityParticipantsListAdmin.adapter = ActivityEverybodyComeListAdapterAdmin(activity.participants,context)
-
-      /*  holder.activitySettingsIcon.setOnClickListener {
-
-            //activityDeleteDialog(position)
-            callBack.settingsButtonAddActivityItemListener(position)
-        }*/
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -224,29 +176,6 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         val textViewActivityStartDate :TextView = itemView.textViewActivityStartDate
         //val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
         val activityParticipantsListAdmin : RecyclerView = itemView.activityParticipantsListAdmin
-    }
-
-    private fun activityDeleteDialog(position: Int) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.layout_delete_popup)
-
-        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
-
-        deletePopup.setOnClickListener{
-
-            //Toast.makeText(context,"worked", Toast.LENGTH_SHORT).show()
-
-            activityList.removeAt(position)
-            callBack.closeButtonAddActivityItemListener(position)
-
-
-            dialog.dismiss()
-
-        }
-
-        dialog.show()
     }
 
     interface AddActivityRecyclerViewCallBack {

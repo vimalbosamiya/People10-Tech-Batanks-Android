@@ -107,7 +107,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
 
         if (modelList.get(position).price!! > 0){
 
-            holder.activity_textViewCostPerPersonAmount.text = modelList.get(position).price.toString()
+            holder.activity_textViewCostPerPersonAmount.text = String.format("%,d",modelList.get(position).price)
         }
 
         val currency : String? = context?.getSharedPreferences("SAVED_CURREN", AppCompatActivity.MODE_PRIVATE)?.getString("SAVED_CURRENCY","USD")

@@ -26,6 +26,7 @@ import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.forgotpassword.viewmodel.AccountRecoveryViewModel
 import com.batanks.nextplan.home.isValidPassword
+import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.registration.Registration
 import com.batanks.nextplan.signing.SigninActivity
@@ -39,8 +40,6 @@ import java.util.regex.Pattern
 
 class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
 
-    private var observable: Observable<Boolean>? = null
-
     private val accountRecoveryViewModel: AccountRecoveryViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
             RetrofitClient.getRetrofitInstance(this)?.create(AuthenticationAPI::class.java)?.let {
@@ -49,14 +48,14 @@ class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
         }).get(AccountRecoveryViewModel::class.java)
     }
 
-    //var token : String? = null
-
     lateinit var token : String
     lateinit var email : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_recovery2)
+
+        //loadingDialog = this.getLoadingDialog(0, R.string.changing_password_please_wait, theme = R.style.AlertDialogCustom)
 
         newPasswordTextField.markRequiredInRed()
         confirmPasswordTextField.markRequiredInRed()
@@ -67,25 +66,6 @@ class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
 
             token = uri.getQueryParameter("token").toString()
             email = uri.getQueryParameter("email").toString()
-            //var email : String? = uri.getQueryParameter("email")
-
-            Log.d("token",token)
-            Log.d("email",email)
-
-            /*var params : List<String> = uri.pathSegments
-            var link : String = uri.toString()
-            Toast.makeText(this, link ,Toast.LENGTH_LONG).show()
-            Log.d("Link",link)
-
-            for(p in params){
-
-                println(p)
-                Log.d("param",uri.pathSegments.toString())
-                Log.d("params",params.toString())
-            }
-            var email : String = params.get(params.size-1)
-            var token : String = params.get(params.size-2)
-            Toast.makeText(this,"email = " + email + "token = " + token,Toast.LENGTH_LONG).show()*/
         }
 
         accountRecoveryViewModel.responseLiveData.observe(this, Observer { response ->
@@ -97,11 +77,9 @@ class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
                 Status.SUCCESS -> {
 
                     Toast.makeText(this,getString(R.string.password_changed_successfully),Toast.LENGTH_LONG).show()
-
                     val intent = Intent(this, SigninActivity::class.java)
                     startActivity(intent)
                     finish()
-
                     //hideLoader()
                 }
                 Status.ERROR -> {
@@ -111,31 +89,60 @@ class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
             }
         })
 
-        //loadingDialog = this.getLoadingDialog(0, R.string.changing_password_please_wait, theme = R.style.AlertDialogCustom)
-
-        backArrow.setOnClickListener {
-
-            val intent = Intent(this, AccountRecovery1::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        cancelButton.setOnClickListener {
-
-            val intent = Intent(this, AccountRecovery1::class.java)
-            startActivity(intent)
-            finish()
-        }
-
+        backArrow.setOnClickListener(this)
+        cancelButton.setOnClickListener(this)
         extFab_ok.setOnClickListener(this)
     }
 
-    fun TextInputLayout.markRequiredInRed() {
+    override fun onClick(v: View?) {
+        dismissKeyboard()
 
-        hint = buildSpannedString {
-            append(hint)
-            color(Color.RED) { append(" *") }
+        when (v?.id) {
+
+            R.id.backArrow -> { loadAccountRecovery1Intent() }
+            R.id.cancelButton -> { loadAccountRecovery1Intent() }
+
+            R.id.extFab_ok -> {
+
+                if (isValidPassword(newPasswordTextField.editText?.text?.toString()) && newPasswordTextField.editText?.length()!! >= 6){
+
+                    println(isValidPassword(newPasswordTextField.editText?.text?.toString()))
+
+                    if (newPasswordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
+
+                        val resetPassword = ResetPasswordConfirm(password1 = newPasswordTextField?.editText?.text.toString(),
+                                password2 = confirmPasswordTextField?.editText?.text.toString(),
+                                email = email, token = token)
+
+                        accountRecoveryViewModel.resetPassword(resetPassword)
+
+                    } else {
+
+                        confirmPasswordTextField.editText?.setError(getString(R.string.password_doesnt_match))
+                        confirmPasswordTextField.editText?.requestFocus()
+                    }
+                } else {
+
+                    newPasswordTextField.editText?.setError(getString(R.string.password_condition))
+                    newPasswordTextField.editText?.requestFocus()
+                }
+            }
         }
+
+    }
+
+    private fun loadAccountRecovery1Intent(){
+
+        val intent = Intent(this, AccountRecovery1::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    companion object {
+
+        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#?!@$%^&()\\[\\\\\\]<>*~:_/|`-])(?=\\S+$)(?=.*\\d).+$")
+        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
+        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -153,140 +160,4 @@ class AccountRecovery2 : BaseAppCompatActivity(), View.OnClickListener {
         }
         return super.dispatchTouchEvent(event)
     }
-
-    override fun onClick(v: View?) {
-        dismissKeyboard()
-
-        when (v?.id) {
-
-            R.id.extFab_ok -> {
-
-                /*if (isValidPassword(newPasswordTextField.editText?.text.toString()) && isValidPassword(confirmPasswordTextField.editText?.text.toString()) &&
-                   newPasswordTextField.editText?.text.toString() == confirmPasswordTextField.editText?.text.toString()){
-
-               val resetPassword = ResetPasswordConfirm(password1 = newPasswordTextField?.editText?.text.toString(),
-                       password2 = confirmPasswordTextField?.editText?.text.toString(),
-                       email = email, token = token)
-               //Log.d("token from listener",token +" "+ email +" "+ newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString())
-               //println("token from listener" +" "+ token +" "+ email +" "+newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString() )
-
-               accountRecoveryViewModel.resetPassword(resetPassword)
-
-           }else if (!isValidPassword(newPasswordTextField.editText?.text.toString())){
-
-               newPasswordTextField.editText?.error = "Paswword must contain atleast 1 lower case and 1 upeer case letter and 1 number and 1 special charatcer with no spaces"
-               newPasswordTextField.editText?.requestFocus()
-
-           } else if (newPasswordTextField.editText?.text.toString() != confirmPasswordTextField.editText?.text.toString()){
-
-               confirmPasswordTextField.editText?.error = "Password doesn't match"
-               confirmPasswordTextField.editText?.requestFocus()
-
-           } else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) && TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-               newPasswordTextField.editText?.error = "New Password is Required"
-               confirmPasswordTextField.editText?.error = "Confirm Password is Required"
-
-               newPasswordTextField.editText?.requestFocus()
-               confirmPasswordTextField.editText?.requestFocus()
-
-           } else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString())){
-
-               newPasswordTextField.editText?.error = "New Password is Required"
-               newPasswordTextField.editText?.requestFocus()
-
-           }  else if (TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-               confirmPasswordTextField.editText?.error = "New Password is Required"
-               confirmPasswordTextField.editText?.requestFocus()
-
-           }else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) != TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-               confirmPasswordTextField.editText?.error = "Password doesn't match"
-               confirmPasswordTextField.editText?.requestFocus()
-           }*/
-
-                if (isValidPassword(newPasswordTextField.editText?.text?.toString()) && newPasswordTextField.editText?.length()!! >= 6){
-
-                    println(isValidPassword(newPasswordTextField.editText?.text?.toString()))
-
-                    if (newPasswordTextField.editText!!.text?.toString() == confirmPasswordTextField.editText?.text.toString()){
-
-                        val resetPassword = ResetPasswordConfirm(password1 = newPasswordTextField?.editText?.text.toString(),
-                                password2 = confirmPasswordTextField?.editText?.text.toString(),
-                                email = email, token = token)
-                        //Log.d("token from listener",token +" "+ email +" "+ newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString())
-                        //println("token from listener" +" "+ token +" "+ email +" "+newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString() )
-
-                        accountRecoveryViewModel.resetPassword(resetPassword)
-
-                    } else {
-
-                        //confirmPasswordTextField.editText?.error = "New password and Confirm password doesn't match"
-                        confirmPasswordTextField.editText?.setError(getString(R.string.password_doesnt_match))
-                        confirmPasswordTextField.editText?.requestFocus()
-                    }
-
-                } else {
-
-                    newPasswordTextField.editText?.setError(getString(R.string.password_condition))
-                    newPasswordTextField.editText?.requestFocus()
-                }
-
-                /*if (!TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) && !TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())
-       && TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) == TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-       val resetPassword = ResetPasswordConfirm(password1 = newPasswordTextField?.editText?.text.toString(),
-               password2 = confirmPasswordTextField?.editText?.text.toString(),
-               email = email, token = token)
-       //Log.d("token from listener",token +" "+ email +" "+ newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString())
-       //println("token from listener" +" "+ token +" "+ email +" "+newPasswordTextField?.editText?.text.toString() +" "+ confirmPasswordTextField?.editText?.text.toString() )
-
-       accountRecoveryViewModel.resetPassword(resetPassword)
-
-   }
-   else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) && TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-       newPasswordTextField.editText?.error = "New Password is Required"
-       confirmPasswordTextField.editText?.error = "Confirm Password is Required"
-
-       newPasswordTextField.editText?.requestFocus()
-       confirmPasswordTextField.editText?.requestFocus()
-
-   }
-   else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString())){
-
-       newPasswordTextField.editText?.error = "New Password is Required"
-       newPasswordTextField.editText?.requestFocus()
-
-   }
-   else if (TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-       confirmPasswordTextField.editText?.error = "New Password is Required"
-       confirmPasswordTextField.editText?.requestFocus()
-
-   }
-   else if (TextUtils.isEmpty(newPasswordTextField?.editText?.text.toString()) != TextUtils.isEmpty(confirmPasswordTextField?.editText?.text.toString())){
-
-       confirmPasswordTextField.editText?.error = "Password doesn't match"
-       confirmPasswordTextField.editText?.requestFocus()
-   }*/
-            }
-        }
-
-    }
-
-    //private fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()
-
-    companion object {
-
-        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
-        val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#?!@$%^&()\\[\\\\\\]<>*~:_/|`-])(?=\\S+$)(?=.*\\d).+$")
-        //val textPattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!/*-_])(?=\\S+$)(?=.*\\d).+$")
-
-    }
-
-
-
-
 }

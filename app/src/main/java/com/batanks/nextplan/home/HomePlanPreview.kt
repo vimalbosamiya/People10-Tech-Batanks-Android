@@ -97,108 +97,6 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
 
         setTabsAdapter()
 
-       /* pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-
-                println("working")
-                recreate()
-                pullToRefresh.setRefreshing(false)
-            }
-        })*/
-
-
-
-
-        /*loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
-
-        recyclerView = findViewById(R.id.homeScreenRecyclerView)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(this)*/
-
-        //recyclerView?.adapter = HomePlanPreviewAdapter(listOf())
-        //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-        //initRecyclerViews()
-
-        ///showLoader()         //uncomment
-
-        /*profileViewModel.getUserProfile()
-
-        profileViewModel.responseLiveData.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-                Status.SUCCESS -> {
-                    hideLoader()
-                    user_obj = response.data as User
-
-                    val id: Int? = user_obj?.id
-                    val userName: String? = user_obj?.username
-                    val firstName: String? = user_obj?.first_name
-                    val lastName: String? = user_obj?.last_name
-                    val email: String? = user_obj?.email
-                    val phoneNumber: String? = user_obj?.phone_number
-
-                    ModelPreferencesManager.put(user_obj, "USER_DATA")
-
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putInt("ID", id!!).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("USERNAME", userName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("FIRSTNAME", firstName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("LASTNAME", lastName).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("EMAIL", email).apply()
-                    getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).edit().putString("PHONENUMBER", phoneNumber).apply()
-
-                }
-                Status.ERROR -> {
-                    hideLoader()
-                    Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })*/
-
-        ///homePlanPreviewViewModel.eventList()         //uncomment
-        //homePlanPreviewViewModel.eventList()
-
-       /* homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-                Status.SUCCESS -> {
-                    hideLoader()
-
-                    homePlanPreviewViewModel.response = response.data as InlineResponse2002
-
-                    eventList = homePlanPreviewViewModel.response!!.results
-
-                    recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
-
-                    //eventAdapter.notifyDataSetChanged()
-                    //var events_list = listOf(response.data as EventList)
-                    //var res : EventListResponse = response.data as EventListResponse
-                   // println(response.data )
-                    //println(eventList)
-
-                    //var events_list = res.results
-                    //eventList = res.results
-                    //if(events_list != null)
-                    //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-                    //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
-                    //println(events_list)
-
-                }
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error?.message.toString())
-                }
-            }
-        })*/            //uncomment
-
-        //initRecyclerViews()
-
         extFab.setOnClickListener(this)          //uncomment
         img_settings.setOnClickListener(this)
         search.setOnClickListener(this)
@@ -206,7 +104,7 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
 
         /*filterIcon.setOnClickListener {
 
-            intent = Intent(this, Plan_Sorting:: class.java)
+            intent = Intent(this, PlanSorting:: class.java)
             startActivity(intent)
             finish()
         }*/     //uncomment
@@ -287,27 +185,6 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
             false
         }
     }
-
-    /*private fun setUpData(){
-
-        eventAdapter = HomePlanPreviewAdapter(eventList)
-        recyclerView?.adapter = eventAdapter
-
-        println(eventList)
-
-    }
-
-    private fun initRecyclerViews() {
-
-        *//*eventRecyclerView = findViewById(R.id.homeScreenRecyclerView)
-        eventRecyclerView.layoutManager = LinearLayoutManager(this)*//*
-
-        recyclerView = findViewById(R.id.homeScreenRecyclerView)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(this)
-
-        setUpData()
-    }*/
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
@@ -418,15 +295,6 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         const val DELAY : Long = 1 * 1000 //times in milliseconds
     }
 
-    public fun refreshData(){
-
-        /*finish()
-       startActivity(getIntent())*/
-
-        println("working")
-        recreate()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -450,72 +318,4 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
         /*val allHomeFragment = AllHomeFragment()
         allHomeFragment.updateList(success)*/
     }
-
-    /*override fun openPlanFragment(getEventListHome: GetEventListHome) {
-
-        *//*supportFragmentManager.beginTransaction()
-                .add(R.id.frameLayout, CreatePlanFragment(),CreatePlanFragment.TAG)
-                .addToBackStack(CreatePlanFragment.TAG).commit()  //uncomment
-        appBarLayout.visibility = GONE
-        frameLayout.visibility = View.VISIBLE
-        extFab.visibility = View.GONE*//*
-
-        println("Open called ")
-    }*/
-
-
-
-    /*internal fun notifyDataSetChange(){
-   if(true){
-
-       return
-   }
-        //supportFragmentManager.beginTransaction().remove(CreatePlanFragment()).commit()
-
-         recyclerView = findViewById(R.id.homeScreenRecyclerView)
-         recyclerView?.setHasFixedSize(true)
-         recyclerView?.layoutManager = LinearLayoutManager(this)
-
-         homePlanPreviewViewModel.getHomePlanEvent()
-
-         homePlanPreviewViewModel.responseLiveData.observe(this, Observer { response ->
-
-             when (response.status) {
-                 Status.LOADING -> {
-                     //showLoader()
-                 }
-                 Status.SUCCESS -> {
-                     //hideLoader()
-
-                     homePlanPreviewViewModel.response = response.data as InlineResponse2002
-
-                     eventList = homePlanPreviewViewModel.response!!.results
-
-                     recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
-
-                     (recyclerView.adapter as HomePlanPreviewAdapter).notifyDataSetChanged()
-
-
-
-                     //eventAdapter.notifyDataSetChanged()
-                     //var events_list = listOf(response.data as EventList)
-                     //var res : EventListResponse = response.data as EventListResponse
-                     println(response.data )
-                     println(eventList)
-
-                     //var events_list = res.results
-                     //eventList = res.results
-                     //if(events_list != null)
-                     //recyclerView?.adapter = HomePlanPreviewAdapter(listOf<String>())
-                     //recyclerView?.adapter = HomePlanPreviewAdapter(events_list)
-                     //println(events_list)
-
-                 }
-                 Status.ERROR -> {
-                     //hideLoader()
-                     showMessage(response.error?.message.toString())
-                 }
-             }
-         })
-     }*/
 }

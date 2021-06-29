@@ -20,16 +20,15 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val context: Context, private val callBack: AddCommentsRecyclerViewCallBack,
                                 val userName : String?, private val eventDetailViewModel : EventDetailViewModel, private val eventId: Int): RecyclerView.Adapter<CommentsListAdapterAdmin.ViewHolder>()  {
 
-    private var id : Int = 0
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_comment_display, parent, false)
-
         return ViewHolder(view)
     }
 
@@ -37,16 +36,19 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        //val comment : String = commentsList[position].message
         val comment : Comment = commentsList[position]
 
-        id = comment.id
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val outFormat = SimpleDateFormat("EEE, MMM d yyyy")
-        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
         val createdDate = inputFormat.parse(comment.created)
-        //val formattedCreateDate = outFormat.format(createdDate)
+        inputFormat.setTimeZone(TimeZone.getDefault())
+
+        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm", Locale.ENGLISH)
+        outputFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+        outputFormat.setTimeZone(TimeZone.getDefault())
+
         val formattedCreateDate = outputFormat.format(createdDate)
 
         if (comment.author == userName){
@@ -58,41 +60,14 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
             holder.commentsSettings.visibility = View.GONE
         }
 
-
         holder.userName.text = comment.author
         holder.commentDateTime.text = formattedCreateDate
         holder.comment.text = comment.message
 
         holder.commentsSettings.setOnClickListener {
 
-            println(id)
-
-            showDialog(context, id, eventId, comment.message)
+            editCommentDialog(context, comment.id, eventId, comment.message)
         }
-
-        /*holder.closeButtonIcon.setOnClickListener {
-
-            commentsList.forEach{
-
-                it.visibility = false
-
-            }
-
-            commentsList.removeAt(position)
-            callBack.closeButtonAddCommentItemListener(position)
-        }
-
-        if (comment.visibility){
-
-            holder.closeButtonIcon.visibility = View.VISIBLE
-        }
-
-        else{
-
-            holder.closeButtonIcon.visibility = View.GONE
-
-        }*/
-
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -104,7 +79,7 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
         val commentsSettings : ImageView = itemView.commentsSettings
     }
 
-    private fun showDialog(context : Context, id : Int, eventId : Int, comment: String) {
+    private fun editCommentDialog(context : Context, id : Int, eventId : Int, comment: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -115,22 +90,18 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
 
         edit.setOnClickListener {
 
-            editCommentDialog(context,id,eventId,comment)
-
+            AddCommentDialog(context,id,eventId,comment)
             dialog.dismiss()
         }
         delete.setOnClickListener {
 
             eventDetailViewModel.deleteComment(eventId.toString(), id.toString())
-
             dialog.dismiss()
-
         }
         dialog.show()
-
     }
 
-    private fun editCommentDialog(context : Context, id : Int, eventId : Int, comment: String) {
+    private fun AddCommentDialog(context : Context, id : Int, eventId : Int, comment: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -166,5 +137,4 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
     interface AddCommentsRecyclerViewCallBack {
         fun closeButtonAddCommentItemListener(pos: Int)
     }
-
 }

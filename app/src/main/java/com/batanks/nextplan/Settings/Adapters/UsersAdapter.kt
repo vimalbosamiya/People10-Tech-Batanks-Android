@@ -27,8 +27,8 @@ import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.UserSearchResults
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 
-class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(),
-                                                                                                                                 Filterable {
+class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(), Filterable {
+
     private var searchedUsersList: ArrayList<ContactsList> = usersList
     private var context: Context? = null
     //var id : Int? = 0
@@ -59,6 +59,10 @@ class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val 
 
         holder.contactName.setOnClickListener {
 
+
+
+
+
             val intent = Intent(context, UsersInfo::class.java)
             intent.putExtra("ID",usersList.get(position).id)
             intent.putExtra("NAME",usersList.get(position).username)
@@ -67,6 +71,7 @@ class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val 
             intent.putExtra("EMAIL",usersList.get(position).email)
             intent.putExtra("PHNO",usersList.get(position).phone_number)
             intent.putExtra("PIC",usersList.get(position).picture)
+            intent.putExtra("CONTACT",false)
             intent.putExtra("CONTACT",false)
             context?.startActivity(intent)
             //(context as Activity).finish()
@@ -109,7 +114,6 @@ class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val 
         dialog.show()
     }
 
-
     override fun getFilter(): Filter {
         return object : Filter() {
             private val filterResults = FilterResults()
@@ -137,4 +141,6 @@ class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val 
             }
         }
     }
+
+
 }

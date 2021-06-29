@@ -18,6 +18,7 @@ import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.Guests
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fragment_search_public_event_issue.*
 
 class ParticipantsFragment (private val eventId : Int) : BaseFragment()  {
 
@@ -114,7 +115,7 @@ class ParticipantsFragment (private val eventId : Int) : BaseFragment()  {
         })
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+   /* override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
 
         if (view != null && isVisibleToUser) {
@@ -126,5 +127,36 @@ class ParticipantsFragment (private val eventId : Int) : BaseFragment()  {
         } else {
             isViewShown = false
         }
+    }*/
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+
+        /*if (view != null && isVisibleToUser) {
+
+            isViewShown = true
+
+            eventDetailViewModel.getEventData(eventId.toString())
+
+        } else {
+            isViewShown = false
+        }*/
+
+        if (isVisibleToUser && isResumed()){
+
+            onResume()
+
+        } else{
+
+            println("All Participants of the event")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!getUserVisibleHint()) { return }
+
+        eventDetailViewModel.getEventData(eventId.toString())
     }
 }

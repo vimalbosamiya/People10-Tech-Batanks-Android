@@ -32,7 +32,6 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
     lateinit var rv_settings_followups : RecyclerView
     lateinit var adapter : FollowupsAdapter_Settings
-    //var followUpList = ArrayList<String>()
     var followUpList : ArrayList<String> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         loadData()
 
         followup_extFab.setOnClickListener(View.OnClickListener {
-            showDialog()
+            createFollowUpDialog()
         })
 
         img_followups_close.setOnClickListener {
@@ -54,7 +53,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         rv_settings_followups.layoutManager = LinearLayoutManager(this)*/
     }
 
-    private fun showDialog() {
+    private fun createFollowUpDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -90,7 +89,6 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
                     } else {
 
                         //present = true
-
                         //Toast.makeText(this,getString(R.string.follow_up_exist),Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -128,7 +126,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         }
     }
 
-    private fun showEditDialog(position : Int) {
+    private fun editFollowUpDialog(position : Int) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -189,7 +187,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
     private fun saveData(){
 
         val sharedPreference =  getSharedPreferences("FOLLOW _UP_PREFERENCE",Context.MODE_PRIVATE)
-        var editor = sharedPreference.edit()
+        val editor = sharedPreference.edit()
         val gson = Gson()
 
         val json = gson.toJson(followUpList)
@@ -245,7 +243,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
     override fun editButtonFollowUpItemListener(pos: Int) {
 
-        showEditDialog(pos)
+        editFollowUpDialog(pos)
     }
 
     override fun closeButtonFollowUpItemListener(pos: Int) {

@@ -12,6 +12,7 @@ data class ContactsList(
                         val phone_number : String?,
                         val picture: String?,
                         var selection : Boolean = false){
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

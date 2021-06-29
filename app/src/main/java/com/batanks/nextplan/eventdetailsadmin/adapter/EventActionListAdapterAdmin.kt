@@ -25,11 +25,7 @@ import kotlinx.android.synthetic.main.layout_action_display_admin.view.*
 class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context: Context, private val callBack: AddActionRecyclerViewCallBack,
                                    private val eventDetailViewModel: EventDetailViewModel, private val eventId: Int) : RecyclerView.Adapter<EventActionListAdapterAdmin.ViewHolder>() {
 
-    private var dialogContext: Context? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        dialogContext = parent.context
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_action_display_admin, parent, false)
 
@@ -48,7 +44,6 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
         }
 
         return  ViewHolder(view)
-
     }
 
     override fun getItemCount() = actionList.size
@@ -60,8 +55,6 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
         holder.textViewEventName.text = action.name
         holder.textViewEventNameMulti.text = action.name
         holder.textViewEventDescription.text = action.description
-
-        /*holder.actionIdTextView.text = (position + 1).toString()*/
 
         if (action.assignee != null){
 
@@ -87,12 +80,12 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
 
         holder.contactSettings.setOnClickListener {
 
-            dialogContext?.let { it1 -> showDialog(it1, action.id.toString()) }
+            context?.let { it1 -> editProprietyDialog(it1, action.id.toString()) }
         }
 
         holder.contactSettingsFull.setOnClickListener {
 
-            dialogContext?.let { it1 -> showDialog(it1,action.id.toString()) }
+            context?.let { it1 -> editProprietyDialog(it1,action.id.toString()) }
         }
 
         if (action.per_person == true){
@@ -110,18 +103,6 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
         holder.textViewTotalAmountMulti.text = action.price.toString()
         holder.textViewCurrencySymbol.text = action.price_currency
         holder.textViewTotalAmountSymbol.text = action.price_currency
-
-        if (!action.assignee?.picture.isNullOrEmpty()){
-
-            Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
-            holder.contactBackground.visibility = View.VISIBLE
-        }
-
-        /*holder.actionSettingsIcon.setOnClickListener {
-
-            //actionDeleteDialog(position)
-            callBack.settingsButtonAddActionItemListener(position)
-        }*/
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -149,32 +130,9 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
         val userImage : ImageView = itemView.userImage
         val userImageFull : ImageView = itemView.userImage
         val contactStatusFull : ImageView = itemView.contactStatusFull
-
-
     }
 
-    private fun actionDeleteDialog(position: Int) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.layout_delete_popup)
-
-        val deletePopup = dialog.findViewById(R.id.deletePopup) as ConstraintLayout
-
-        deletePopup.setOnClickListener{
-
-            //Toast.makeText(context,"worked", Toast.LENGTH_SHORT).show()
-
-            actionList.removeAt(position)
-            callBack.closeButtonAddActionItemListener(position)
-
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun showDialog(context :Context, taskId : String) {
+    private fun editProprietyDialog(context :Context, taskId : String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -3656,7 +3656,7 @@ DRF Token.setApiKey("YOUR API KEY");
 
 ApiApi apiInstance = new ApiApi();
 String id = "id_example"; // String | 
-Notification data = new Notification(); // Notification | 
+Notification data = new Notification(); // NotificationUpdate | 
 try {
     Notification result = apiInstance.apiNotificationsPartialUpdate(id, data);
     System.out.println(result);
@@ -3713,7 +3713,7 @@ DRF Token.setApiKey("YOUR API KEY");
 
 ApiApi apiInstance = new ApiApi();
 String id = "id_example"; // String | 
-Notification data = new Notification(); // Notification | 
+Notification data = new Notification(); // NotificationUpdate | 
 try {
     Notification result = apiInstance.apiNotificationsUpdate(id, data);
     System.out.println(result);

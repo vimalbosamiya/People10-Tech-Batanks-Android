@@ -11,11 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
-import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.swagger.model.EventPlace
-import com.batanks.nextplan.swagger.model.VotePlace
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -33,8 +30,6 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_place_display, parent, false)
 
         view.seeOnMapLayout.setOnClickListener {
-
-            //Toast.makeText(context,"Constraint Layout Clicked",Toast.LENGTH_SHORT).show()
 
             view.seeOnMapLayout.visibility = View.GONE
 
@@ -61,24 +56,17 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         holder.placeDisplayTextCountTextView.text = place.string_value
         holder.placeTextView.text = place.place.name
 
-        val address = placesList[position].place?.address
-        val placeCity = placesList[position].place?.city
-        val placeCountry = placesList[position].place?.country
-        val placeZipcode = placesList[position].place?.zipcode
-
         val stringBuilder = StringBuilder()
-                .append(address)
+                .append(place.place?.address)
 
                 .append(" ")
-                .append(placeCity)
+                .append(place.place?.city)
 
                 .append(" ")
-                .append(placeCountry)
+                .append(place.place?.country)
 
                 .append(" ")
-                .append(placeZipcode)
-
-
+                .append(place.place?.zipcode)
 
         holder.address.text = stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
@@ -115,41 +103,15 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
             holder.mapViewHolder.visibility = GONE
         }
 
-       /* if (place.place.map == false){
-
-            holder.seeOnMapLayout.visibility = GONE
-        }*/
-
-        //val LATLNG = LatLng(place.place.latitude,place.place.longitude)
-        /*holder.placeMapView.apply {
-
-            onCreate(null)
-            getMapAsync{
-
-                with(it){
-
-                    onResume()
-                    //moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    //addMarker(MarkerOptions().position(LATLNG))
-                }
-            }
-        }*/
-
         holder.placeFavouriteIcon.setOnClickListener {
 
             voteList.add(place.id)
-
             eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
         }
 
         holder.placeCloseButton.setOnClickListener {
 
-            placesList.forEach{
-
-                it.visibility = false
-
-            }
-
+            placesList.forEach{ it.visibility = false }
             placesList.removeAt(position)
             callBack.closeButtonAddPlaceItemListener(position)
         }

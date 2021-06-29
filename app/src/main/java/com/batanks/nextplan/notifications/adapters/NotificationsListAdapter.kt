@@ -67,6 +67,7 @@ class NotificationsListAdapter (private val notificationsList : ArrayList<Notifi
 
                 val intent = Intent(context, EventDetailViewAdmin::class.java)
                 intent.putExtra("ID", notificationsList.get(position).event_id)
+                intent.putExtra("FROM_HOME", false)
                 ContextCompat.startActivity(context, intent, null)
                 //(context as HomePlanPreview).finish()
                 (context as Activity).finish()
@@ -75,6 +76,7 @@ class NotificationsListAdapter (private val notificationsList : ArrayList<Notifi
 
                 val intent = Intent(context, EventDetailView::class.java)
                 intent.putExtra("ID", notificationsList.get(position).event_id)
+                intent.putExtra("FROM_HOME", false)
                 ContextCompat.startActivity(context, intent, null)
                 //(context as HomePlanPreview).finish()
                 (context as Activity).finish()

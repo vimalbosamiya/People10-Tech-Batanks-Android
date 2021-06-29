@@ -12,12 +12,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.swagger.model.CategoryList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_plan_sorting_item.view.*
 
-class Plan_Sorting_Adapter (private val categoryList: List<CategoryList>) : RecyclerView.Adapter<Plan_Sorting_Adapter.MyViewHolder>() {
+class PlanSortingAdapter (private val categoryList: List<CategoryList>) : RecyclerView.Adapter<PlanSortingAdapter.MyViewHolder>() {
 
 //    private var context: Context? = null
     lateinit var context: Context

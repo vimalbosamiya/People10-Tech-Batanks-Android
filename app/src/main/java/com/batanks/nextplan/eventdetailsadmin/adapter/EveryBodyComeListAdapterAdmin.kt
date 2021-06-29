@@ -9,16 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
-import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
-import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.*
 import com.google.android.material.button.MaterialButton
@@ -29,14 +25,9 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
                                      private val eventDetailViewModel: EventDetailViewModel,
                                      private val callBack: AddPeopleRecyclerViewCallBack, private val eventId : Int): RecyclerView.Adapter<EveryBodyComeListAdapterAdmin.ViewHolder>() {
 
-    private var dialogContext: Context? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        dialogContext = parent.context
-
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_contact, parent, false)
-
         return ViewHolder(view)
     }
 
@@ -61,7 +52,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
             if(contact.status == "PD"){
 
-                dialogContext?.let { it1 -> showDialog(it1, contact.user_id!!, contact.invitation_id.toString()) }
+                context?.let { it1 -> showDialogPending(it1, contact.user_id!!, contact.invitation_id.toString()) }
 
             } else if (contact.status == "AC"){
 
@@ -69,7 +60,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
             } else if (contact.status == "DN") {
 
-                dialogContext?.let { it1 -> showDialogYes(it1, contact.user_id!!, contact.invitation_id.toString()) }
+                context?.let { it1 -> showDialogYes(it1, contact.user_id!!, contact.invitation_id.toString()) }
             }
         }
     }
@@ -79,34 +70,9 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         val contactStatus : ImageView = itemView.contactStatus
         val contactName: TextView = itemView.contactName
         val contactSettings: ImageView = itemView.contactSettings
-
     }
 
-    /*private fun showDialog(context: Context) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.edit_propriety)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val okButton = dialog.findViewById(R.id.okButton) as MaterialButton
-        val cancelButton = dialog.findViewById(R.id.cancelButton) as MaterialButton
-
-        okButton.setOnClickListener {
-
-            dialog.dismiss()
-        }
-
-        cancelButton.setOnClickListener {
-
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }*/
-
-    private fun showDialog(context :Context, guestId : Int, invitationId: String) {
+    private fun showDialogPending(context :Context, guestId : Int, invitationId: String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -225,22 +191,6 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             countTextview.text = count.toString()
         }
 
-      /*  yesCheckbox.setOnClickListener {
-
-            if (noCheckbox.isChecked == true){
-
-                noCheckbox.isChecked = false
-            }
-        }
-
-        noCheckbox.setOnClickListener {
-
-            if(yesCheckbox.isChecked == true){
-
-                yesCheckbox.isChecked = false
-            }
-        }*/
-
         okButton.setOnClickListener {
 
             if (noCheckbox.isChecked == true){
@@ -259,7 +209,6 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         addToGroupIcon.setOnClickListener {
 
             addToGroup(guestId)
-
             dialog.dismiss()
         }
 
@@ -303,22 +252,6 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             countTextview.text = count.toString()
         }
 
-       /* yesCheckbox.setOnClickListener {
-
-            if (noCheckbox.isChecked == true){
-
-                noCheckbox.isChecked = false
-            }
-        }
-
-        noCheckbox.setOnClickListener {
-
-            if(yesCheckbox.isChecked == true){
-
-                yesCheckbox.isChecked = false
-            }
-        }*/
-
         okButton.setOnClickListener {
 
             if (yesCheckbox.isChecked == true){
@@ -356,11 +289,6 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         }
     }
 
-   /* private fun decline(invitationId : String){
-
-        eventDetailViewModel.eventInvitationAccepted(eventId.toString(), EventAccept(DECLINE,0))
-    }*/
-
     private fun addToGroup(guestId : Int){
 
         val intent = Intent(context, AddToGroupActivity::class.java)
@@ -379,6 +307,4 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
     interface AddPeopleRecyclerViewCallBack {
         fun closeButtonAddPeriodItemListener(pos: Int)
     }
-
-
 }

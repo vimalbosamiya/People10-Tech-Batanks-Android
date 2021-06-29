@@ -93,14 +93,14 @@
 
     <!-- Create Group PopUp -->
 
-    <string name="create_group">Create Group</string>
+    <string name="create_group">New Group</string>
     <string name="group_name">Group name</string>
     <string name="group_created">Group Created Successfully</string>
     <string name="group_name_hint">Give a name to your group</string>
     <string name="group_name_error">Group name should contain atleast one character</string>
 
 
-    <!-- Notification Screen -->
+    <!-- NotificationUpdate Screen -->
 
     <string name="notification">Notifications</string>
 
@@ -142,6 +142,7 @@
 
     <string name="search_contact_helper">Enter the name you want to search</string>
     <string name="groups">Groups</string>
+    <string name="create_new_group">CREATE NEW GROUP</string>
     <string name="users">Users</string>
     <string name="contact_added">Contact has been added successfully</string>
     <string name="contact_deleted">Contact has been deleted successfully</string>
@@ -215,7 +216,8 @@
     <string name="add_another_place">Add another place</string>
     <string name="select_place">Atleast one place is required</string>
     <string name="start_date_required">Start date is mandatory</string>
-    <string name="cannot_add_multiple_dates">Cannot add multiple dates when you have more than one Activity</string>
+    <!--<string name="cannot_add_multiple_dates">Cannot add multiple dates when you have more than one Activity</string>-->
+    <string name="cannot_add_multiple_dates">Cannot add multiple dates when you have an Activity</string>
     <string name="start_date_error">end date should be greater than start date</string>
     <string name="public_start_date_error">You can add only one date for a Public Plan</string>
     <string name="public_place_error">You can add only one place for a Public Plan </string>
@@ -243,6 +245,7 @@
     <string name="action_description">" Description"</string>
     <string name="action_description_hint">Description</string>
     <string name="action_cost">Cost of the action</string>
+    <string name="null_if_no_cost">Null if no cost</string>
     <string name="action_cost_hint">Task Cost</string>
     <string name="nature_of_cost">The nature of the cost</string>
     <string name="how_much">How much ?</string>
@@ -288,6 +291,7 @@
     <string name="max_participants">Max Participants</string>
     <string name="number">Number</string>
     <string name="add_guest">Add guest</string>
+    <string name="add_friend">Add Friend</string>
     <string name="everybody_come">Guest list</string>
     <string name="create_plan">CREATE PLAN</string>
     <string name="update_plan">UPDATE PLAN</string>
@@ -298,7 +302,8 @@
     <string name="plan_updated">Plan Updated Successfully</string>
     <string name="cannot_add_task">You cannot add a Task for public event</string>
     <string name="cannot_add_activity">You cannot add an Activity for public event</string>
-    <string name="cannot_add_multiple_activities">Cannot add multiple activities when you have more than one Date</string>
+    <!--<string name="cannot_add_multiple_activities">Cannot add multiple activities when you have more than one Date</string>-->
+    <string name="cannot_add_activity_when_have_multiple_dates">Cannot add an activity when you have more than one Date</string>
     <string name="custom_frequency">Custom frequency</string>
     <string name="repeat">Repeat</string>
     <string name="how_many_times">How many times</string>
@@ -356,7 +361,7 @@
     <string name="guests">Guests</string>
     <string name="participants">Participants</string>
     <string name="declin">Declin</string>
-    <string name="declin_caps">DECLIN</string>
+    <string name="declin_caps">DECLINE</string>
 
 
     <!--<string name="add_contact">Add guest</string>-->
@@ -369,10 +374,13 @@
 
     <!-- User Detail View -->
 
-    <string name="vote_for_date">Vote for date</string>
-    <string name="vote_for_place">Vote for place</string>
+    <string name="vote_for_date">Date</string>
+    <string name="vote_for_place">Place</string>
     <string name="in_voting">In Voting...</string>
     <string name="comment_added">Comment Added Successfully</string>
+    <string name="comment_updated">Comment Updated Successfully</string>
+    <string name="comment_deleted">Comment Deleted Successfully</string>
+    <string name="assign_successful">Assigned Successfully</string>
     <string name="event_deleted">Event Deleted Successfully</string>
     <string name="guests_caps">GUESTS</string>
     <string name="participants_caps">PARTICIPANTS</string>

@@ -35,6 +35,17 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
     lateinit var context : Context
     private var userId : Int = 0
     private var userName : String? = null
+    private lateinit var mRecyclerView: RecyclerView
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        mRecyclerView = recyclerView
+    }
+
+    fun scrollToPosition(position: Int){
+        mRecyclerView.scrollToPosition(position)
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -61,8 +72,7 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
         var endDate : Date?
         var formattedEndDate : String? = null
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss") /*"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"*/
-        //val outputFormat = SimpleDateFormat("EEE, MMM d yyyy hh:mm a")
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
 
         if (event.date?.start != null){
@@ -254,6 +264,8 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
             holder.eventItemFull.visibility = VISIBLE
 
             holder.eventItemHolder.requestFocus()
+
+            scrollToPosition(position)
         }
 
        if(myList[position].isExpanded) {
@@ -277,6 +289,7 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
 
                 val intent = Intent(context, EventDetailViewAdmin::class.java)
                 intent.putExtra("ID", myList.get(position).pk)
+                intent.putExtra("FROM_HOME", true)
                 startActivity(context,intent,null)
                 (context as Activity).finish()
 
@@ -284,6 +297,7 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
 
                 val intent = Intent(context, EventDetailView::class.java)
                 intent.putExtra("ID", myList.get(position).pk)
+                intent.putExtra("FROM_HOME", true)
                 startActivity(context,intent,null)
                 (context as Activity).finish()
             }
@@ -352,9 +366,9 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
 
     }
 
-    /*interface HomePlanPreviewAdapterListener {
+    interface HomePlanPreviewAdapterListener {
 
-        fun openPlanFragment(getEventListHome : GetEventListHome)
-
-    }*/
+        //fun openPlanFragment(getEventListHome : GetEventListHome)
+        fun itemPosition (pos : Int)
+    }
 }

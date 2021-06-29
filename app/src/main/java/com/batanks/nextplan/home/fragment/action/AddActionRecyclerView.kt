@@ -61,7 +61,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
         } else { holder.txt_description.visibility = View.GONE }
 
-        if (modelList[position].price > 0){ holder.txt_add_action_cost_value.text = modelList[position].price.toString() }
+        if (modelList[position].price > 0){ holder.txt_add_action_cost_value.text = String.format("%,d",modelList[position].price) }
 
         val id: Int = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getInt("ID", 0)!!
         val currency : String? = context?.getSharedPreferences("SAVED_CURREN", AppCompatActivity.MODE_PRIVATE)?.getString("SAVED_CURRENCY","USD")

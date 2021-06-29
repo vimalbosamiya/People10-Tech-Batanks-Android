@@ -7,41 +7,27 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
-import com.batanks.nextplan.eventdetails.EventDetailView
-import com.batanks.nextplan.eventdetails.dataclass.MultipleDateDisplay
-import com.batanks.nextplan.eventdetails.dataclass.MultiplePlaceDisplay
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.swagger.model.EventPlace
-import com.batanks.nextplan.swagger.model.VotePlace
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.layout_date_display.view.*
-import kotlinx.android.synthetic.main.layout_date_display.view.noOfVotesTextview
 import kotlinx.android.synthetic.main.layout_place_display.view.*
 
 class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val context: Context,private val eventDetailViewModel: EventDetailViewModel, private val eventId : String)
-                                        : RecyclerView.Adapter<VoteForPlaceMultipleListAdapter.ViewHolder>(), EventDetailView.VotePlaceClickImplementation {
+                                        : RecyclerView.Adapter<VoteForPlaceMultipleListAdapter.ViewHolder>() {
 
-    private var voteList : ArrayList<Int> = arrayListOf()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_place_display, parent, false)
 
-       /* view.placeFavouriteIcon.setOnClickListener {
-
-            //eventDetailViewModel.placeVoteClicked()
-        }*/
-
         view.seeOnMapIcon.setOnClickListener {
-
-            //Toast.makeText(context,"Constraint Layout Clicked",Toast.LENGTH_SHORT).show()
 
             view.seeOnMapLayout.visibility = View.GONE
 
@@ -55,9 +41,7 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
             view.seeOnMapLayout.visibility = View.VISIBLE
         }
 
-
         return ViewHolder(view)
-
     }
 
     override fun getItemCount() = placesList.size
@@ -70,24 +54,19 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         holder.placeDisplayTextCountTextView.text = place.string_value
         holder.placeTextView.text = place.place.name
 
-        val address = placesList[position].place?.address
-        val placeCity = placesList[position].place?.city
-        val placeCountry = placesList[position].place?.country
-        val placeZipcode = placesList[position].place?.zipcode
-
         val stringBuilder = StringBuilder()
-                .append(address)
+                .append(place.place?.address)
 
                 .append(" ")
-                .append(placeCity)
+                .append(place.place?.city)
 
                 .append(" ")
-                .append(placeCountry)
+                .append(place.place?.country)
 
                 .append(" ")
-                .append(placeZipcode)
+                .append(place.place?.zipcode)
 
-        holder.address.text = /*place.place.address*/ stringBuilder.toString()
+        holder.address.text = stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
 
         if (placesList.size > 1){
@@ -139,8 +118,6 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
 
         holder.placeFavouriteIcon.setOnClickListener {
 
-            voteList.add(place.id)
-
             eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
         }
     }
@@ -161,10 +138,5 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         val placePersonIcon : ImageView = itemView.placePersonIcon
         val noOfVotesPlaceTextview : TextView = itemView.noOfVotesPlaceTextview
     }
-
-    override fun voteIconClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
 }

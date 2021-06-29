@@ -210,6 +210,21 @@
     <string name="add_assignee_toast">le plan doit d\'abord être créé</string>
     <string name="add_people_toast">le plan doit d\'abord être créé</string>
     <string name="enable_comments">Autoriser les commentaires</string>
+    <string name="exit_application">"Vous quittez l'application "</string>
+    <string name="contact_added_to_group">"Contacts ajoutés "</string>
+    <string name="contact_deleted">"Contact supprimés "</string>
+    <string name="delete_contact">Retirer des contacts</string>
+    <string name="add_to_contact">Ajouter un contact</string>
+    <string name="add_period_error">Date de début requise</string>
+    <string name="to">Jusqu\'au</string>
+    <string name="place_title">Lieu</string>
+    <string name="activity_cost_hint">Cout de la tâche</string>
+    <string name="custom">Personnaliser</string>
+    <string name="participate_to_activity">Participer à l\'activité</string>
+    <string name="unsubscribe_from_activity">" Se désinscrire"</string>
+    <string name="invitation_status">Status</string>
+    <string name="vote_for_place">Lieu</string>
+    <string name="event_deleted">Plan supprimé !</string>
 
 
 </resources>

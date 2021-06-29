@@ -11,10 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
-import com.batanks.nextplan.eventdetailsadmin.viewmodel.EventDetailViewModelAdmin
-import com.batanks.nextplan.home.fragment.period.AddPeriodRecyclerView
 import com.batanks.nextplan.swagger.model.EventDate
-import com.batanks.nextplan.swagger.model.VoteDate
 import kotlinx.android.synthetic.main.layout_date_display.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,7 +26,6 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_date_display, parent, false)
-
         return ViewHolder(view)
     }
 
@@ -42,7 +38,7 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         var endDate : Date?
         var formattedEndDate : String? = null
 
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss") /*"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"*/
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val outFormat = SimpleDateFormat("EEE, MMM d yyyy")
         val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
         val startDate = inputFormat.parse(date?.start)
@@ -64,12 +60,7 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
 
         holder.close.setOnClickListener {
 
-            datesList.forEach{
-
-                it.visibility = false
-
-            }
-            //holder.close.visibility = GONE
+            datesList.forEach{ it.visibility = false }
             datesList.removeAt(position)
             callBack.closeButtonAddPeriodItemListener(position)
         }
@@ -92,11 +83,9 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
             holder.dateFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite_border)
         }
 
-
         holder.dateFavouriteIcon.setOnClickListener {
 
             voteList.add(date.id)
-
             eventDetailViewModel.dateVoteClicked(eventId, date.id.toString())
         }
     }

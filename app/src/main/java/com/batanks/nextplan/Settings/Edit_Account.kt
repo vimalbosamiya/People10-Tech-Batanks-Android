@@ -6,24 +6,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
-import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.buildSpannedString
-import androidx.core.text.color
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
@@ -31,25 +24,22 @@ import com.batanks.nextplan.Settings.viewmodel.EditAccountViewModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.isEmailValid
 import com.batanks.nextplan.home.isValidPhoneNumber
 import com.batanks.nextplan.home.isValidUsername
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
-import com.batanks.nextplan.registration.Registration
 import com.batanks.nextplan.swagger.api.AuthenticationAPI
-import com.batanks.nextplan.swagger.model.EditUser
 import com.batanks.nextplan.swagger.model.UpdatedUser
 import com.bumptech.glide.Glide
-import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_edit_account.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.regex.Pattern
+
 
 class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
 
@@ -61,11 +51,7 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
         }).get(EditAccountViewModel::class.java)
     }
 
-    //var user_obj : User? = null
-
-   private var updated_user : UpdatedUser? = null
-
-    var filePart : MultipartBody.Part? = null
+    var picture : MultipartBody.Part? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,10 +79,7 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
         input_edit_account_pseudonym.setText(lName)
         input_edit_account_email.setText(e_mail)
         input_edit_account_phone_no.setText(phone_Number)
-
-        //getSharedPreferences("USER_DETAILS", MODE_PRIVATE).edit().clear().apply()
-
-        //loadingDialog = this.getLoadingDialog(0, R.string.updating_user_please_wait, theme = R.style.AlertDialogCustom)
+        Glide.with(this).load(profileImage).circleCrop().into(img_edit_account_icon)
 
         editAccountViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -113,8 +96,6 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
                     val updated_user = response.data as UpdatedUser
 
                     Toast.makeText(this,getString(R.string.account_updated),Toast.LENGTH_SHORT).show()
-
-                    //getSharedPreferences("USER_DETAILS", MODE_PRIVATE).edit().clear().apply()
 
                     val id: Int? = updated_user?.id
                     val userName: String? = updated_user?.username
@@ -143,11 +124,6 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
             }
         })
 
-       /* if (profileImage != null){
-
-            Glide.with(this).load(profileImage).circleCrop().into(img_edit_account_icon)
-        }*/
-
         edit_account_cancel.setOnClickListener {
 
            /* val intent = Intent(this, Account :: class.java)
@@ -171,13 +147,12 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
 
                                 showLoader()
 
-                                val user = EditUser(
-                                        email = tip_edit_account_email.editText?.text.toString(),
-                                        first_name = tip_edit_account_fname.editText?.text.toString(),
-                                        last_name = tip_edit_account_pseudonym.editText?.text.toString(),
-                                        phone_number = /*phoneCode*/"+91"+tip_edit_account_phone_no.editText?.text.toString())
+                                val email = RequestBody.create(MediaType.parse("multipart/form-data"), tip_edit_account_email.editText?.text.toString())
+                                val first_name = RequestBody.create(MediaType.parse("multipart/form-data"), tip_edit_account_fname.editText?.text.toString())
+                                val last_name = RequestBody.create(MediaType.parse("multipart/form-data"), tip_edit_account_pseudonym.editText?.text.toString())
+                                val phone_number = RequestBody.create(MediaType.parse("multipart/form-data"), phoneCode+tip_edit_account_phone_no.editText?.text.toString())
 
-                                editAccountViewModel.editUser(user/*,filePart!!*/)
+                                editAccountViewModel.editUser(/*user,filePart!!*/ email, first_name, last_name,phone_number, picture)
 
                             } else {
 
@@ -256,22 +231,7 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
         return super.dispatchTouchEvent(event)
     }
 
-    /*fun TextInputLayout.markRequiredInRed() {
-
-        hint = buildSpannedString {
-            append(hint)
-            color(Color.RED) { append(" *") }
-        }
-    }*/
-/*
-    private fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    private fun isValidUsername(textToCheck: String?) : Boolean = userNamePattern.matcher(textToCheck).matches()
-    private fun isValidPhoneNumber(textToCheck: String?) : Boolean = PhoneNumberPattern.matcher(textToCheck).matches()*/
-
     companion object {
-
-      /*  val userNamePattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")
-        val PhoneNumberPattern: Pattern = Pattern.compile("^(?=\\S+\$).+$")*/
 
         private val IMAGE_PICK_CODE = 1000
         private val PERMISSION_CODE = 1001
@@ -332,24 +292,18 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
             img_edit_account_icon.setImageURI(data?.data)
 
-            var file = File(data!!.data!!.path)
-            var requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
-            //var requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-            filePart = MultipartBody.Part.createFormData("upload_file", file.name, requestBody)
-
-            //println(data?.data)
-
             val uri = data!!.data
             val picturePath = getPath(applicationContext, uri) // Write this line under the uri.
-            //println(picturePath)
+
+            var file: File = File(picturePath)
+            var requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            picture = MultipartBody.Part.createFormData("picture", file.name, requestBody)
 
             val bm = BitmapFactory.decodeFile(picturePath)
             val baos = ByteArrayOutputStream()
             bm.compress(Bitmap.CompressFormat.JPEG, 100, baos) // bm is the bitmap object
             val byteArray: ByteArray = baos.toByteArray()
-
             val encodedImage: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
-
             println(encodedImage)
         }
     }
@@ -370,5 +324,4 @@ class Edit_Account : BaseAppCompatActivity(), View.OnClickListener {
         }
         return result
     }
-
 }

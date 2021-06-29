@@ -4,8 +4,11 @@ import com.batanks.nextplan.swagger.model.*
 import com.batanks.nextplan.swagger.model.mode.ResetPasswordConfirm
 import io.reactivex.Observable
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface AuthenticationAPI {
 
@@ -42,9 +45,12 @@ interface AuthenticationAPI {
     @GET("api/authentication/profile/")
     fun apiAuthenticationProfileReadObservable(): Observable<User>
 
-    /*@Multipart*/
+    @Multipart
     @PUT("api/authentication/profile/")
-    fun apiAuthenticationProfileUpdate(@Body user: EditUser/*, @Part filepart: MultipartBody.Part*/): Observable<UpdatedUser>
+    fun apiAuthenticationProfileUpdate(@Part ("email") email : RequestBody, @Part ("first_name") first_name : RequestBody,
+                                                               @Part ("last_name") last_name : RequestBody,
+                                                               @Part ("phone_number") phone_number : RequestBody,
+                                                               @Part  picture : MultipartBody.Part?): Observable<UpdatedUser>
 
     @POST("api/authentication/register/")
     fun apiAuthenticationRegisterCreate(@Body user: RegisterUser): Call<RegisterUser>

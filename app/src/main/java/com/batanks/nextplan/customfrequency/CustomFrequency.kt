@@ -21,84 +21,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CustomFrequency(/*var listener: CustomFrequencyListener? = null*/) : BaseAppCompatActivity(), View.OnClickListener {
+class CustomFrequency : BaseAppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_frequency)
 
-        closeButton.setOnClickListener {
-
-            finish()
-        }
-
-        cancel.setOnClickListener {
-
-            finish()
-        }
-
         ok.setOnClickListener(this)
-
-        repeatEditText.setOnClickListener {
-
-            howOftenDialog()
-        }
-
-        howManyTimesCheckBox.setOnClickListener {
-
-            if (howManyTimesCheckBox.isChecked){
-
-                howManyTimesTextField.visibility = VISIBLE
-
-                untilWhenTextField.visibility = GONE
-
-                UntilWhenCheckBox.isChecked = false
-
-            } else{
-
-                howManyTimesTextField.visibility = GONE
-            }
-        }
-
-        UntilWhenCheckBox.setOnClickListener {
-
-            if (UntilWhenCheckBox.isChecked){
-
-                howManyTimesCheckBox.isChecked = false
-                howManyTimesTextField.visibility = GONE
-
-                val mCal = Calendar.getInstance()
-                val mDay = mCal.get(Calendar.DAY_OF_MONTH)
-                val mMonth = mCal.get(Calendar.MONTH)
-                val mYear = mCal.get(Calendar.YEAR)
-                val mHour = mCal.get(Calendar.HOUR_OF_DAY)
-                val mMin = mCal.get(Calendar.MINUTE)
-
-                val fromDate = DatePickerDialog(this, R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener
-                { fromDatePicker, fromYear, fromMonth, fromDay ->
-                    val cal = Calendar.getInstance()
-                    cal.set(fromYear, fromMonth, fromDay)
-                    /*FromDate*/
-                    val dateFormatter = SimpleDateFormat("E, MMM dd yyyy")
-                    val startDate = dateFormatter.format(cal.time)
-                    println(startDate)
-                    untilWhenTextField.editText?.setText(startDate)
-
-                    /*publicPlanViewModel.activityDate.add(EventDate(id = publicPlanViewModel.activityDate.size, start = startDate,
-                                    end = "", votes = mutableListOf()))*/
-
-                }, mYear, mMonth, mDay)
-                fromDate.datePicker.minDate = System.currentTimeMillis()
-                fromDate.setCanceledOnTouchOutside(false)
-                fromDate.show()
-
-                untilWhenTextField.visibility = VISIBLE
-
-            } else {
-
-                untilWhenTextField.visibility = GONE
-            }
-        }
+        closeButton.setOnClickListener(this)
+        cancel.setOnClickListener(this)
+        repeatEditText.setOnClickListener(this)
+        howManyTimesCheckBox.setOnClickListener(this)
+        UntilWhenCheckBox.setOnClickListener(this)
+        untilWhenEditText.setOnClickListener(this)
     }
 
     private fun howOftenDialog() {
@@ -166,12 +101,15 @@ class CustomFrequency(/*var listener: CustomFrequencyListener? = null*/) : BaseA
                     unit = "y"
                 }
 
-                var occurence : Int? = null
+                var occurence : Int? = 0
 
                 if (howManyTimesCheckBox.isChecked && !TextUtils.isEmpty(howManyTimesEditText.text)){
 
                     occurence = howManyTimesEditText.text.toString().toInt()
 
+                } else {
+
+                    occurence = 0
                 }
 
                 var end_date : String? = null
@@ -179,33 +117,87 @@ class CustomFrequency(/*var listener: CustomFrequencyListener? = null*/) : BaseA
                 if (UntilWhenCheckBox.isChecked && !TextUtils.isEmpty(untilWhenEditText.text)){
 
                     end_date = untilWhenEditText.text.toString()
+
+                } else {
+
+                    end_date  = null
                 }
 
-                val periodicity = Periodicity(unit,occurence.toString(),end_date)
-
                 val intent = Intent()
-
                 intent.putExtra(PublicPlanFragment.UNIT,unit)
                 intent.putExtra(PublicPlanFragment.OCCURENCE,occurence.toString())
                 intent.putExtra(PublicPlanFragment.END_DATE, end_date)
                 setResult(PublicPlanFragment.RESULT_CODE,intent)
                 finish()
-
-                // listener?.customFrequencyHowOftenFetch(periodicity)
             }
 
-        }
+            R.id.closeButton -> { finish() }
+            R.id.cancel -> { finish() }
+            R.id.repeatEditText -> { howOftenDialog() }
 
+            R.id.howManyTimesCheckBox -> {
+
+                if (howManyTimesCheckBox.isChecked){
+
+                    howManyTimesTextField.visibility = VISIBLE
+
+                    untilWhenTextField.visibility = GONE
+
+                    UntilWhenCheckBox.isChecked = false
+
+                } else{
+
+                    howManyTimesTextField.visibility = GONE
+                }
+            }
+
+            R.id.UntilWhenCheckBox -> { untilWhen() }
+            //R.id.untilWhenEditText -> { untilWhen() }
+        }
+    }
+
+    private fun untilWhen(){
+
+        if (UntilWhenCheckBox.isChecked){
+
+            howManyTimesCheckBox.isChecked = false
+            howManyTimesTextField.visibility = GONE
+
+            val mCal = Calendar.getInstance()
+            val mDay = mCal.get(Calendar.DAY_OF_MONTH)
+            val mMonth = mCal.get(Calendar.MONTH)
+            val mYear = mCal.get(Calendar.YEAR)
+            val mHour = mCal.get(Calendar.HOUR_OF_DAY)
+            val mMin = mCal.get(Calendar.MINUTE)
+
+            val fromDate = DatePickerDialog(this, R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener
+            { fromDatePicker, fromYear, fromMonth, fromDay ->
+                val cal = Calendar.getInstance()
+                cal.set(fromYear, fromMonth, fromDay)
+                /*FromDate*/
+                val dateFormatter = SimpleDateFormat("E, MMM dd yyyy")
+                val startDate = dateFormatter.format(cal.time)
+                println(startDate)
+                untilWhenTextField.editText?.setText(startDate)
+
+                /*publicPlanViewModel.activityDate.add(EventDate(id = publicPlanViewModel.activityDate.size, start = startDate,
+                                end = "", votes = mutableListOf()))*/
+
+            }, mYear, mMonth, mDay)
+            fromDate.datePicker.minDate = System.currentTimeMillis()
+            fromDate.setCanceledOnTouchOutside(false)
+            fromDate.show()
+
+            untilWhenTextField.visibility = VISIBLE
+
+        } else {
+
+            untilWhenTextField.visibility = GONE
+        }
     }
 
     interface CustomFrequencyListener{
 
         fun customFrequencyHowOftenFetch(periodicity: Periodicity)
-
     }
-
-    /*fun setCustomFrequencyListener(listener: CustomFrequencyListener?){
-
-        this.listener = listener
-    }*/
 }

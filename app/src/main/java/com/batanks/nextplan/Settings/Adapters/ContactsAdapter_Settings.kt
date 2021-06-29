@@ -23,6 +23,7 @@ import com.batanks.nextplan.Settings.Contact
 import com.batanks.nextplan.Settings.UsersInfo
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
+import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.network.RetrofitClient
@@ -32,22 +33,10 @@ import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 import java.security.AccessController.getContext
 
-class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val contactsViewModel: ContactsViewModel) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
+class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val contactsViewModel: ContactsViewModel
+                                /*, private val listener : userInfoListener*/) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
 
     private var context: Context? = null
-    //var id : Int? = 0
-
-   /* private val contactsViewModel: ContactsViewModel by lazy {
-        ViewModelProvider(this, GenericViewModelFactory {
-            getContext()?.let {
-                context?.let { it1 ->
-                    RetrofitClient.getRetrofitInstance(it1)?.create(ContactsAPI::class.java)?.let {
-                        ContactsViewModel(it)
-                    }
-                }
-            }
-        }).get(ContactsViewModel::class.java)
-    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
@@ -71,6 +60,8 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
         })
 
         holder.contactName.setOnClickListener {
+
+            //listener.itemClicked(myList[position])
 
             val intent = Intent(context, UsersInfo::class.java)
             intent.putExtra("ID",myList.get(position).id)
@@ -98,41 +89,29 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.layout_edit_contacts)
 
-        //val edit = dialog.findViewById(R.id.rl_edit_contact_edit) as RelativeLayout
         val delete = dialog.findViewById(R.id.rl_edit_contact_delete) as RelativeLayout
-        //val addToGroup = dialog.findViewById(R.id.img_contact_add_to_group_right_icon) as ImageView
         val addToGroup = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout
-        //val add_to_contacts = dialog.findViewById(R.id.rl_edit_contact_add_to_groups) as RelativeLayout
-
-        /*edit.setOnClickListener {
-
-            dialog.dismiss()
-
-        }*/
 
         delete.setOnClickListener {
 
             contactsViewModel.deleteContact(id.toString())
-
-            //println("Id from delete Click : " +" " +Id)
-
             dialog.dismiss()
         }
-
-        //add_to_contacts.setOnClickListener { dialog.dismiss() }
 
         addToGroup.setOnClickListener {
 
             val intent : Intent = Intent(context, AddToGroupActivity:: class.java)
             intent.putExtra("Id", id)
             ContextCompat.startActivity(context, intent, null)
-
-            (context as Activity).finish()
-
             dialog.dismiss()
         }
 
         dialog.show()
 
+    }
+
+    interface userInfoListener{
+
+        fun itemClicked(friendInfo : ContactsList)
     }
 }

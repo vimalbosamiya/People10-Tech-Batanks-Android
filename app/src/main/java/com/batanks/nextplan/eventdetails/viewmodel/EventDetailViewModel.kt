@@ -23,6 +23,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
     val responseLiveDataActivityDelete: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataAccept: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataActivityAccept: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataAssignAction: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataActivityReject: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataGuest: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataVoteDate: MutableLiveData<ApiResponse> = MutableLiveData()
@@ -159,6 +160,23 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
     }
 
+    fun assignAction (id: String?, data: AsssignTask?){
+
+        disposables.add(eventApi.apiEventAssignCreate(id,data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                responseLiveDataAssignAction.setValue(ApiResponse.loading())
+            }
+            .doOnNext {
+                //println(it)
+            }.subscribe({ result ->
+                responseLiveDataAssignAction.setValue(ApiResponse.success(result))
+            }) { throwable ->
+                responseLiveDataAssignAction.setValue(ApiResponse.error(throwable))
+            })
+    }
+
     fun activityAccepted (activityPk: String?, eventPk: String?, data: Empty?){
 
         disposables.add(eventApi.apiEventActivitySubscribeCreate(activityPk,eventPk,data)
@@ -208,22 +226,6 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
     }
 
-    /*fun eventAccepted(id: String?, data: Event?){
-
-        disposables.add(eventApi.apiEventUpdate(id, data)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
-                }.doOnNext {}.subscribe({ result ->
-                    //RetrofitClient.cookieJar?.persist()
-                    responseLiveData.setValue(ApiResponse.success(result))
-                }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
-                })
-
-    }*/
-
     fun dateVoteClicked(eventPk: String?, datePk: String?){
 
         disposables.add(eventApi.apiEventVoteDateCreate(eventPk, datePk)
@@ -256,7 +258,6 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
 
     }
 
-
     fun apiEventDatePartialUpdate(datePk: String?, eventPk: String?, data: PostDates?){
 
         disposables.add(eventApi.apiEventDatePartialUpdate(datePk, eventPk, data)
@@ -272,8 +273,6 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
 
     }
-
-
 
     fun apiEventTaskPatch(eventPk: String?, taskPk: String?, data: TaskPatch?){
 

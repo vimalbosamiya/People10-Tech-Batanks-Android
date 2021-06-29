@@ -1,7 +1,6 @@
 package com.batanks.nextplan.home.fragment.tabfragment.publicplan
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
@@ -20,7 +19,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,10 +28,8 @@ import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.customfrequency.CustomFrequency
-import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
-import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
@@ -49,7 +45,6 @@ import com.batanks.nextplan.home.fragment.tabfragment.AddActivityRecyclerView
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.CategoryViewModel
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.PublicPlanViewModel
-import com.batanks.nextplan.home.home_tabs.AllHomeFragment
 import com.batanks.nextplan.home.markInRed
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.home.markRequiredRed
@@ -75,7 +70,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PublicPlanFragment (private var draft : Boolean,  private val eventId : Int?, private val listener: PublicPlanFragmentListener?, private val editButtonClicked : Boolean,
-                          private val deleteButtonClicked : Boolean, private val isPrivtaeEvent : Boolean): BaseFragment(), ButtonContract, View.OnClickListener,
+                          private val deleteButtonClicked : Boolean, private val isPrivateEvent : Boolean): BaseFragment(), ButtonContract, View.OnClickListener,
         AddPeriodRecyclerView.AddPeriodRecyclerViewCallBack,
         AddPlaceRecyclerView.AddPlaceRecyclerViewCallBack,
         AddActionFragment.AddActionFragmentListener,
@@ -326,7 +321,6 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     (listener as HomePlanPreview).refreshHomeFragmentData(true)
                     //(listener as AllHomeFragment).refreshHomeFragmentData(true)
                    // listener?.refreshHomeFragmentData(true)
-
                     //homePlanPreviewViewModel.eventList()
 
                 }
@@ -618,6 +612,24 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
             }
         })
 
+        addContactViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    Toast.makeText(context,getString(R.string.contact_added), Toast.LENGTH_SHORT).show()
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                }
+            }
+        })
+
         addPlaceButton.setOnClickListener(this)
         addActionButton.setOnClickListener(this)
         addActivityButton.setOnClickListener(this)
@@ -696,11 +708,11 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
                         if (event!!.comments_closed == true){
 
-                            checkbox.isChecked = true
+                            checkbox.isChecked = false
 
                         }else {
 
-                            checkbox.isChecked = false
+                            checkbox.isChecked = true
                         }
 
                         getDates = event!!.dates
@@ -874,7 +886,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                                 if (draft == true){
 
                     publicPlanViewModel.updateEvent(eventId.toString(), PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                            private = isPrivtaeEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
+                            private = isPrivateEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
                             creator = creator(), dates = publicPlanViewModel.eventDate, places = publicPlanViewModel.place, tasks = publicPlanViewModel.action,
                             activities = publicPlanViewModel.activity, guests = publicPlanViewModel.participants, comments = arrayListOf(),
                             vote_place_closed = false, vote_date_closed = false, comments_closed = commentsChecked))
@@ -882,7 +894,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                 } else {
 
                     publicPlanViewModel.createEvent(PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                            private = isPrivtaeEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
+                            private = isPrivateEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
                             creator = creator(), dates = publicPlanViewModel.eventDate, places = publicPlanViewModel.place, tasks = publicPlanViewModel.action,
                             activities = publicPlanViewModel.activity, guests = publicPlanViewModel.participants, comments = arrayListOf(),
                             vote_place_closed = false, vote_date_closed = false, comments_closed = commentsChecked))
@@ -940,7 +952,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                                 val comments : ArrayList<PostComments> = arrayListOf()*/
 
                                 publicPlanViewModel.updateEvent(eventId.toString(), PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                                        private = isPrivtaeEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
+                                        private = isPrivateEvent, category = catregoryId, max_guests = maxGuests(), draft = false, periodicity = /*period!!*/ periodicity,
                                         creator = creator(), dates = publicPlanViewModel.eventDate, places = publicPlanViewModel.place, tasks = publicPlanViewModel.action,
                                         activities = publicPlanViewModel.activity, guests = publicPlanViewModel.participants, comments = arrayListOf(),
                                         vote_place_closed = false, vote_date_closed = false, comments_closed = commentsChecked))
@@ -1003,7 +1015,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     if (draft == true){
 
                         publicPlanViewModel.apiEventPartialUpdate(eventId.toString(), PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                                private = isPrivtaeEvent, category = category, max_guests = maxGuests, draft = true, periodicity = /*period!!*/ periodicity,
+                                private = isPrivateEvent, category = category, max_guests = maxGuests, draft = true, periodicity = /*period!!*/ periodicity,
                                 creator = creator(), dates = publicPlanViewModel.eventDate, places = publicPlanViewModel.place, tasks = publicPlanViewModel.action,
                                 activities = publicPlanViewModel.activity, guests = publicPlanViewModel.participants, comments = arrayListOf(),
                                 vote_place_closed = false, vote_date_closed = false, comments_closed = commentsChecked))
@@ -1011,7 +1023,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                     } else {
 
                         publicPlanViewModel.createEvent(PostEvent(title = planNameTextField.editText?.text.toString(), detail = detailDescriptionTextField.editText?.text.toString(),
-                                private = isPrivtaeEvent, category = category, max_guests = maxGuests, draft = true, periodicity = /*period!!*/ periodicity,
+                                private = isPrivateEvent, category = category, max_guests = maxGuests, draft = true, periodicity = /*period!!*/ periodicity,
                                 creator = creator(), dates = publicPlanViewModel.eventDate, places = publicPlanViewModel.place, tasks = publicPlanViewModel.action,
                                 activities = publicPlanViewModel.activity, guests = publicPlanViewModel.participants, comments = arrayListOf(),
                                 vote_place_closed = false, vote_date_closed = false, comments_closed = commentsChecked))
@@ -1027,7 +1039,7 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
             R.id.howOftenEditText -> {
 
-                if (isPrivtaeEvent == true){
+                if (isPrivateEvent == true){
 
                     howOftenDialog(requireContext())
                 }
@@ -1076,17 +1088,17 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     override fun addPeriodClicked() {
 
-        /*if (publicPlanViewModel.eventDate.size> 0 && publicPlanViewModel.activity.size > 1){
+        if (publicPlanViewModel.eventDate.size> 0 && publicPlanViewModel.activity.size > 0){
 
             Toast.makeText(context,getString(R.string.cannot_add_multiple_dates),Toast.LENGTH_LONG).show()
 
         } else {
 
             context?.let { showDialog(it,position) }
-        }*/
+        }
 
         //addPeriodCheck(position)
-        context?.let { showDialog(it, position) }
+            //context?.let { showDialog(it, position) }
 
 
 
@@ -1196,14 +1208,14 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     override fun addActionClicked(taskPosition : Int, taskList : ArrayList<PostTasks>, editButtonClicked : Boolean) {
 
-        if (isPrivtaeEvent == true){
+        if (isPrivateEvent == true){
 
             requireActivity().supportFragmentManager
                     .beginTransaction()
                     .add(AddActionFragment(this,taskPosition, taskList, event, editButtonClicked), AddActionFragment::class.java.canonicalName)
                     .commitAllowingStateLoss()
 
-        } else if (isPrivtaeEvent == false){
+        } else if (isPrivateEvent == false){
 
             Toast.makeText(context,getString(R.string.cannot_add_task), Toast.LENGTH_SHORT).show()
         }
@@ -1211,11 +1223,11 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
 
     override fun addActivityClicked(activityPosition : Int, activityList : ArrayList<PostActivities>, editButtonClicked : Boolean) {
 
-        if (isPrivtaeEvent == true){
+        if (isPrivateEvent == true){
 
-           /* if (publicPlanViewModel.eventDate.size> 1 && publicPlanViewModel.activity.size > 0){
+            if (publicPlanViewModel.eventDate.size> 1 /*&& publicPlanViewModel.activity.size > 0*/){
 
-                Toast.makeText(context,getString(R.string.cannot_add_multiple_activities),Toast.LENGTH_LONG).show()
+                Toast.makeText(context,getString(R.string.cannot_add_activity_when_have_multiple_dates),Toast.LENGTH_LONG).show()
 
             } else {
 
@@ -1223,14 +1235,14 @@ class PublicPlanFragment (private var draft : Boolean,  private val eventId : In
                         .beginTransaction()
                         .add(AddActivityFragment(this, activityPosition, activityList, event, editButtonClicked), AddActivityFragment::class.java.canonicalName)
                         .commitAllowingStateLoss()
-            }*/
+            }
 
-            requireActivity().supportFragmentManager
+            /*requireActivity().supportFragmentManager
                     .beginTransaction()
                     .add(AddActivityFragment(this, activityPosition, activityList, event, editButtonClicked), AddActivityFragment::class.java.canonicalName)
-                    .commitAllowingStateLoss()
+                    .commitAllowingStateLoss()*/
 
-        }else if (isPrivtaeEvent == false){
+        }else if (isPrivateEvent == false){
 
             Toast.makeText(context,getString(R.string.cannot_add_activity), Toast.LENGTH_SHORT).show()
         }

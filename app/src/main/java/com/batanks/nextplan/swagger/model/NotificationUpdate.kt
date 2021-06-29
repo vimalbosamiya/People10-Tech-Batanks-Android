@@ -1,6 +1,6 @@
 package com.batanks.nextplan.swagger.model
 
-data class Notification(
+data class NotificationUpdate(
         val id: Int,
         val event: EventList,
         var read: Boolean,

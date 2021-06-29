@@ -35,9 +35,7 @@ class ActivityEverybodyComeListAdapter(val contactList: ArrayList<ActivityPartic
 
         val contactStatus : ImageView = itemView.contactStatus
         //val contactImage : ImageView = itemView.contactImage
-        //val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
         val contactSettings : ImageView = itemView.contactSettings
-
     }
 }

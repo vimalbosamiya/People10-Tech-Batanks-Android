@@ -1,6 +1,3 @@
 package com.batanks.nextplan.eventdetailsadmin
 
-interface AddCommentImplementation {
-
-    fun addCommentClicked()
-}
+interface AddCommentImplementation { fun addCommentClicked() }

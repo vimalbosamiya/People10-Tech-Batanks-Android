@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.batanks.nextplan.R
-import com.batanks.nextplan.Settings.Plan_Sorting
+import com.batanks.nextplan.Settings.PlanSorting
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.adapter.HomePlanPreviewAdapter
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.network.RetrofitClient
@@ -130,7 +129,7 @@ class PublicHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPrev
 
         filterIconAll.setOnClickListener {
 
-            val  intent = Intent(view.context, Plan_Sorting:: class.java)
+            val  intent = Intent(view.context, PlanSorting:: class.java)
 
             if (!filter.isNullOrEmpty()) {
 

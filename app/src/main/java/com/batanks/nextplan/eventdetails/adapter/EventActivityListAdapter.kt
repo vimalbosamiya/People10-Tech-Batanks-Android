@@ -1,18 +1,24 @@
 package com.batanks.nextplan.eventdetails.adapter
 
+import ActivitySubscribe
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.home.fragment.CreatePlanFragment
 import com.batanks.nextplan.swagger.model.Activity
 import com.batanks.nextplan.swagger.model.Empty
+import com.batanks.nextplan.swagger.model.Event
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
@@ -20,9 +26,13 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import kotlinx.android.synthetic.main.layout_activity_display.view.*
 import java.text.SimpleDateFormat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 
 class EventActivityListAdapter (val activityList : ArrayList<Activity>, val context: Context, private val eventDetailViewModel: EventDetailViewModel, private val eventId : String)
                                                  : RecyclerView.Adapter<EventActivityListAdapter.ViewHolder>() {
+
+    private var activityAcceptResponse : ActivitySubscribe? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -77,32 +87,25 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
     override fun getItemCount() = activityList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val activity : Activity = activityList[position]
-
         val userId : Int = context.getSharedPreferences("USER_DETAILS", AppCompatActivity.MODE_PRIVATE).getInt("ID",0)
-
-        println(userId)
 
         holder.textViewActivityName.text = activity.title
         holder.textViewEventNameOfPerPersonMulti.text = activity.title
         holder.locationName.text = activity.place.name
 
-        val address = activity.place.address
-        val placeCity = activity.place.city
-        val placeCountry = activity.place.country
-        val placeZipcode = activity.place.zipcode
-
         val stringBuilder = StringBuilder()
-                .append(address)
+                .append(activity.place.address)
 
                 .append(" ")
-                .append(placeCity)
+                .append(activity.place.city)
 
                 .append(" ")
-                .append(placeCountry)
+                .append(activity.place.country)
 
                 .append(" ")
-                .append(placeZipcode)
+                .append(activity.place.zipcode)
 
         holder.fullLocation.text = stringBuilder.toString()
 
@@ -135,7 +138,6 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         holder.textViewCostPerPersonSymbol.text = activity.price_currency
         holder.textViewCostPerPersonAmountSymbol.text = activity.price_currency
 
-
         holder.activityMapView.apply {
 
             onCreate(null)
@@ -152,12 +154,8 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
             }
         }
 
-        //holder.totalNoOfVotes.text = activity.max_participants.toString()
-        //holder.totalNoOfVotesHide.text = activity.max_participants.toString()
         holder.comingVotes.text = activity.participants.size.toString()
         holder.comingVotesHide.text = activity.participants.size.toString()
-
-        //if (activity.participants.contains())
 
         for (item in activity.participants){
 
@@ -165,7 +163,6 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
 
                 holder.unsubscribeFromActivityIcon.visibility = View.VISIBLE
                 holder.participateToActivityIcon.visibility = View.GONE
-
                 break
 
             } else {
@@ -181,6 +178,30 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         holder.participateToActivityIcon.setOnClickListener {
 
             eventDetailViewModel.activityAccepted(activity.id.toString(),eventId, Empty(""))
+
+            /*eventDetailViewModel.responseLiveDataActivityAccept.observe(this, Observer { response ->
+
+                when (response.status) {
+                    Status.LOADING -> {
+                        //showLoader()
+                    }
+
+                    Status.SUCCESS -> {
+
+                        //hideLoader()
+                        activityAcceptResponse = response.data as ActivitySubscribe
+                        holder.eventContactList.adapter = ActivityEverybodyComeListAdapter(
+                            activityAcceptResponse!!.participants,context)
+                        //eventDetailViewModel.getEventData(id.toString())
+                    }
+
+                    Status.ERROR -> {
+                        //hideLoader()
+                        //showMessage(response.error?.message.toString())
+                        println(response.error)
+                    }
+                }
+            })*/
         }
 
         holder.unsubscribeFromActivityIcon.setOnClickListener {
@@ -210,9 +231,9 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         val eventContactList : RecyclerView = itemView.eventContactList
         val comingVotes : TextView = itemView.comingVotes
         val comingVotesHide : TextView = itemView.comingVotesHide
-        //val totalNoOfVotesHide : TextView = itemView.totalNoOfVotesHide
-        //val totalNoOfVotes : TextView = itemView.totalNoOfVotes
         val participateToActivityIcon : ExtendedFloatingActionButton = itemView.participateToActivityIcon
         val unsubscribeFromActivityIcon : ExtendedFloatingActionButton = itemView.unsubscribeFromActivityIcon
+        //val totalNoOfVotesHide : TextView = itemView.totalNoOfVotesHide
+        //val totalNoOfVotes : TextView = itemView.totalNoOfVotes
     }
 }

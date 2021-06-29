@@ -11,11 +11,14 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.swagger.model.AsssignTask
 import com.batanks.nextplan.swagger.model.Task
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_action_display.view.*
 
-class EventActionListAdapter (val actionList : List<Task>, val context: Context): RecyclerView.Adapter<EventActionListAdapter.ViewHolder>() {
+class EventActionListAdapter (val actionList : List<Task>, val context: Context, private val eventDetailViewModel: EventDetailViewModel,
+                              private val eventId : Int) : RecyclerView.Adapter<EventActionListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -56,16 +59,15 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
 
             if (!action.assignee?.picture.isNullOrEmpty()){
 
-                Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
-                holder.contactImage.visibility = GONE
-                holder.userImage.visibility = GONE
+                //Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
+                //holder.contactImage.visibility = GONE
+                //holder.userImage.visibility = GONE
             }
 
         } else if (action.assignee == null){
 
             holder.contactBackground.visibility = View.GONE
             holder.assignMeButton.visibility = View.VISIBLE
-
         }
 
         if (action.per_person == true){
@@ -85,16 +87,10 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context)
         holder.textViewTotalAmountSymbol.text = action.price_currency
         holder.textViewEventDescription.text = action.description
 
-      /*  if (!action.assignee?.picture.isNullOrEmpty()){
+        holder.assignMeButton.setOnClickListener {
 
-            Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
-            holder.contactBackground.visibility = View.VISIBLE
-        }*/
-
-       /* if (action.assignee?.username != null){
-
-            holder.contactName.text = action.assignee.username
-        }*/
+            eventDetailViewModel.assignAction(eventId.toString(), AsssignTask(action.id))
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

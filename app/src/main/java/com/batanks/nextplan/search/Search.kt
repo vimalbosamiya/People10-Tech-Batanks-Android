@@ -18,11 +18,14 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.batanks.nextplan.R
+import com.batanks.nextplan.Settings.Followups
 import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.markRequiredInRed
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.searchToolBar
@@ -30,6 +33,9 @@ import kotlinx.android.synthetic.main.fragment_search.tabs
 import kotlinx.android.synthetic.main.fragment_search.view_pager
 
 class Search : BaseAppCompatActivity() {
+
+    var followUpList : ArrayList<String> = arrayListOf()
+    //val followups = Followups()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +59,9 @@ class Search : BaseAppCompatActivity() {
 
         floating_action_button.setOnClickListener {
 
-            showDialog(this)
+            //showDialog(this)
+            //followups.createFollowUpDialog()
+            //createFollowUpDialog()
         }
 
         val tabsPagerAdapter = SearchTabsAdapter(supportFragmentManager, filter)
@@ -82,6 +90,88 @@ class Search : BaseAppCompatActivity() {
         tabs.getTabAt(0)?.icon = getDrawable(R.drawable.ic_people_tablayout)
         tabs.getTabAt(1)?.icon = getDrawable(R.drawable.ic_public_plan_tablayout)
         tabs.getTabAt(2)?.icon = getDrawable(R.drawable.ic_private_plan_tablayout)
+    }
+
+    private fun createFollowUpDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.layout_create_followups)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
+        val btn_create_followups_cancel = dialog.findViewById(R.id.btn_create_followups_cancel) as Button
+        val btn_create_followups_ok = dialog.findViewById(R.id.btn_create_followups_ok) as Button
+        val tip_create_followups_name = dialog.findViewById(R.id.tip_create_followups_name) as TextInputLayout
+        val input_create_followups_name = dialog.findViewById(R.id.input_create_followups_name) as TextInputEditText
+
+        tip_create_followups_name.markRequiredInRed()
+
+        btn_create_followups_cancel.setOnClickListener { dialog.dismiss() }
+
+        btn_create_followups_ok.setOnClickListener {
+
+            if (tip_create_followups_name.editText?.length()!! >= 1){
+
+                val str: String = tip_create_followups_name.editText?.text.toString()
+
+                var present : Boolean = false
+
+                for (item in followUpList){
+
+                    if (!followUpList.contains(str)){
+
+                        present = false
+
+                    } else {
+
+                        //present = true
+                        //Toast.makeText(this,getString(R.string.follow_up_exist),Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                if (present == false){
+
+                    followUpList?.add(str)
+                    saveData()
+                    //loadData()
+
+                    dialog.dismiss()
+                    dismissKeyboard()
+                }
+
+            } else {
+
+                tip_create_followups_name.editText?.setError(getString(R.string.follow_up_name_empty))
+                input_create_followups_name.requestFocus()
+            }
+        }
+
+        dialog.show()
+
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                v.clearFocus()
+            }
+            false
+        }
+    }
+
+    private fun saveData(){
+
+        val sharedPreference =  getSharedPreferences("FOLLOW _UP_PREFERENCE",Context.MODE_PRIVATE)
+        val editor = sharedPreference.edit()
+        val gson = Gson()
+
+        val json = gson.toJson(followUpList)
+        editor.putString("follow up list", json)
+        editor.apply()
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

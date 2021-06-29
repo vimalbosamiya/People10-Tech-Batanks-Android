@@ -9,15 +9,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class EditAccountViewModel (private val authApi: AuthenticationAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
 
-    fun editUser(editUser: EditUser/*, filepart: MultipartBody.Part*/) {
+    fun editUser(email : RequestBody, first_name : RequestBody, last_name : RequestBody,
+                                                                     phone_nnumber : RequestBody, picture : MultipartBody.Part?) {
 
-        disposables.add(authApi.apiAuthenticationProfileUpdate(editUser/*, filepart*/)
+        disposables.add(authApi.apiAuthenticationProfileUpdate(email, first_name, last_name, phone_nnumber, picture)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {

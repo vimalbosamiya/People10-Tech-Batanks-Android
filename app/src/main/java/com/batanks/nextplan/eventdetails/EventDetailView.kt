@@ -6,20 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.Window
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,61 +22,35 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.eventdetails.adapter.*
-import com.batanks.nextplan.eventdetails.dataclass.MultipleDateDisplay
-import com.batanks.nextplan.eventdetails.dataclass.MultiplePlaceDisplay
-import com.batanks.nextplan.eventdetails.fragment.*
 import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.eventdetailsadmin.AddCommentImplementation
 import com.batanks.nextplan.eventdetailsadmin.AddCommentsFragment
 import com.batanks.nextplan.home.HomePlanPreview
-import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
 import com.batanks.nextplan.network.RetrofitClient
-import com.batanks.nextplan.swagger.api.AuthenticationAPI
+import com.batanks.nextplan.notifications.Notification
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.model.*
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view.*
 import kotlinx.android.synthetic.main.activity_event_detail_view.addGuestBackground
 import kotlinx.android.synthetic.main.comments_card.*
-import kotlinx.android.synthetic.main.edit_propriety.*
 import kotlinx.android.synthetic.main.everybody_come_card.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.add
 import kotlinx.android.synthetic.main.layout_add_guests.substract
-import kotlinx.android.synthetic.main.layout_add_guests.view.*
-import kotlinx.android.synthetic.main.layout_date_display.*
 import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
 import kotlinx.android.synthetic.main.vote_for_date_card.*
 import kotlinx.android.synthetic.main.vote_for_place_card.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import kotlin.collections.ArrayList
 
-class EventDetailView (/*val listener: VoteDateClickImplementation, val placelistener: VotePlaceClickImplementation*/) : BaseAppCompatActivity(), View.OnClickListener,
+class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         AddCommentImplementation, AddCommentsFragment.AddCommentsFragmentListener, CommentsListAdapter.AddCommentsRecyclerViewCallBack/*, OnClickFunImplementation*/ {
-
-/*    val createVoteForDateFragment = CreateVoteForDateFragment()
-    val createVoteForDateMultipleFragment = CreateVoteForDateMultipleFragment()
-    val createVoteForDateMultipleListFragment = CreateVoteForDateMultipleListFragment()
-    val createVoteForPlaceFragment = CreateVoteForPlaceFragment()
-    val createVoteForPlaceMultipleFragment = CreateVoteForPlaceMultipleFragment()
-    val createVoteForPlaceMultipleListFragment = CreateVoteForPlaceMultipleListFragment()
-    val createEventFullDescriptionFragment = CreateEventFullDescriptionFragment()
-
-    val fragmentManager = supportFragmentManager*/
 
     private val eventDetailViewModel: EventDetailViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -101,7 +69,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
     }
 
     var event_obj : Event? = null
-
     var creator : Creator? = null
     private var creatorId : Int = 0
     private var invitationId : String? = null
@@ -109,21 +76,18 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
     private var acceptResponse : Invitation? = null
     private var guestResponse : Invitation? = null
     private var activityAcceptResponse : ActivitySubscribe? = null
-
-    var getDates : ArrayList<EventDate>? = null
+    var getDates : ArrayList<EventDate>? = arrayListOf()
     var getPlaces : ArrayList<EventPlace> = arrayListOf()
     var getTasks : ArrayList<Task> = arrayListOf()
     var getActivities : ArrayList<Activity> = arrayListOf()
     var getGuests : ArrayList<Guests> = arrayListOf()
     var attendingGuests : ArrayList<Guests> = arrayListOf()
     var getComments : ArrayList<Comment> = arrayListOf()
-
     private var id : Int = 0
-
+    private var fromHome : Boolean = true
     private var userId : Int = 0
     private var userName : String? = null
     private var eventAccepted : Boolean = false
-
     lateinit var commentsList : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,7 +97,8 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
         commentsList = findViewById(R.id.commentsList)
         commentsList.layoutManager = LinearLayoutManager(this)
 
-         id  = intent.getIntExtra("ID",0)
+        id  = intent.getIntExtra("ID",0)
+        fromHome = intent.getBooleanExtra("FROM_HOME",true)
 
         userId = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).getInt("ID",0)
         userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME",null)
@@ -157,14 +122,12 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     eventDetailViewModel.response = response.data as Event
 
                     creator = event_obj!!.creator
-
                     creatorId = creator!!.id
                     organizer.text = creator!!.username
                     organizerInFull.text = creator!!.username
                     organizerFirstName.text = creator!!.first_name
                     organizerLastName.text = creator!!.last_name
                     organizerEmail.text = creator!!.email
-                    //val mobileNumber : String = "+"+creator!!.phone_number.toString()
                     organizerMobileNumber.text = creator!!.phone_number.toString()
 
                     val perPersonCost = (event_obj!!.price)!! /event_obj!!.guests.size
@@ -182,7 +145,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                         textViewAddContact.visibility = GONE
                         addContactIcon.visibility = GONE
                     }
-
 
                     eventName.text = event_obj!!.title
                     category.text = event_obj!!.category.name
@@ -242,10 +204,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     costPerPersonSymbol.text = event_obj!!.price_currency
                     eventDescription.text = event_obj!!.detail
 
-                    //if (event_obj!!.dates.size > 1){ inVotingDate.visibility = View.VISIBLE } else { inVotingDate.visibility = View.GONE }
-
-                    //if (event_obj!!.places.size > 1){ inVotingPlace.visibility = View.VISIBLE } else { inVotingPlace.visibility = View.GONE }
-
                     getDates = event_obj!!.dates
 
                     getDates?.let { dateInit(it) }
@@ -300,7 +258,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     textViewTotalCommentsMulti.text = event_obj!!.comments.size.toString()
 
                     //if (event_obj!!.vote_date_closed == true){ inVotingDate.visibility = GONE }else if (event_obj!!.vote_date_closed == false){ inVotingDate.visibility = VISIBLE }
-
                     //if (event_obj!!.vote_place_closed == true){ inVotingPlace.visibility = GONE }else if (event_obj!!.vote_place_closed == false){ inVotingPlace.visibility = VISIBLE }
                 }
 
@@ -436,8 +393,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
 
                     guestResponse = response.data as Invitation
-
-                   // noOfGuests.text = guestResponse!!.amount.toString()
                 }
 
                 Status.ERROR -> {
@@ -509,18 +464,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     Toast.makeText(this, getString(R.string.comment_added),Toast.LENGTH_SHORT).show()
 
                     eventDetailViewModel.getEventData(id.toString())
-
-                    /*val responseComment = response.data as Comment
-
-                    getComments.add(responseComment)
-
-                    commentsInit(getComments)
-
-                    textViewTotalComments.text = getComments.size.toString()
-
-                    textViewTotalCommentsMulti.text = getComments.size.toString()*/
-
-                    // listener.voteIconClicked()
                 }
 
                 Status.ERROR -> {
@@ -542,7 +485,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                 Status.SUCCESS -> {
 
                     hideLoader()
-
+                    Toast.makeText(this, getString(R.string.comment_updated), Toast.LENGTH_SHORT).show()
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -565,7 +508,30 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                 Status.SUCCESS -> {
 
                     hideLoader()
+                    Toast.makeText(this, getString(R.string.comment_deleted), Toast.LENGTH_SHORT).show()
+                    eventDetailViewModel.getEventData(id.toString())
+                }
 
+                Status.ERROR -> {
+                    hideLoader()
+
+                    showMessage(response.error?.message.toString())
+                    println(response.error)
+                }
+            }
+        })
+
+        eventDetailViewModel.responseLiveDataAssignAction.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+
+                    hideLoader()
+                    Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -598,7 +564,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                     hideLoader()
                     showMessage(response.error?.message.toString())
                     println(response.error)
-                    //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -634,10 +599,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
         tripCalenderBackground.setOnClickListener(this)
         takePartImage.setOnClickListener(this)
         backArrow.setOnClickListener(this)
-        addComment.setOnClickListener {
-
-            addCommentClicked()
-        }
+        addComment.setOnClickListener(this)
         textViewAddContact.setOnClickListener(this)
         declineInvitationTextView.setOnClickListener(this)
     }
@@ -670,7 +632,7 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
             recyclerView.setLayoutParams(params)
         }
 
-        val adapter = EventActionListAdapter(tasks,this)
+        val adapter = EventActionListAdapter(tasks,this,eventDetailViewModel, id)
         recyclerView.adapter = adapter
 
     }
@@ -705,9 +667,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
     }
 
     fun addGuestsDialogShow(){
-        /*val addGuestsView = LayoutInflater.from(this).inflate(R.layout.layout_add_guests,null)
-        val addGuestsBuilder = AlertDialog.Builder(this).setView(addGuestsView)
-        val addGuestsDialog = addGuestsBuilder.show()*/
 
         val addGuestsView = Dialog(this/*,android.R.style.Theme_Translucent_NoTitleBar*/)
         addGuestsView.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -859,9 +818,18 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
             R.id.backArrow -> {
 
-                intent = Intent(this, HomePlanPreview :: class.java)
-                startActivity(intent)
-                finish()
+                if (fromHome == true){
+
+                    intent = Intent(this, HomePlanPreview :: class.java)
+                    startActivity(intent)
+                    finish()
+
+                }else{
+
+                    intent = Intent(this, Notification :: class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
 
             R.id.textViewAddContact -> {
@@ -869,6 +837,12 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
                 addContactViewModel.addContact(AddContact(creatorId))
             }
 
+            R.id.addComment -> {
+
+                addCommentClicked()
+
+                //println("Add comment clicked working fine from user view")
+            }
         }
     }
 
@@ -926,17 +900,13 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
         if (getComments.size == 0){
 
             visible = false
-        }
 
-        else{
+        } else{
 
             //visible = getComments[0].visibility
         }
 
         eventDetailViewModel.postComment(id.toString(), comment)
-
-       // commentsList?.adapter?.notifyDataSetChanged()
-
     }
 
     override fun cancelCommentFragmentFetch() {
@@ -961,16 +931,6 @@ class EventDetailView (/*val listener: VoteDateClickImplementation, val placelis
 
         commentsList.adapter?.notifyDataSetChanged()
 
-    }
-
-    interface VoteDateClickImplementation {
-
-        fun voteIconClicked()
-    }
-
-    interface VotePlaceClickImplementation {
-
-        fun voteIconClicked()
     }
 }
 

@@ -3,7 +3,6 @@ package com.batanks.nextplan.Settings
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
@@ -13,16 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Adapters.Filter_Sorting_Adapter
-import com.batanks.nextplan.Settings.Adapters.Plan_Sorting_Adapter
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.home.HomePlanPreview
-import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.viewmodel.CategoryViewModel
 import com.batanks.nextplan.network.RetrofitClient
-import com.batanks.nextplan.search.adapters.CategoryAdapter
 import com.batanks.nextplan.swagger.api.CategoryAPI
 import com.batanks.nextplan.swagger.model.CategoryList
 import com.batanks.nextplan.swagger.model.Filter
@@ -33,7 +28,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_plan_sorting.*
 import java.lang.reflect.Type
 
-class Plan_Sorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sorting_Adapter.PlanFilterCallBack {
+class PlanSorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sorting_Adapter.PlanFilterCallBack {
 
     val filters : ArrayList<Filter> = arrayListOf()
     var selectedFilter : Filter? = null
@@ -116,7 +111,7 @@ class Plan_Sorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sorti
 
                     //println("Complete list is " + completeList)
 
-                    //rv_category?.adapter = Plan_Sorting_Adapter(categoryList)
+                    //rv_category?.adapter = PlanSortingAdapter(categoryList)
                     rv_category?.adapter = Filter_Sorting_Adapter(filters, this, sFilter, sFilterType)
 
                 }

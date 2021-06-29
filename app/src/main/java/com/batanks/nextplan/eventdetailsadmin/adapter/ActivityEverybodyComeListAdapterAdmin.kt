@@ -36,9 +36,9 @@ class ActivityEverybodyComeListAdapterAdmin (val contactList: ArrayList<Activity
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             val contactStatus : ImageView = itemView.contactStatus
-            //val contactImage : ImageView = itemView.contactImage
-            //val contactImage : ImageView = itemView.contactImage
             val contactName : TextView = itemView.contactName
             val contactSettings : ImageView = itemView.contactSettings
+            //val contactImage : ImageView = itemView.contactImage
+            //val contactImage : ImageView = itemView.contactImage
         }
 }

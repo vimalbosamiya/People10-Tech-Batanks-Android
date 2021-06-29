@@ -70,33 +70,33 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
-class Contact : BaseAppCompatActivity(), CoroutineScope {
+class Contact : BaseAppCompatActivity(), CoroutineScope{
 
     lateinit var rv_settings_contacts: RecyclerView
-    lateinit var contactList : ArrayList<ContactsList>
-    var contactListSearched : ArrayList<ContactsList> = arrayListOf()
-    lateinit var adapter : ContactsAdapter_Settings
+    lateinit var contactList: ArrayList<ContactsList>
+    var contactListSearched: ArrayList<ContactsList> = arrayListOf()
+    lateinit var adapter: ContactsAdapter_Settings
 
-    lateinit var rv_settings_groups : RecyclerView
-    var groupList : ArrayList<Group> = arrayListOf()
-    var groupListSearched : ArrayList<Group> = arrayListOf()
-    lateinit var groups_adapter : GroupsAdapter_Settings
+    lateinit var rv_settings_groups: RecyclerView
+    var groupList: ArrayList<Group> = arrayListOf()
+    var groupListSearched: ArrayList<Group> = arrayListOf()
+    lateinit var groups_adapter: GroupsAdapter_Settings
 
     lateinit var rv_users: RecyclerView
-    lateinit var usersList : ArrayList<ContactsList>
-    var usersSearchResponse : UserSearch? = null
-    var usersListSearched : ArrayList<ContactsList> = arrayListOf()
-    lateinit var users_adapter : UsersAdapter
+    lateinit var usersList: ArrayList<ContactsList>
+    var usersSearchResponse: UserSearch? = null
+    var usersListSearched: ArrayList<ContactsList> = arrayListOf()
+    lateinit var users_adapter: UsersAdapter
 
     //lateinit var rv_phone_contacts: RecyclerView
-    var phoneContactsList : ArrayList<PhoneContacts>?  = null
+    var phoneContactsList: ArrayList<PhoneContacts>? = null
 
     //var renamedGroup : Group? = null
 
-    lateinit var rl_settings_create_new_groups : RelativeLayout
+    lateinit var rl_settings_create_new_groups: RelativeLayout
 
-    private var sort : Int = 0
-    private var sortFilter : String? = null
+    private var sort: Int = 0
+    private var sortFilter: String? = null
 
     companion object {
         val PERMISSIONS_REQUEST_READ_CONTACTS = 100
@@ -193,19 +193,19 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                             sortFilter = searchText
 
-                            if (!searchText.isNullOrEmpty()){
+                            if (!searchText.isNullOrEmpty()) {
 
-                                for(item in contactList){
+                                for (item in contactList) {
 
-                                    if (item.username!!.contains(searchText, ignoreCase = true)){
+                                    if (item.username!!.contains(searchText, ignoreCase = true)) {
 
                                         contactListSearched.add(item)
                                     }
                                 }
 
-                                if (contactListSearched.size > 0){
+                                if (contactListSearched.size > 0) {
 
-                                    if (sort == 0){
+                                    if (sort == 0) {
 
                                         contactListSearched.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
@@ -213,16 +213,17 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                                     }
                                 }
 
-                                /* if(contactListSearched.size <=5) {
+                                if (contactListSearched.size <= 4) {
                                     val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
                                     params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                                     rv_settings_contacts.setLayoutParams(params)
-                                }*/
+                                }
 
-                                adapter = ContactsAdapter_Settings(contactListSearched,contactsViewModel)
+                                //contactsRecyclerViewResize()
+                                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel)
                                 rv_settings_contacts.adapter = adapter
 
-                                if(contactListSearched.size > 0){
+                                if (contactListSearched.size > 0) {
 
                                     showContactsRecyclerView()
 
@@ -231,36 +232,37 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                                     hideContactsRecyclerView()
                                 }
 
-                                for(item in groupList){
+                                for (item in groupList) {
 
-                                    if (item.name.contains(searchText, ignoreCase = true)){
+                                    if (item.name.contains(searchText, ignoreCase = true)) {
 
                                         groupListSearched.add(item)
                                     }
                                 }
 
-                               /* if(groupListSearched.size <=5) {
+                                if (groupListSearched.size <= 4) {
                                     val params = rv_settings_groups.getLayoutParams() as ConstraintLayout.LayoutParams
                                     params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                                     rv_settings_groups.setLayoutParams(params)
-                                }*/
+                                }
 
-                                groups_adapter = GroupsAdapter_Settings(groupListSearched,groupListViewModel)
+                                //groupsRecyclerViewResize()
+                                groups_adapter = GroupsAdapter_Settings(groupListSearched, groupListViewModel)
                                 rv_settings_groups.adapter = groups_adapter
 
-                                if (groupListSearched.size > 0){
+                                if (groupListSearched.size > 0) {
 
                                     showGroupsRecyclerView()
 
-                                }else {
+                                } else {
 
                                     hideGroupsRecyclerView()
                                 }
 
 
-                                for(item in usersList){
+                                for (item in usersList) {
 
-                                    if (item.username!!.contains(searchText, ignoreCase = true)){
+                                    if (item.username!!.contains(searchText, ignoreCase = true)) {
 
                                         usersListSearched.add(item)
 
@@ -270,42 +272,62 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                                     }
                                 }
 
-                             /*   if(usersListSearched.size <=5) {
-                                    val params = rv_settings_groups.getLayoutParams() as ConstraintLayout.LayoutParams
+                                if (usersListSearched.size <= 4) {
+                                    val params = rv_users.getLayoutParams() as ConstraintLayout.LayoutParams
                                     params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                                     rv_users.setLayoutParams(params)
-                                }*/
+                                }
 
-                                users_adapter = UsersAdapter(usersListSearched,addContactViewModel)
+                                //usersRecyclerViewResize()
+                                users_adapter = UsersAdapter(usersListSearched, addContactViewModel)
                                 rv_users.adapter = users_adapter
                                 //users_adapter.notifyDataSetChanged()
 
 
-                                if (usersListSearched.size > 0){
+                                if (usersListSearched.size > 0) {
 
                                     showUsersRecyclerView()
 
-                                }else {
+                                } else {
 
                                     hideUsersRecyclerView()
                                 }
 
-                            }else if(searchText.isNullOrEmpty()){
+                            } else if (searchText.isNullOrEmpty()) {
 
                                 contactListSearched.clear()
-                                adapter = ContactsAdapter_Settings(contactList,contactsViewModel)
+                                if (contactList.size <= 4) {
+                                    val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
+                                    params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                                    rv_settings_contacts.setLayoutParams(params)
+
+                                } else {
+                                    val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
+                                    params.height = 700
+                                    rv_settings_contacts.setLayoutParams(params)
+                                }
+                                adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
                                 rv_settings_contacts.adapter = adapter
-                                //hideContactsRecyclerView()
+                                hideContactsRecyclerView()
 
                                 groupListSearched.clear()
-                                groups_adapter = GroupsAdapter_Settings(groupList,groupListViewModel)
+                                if (groupList.size <= 4) {
+                                    val params = rv_settings_groups.getLayoutParams() as ConstraintLayout.LayoutParams
+                                    params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                                    rv_settings_groups.setLayoutParams(params)
+
+                                }else{
+                                    val params = rv_settings_groups.getLayoutParams() as ConstraintLayout.LayoutParams
+                                    params.height = 700
+                                    rv_settings_groups.setLayoutParams(params)
+                                }
+                                groups_adapter = GroupsAdapter_Settings(groupList, groupListViewModel)
                                 rv_settings_groups.adapter = groups_adapter
-                                //hideGroupsRecyclerView()
+                                hideGroupsRecyclerView()
 
                                 usersListSearched.clear()
                                 hideUsersRecyclerView()
                             }
-
                             //dismissKeyboard()
                         }
                     }
@@ -313,15 +335,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         }
 
-        //settings_contactSearchEditText.
-
         groupsViewModel.getGroupsList()
         contactsViewModel.getContactsList()
         searchViewModel.getSearchUsers(" ")
 
-        contactsViewModel.responseLiveData.observe(this, Observer{ response ->
+        contactsViewModel.responseLiveData.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
@@ -334,42 +354,25 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                     println(contactList)
 
-                    if(contactList.size <=5) {
+                    rv_settings_contacts = findViewById(R.id.rv_settings_contacts)
+                    rv_settings_contacts.layoutManager = LinearLayoutManager(this)
+
+                    if (contactList.size <= 4) {
                         val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
                         params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                         rv_settings_contacts.setLayoutParams(params)
                     }
 
-                    if (sort == 0){
-
-                        /*contactList.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.first_name }))
-
-                        for(item in contactList){
-
-                            println(item.first_name)
-                        }*/
+                    if (sort == 0) {
 
                         contactList.sortBy { it.username?.toLowerCase(Locale.ROOT) }
-
-                        /*for(item in contactList){
-
-                            println(item.first_name)
-                        }*/
 
                         sort = 1
                     }
 
-                    adapter = ContactsAdapter_Settings(contactList,contactsViewModel)
-
-                    /*if(contactList.size <=5) {
-                        val params = rv_settings_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
-                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-                        rv_settings_contacts.setLayoutParams(params)
-                    }*/
+                    adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
 
                     rv_settings_contacts.adapter = adapter
-
-                    //println(contactList)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -378,30 +381,29 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        contactsViewModel.responseLiveDataDel.observe(this, Observer{ response ->
+        contactsViewModel.responseLiveDataDel.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
                 Status.SUCCESS -> {
-                     hideLoader()
+                    hideLoader()
 
                     contactsViewModel.getContactsList()
                 }
                 Status.ERROR -> {
                     hideLoader()
 
-                    //contactsViewModel.getContactsList()
                     showMessage(response.error?.message.toString())
-                    //println("from contacts delete API Error")
+
                 }
             }
         })
 
-        groupsViewModel.responseLiveData.observe(this, Observer{ response ->
+        groupsViewModel.responseLiveData.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
@@ -412,9 +414,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                     groupList = response.data
 
-                    groups_adapter = GroupsAdapter_Settings(groupList,groupListViewModel)
+                    groups_adapter = GroupsAdapter_Settings(groupList, groupListViewModel)
 
-                    if(groupList.size <=5) {
+                    //groupsRecyclerViewResize()
+                    rv_settings_groups = findViewById(R.id.rv_settings_groups)
+                    rv_settings_groups.layoutManager = LinearLayoutManager(this)
+
+                    if (groupList.size <= 4) {
                         val params = rv_settings_groups.getLayoutParams() as ConstraintLayout.LayoutParams
                         params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                         rv_settings_groups.setLayoutParams(params)
@@ -431,16 +437,17 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        groupsViewModel.responseLiveDataCreateGroup.observe(this, Observer{ response ->
+        groupsViewModel.responseLiveDataCreateGroup.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
                 Status.SUCCESS -> {
                     hideLoader()
 
-                    Toast.makeText(this,getString(R.string.group_created),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.group_created), Toast.LENGTH_SHORT)
+                        .show()
 
                     groupsViewModel.getGroupsList()
                 }
@@ -451,29 +458,29 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        groupListViewModel.responseLiveData2.observe(this, Observer{ response ->
+        groupListViewModel.responseLiveData2.observe(this, Observer { response ->
 
-                    when(response.status){
+            when (response.status) {
 
-                        Status.LOADING -> {
-                            showLoader()
-                        }
+                Status.LOADING -> {
+                    showLoader()
+                }
 
-                        Status.SUCCESS -> {
-                            hideLoader()
+                Status.SUCCESS -> {
+                    hideLoader()
 
-                            groupsViewModel.getGroupsList()
-                        }
-                        Status.ERROR -> {
-                            hideLoader()
-                            showMessage(response.error?.message.toString())
-                        }
-                    }
-                })
+                    groupsViewModel.getGroupsList()
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
 
-        groupListViewModel.responseLiveData3.observe(this, Observer{ response ->
+        groupListViewModel.responseLiveData3.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
@@ -494,9 +501,9 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        searchViewModel.responseLiveDataUsers.observe(this, Observer{ response ->
+        searchViewModel.responseLiveDataUsers.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
@@ -508,7 +515,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                     usersSearchResponse = response.data as UserSearch
                     usersList = usersSearchResponse!!.results
 
-                   /* if (usersList.size > 0){
+                    /* if (usersList.size > 0){
 
                         showUsersRecyclerView()
 
@@ -520,7 +527,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                     users_adapter = UsersAdapter(usersList,addContactViewModel)
                     rv_users.adapter = users_adapter*/
 
-                   /* users_adapter = UsersAdapter(usersList)
+                    /* users_adapter = UsersAdapter(usersList)
                     rv_users.adapter = users_adapter*/
 
                     println("Initial User List without search is : " + usersList)
@@ -537,16 +544,16 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        addContactViewModel.responseLiveData.observe(this, Observer{ response ->
+        addContactViewModel.responseLiveData.observe(this, Observer { response ->
 
-            when(response.status){
+            when (response.status) {
                 Status.LOADING -> {
                     showLoader()
                 }
                 Status.SUCCESS -> {
                     hideLoader()
 
-                   /* if (sortFilter.isNullOrEmpty()){
+                    /* if (sortFilter.isNullOrEmpty()){
 
                         contactsViewModel.getContactsList()
                     }*/
@@ -555,9 +562,10 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
                     //settings_contactSearchEditText.addTextChangedListener(textListener)
 
-                   //contactsViewModel.getContactsList()
+                    //contactsViewModel.getContactsList()
 
-                    Toast.makeText(this,getString(R.string.contact_added),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.contact_added), Toast.LENGTH_SHORT)
+                        .show()
 
                 }
                 Status.ERROR -> {
@@ -567,75 +575,43 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             }
         })
 
-        /*settings_contactSearchTextField.editText?.doAfterTextChanged {
-
-            searchViewModel.getSearchUsers(settings_contactSearchTextField.editText!!.text.toString())
-
-            searchViewModel.responseLiveDataUsers.observe(this, Observer{ response ->
-
-                when(response.status){
-                    Status.LOADING -> {
-                        showLoader()
-                    }
-                    Status.SUCCESS -> {
-                        hideLoader()
-
-                        searchViewModel.usersSearchResponse = response.data as UserSearch
-
-                        usersList = searchViewModel.usersSearchResponse!!.results
-
-
-                    }
-                    Status.ERROR -> {
-                        hideLoader()
-                        showMessage(response.error?.message.toString())
-
-                        Toast.makeText(this, "Coming into error",Toast.LENGTH_LONG).show()
-
-                        println("Coming into error")
-                        println(response.error?.message.toString())
-                    }
-                }
-            })
-        }*/
-
         img_settings_contacts_contacts_filter.setOnClickListener {
 
-            if (sortFilter.isNullOrEmpty()){
+            if (sortFilter.isNullOrEmpty()) {
 
-                if (sort == 0){
+                if (sort == 0) {
 
                     contactList.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 1
 
-                }else if (sort == 1){
+                } else if (sort == 1) {
 
                     contactList.sortByDescending { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 0
                 }
 
-                adapter = ContactsAdapter_Settings(contactList,contactsViewModel)
+                adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
 
                 rv_settings_contacts.adapter = adapter
 
-            } else if (sortFilter != null && contactListSearched.size > 0){
+            } else if (sortFilter != null && contactListSearched.size > 0) {
 
-                if (sort == 0){
+                if (sort == 0) {
 
                     contactListSearched.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 1
 
-                }else if (sort == 1){
+                } else if (sort == 1) {
 
                     contactListSearched.sortByDescending { it.username?.toLowerCase(Locale.ROOT) }
 
                     sort = 0
                 }
 
-                adapter = ContactsAdapter_Settings(contactListSearched,contactsViewModel)
+                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel)
 
                 rv_settings_contacts.adapter = adapter
             }
@@ -643,7 +619,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
         img_settings_contacts_contacts_downarrow.setOnClickListener {
 
-            if(contactList.size > 0){
+            if (contactList.size > 0) {
 
                 showContactsRecyclerView()
 
@@ -658,32 +634,32 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
             hideContactsRecyclerView()
         }
 
-        img_settings_contacts_groups_downarrow.setOnClickListener{
+        img_settings_contacts_groups_downarrow.setOnClickListener {
 
-            if (groupList.size > 0){
+            if (groupList.size > 0) {
 
                 showGroupsRecyclerView()
 
-            }else {
+            } else {
 
                 hideGroupsRecyclerView()
             }
         }
 
-        img_settings_contacts_groups_uparrow.setOnClickListener{
+        img_settings_contacts_groups_uparrow.setOnClickListener {
 
             hideGroupsRecyclerView()
         }
 
         img_users_downarrow.setOnClickListener {
 
-            if (usersListSearched.size > 0){
+            if (usersListSearched.size > 0) {
 
-                if (usersListSearched.size > 0){
+                if (usersListSearched.size > 0) {
 
                     showUsersRecyclerView()
 
-                }else {
+                } else {
 
                     hideUsersRecyclerView()
                 }
@@ -697,57 +673,22 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
         rl_settings_contacts_news_bottom.setOnClickListener {
 
-            intent = Intent(this, HomePlanPreview :: class.java)
+            intent = Intent(this, HomePlanPreview::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.bottom_up, R.anim.nothing)
             finish()
         }
 
-      /*  img_phone_contacts_downarrow.setOnClickListener {
 
-            rv_phone_contacts.visibility = VISIBLE
-            img_phone_contacts_downarrow.visibility = GONE
-            img_phone_contacts_uparrow.visibility = VISIBLE
-            loadContacts()
-        }
-
-        img_phone_contacts_uparrow.setOnClickListener {
-
-            rv_phone_contacts.visibility = GONE
-            img_phone_contacts_downarrow.visibility = VISIBLE
-            img_phone_contacts_uparrow.visibility = GONE
-        }*/
-
-        /*  img_settings_contacts_contacts_downarrow.setOnClickListener(View.OnClickListener {
-            if(settings_contacts_list_section2.visibility == View.VISIBLE){
-                settings_contacts_list_section2.visibility = View.GONE
-            } else {
-                settings_contacts_list_section2.visibility = View.VISIBLE
-                rv_settings_groups.visibility = View.GONE
-                rl_settings_create_new_groups.visibility = View.GONE
-            }
-        })
-        img_settings_contacts_groups_downarrow.setOnClickListener(View.OnClickListener {
-            if(rv_settings_groups.visibility == View.VISIBLE){
-                rv_settings_groups.visibility = View.GONE
-                rl_settings_create_new_groups.visibility = View.GONE
-            } else {
-                rv_settings_groups.visibility = View.VISIBLE
-                rl_settings_create_new_groups.visibility = View.VISIBLE
-                settings_contacts_list_section2.visibility = View.GONE
-            }
-        })*/
 
         rl_settings_create_new_groups.setOnClickListener(View.OnClickListener {
-            showDialog()
+            createGroupDialog()
         })
 
         img_contacts_close.setOnClickListener {
 
             finish()
         }
-
-        //setUpDummyData()
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -758,7 +699,8 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     v.clearFocus()
-                    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val imm =
+                        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm?.hideSoftInputFromWindow(v.getWindowToken(), 0)
                 }
             }
@@ -766,15 +708,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
         return super.dispatchTouchEvent(event)
     }
 
-    /*fun TextInputLayout.markRequiredInRed() {
-
-        hint = buildSpannedString {
-            append(hint)
-            color(Color.RED) { append(" *") }
-        }
-    }*/
-
-    private fun showDialog() {
+    private fun createGroupDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -786,8 +720,10 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
         val btn_create_group_cancel = dialog.findViewById(R.id.btn_create_group_cancel) as Button
         val btn_create_group_ok = dialog.findViewById(R.id.btn_create_group_ok) as Button
-        val tip_create_group_gname = dialog.findViewById(R.id.tip_create_group_gname) as TextInputLayout
-        val input_create_group_gname = dialog.findViewById(R.id.input_create_group_gname) as TextInputEditText
+        val tip_create_group_gname =
+            dialog.findViewById(R.id.tip_create_group_gname) as TextInputLayout
+        val input_create_group_gname =
+            dialog.findViewById(R.id.input_create_group_gname) as TextInputEditText
 
         tip_create_group_gname.markRequiredInRed()
 
@@ -798,7 +734,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
         btn_create_group_ok.setOnClickListener {
 
-            if (tip_create_group_gname.editText?.length()!! >= 1){
+            if (tip_create_group_gname.editText?.length()!! >= 1) {
 
                 groupsViewModel.createGroupWithoutId(GroupWithoutId(tip_create_group_gname.editText?.text.toString()))
 
@@ -818,7 +754,8 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
             if (event?.action == MotionEvent.ACTION_DOWN) {
 
-                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm = v?.getContext()
+                    ?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
                 v.clearFocus()
             }
@@ -827,18 +764,17 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
     }
 
+    private fun showContactsRecyclerView() {
 
-    private fun showContactsRecyclerView(){
-
-            txt_settings_contacts_contacts_alphabetical.visibility = VISIBLE
-            img_settings_contacts_contacts_filter.visibility = VISIBLE
-            view_seperator_settings_contactlist.visibility = VISIBLE
-            rv_settings_contacts.visibility = VISIBLE
-            img_settings_contacts_contacts_downarrow.visibility = GONE
-            img_settings_contacts_contacts_uparrow.visibility = VISIBLE
+        txt_settings_contacts_contacts_alphabetical.visibility = VISIBLE
+        img_settings_contacts_contacts_filter.visibility = VISIBLE
+        view_seperator_settings_contactlist.visibility = VISIBLE
+        rv_settings_contacts.visibility = VISIBLE
+        img_settings_contacts_contacts_downarrow.visibility = GONE
+        img_settings_contacts_contacts_uparrow.visibility = VISIBLE
     }
 
-    private fun hideContactsRecyclerView(){
+    private fun hideContactsRecyclerView() {
 
         //settings_contacts_list_section2.visibility = GONE
         txt_settings_contacts_contacts_alphabetical.visibility = GONE
@@ -849,7 +785,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
         img_settings_contacts_contacts_uparrow.visibility = GONE
     }
 
-    private fun showGroupsRecyclerView(){
+    private fun showGroupsRecyclerView() {
 
         rv_settings_groups.visibility = VISIBLE
         rl_settings_create_new_groups.visibility = VISIBLE
@@ -857,7 +793,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
         img_settings_contacts_groups_uparrow.visibility = VISIBLE
     }
 
-    private fun hideGroupsRecyclerView(){
+    private fun hideGroupsRecyclerView() {
 
         rv_settings_groups.visibility = GONE
         rl_settings_create_new_groups.visibility = GONE
@@ -865,14 +801,14 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
         img_settings_contacts_groups_uparrow.visibility = GONE
     }
 
-    private fun showUsersRecyclerView(){
+    private fun showUsersRecyclerView() {
 
         rv_users.visibility = VISIBLE
         img_users_downarrow.visibility = GONE
         img_users_uparrow.visibility = VISIBLE
     }
 
-    private fun hideUsersRecyclerView(){
+    private fun hideUsersRecyclerView() {
 
         rv_users.visibility = GONE
         img_users_downarrow.visibility = VISIBLE
@@ -896,188 +832,8 @@ class Contact : BaseAppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-
-/*    private fun loadContacts() {
-
-        var builder = StringBuilder()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            Manifest.permission.READ_CONTACTS)
-                } != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS),
-                    PERMISSIONS_REQUEST_READ_CONTACTS)
-            //callback onRequestPermissionsResult
-        } else {
-
-            phoneContactsList = getContacts()
-
-            if(phoneContactsList!!.size <=5) {
-                val params = rv_phone_contacts.getLayoutParams() as ConstraintLayout.LayoutParams
-                params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-                rv_phone_contacts.setLayoutParams(params)
-            }
-
-            rv_phone_contacts.adapter = ContactsAdapter(phoneContactsList!!)
-
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                loadContacts()
-
-                // println(phContactsList)
-
-            } else {
-                //toast("Permission must be granted in order to display contacts information")
-                Toast.makeText(this,"Permission must be granted in order to display contacts information", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    private fun getContacts(): ArrayList<PhoneContacts>{
-
-        var phcontacts : ArrayList<PhoneContacts>? = arrayListOf()
-
-        val resolver: ContentResolver? = this?.contentResolver
-
-        val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null)
-
-        if (cursor != null) {
-
-            if (cursor.count > 0) {
-
-                while (cursor.moveToNext()) {
-
-                    val id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
-
-                    val cursorPhone = this?.contentResolver?.query(
-                            ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
-                            ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-                            arrayOf(id), null)
-
-                    if (cursorPhone != null) {
-
-                        if (cursor.count > 0) {
-
-                            while (cursorPhone.moveToNext()){
-
-                                val name = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-
-                                val email = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
-
-                                if (email.isNullOrEmpty() == false){
-
-                                    phcontacts?.add(PhoneContacts(name,email))
-
-                                    println(name)
-                                    println(email)
-
-                                }
-                            }
-                        } else  {
-
-                            println("No contacts")
-
-                            Toast.makeText(this,"No contacts available with email",Toast.LENGTH_LONG).show()
-                        }
-                    }
-
-                    if (cursorPhone != null) {
-                        cursorPhone.close()
-                    }
-
-                }
-            }
-        }
-
-        if (cursor != null) {
-            cursor.close()
-        }
-
-        return phcontacts!!
-
-        *//*val resolver: ContentResolver? = this?.contentResolver
-        val cursor = resolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null,
-                null)
-
-        if (cursor != null) {
-
-            if (cursor.count > 0) {
-
-                while (cursor.moveToNext()) {
-
-                    val id = cursor?.getColumnIndex(ContactsContract.Contacts._ID)?.let { cursor.getString(it)}
-
-                    val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-
-                    val phoneNumber = (cursor.getString(
-                            cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))).toLong()
-
-
-
-                    while (cursor1?.moveToNext()!!){
-
-                        val  username = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-
-                        val useremail = cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-
-                        println(username)
-                        println(useremail)
-
-                    }
-
-
-
-                    if (phoneNumber > 0) {
-                        val cursorPhone = this?.contentResolver?.query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null)
-
-                        if (cursorPhone != null) {
-                            if(cursorPhone.count > 0) {
-                                while (cursorPhone.moveToNext()) {
-                                    val phoneNumValue = cursorPhone.getString(
-                                            cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-                                    *//**//*builder.append("Contact: ").append(name).append(", Phone Number: ").append(
-                                            phoneNumValue).append("\n\n")*//**//*
-
-                                    //var contactList : ContactsList = ContactsList(name,"",0,"",false)
-
-                                    phcontacts?.add(PhoneContacts()
-
-                                    //println(phcontacts)
-
-                                    //phcontacts?.add(contactList)
-
-                                }
-                            }
-                        }
-                        if (cursorPhone != null) {
-                            cursorPhone.close()
-                        }
-                    }
-                }
-            } else {
-                //toast("No contacts available!")
-
-                Toast.makeText(this,"No contacts available", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        if (cursor != null) {
-            cursor.close()
-        }*//*
-
-
-    }*/
-
-
 }
+
+
+
+

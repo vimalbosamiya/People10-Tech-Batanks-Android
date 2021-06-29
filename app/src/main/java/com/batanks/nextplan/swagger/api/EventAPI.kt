@@ -11,8 +11,6 @@ interface EventAPI {
     @GET("api/event/accepted/")
     fun apiEventAcceptedList(@Query("limit") limit: Int?, @Query("offset") offset: Int?): Call<InlineResponse2002>
 
-
-
     @DELETE("api/event/{event_pk}/activity/{activity_pk}/")
     fun apiEventActivityDelete(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?): Observable<String>
 
@@ -35,7 +33,7 @@ interface EventAPI {
     fun apiEventAnswerUpdate(@Path("id") id: String?, @Body data: EventAccept?): Observable<Invitation>
 
     @POST("api/event/{id}/assign/")
-    fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AsssignTask?): Call<AsssignTask>
+    fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AsssignTask?): Observable<AsssignTask>
 
     @POST("api/event/")
     fun apiEventCreate(@Body data: PostEvent?): Observable<GetEventListHome>
@@ -85,8 +83,6 @@ interface EventAPI {
 
     @PATCH("api/event/{event_pk}/task/{task_pk}/")
     fun apiEventTaskPatchWithoutAssignee(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: TaskPostWithoutAssignee?): Observable<Task>
-
-
 
     @DELETE("api/event/{id}/")
     fun apiEventDelete(@Path("id") id: String?): Observable<String>
@@ -175,7 +171,7 @@ interface EventAPI {
     fun editComment(@Path("id") id: String?, @Path("comment_id") commentId: String?, @Body data: PostComments?): Observable<Comment>
 
     @DELETE("api/event/{id}/comments/{comment_id}/")
-    fun deleteComment(@Path("id") id: String?, @Path("comment_id") commentId: String?): Observable<Void>
+    fun deleteComment(@Path("id") id: String?, @Path("comment_id") commentId: String?): Observable<String>
 
     @PUT("event/{id}/")
     fun eventUpdate(@Path("id") id: String?, @Body data: Event?): Call<Event>
