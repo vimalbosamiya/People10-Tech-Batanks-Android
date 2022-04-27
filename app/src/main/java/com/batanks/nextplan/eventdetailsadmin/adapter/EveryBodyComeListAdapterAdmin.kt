@@ -37,7 +37,9 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         val contact: Guests = contactsList[position]
 
-        holder.contactName.text = contact.name
+        holder.contactName.text = contact.user.username
+
+        holder.close.setImageResource(R.drawable.ic_event_details_settings)
 
         if (contact.status == "AC"){
 
@@ -48,19 +50,20 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             holder.contactStatus.setImageResource(R.drawable.ic_user_declined)
         }
 
-        holder.contactSettings.setOnClickListener {
+        holder.close.setOnClickListener {
 
             if(contact.status == "PD"){
 
-                context?.let { it1 -> showDialogPending(it1, contact.user_id!!, contact.invitation_id.toString()) }
+                context.let { it1 -> showDialogPending(it1, contact.user.id, contact.invitation_id.toString()) }
 
             } else if (contact.status == "AC"){
 
-                context?.let { it1 -> showDialogNo(it1, contact.user_id!!, contact.invitation_id.toString()) }
+                context.let { it1 -> showDialogNo(it1,
+                    contact.user.id, contact.invitation_id.toString(), contact.people_coming!!) }
 
             } else if (contact.status == "DN") {
 
-                context?.let { it1 -> showDialogYes(it1, contact.user_id!!, contact.invitation_id.toString()) }
+                context.let { it1 -> showDialogYes(it1, contact.user.id, contact.invitation_id.toString()) }
             }
         }
     }
@@ -69,7 +72,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         val contactStatus : ImageView = itemView.contactStatus
         val contactName: TextView = itemView.contactName
-        val contactSettings: ImageView = itemView.contactSettings
+        val close: ImageView = itemView.close
     }
 
     private fun showDialogPending(context :Context, guestId : Int, invitationId: String) {
@@ -154,7 +157,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         dialog.show()
     }
 
-    private fun showDialogNo(context :Context, guestId : Int, invitationId: String) {
+    private fun showDialogNo(context :Context, guestId : Int, invitationId: String, peopleComing : Int) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -169,6 +172,9 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
         val noCheckbox = dialog.findViewById(R.id.noCheckbox) as MaterialCheckBox
         val okButton = dialog.findViewById(R.id.okButton) as MaterialButton
         val cancelButton = dialog.findViewById(R.id.cancelButton) as MaterialButton
+
+        if (peopleComing == 0 ){ countTextview.text = "1"
+        } else { countTextview.text = peopleComing.toString()}
 
         substract.setOnClickListener {
 
@@ -196,8 +202,11 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             if (noCheckbox.isChecked == true){
 
                 accept(countTextview.text.toString().toInt(), invitationId, false)
-            }
 
+            } else if (noCheckbox.isChecked == false){
+
+                accept(countTextview.text.toString().toInt(), invitationId, true)
+            }
             dialog.dismiss()
         }
 
@@ -257,6 +266,7 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
             if (yesCheckbox.isChecked == true){
 
                 accept(countTextview.text.toString().toInt(), invitationId, true)
+
             }
 
             dialog.dismiss()

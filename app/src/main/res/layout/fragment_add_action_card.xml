@@ -188,7 +188,7 @@
                 android:id="@+id/contactName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gul Mohammad Shaik"
+                android:text=""
                 android:textSize="16sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="12dp"
@@ -203,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/ic_event_details_settings"
+                android:background="@drawable/ic_close_button"
                 app:layout_constraintStart_toEndOf="@+id/contactName"
                 app:layout_constraintEnd_toEndOf="@+id/contactBackground"
                 app:layout_constraintTop_toTopOf="@+id/contactBackground"/>

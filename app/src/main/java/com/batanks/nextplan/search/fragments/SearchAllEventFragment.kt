@@ -12,6 +12,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
@@ -87,6 +88,10 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
         val view = inflater.inflate(R.layout.fragment_search_public_event_issue, container, false)
 
+        //addcontactSearchEditText.setText(filter)
+
+        if (!filter.isNullOrEmpty()){ SearchViewModel.searchText = filter }
+
         eventsRecyclerView = view.findViewById(R.id.publicEventRecyclerView)
         eventsRecyclerView?.setHasFixedSize(true)
         eventsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -112,20 +117,31 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
                             searchKeyword = searchText
 
+                            if (!searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = searchText
+
+                            }else if(searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = null
+                            }
+
                             if (searchCategory != null){
 
                                 searchCategoryId = searchCategory!!.pk.toString()
 
-                                searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+                                searchViewModel.getSearchList("ALL",searchCategoryId.toString(),searchKeyword)
 
                             } else if (searchCategory == null){
 
-                                searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),searchKeyword)
+                                searchViewModel.apiSearchListWithTypeAndKeyword("ALL",searchKeyword)
                             }
 
                            // view.hideKeyboard()
 
                             println(searchText )
+
+                            SearchViewModel.searchText = searchText
                             //loadList(searchText)
                         }
                     }
@@ -138,14 +154,35 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
-        addcontactSearchEditText.setText(filter)
+       /* if(!filter.isNullOrEmpty()){
+            
+            addcontactSearchEditText.setText(filter)
+            searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),filter)
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+
+        }else if (filter.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("ALL")
+        }*/
+
+       /* if (!searchViewModel.searchText.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(searchViewModel.searchText)
+            searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),searchViewModel.searchText)
+
+        }else if (searchViewModel.searchText.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("ALL")
+        }*/
+
+        apiSearch()
 
         //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
-
-        searchViewModel.apiSearchListWithType("ALL")
+        //searchViewModel.apiSearchListWithType("ALL")
 
         searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
@@ -160,7 +197,97 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
                     eventList = searchViewModel.response!!.results
 
-                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithType.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndCategory.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndKeyword.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -272,6 +399,20 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
         }
     }
 
+    private fun apiSearch(){
+
+        if (!SearchViewModel.searchText.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(SearchViewModel.searchText)
+            searchViewModel.apiSearchListWithTypeAndKeyword("ALL",SearchViewModel.searchText)
+
+        }else if (SearchViewModel.searchText.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("ALL")
+        }
+    }
+
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -292,11 +433,36 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
         if (!getUserVisibleHint()) { return }
 
-        searchViewModel.apiSearchListWithType("ALL")
+       /* if(!filter.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(filter)
+            searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),filter)
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+
+        } else if (filter.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("ALL")
+        }*/
+
+      /*  if (!searchViewModel.searchText.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(searchViewModel.searchText)
+            searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string.all),searchViewModel.searchText)
+
+        }else if (searchViewModel.searchText.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("ALL")
+        }*/
+
+        apiSearch()
+
+        //searchViewModel.apiSearchListWithType("ALL")
 
         //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
 
-        addcontactSearchEditText.setText("")
+            //addcontactSearchEditText.setText("")
 
         // eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
         //(eventsRecyclerView?.adapter as HomePlanPreviewAdapter).notifyDataSetChanged()
@@ -331,6 +497,4 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
 
         //println(searchCategory)
     }
-
-
 }

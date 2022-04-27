@@ -71,6 +71,9 @@
     <string name="follow_up_name">Filter name</string>
     <string name="follow_up_name_hint">Give a name to your filter</string>
     <string name="follow_up_name_empty">Filter name cannot be empty</string>
+    <string name="filter_created">Filter created successfully</string>
+    <string name="filter_updated">Filter updated successfully</string>
+    <string name="filter_deleted">Filter Deleted successfully</string>
 
 
     <!-- Search All Fragment -->
@@ -96,6 +99,7 @@
     <string name="create_group">New Group</string>
     <string name="group_name">Group name</string>
     <string name="group_created">Group Created Successfully</string>
+    <string name="group_deleted">Group Deleted Successfully</string>
     <string name="group_name_hint">Give a name to your group</string>
     <string name="group_name_error">Group name should contain atleast one character</string>
 
@@ -109,6 +113,7 @@
 
     <string name="settings">Settings</string>
     <string name="account">Account</string>
+    <string name="profile">Profile</string>
     <string name="friends">Friends</string>
     <string name="contacts">Contacts</string>
     <string name="follow_ups">Filters</string>
@@ -144,6 +149,9 @@
     <string name="groups">Groups</string>
     <string name="create_new_group">CREATE NEW GROUP</string>
     <string name="users">Users</string>
+    <string name="invite_by_mail">Invite by mail</string>
+    <string name="enter_an_email">Enter an e-mail</string>
+    <string name="phone_contacts">Phone Contacts</string>
     <string name="contact_added">Contact has been added successfully</string>
     <string name="contact_deleted">Contact has been deleted successfully</string>
 
@@ -152,7 +160,7 @@
 
     <!--<string name="delete">Remove</string>-->
     <string name="remove">Remove</string>
-    <string name="delete_contact">Remove from your Contacts</string>
+    <string name="delete_contact">Remove from your Friends</string>
 
 
     <!-- Edit Group Pop Up -->
@@ -186,7 +194,7 @@
 
     <!-- Add User Pop Up -->
 
-    <string name="add_to_contact">Add to contact</string>
+    <string name="add_to_contact">Add to Friends</string>
 
 
     <!-- Add Plan Fragment -->
@@ -241,7 +249,8 @@
     <string name="place_title">Place</string>
     <string name="add_action">" Add task"</string>
     <string name="action_name">"Task name"</string>
-    <string name="action_hint">Task name</string>
+    <!--<string name="action_hint">Task name</string>-->
+    <string name="action_hint">Mandatory field</string>
     <string name="action_description">" Description"</string>
     <string name="action_description_hint">Description</string>
     <string name="action_cost">Cost of the action</string>
@@ -251,7 +260,8 @@
     <string name="how_much">How much ?</string>
     <string name="nature_of_cost_hint">Cost per person or Total cost ?</string>
     <string name="who_with">Who with ?</string>
-    <string name="assignee_people">ASSIGN People</string>
+    <string name="assignee_people">Assign People</string>
+    <string name="assignee_people_all_caps">ASSIGN PEOPLE</string>
     <string name="add_an_action">Add a task</string>
     <string name="add_another_action">Add another task</string>
     <string name="action_title">Task</string>
@@ -291,6 +301,9 @@
     <string name="max_participants">Max Participants</string>
     <string name="number">Number</string>
     <string name="add_guest">Add guest</string>
+    <string name="add_guests">Add Guests</string>
+    <string name="add_guest_caps">Add Guest</string>
+    <string name="add_guest_all_caps">ADD GUEST</string>
     <string name="add_friend">Add Friend</string>
     <string name="everybody_come">Guest list</string>
     <string name="create_plan">CREATE PLAN</string>
@@ -338,7 +351,7 @@
     <!--<string name="phonenumber_condition">Mobile number should contain atleast 4 numbers with no spaces</string>-->
 
 
-   <!-- <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>-->
+    <!-- <string name="account_name_hint"><![CDATA[Name<font color=\'#cc0029\'>*</font>]]></string>-->
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -358,9 +371,13 @@
 
 
     <string name="invitation_status">Invitation Status</string>
-    <string name="guests">Guests</string>
-    <string name="participants">Participants</string>
-    <string name="declin">Declin</string>
+    <string name="edit_propriety">Edit propriety</string>
+    <string name="force_the_answer_to">Force the answer to</string>
+
+
+    <string name="guests">guests</string>
+    <string name="participants">PARTICIPANTS</string>
+    <string name="declin">DECLINE</string>
     <string name="declin_caps">DECLINE</string>
 
 
@@ -384,11 +401,16 @@
     <string name="event_deleted">Event Deleted Successfully</string>
     <string name="guests_caps">GUESTS</string>
     <string name="participants_caps">PARTICIPANTS</string>
-    <string name="total_cost_for_you_with_guests">Total Cost (you &amp; your guests)</string>
+    <string name="total_cost_for_you_with_guests">Total Cost (<yo></yo>u &amp; your guests)</string>
     <string name="per_person_caps">PER PERSON</string>
+    <string name="per_person">Per Person</string>
     <string name="decline_invitation_caps">DECLINE INVITATION</string>
     <string name="take_part_caps">TAKE PART</string>
     <string name="add_comment_caps">ADD COMMENT</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="tell_what_you_think">Tell what you think</string>
+    <string name="activity_everybody_come">Everybody come</string>
+    <string name="assign_me">I take</string>
 
     <!--Admin Detail View-->
 
@@ -399,6 +421,7 @@
     <string name="action">Task</string>
     <string name="activity">Activity</string>
 
+
     <!--Sort Page-->
 
     <string name="drafts">Drafts</string>
@@ -406,7 +429,7 @@
     <string name="invited_to">Invited to</string>
 
 
-   <!-- <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>-->
+    <!-- <string name="hint_test">Legal name <font fgcolor='#FF0000'>*</font></string>-->
     <!--<string name="asteriskred"><font color='#cc0029'>*</font></string>-->
 
 

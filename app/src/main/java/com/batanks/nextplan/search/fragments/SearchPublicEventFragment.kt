@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +76,11 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
+        if (!SearchViewModel.searchText.isNullOrEmpty()){
+
+
+        }
+
         val view = inflater.inflate(R.layout.fragment_search_public_event_issue, container, false)
 
         eventsRecyclerView = view.findViewById(R.id.publicEventRecyclerView)
@@ -102,18 +108,27 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
 
                             searchKeyword = searchText
 
+                            if (!searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = searchText
+
+                            }else if(searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = null
+                            }
+
                             if (searchCategory != null){
 
                                 searchCategoryId = searchCategory!!.pk.toString()
 
-                                searchViewModel.getSearchList(getString(R.string._public),searchCategoryId.toString(),searchKeyword)
+                                searchViewModel.getSearchList("PUBLIC",searchCategoryId.toString(),searchKeyword)
 
                             } else if (searchCategory == null){
 
-                                searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string._public),searchKeyword)
+                                searchViewModel.apiSearchListWithTypeAndKeyword("PUBLIC",searchKeyword)
                             }
 
-                            view.hideKeyboard()
+                            //view.hideKeyboard()
 
                             println(searchText )
                             //loadList(searchText)
@@ -128,14 +143,14 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
-        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        apiSearch()
 
+        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
         //searchViewModel.getSearchList(getString(R.string._public),null,null)
 
-        searchViewModel.apiSearchListWithType("PUBLIC")
+        //searchViewModel.apiSearchListWithType("PUBLIC")
 
         searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
@@ -150,7 +165,79 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
 
                     publicEventList = searchViewModel.response!!.results
 
-                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(publicEventList /*,this*/)
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, publicEventList /*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithType.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    publicEventList = searchViewModel.response!!.results
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, publicEventList /*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndCategory.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    publicEventList = searchViewModel.response!!.results
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, publicEventList /*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndKeyword.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -193,6 +280,20 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
         }
 
 
+    }
+
+    private fun apiSearch(){
+
+        if (!SearchViewModel.searchText.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(SearchViewModel.searchText)
+            searchViewModel.apiSearchListWithTypeAndKeyword("PUBLIC",SearchViewModel.searchText)
+
+        }else if (SearchViewModel.searchText.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("PUBLIC")
+        }
     }
 
     private fun showSortDialog(context : Context) {
@@ -273,10 +374,13 @@ class SearchPublicEventFragment : BaseFragment(), CoroutineScope, CategoryAdapte
 
         if (!getUserVisibleHint()) { return }
 
-        searchViewModel.apiSearchListWithType("PUBLIC")
+        apiSearch()
+
+       /* searchViewModel.apiSearchListWithType("PUBLIC")
+        addcontactSearchEditText.setText("")*/
 
         //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(publicEventList /*,this*/)
-        addcontactSearchEditText.setText("")
+
 
         println("public visible working fine")
     }

@@ -365,6 +365,8 @@ class Settings : BaseAppCompatActivity() {
                 selectedLangPut = "en-us"
                 saveAndUpdateLang("en", selectedLangPut)
 
+                //getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "en").apply()
+
                 /*getSharedPreferences("SAVED_LANG", Context.MODE_PRIVATE).edit().putString("SAVED_LANGUAGE", "en").apply()
 
                 settingsViewModel.putSettings(SettingsGet(selectedLangPut, input_settings_currency.text.toString(), rb_settings_by_email.isChecked,
@@ -469,6 +471,9 @@ class Settings : BaseAppCompatActivity() {
 
         rl_settings_contacts.setOnClickListener(View.OnClickListener {
             intent = Intent(this, Contact :: class.java)
+            intent.putExtra("IS_FRIENDS_EXPANDED", false)
+            intent.putExtra("IS_GROUPS_EXPANDED", false)
+            intent.putExtra("IS_USERS_EXPANDED", false)
             startActivity(intent)
         })
 

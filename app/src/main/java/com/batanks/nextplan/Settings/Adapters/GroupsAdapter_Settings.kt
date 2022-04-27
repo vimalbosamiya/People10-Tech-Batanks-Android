@@ -49,10 +49,9 @@ class GroupsAdapter_Settings (private val myList: ArrayList<Group>, val groupLis
             val intent = Intent(context, com.batanks.nextplan.Settings.Group::class.java)
             intent.putExtra("ID", myList.get(position).id)
             intent.putExtra("Group_Name", myList.get(position).name)
-            context?.let { it1 -> startActivity(it1,intent,null) }
-
+            (context as Activity).startActivityForResult(intent, 3)
+            //context?.let { it1 -> startActivity(it1,intent,null) }
             //(context as Activity).finish()
-
             /*val intent = Intent(context, Group :: class.java)
             startActivity(intent)*/
         }

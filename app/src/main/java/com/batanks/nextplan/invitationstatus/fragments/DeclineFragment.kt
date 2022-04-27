@@ -71,7 +71,7 @@ class DeclineFragment (private val eventId : Int) : BaseFragment()  {
 
                     event = response.data as Event
 
-                    for (item in event!!.guests){
+                    for (item in event!!.guests!!){
 
                         if (item.status == "DN"){
 

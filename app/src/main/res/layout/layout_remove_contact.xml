@@ -19,15 +19,16 @@
             android:src="@drawable/ic_delete_contact"
             android:padding="10dp"
             android:layout_centerVertical="true"/>
+
         <TextView
             android:id="@+id/txt_contact_delete_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_contact"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img_contact_delete_icon"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:layout_centerVertical="true"/>
+            android:text="@string/delete_contact"
+            android:textAppearance="?android:textAppearanceMedium" />
         <View
             android:id="@+id/view_seperator_delete_contact"
             android:layout_width="match_parent"

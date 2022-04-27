@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toEndOf="@+id/peopleIcon"
                 app:layout_constraintEnd_toStartOf="@+id/textViewAttending"/>
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/textViewAttending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/textViewTotalParticipants"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/textViewTotalParticipants"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="26dp"
                 android:text="0"
-                android:textColor="#90CAF9"
+                android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/dropDownHolder"
                 app:layout_constraintTop_toTopOf="parent" />

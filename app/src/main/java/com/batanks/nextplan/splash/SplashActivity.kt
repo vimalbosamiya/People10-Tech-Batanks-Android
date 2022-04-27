@@ -52,6 +52,8 @@ class SplashActivity : BaseAppCompatActivity() {
 
         println("coming to splash")
 
+        //settingsViewModel.getSettings()
+
         Handler().postDelayed(Runnable {
 
             if (getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean(PREF_NAME, false)) {
@@ -60,6 +62,18 @@ class SplashActivity : BaseAppCompatActivity() {
                 splashViewModel.getUserProfile()
 
             } else {
+
+                val langCode : String? = getSharedPreferences("SAVED_LANG", MODE_PRIVATE)?.getString("SAVED_LANGUAGE","en")
+
+                if (langCode == "en"){
+
+                    init("English")
+
+                } else if (langCode == "fr"){
+
+                    init("Français")
+                }
+
                 startActivity(Intent(this, SigninActivity::class.java))
                 finish()
             }
@@ -120,8 +134,7 @@ class SplashActivity : BaseAppCompatActivity() {
 
                     settingsViewModel.settingsResponse = response.data as SettingsGet
 
-                    init(settingsViewModel.settingsResponse!!)
-
+                    settingsViewModel.settingsResponse!!.language?.let { init(it) }
                 }
 
                 Status.ERROR -> {
@@ -132,13 +145,13 @@ class SplashActivity : BaseAppCompatActivity() {
         })
     }
 
-    private fun init(resp : SettingsGet){
+    private fun init(/*resp : SettingsGet*/language : String){
 
-        if (resp.language == "English"){
+        if (language == "English"){
 
             setLocale("en")
 
-        } else if (resp.language == "Français") {
+        } else if (language == "Français") {
 
             setLocale("fr")
         }
@@ -153,6 +166,7 @@ class SplashActivity : BaseAppCompatActivity() {
         res.updateConfiguration(conf, dm)
         onConfigurationChanged(conf)
     }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         // refresh your views here
         //lblLang.setText(R.string.langselection)

@@ -98,7 +98,7 @@
 
     <!--//-->
 
-    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="buttonBarPositiveButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/ThemeMaterialCalendarButton</item>
         <item name="materialButtonStyle">@style/ThemeMaterialCalendarTextButton</item>

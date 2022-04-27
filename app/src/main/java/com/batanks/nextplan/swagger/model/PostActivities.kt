@@ -2,6 +2,7 @@ package com.batanks.nextplan.swagger.model
 
 data class PostActivities (
 
+        //val id : Int?,
         val place : PostPlaceInfo?,
         val price : Int?,
         val participants : ArrayList<String>?,

@@ -85,10 +85,10 @@
                 android:paddingEnd="40dp"
                 android:paddingRight="16dp"
                 android:scrollbarTrackHorizontal="@color/colorWhite"
-                android:textCursorDrawable="@null"  />
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/categoryTextField"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
@@ -100,28 +100,137 @@
             android:textColorHint="#ffffff"
             app:boxBackgroundColor="#000000"
             app:boxStrokeColor="@color/text_input_layout_stroke_color"
-            app:endIconMode="dropdown_menu"
+            app:endIconMode="none"
             app:endIconTint="@color/colorWhite"
             app:helperText="@string/category_helpertext"
             app:helperTextEnabled="true"
             app:helperTextTextColor="#ffffff"
-            app:hintEnabled="false"
+            app:hintEnabled="true"
+            android:hint="text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
             app:startIconDrawable="@drawable/ic_category"
             app:startIconTint="#ffffff">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/actv_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:editable="false"
-                android:gravity="center_vertical"
                 android:inputType="none"
-                android:text="@string/category" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/category"
+                android:paddingLeft="16dp"
+                android:paddingEnd="40dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@null" />
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <RelativeLayout
+            android:id="@+id/categoryTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/rl_black_curved">
+
+            <ImageView
+                android:id="@+id/categoryIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_category"
+                android:layout_alignParentBottom="true"/>
+
+            <TextView
+                android:id="@+id/textViewCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/categoryIcon"
+                android:text="@string/category"
+                android:textColor="#DEFFFFFF"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/dropDownIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"/>
+
+            <!--<ImageView
+                android:id="@+id/sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_filter_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>-->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEFFFFFF"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+       <!-- <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryTextField"
+            style="@style/MaterialTextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/category"
+            app:boxBackgroundColor="#000000"
+            app:boxStrokeColor="@color/text_input_layout_stroke_color"
+            app:endIconMode="custom"
+            app:endIconTint="@color/colorWhite"
+            app:helperText="@string/category_helpertext"
+            app:helperTextEnabled="true"
+            app:helperTextTextColor="#ffffff"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#34CBFE"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
+            app:startIconDrawable="@drawable/ic_category"
+            app:endIconDrawable="@drawable/ccp_ic_arrow_drop_down"
+            app:startIconTint="#ffffff">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/actv_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"
+                android:editable="false"
+                android:inputType="none"
+                android:paddingLeft="16dp"
+                android:paddingEnd="40dp"
+                android:paddingRight="16dp"
+                android:scrollbarTrackHorizontal="@color/colorWhite"
+                android:textCursorDrawable="@null" />
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <include
             android:id="@+id/addPeriodLayout"

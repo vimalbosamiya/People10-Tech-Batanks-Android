@@ -24,7 +24,6 @@ import com.batanks.nextplan.home.viewmodel.ContactsViewModel
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.AddContact
 import com.batanks.nextplan.swagger.model.ContactsList
-import com.batanks.nextplan.swagger.model.UserSearchResults
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 
 class UsersAdapter (private val usersList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(), Filterable {

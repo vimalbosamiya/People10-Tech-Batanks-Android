@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#2F2F2F">
+
+    <ImageView
+        android:id="@+id/perPersonIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="26.02dp"
+        android:layout_marginStart="18.02dp"
+        android:src="@drawable/ic_cost_perperson_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/perPersonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="32dp"
+        android:textSize="14sp"
+        android:text="@string/per_person"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintTop_toTopOf="@+id/perPersonIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/perPersonIcon"
+        app:layout_constraintStart_toEndOf="@+id/perPersonIcon" />
+
+    <!--<com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10.02dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <View
+        android:id="@+id/perPersonDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="17.02dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="65dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perPersonTextView"/>
+
+    <ImageView
+        android:id="@+id/totalCostIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="26.02dp"
+        android:layout_marginStart="18.02dp"
+        android:src="@drawable/ic_action_cost_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perPersonDivider" />
+
+    <TextView
+        android:id="@+id/totalCostTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="32dp"
+        android:textSize="14sp"
+        android:text="@string/total_cost"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintTop_toTopOf="@+id/totalCostIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/totalCostIcon"
+        app:layout_constraintStart_toEndOf="@+id/totalCostIcon" />
+
+    <!--<com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10.02dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="17.02dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorBlack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCostTextView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

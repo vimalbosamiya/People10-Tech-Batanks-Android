@@ -8,5 +8,7 @@ data class NotificationModel (
         val last_modified : String,
         val event_id : Int,
         val event_creator_id : Int,
-        val event_is_private : Boolean
+        val event_is_private : Boolean,
+        val event_is_draft : Boolean
 )
+

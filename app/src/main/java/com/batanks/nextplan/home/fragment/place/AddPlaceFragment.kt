@@ -114,8 +114,7 @@ class AddPlaceFragment(val listener: AddPlaceFragmentListener, private val posit
         })
     }
 
-    fun getCountryCode(countryName: String) =
-            Locale.getISOCountries().find { Locale("", it).displayCountry == countryName }
+    fun getCountryCode(countryName: String) = Locale.getISOCountries().find { Locale("", it).displayCountry == countryName }
 
     override fun onClick(view: View?) {
         when (view?.id) {

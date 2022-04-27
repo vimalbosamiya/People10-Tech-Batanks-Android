@@ -1441,7 +1441,7 @@ DRF Token.setApiKey("YOUR API KEY");
 
 ApiApi apiInstance = new ApiApi();
 String id = "id_example"; // String | 
-AsssignTask data = new AsssignTask(); // AsssignTask | 
+AsssignTask data = new AsssignTask(); // AssignTask | 
 try {
     AsssignTask result = apiInstance.apiEventAssignCreate(id, data);
     System.out.println(result);

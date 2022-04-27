@@ -21,16 +21,19 @@ import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
+import com.batanks.nextplan.search.Search
 import com.batanks.nextplan.swagger.model.GetEventListHome
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.item_event_name.view.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, val listener: HomePlanPreviewAdapterListener */) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {
+class   HomePlanPreviewAdapter(private val fromHome : Boolean, private val myList: ArrayList<GetEventListHome>/*, val listener: HomePlanPreviewAdapterListener */) : RecyclerView.Adapter<HomePlanPreviewAdapter.MyViewHolder>() {
 
     lateinit var context : Context
     private var userId : Int = 0
@@ -101,10 +104,15 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
         if (event.private == true){
 
             holder.privateIcon.visibility = VISIBLE
+            holder.privateIconMini.visibility = VISIBLE
+            holder.eventType.visibility = VISIBLE
+
 
         } else {
 
             holder.privateIcon.visibility = GONE
+            holder.privateIconMini.visibility = GONE
+            holder.eventType.visibility = GONE
         }
 
         if(event.creator.id == userId && event.draft == true){
@@ -322,12 +330,31 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
 
             val draft: Boolean = true
 
-            (context as HomePlanPreview).supportFragmentManager.beginTransaction()
-                            .add(R.id.frameLayout, CreatePlanFragment(draft, event.pk, false, false,null), CreatePlanFragment::class.java.canonicalName).commitAllowingStateLoss()
+            /*(context as HomePlanPreview).supportFragmentManager.beginTransaction().
+            add(R.id.frameLayout, CreatePlanFragment(isPrivate, draft, event.pk, false, false,null), CreatePlanFragment::class.java.canonicalName).commitAllowingStateLoss()*/
 
-            (context as HomePlanPreview).frameLayout.visibility = VISIBLE
-            (context as HomePlanPreview). appBarLayout.visibility = GONE
-            (context as HomePlanPreview).extFab.visibility = View.GONE
+            if(fromHome == true){
+
+                (context as HomePlanPreview).supportFragmentManager.beginTransaction().
+                add(R.id.frameLayout, CreatePlanFragment(false,false, myList[position].private, draft, event.pk, false, false,context as HomePlanPreview, context as HomePlanPreview), CreatePlanFragment.TAG).addToBackStack(CreatePlanFragment.TAG).commit()
+                (context as HomePlanPreview).frameLayout.visibility = VISIBLE
+
+                (context as HomePlanPreview). appBarLayout.visibility = GONE
+                (context as HomePlanPreview).extFab.visibility = View.GONE
+                (context as HomePlanPreview).search.visibility = View.GONE
+                (context as HomePlanPreview).notification.visibility = View.GONE
+                (context as HomePlanPreview).img_settings.visibility = View.GONE
+
+            } else if(fromHome == false){
+
+                (context as Search).supportFragmentManager.beginTransaction().
+                add(R.id.searchScreenFrameLayout, CreatePlanFragment(false,true, myList[position].private, draft, event.pk, false, false,null, null), CreatePlanFragment.TAG).addToBackStack(CreatePlanFragment.TAG).commit()
+                (context as Search).searchScreenFrameLayout.visibility = VISIBLE
+
+                (context as Search).searchAppBarLayout.visibility = GONE
+                //(context as Search).searchScreenFrameLayout.visibility = VISIBLE
+            }
+
 
             println("edit being clicked")
 
@@ -359,6 +386,8 @@ class HomePlanPreviewAdapter(private val myList: ArrayList<GetEventListHome>/*, 
         val userIcon : ImageView = item.userIcon
         val eventPrivateCategoryIconFull : ImageView = item.eventPrivateCategoryIconFull
         val privateIcon : ImageView = item.privateIcon
+        val privateIconMini : ImageView = item.privateIconMini
+        val eventType : TextView = item.eventType
         val eventPrivateCategoryIcon : ImageView = item.eventPrivateCategoryIcon
         val eventStatus : ImageView = item.eventStatus
         val eventStatusFull : ImageView = item.eventStatusFull

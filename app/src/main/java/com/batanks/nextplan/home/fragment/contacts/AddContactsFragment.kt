@@ -78,6 +78,7 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
 
     lateinit var adapter : FriendsAdapter
     lateinit var groupAdapter : GroupsAdapter
+    lateinit var userAdapter : UsersAdapter
 
     companion object {
         val PERMISSIONS_REQUEST_READ_CONTACTS = 100
@@ -345,40 +346,13 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
 
                     contactList = contactsViewModel.response!!.results
 
-
-
                     if (addedParticipants.size > 0){
-
-                        /*for (participant in participants){
-
-                            val convertedParticipant = participant.toContactsList()
-
-                            convertedParticipantsList.add(convertedParticipant)
-                        }*/
 
                         for (item in contactList){
 
                             item.selection = addedParticipants.contains(item)
                         }
                     }
-
-                    /*if (participants.size > 0){
-
-                        for (item in participants){
-
-                           for (contact in contactList){
-
-                               if (item.participantName == contact.username && item.id == contact.id) {
-
-                                   contact.selection = true
-
-                               } else {
-
-                                   contact.selection = false
-                               }
-                           }
-                        }
-                    }*/
 
                     adapter = FriendsAdapter(this,contactList/*, participants*/)
 
@@ -424,6 +398,8 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
                     }
                     add_contacts_groups_RecyclerView.adapter = groupAdapter
 
+                    groupAdapter.notifyDataSetChanged()
+
                     println(groupList)
 
                 }
@@ -447,6 +423,19 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
 
                     usersList = usersSearchResponse!!.results
 
+                    userAdapter = UsersAdapter(this, usersList, searchViewModel)
+
+                    //add_contacts_users_RecyclerView.adapter = UsersAdapter(this, usersList, searchViewModel)
+
+                    if(usersList.size <=5) {
+                        val params = add_contacts_users_RecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        add_contacts_users_RecyclerView.setLayoutParams(params)
+                    }
+                    add_contacts_users_RecyclerView.adapter = userAdapter
+
+                    userAdapter.notifyDataSetChanged()
+
                     if (usersList.size > 0){
 
                         showUsersRecyclerView()
@@ -456,7 +445,9 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
                         hideUsersRecyclerView()
                     }
 
-                    add_contacts_users_RecyclerView.adapter = UsersAdapter(this, usersList, searchViewModel)
+                    //add_contacts_users_RecyclerView.adapter = UsersAdapter(this, usersList, searchViewModel)
+
+
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -803,9 +794,6 @@ class AddContactsFragment(private val listner : AddContactsFragmentListner, priv
             if (!participantsListContacts.contains(item)){
 
                 participantsListContacts.add(item)
-                //participantsListContacts.
-
-                //listner.AddSelectedParticipants(participantsList)
             }
         }
     }

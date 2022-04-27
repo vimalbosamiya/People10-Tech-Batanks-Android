@@ -28,8 +28,9 @@ import kotlinx.android.synthetic.main.layout_activity_display.view.*
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.batanks.nextplan.eventdetails.EventDetailView
 
-class EventActivityListAdapter (val activityList : ArrayList<Activity>, val context: Context, private val eventDetailViewModel: EventDetailViewModel, private val eventId : String)
+class EventActivityListAdapter (private val activityList : ArrayList<Activity>, val context: Context, private val eventDetailViewModel: EventDetailViewModel, private val eventId : String, val listener : EventActivityListAdapterListener)
                                                  : RecyclerView.Adapter<EventActivityListAdapter.ViewHolder>() {
 
     private var activityAcceptResponse : ActivitySubscribe? = null
@@ -97,15 +98,12 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
 
         val stringBuilder = StringBuilder()
                 .append(activity.place.address)
-
+                .append("\n")
+                .append(activity.place.zipcode)
                 .append(" ")
                 .append(activity.place.city)
-
                 .append(" ")
                 .append(activity.place.country)
-
-                .append(" ")
-                .append(activity.place.zipcode)
 
         holder.fullLocation.text = stringBuilder.toString()
 
@@ -122,15 +120,19 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         holder.textViewEventTimeHours.text = hours.toString()
         holder.textViewEventTimeMins.text = mins.toString()
 
-        if (activity.per_person == true){
+        if (activity.per_person){
 
             holder.textViewCostPerPerson.setText(R.string.cost_per_person)
             holder.textViewCostPerPersonMulti.setText(R.string.cost_per_person)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_cost_perperson_icon)
+            holder.activity_img_cost_per_person_expanded.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         }else {
 
             holder.textViewCostPerPerson.setText(R.string.total_cost)
             holder.textViewCostPerPersonMulti.setText(R.string.total_cost)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_action_cost_icon)
+            holder.activity_img_cost_per_person_expanded.setImageResource(R.drawable.ic_action_cost_icon)
         }
 
         holder.textViewCostPerPersonAmount.text = activity.price.toString()
@@ -157,7 +159,7 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         holder.comingVotes.text = activity.participants.size.toString()
         holder.comingVotesHide.text = activity.participants.size.toString()
 
-        for (item in activity.participants){
+        /*for (item in activity.participants){
 
             if (item.id == userId){
 
@@ -170,6 +172,17 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
                 holder.participateToActivityIcon.visibility = View.VISIBLE
                 holder.unsubscribeFromActivityIcon.visibility = View.GONE
             }
+        }*/
+
+        if (activity.is_user_subscribe) {
+
+            holder.unsubscribeFromActivityIcon.visibility = View.VISIBLE
+            holder.participateToActivityIcon.visibility = View.GONE
+
+        } else if (!activity.is_user_subscribe){
+
+            holder.participateToActivityIcon.visibility = View.VISIBLE
+            holder.unsubscribeFromActivityIcon.visibility = View.GONE
         }
 
         holder.eventContactList.layoutManager = LinearLayoutManager(context)
@@ -178,39 +191,23 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         holder.participateToActivityIcon.setOnClickListener {
 
             eventDetailViewModel.activityAccepted(activity.id.toString(),eventId, Empty(""))
-
-            /*eventDetailViewModel.responseLiveDataActivityAccept.observe(this, Observer { response ->
-
-                when (response.status) {
-                    Status.LOADING -> {
-                        //showLoader()
-                    }
-
-                    Status.SUCCESS -> {
-
-                        //hideLoader()
-                        activityAcceptResponse = response.data as ActivitySubscribe
-                        holder.eventContactList.adapter = ActivityEverybodyComeListAdapter(
-                            activityAcceptResponse!!.participants,context)
-                        //eventDetailViewModel.getEventData(id.toString())
-                    }
-
-                    Status.ERROR -> {
-                        //hideLoader()
-                        //showMessage(response.error?.message.toString())
-                        println(response.error)
-                    }
-                }
-            })*/
+            listener.activityParticipantClickedPos(position)
         }
 
         holder.unsubscribeFromActivityIcon.setOnClickListener {
 
             eventDetailViewModel.activityRejected(activity.id.toString(),eventId, Empty(""))
+            listener.activityParticipantClickedPos(position)
+        }
+
+        holder.costPerPersonCalenderBackground.setOnClickListener {
+
+            eventDetailViewModel.activityAccepted(activity.id.toString(),eventId, Empty(""))
+            listener.activityParticipantClickedPos(position)
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val textViewActivityName : TextView = itemView.textViewActivityName
         val textViewEventNameOfPerPersonMulti : TextView = itemView.textViewEventNameOfPerPersonMulti
@@ -233,7 +230,16 @@ class EventActivityListAdapter (val activityList : ArrayList<Activity>, val cont
         val comingVotesHide : TextView = itemView.comingVotesHide
         val participateToActivityIcon : ExtendedFloatingActionButton = itemView.participateToActivityIcon
         val unsubscribeFromActivityIcon : ExtendedFloatingActionButton = itemView.unsubscribeFromActivityIcon
-        //val totalNoOfVotesHide : TextView = itemView.totalNoOfVotesHide
-        //val totalNoOfVotes : TextView = itemView.totalNoOfVotes
+        val costPerPersonCalenderBackground : ImageView = itemView.costPerPersonCalenderBackground
+        val activity_img_cost_per_person : ImageView = itemView.activity_img_cost_per_person
+        val activity_img_cost_per_person_expanded : ImageView = itemView.activity_img_cost_per_person_expanded
+    }
+
+    interface EventActivityListAdapterListener {
+
+        fun activityParticipantClickedPos(pos : Int)
     }
 }
+
+
+

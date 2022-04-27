@@ -80,18 +80,20 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
 
         holder.contactSettings.setOnClickListener {
 
-            context?.let { it1 -> editProprietyDialog(it1, action.id.toString()) }
+            context?.let { it1 -> editProprietyDialog(it1, action) }
         }
 
         holder.contactSettingsFull.setOnClickListener {
 
-            context?.let { it1 -> editProprietyDialog(it1,action.id.toString()) }
+            context?.let { it1 -> editProprietyDialog(it1,action) }
         }
 
         if (action.per_person == true){
 
             holder.textViewTotalCost.setText(R.string.cost_per_person)
             holder.textViewTotalCostMulti.setText(R.string.cost_per_person)
+            holder.dollarIcon.setImageResource(R.drawable.ic_cost_perperson_icon)
+            holder.dollarIconMulti.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         }else {
 
@@ -126,13 +128,15 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
         val contactBackgroundFull : ConstraintLayout = itemView.contactBackgroundFull
         val contactStatus : ImageView = itemView.contactStatus
         val contactImage : ImageView = itemView.contactImage
-        val contactImageFull : ImageView = itemView.contactImage
+        val contactImageFull : ImageView = itemView.contactImageFull
         val userImage : ImageView = itemView.userImage
-        val userImageFull : ImageView = itemView.userImage
+        val userImageFull : ImageView = itemView.userImageFull
         val contactStatusFull : ImageView = itemView.contactStatusFull
+        val dollarIcon : ImageView = itemView.dollarIcon
+        val dollarIconMulti : ImageView = itemView.dollarIconMulti
     }
 
-    private fun editProprietyDialog(context :Context, taskId : String) {
+    private fun editProprietyDialog(context :Context, task : Task) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -147,7 +151,7 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
 
             if (checkbox.isChecked == true){
 
-                eventDetailViewModel.apiEventTaskPatch(eventId.toString(), taskId, TaskPatch(" "))
+                eventDetailViewModel.apiEventTaskPatch(eventId.toString(), task.id.toString(), TaskPatch(task.price.toString(),task.name,task.description, task.per_person,""))
             }
 
             dialog.dismiss()

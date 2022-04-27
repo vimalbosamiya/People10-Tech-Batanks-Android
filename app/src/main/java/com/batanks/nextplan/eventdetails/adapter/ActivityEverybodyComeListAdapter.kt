@@ -27,7 +27,7 @@ class ActivityEverybodyComeListAdapter(val contactList: ArrayList<ActivityPartic
 
         holder.contactName.text = contactList[position].username
         holder.contactStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
-        holder.contactSettings.visibility = View.GONE
+        holder.close.visibility = View.GONE
         //Glide.with(context).load(contactList[position].picture).circleCrop().into(holder.contactImage)
     }
 
@@ -36,6 +36,6 @@ class ActivityEverybodyComeListAdapter(val contactList: ArrayList<ActivityPartic
         val contactStatus : ImageView = itemView.contactStatus
         //val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
-        val contactSettings : ImageView = itemView.contactSettings
+        val close : ImageView = itemView.close
     }
 }

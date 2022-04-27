@@ -87,7 +87,7 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }
                     }
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(privateEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, privateEventList)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -116,7 +116,7 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
 
                     homePlanPreviewViewModel.eventList()
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
                     //Collections.shuffle(filteredEventList)
                 }
@@ -159,7 +159,7 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
 
                 if (filterType == "CATEGORY"){
 
-                    for(item in eventList){
+                    for(item in privateEventList){
 
                         if (item.category?.name == filter){
 
@@ -171,11 +171,11 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }*/
                     }
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
                 } else if (filterType == "FOLLOWUP"){
 
-                    for(item in eventList){
+                    for(item in privateEventList){
 
                         if (item.title.contains(filter!!)){
 
@@ -187,13 +187,13 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }*/
                     }
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
                 } else if (filterType == "EVENTTYPE"){
 
-                    if (filter == "Drafts"){
+                    if (filter == "Drafts" || filter == "Brouillon"){
 
-                        for(item in eventList){
+                        for(item in privateEventList){
 
                             if (item.draft == true){
 
@@ -205,11 +205,11 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
-                    } else if (filter == "Mines"){
+                    } else if (filter == "Mines" || filter == "Mes plans crées"){
 
-                        for(item in eventList){
+                        for(item in privateEventList){
 
                             if (item.creator.id == userId && item.draft == false){
 
@@ -221,11 +221,11 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
-                    } else if (filter == "Invited to"){
+                    } else if (filter == "Invited to" || filter == " Mes invitations reçues"){
 
-                        for(item in eventList){
+                        for(item in privateEventList){
 
                             if (item.creator.id != userId && item.draft == false){
 
@@ -237,12 +237,12 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
                     }
                 }
             }else {
 
-                recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+                recyclerView?.adapter = HomePlanPreviewAdapter(true, eventList)
             }
         }
     }
@@ -278,7 +278,7 @@ class PrivateHomeFragment : BaseFragment()/*, HomePlanPreviewAdapter.HomePlanPre
 
         } else {
 
-            recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+            recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
         }
     }
 

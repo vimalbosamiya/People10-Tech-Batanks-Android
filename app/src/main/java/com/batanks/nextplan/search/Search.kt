@@ -16,21 +16,31 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Followups
 import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.dismissKeyboard
+import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.markRequiredInRed
+import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.search.viewmodel.SearchViewModel
+import com.batanks.nextplan.swagger.api.EventAPI
+import com.batanks.nextplan.swagger.api.SearchAPI
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.searchToolBar
 import kotlinx.android.synthetic.main.fragment_search.tabs
 import kotlinx.android.synthetic.main.fragment_search.view_pager
+import java.lang.reflect.Type
 
 class Search : BaseAppCompatActivity() {
 
@@ -43,6 +53,8 @@ class Search : BaseAppCompatActivity() {
 
         val filter : String? = intent.getStringExtra("FILTER")
 
+        loadData()
+
         val toolbar: Toolbar = findViewById(R.id.searchToolBar)
         setSupportActionBar(toolbar)
 
@@ -54,6 +66,7 @@ class Search : BaseAppCompatActivity() {
 
             intent = Intent(this, HomePlanPreview :: class.java)
             startActivity(intent)
+            SearchViewModel.searchText = null
             finish()
         }
 
@@ -61,7 +74,7 @@ class Search : BaseAppCompatActivity() {
 
             //showDialog(this)
             //followups.createFollowUpDialog()
-            //createFollowUpDialog()
+            createFollowUpDialog()
         }
 
         val tabsPagerAdapter = SearchTabsAdapter(supportFragmentManager, filter)
@@ -99,8 +112,8 @@ class Search : BaseAppCompatActivity() {
         dialog.setContentView(R.layout.layout_create_followups)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        /*val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)*/
 
         val btn_create_followups_cancel = dialog.findViewById(R.id.btn_create_followups_cancel) as Button
         val btn_create_followups_ok = dialog.findViewById(R.id.btn_create_followups_ok) as Button
@@ -136,7 +149,7 @@ class Search : BaseAppCompatActivity() {
 
                     followUpList?.add(str)
                     saveData()
-                    //loadData()
+                    loadData()
 
                     dialog.dismiss()
                     dismissKeyboard()
@@ -172,6 +185,26 @@ class Search : BaseAppCompatActivity() {
         val json = gson.toJson(followUpList)
         editor.putString("follow up list", json)
         editor.apply()
+        Toast.makeText(this,getString(R.string.filter_created),Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadData() {
+
+        val sharedPreferences = getSharedPreferences("FOLLOW _UP_PREFERENCE", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPreferences.getString("follow up list", null)
+        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+
+        if (json != null){
+
+            followUpList = gson?.fromJson<ArrayList<String>>(json, type)
+
+        } else{
+
+            //println()
+        }
+
+        if (followUpList.size == 0) { followUpList = ArrayList() }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

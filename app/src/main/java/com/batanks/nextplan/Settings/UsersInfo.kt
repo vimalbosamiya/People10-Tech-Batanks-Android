@@ -1,23 +1,17 @@
 package com.batanks.nextplan.Settings
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Adapters.ContactsAdapter_Settings
-import com.batanks.nextplan.Settings.Adapters.UsersAdapter
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
@@ -32,18 +26,22 @@ import com.batanks.nextplan.swagger.model.ContactsList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_users_info.*
 
-class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoListener {
+class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.UserInfoListener {
 
     var id : Int? = 0
     var picture : String? = null
     var isContact : Boolean? = true
+    var isSettingsPage : Boolean? = true
     var friend : ContactsList? = null
 
-  /*  var userName : String? = null
+    var userName : String? = null
     var firstName : String? = null
     var lastName : String? = null
     var email : String? = null
-    var phNo : String? = null*/
+    var phNo : String? = null
+    var friendsExpanded : Boolean = false
+    var groupsExpanded : Boolean = false
+    var usersExpanded : Boolean = false
 
     private val addContactViewModel: AddContactViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -65,6 +63,55 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users_info)
 
+        isSettingsPage = intent.getBooleanExtra("FROM_SETTINS_PAGE", true)
+
+        if (isSettingsPage == true){
+
+            id = intent.getIntExtra("ID",0)
+            userName = intent.getStringExtra("NAME")
+            firstName = intent.getStringExtra("FIRST_NAME")
+            lastName = intent.getStringExtra("LAST_NAME")
+            email = intent.getStringExtra("EMAIL")
+            picture = intent.getStringExtra("PIC")
+            phNo = intent.getStringExtra("PHNO")
+            isContact = intent.getBooleanExtra("CONTACT", true)
+
+            txt_accounts_org_name.text = userName
+            txt_accounts_org_fname.text = firstName
+            txt_accounts_org_pseudo.text = lastName
+            txt_accounts_org_mailid.text = email
+            txt_accounts_org_contactno.text = phNo.toString()
+
+            if (picture != null){
+
+                Glide.with(this).load(picture).circleCrop().into(img_account_icon)
+
+            } else {}
+
+        } else {
+
+            id = intent.getIntExtra("ID",0)
+            userName = intent.getStringExtra("NAME")
+            firstName = intent.getStringExtra("FIRST_NAME")
+            lastName = intent.getStringExtra("LAST_NAME")
+            email = intent.getStringExtra("EMAIL")
+            picture = intent.getStringExtra("PIC")
+            phNo = intent.getStringExtra("PHNO")
+            //isContact = intent.getBooleanExtra("CONTACT", true)
+
+            txt_accounts_org_name.text = userName
+            txt_accounts_org_fname.text = firstName
+            txt_accounts_org_pseudo.text = lastName
+            txt_accounts_org_mailid.text = email
+            txt_accounts_org_contactno.text = phNo.toString()
+
+            if (picture != null){
+
+                Glide.with(this).load(picture).circleCrop().into(img_account_icon)
+
+            } else {}
+        }
+
         /*id = intent.getIntExtra("ID",0)
         userName = intent.getStringExtra("NAME")
         firstName = intent.getStringExtra("FIRST_NAME")
@@ -72,15 +119,19 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
         email = intent.getStringExtra("EMAIL")
         picture = intent.getStringExtra("PIC")
         phNo = intent.getStringExtra("PHNO")
-        isContact = intent.getBooleanExtra("CONTACT", true)
+        isContact = intent.getBooleanExtra("CONTACT", true)*/
 
-        txt_accounts_org_name.text = userName
+        /*friendsExpanded = intent.getBooleanExtra("IS_FRIENDS_EXPANDED",true)
+        groupsExpanded = intent.getBooleanExtra("IS_GROUPS_EXPANDED",false)
+        usersExpanded = intent.getBooleanExtra("IS_USERS_EXPANDED",false)*/
+
+        /*txt_accounts_org_name.text = userName
         txt_accounts_org_fname.text = firstName
         txt_accounts_org_pseudo.text = lastName
         txt_accounts_org_mailid.text = email
         txt_accounts_org_contactno.text = phNo.toString()*/
 
-        id = friend?.id
+        /*id = friend?.id
         picture = friend?.picture
         isContact = intent.getBooleanExtra("CONTACT", true)
 
@@ -88,13 +139,13 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
         txt_accounts_org_fname.text = friend?.first_name
         txt_accounts_org_pseudo.text = friend?.last_name
         txt_accounts_org_mailid.text = friend?.email
-        txt_accounts_org_contactno.text = friend?.phone_number
+        txt_accounts_org_contactno.text = friend?.phone_number*/
 
-        if (picture != null){
+        /*if (picture != null){
 
             Glide.with(this).load(picture).circleCrop().into(img_account_icon)
 
-        } else {}
+        } else {}*/
 
         addContactViewModel.responseLiveData.observe(this, Observer{ response ->
 
@@ -128,9 +179,6 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
                     //listener.onFriendDeleted(true)
 
                     finish()
-
-                    /*val intent : Intent = Intent(this, Contact:: class.java)
-                    startActivity( intent)*/
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -144,9 +192,13 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
 
         img_account_back.setOnClickListener {
 
-            finish()
+            //startIntent()
             /*val intent = Intent(this,Contact :: class.java)
             startActivity(intent)*/
+            /*intent.putExtra("IS_FRIENDS_EXPANDED", true)
+            intent.putExtra("IS_GROUPS_EXPANDED", groupsExpanded)
+            intent.putExtra("IS_USERS_EXPANDED", usersExpanded)*/
+            finish()
         }
 
         img_account_settings.setOnClickListener {
@@ -160,6 +212,15 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
                 addToContactDialog()
             }
         }
+    }
+
+    private fun startIntent(){
+
+        val intent = Intent(this,Contact :: class.java)
+        intent.putExtra("IS_FRIENDS_EXPANDED", true)
+        intent.putExtra("IS_GROUPS_EXPANDED", groupsExpanded)
+        intent.putExtra("IS_USERS_EXPANDED", usersExpanded)
+        startActivity(intent)
     }
 
     private fun addToContactDialog() {
@@ -186,7 +247,7 @@ class UsersInfo : BaseAppCompatActivity(), ContactsAdapter_Settings.userInfoList
             val intent : Intent = Intent(this, AddToGroupActivity:: class.java)
             intent.putExtra("Id", id)
             startActivity( intent)
-            finish()
+            //finish()
 
             dialog.dismiss()
         }

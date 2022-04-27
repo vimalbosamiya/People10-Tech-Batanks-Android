@@ -9,17 +9,17 @@ import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragm
 import com.batanks.nextplan.home.home_tabs.AllHomeFragment
 import com.batanks.nextplan.swagger.model.GetEventListHome
 
-class TabsPagerAdapter(fragmentManager: FragmentManager, private var draft : Boolean,  private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,
-                       private val listener : PublicPlanFragment.PublicPlanFragmentListener?)
+class TabsPagerAdapter(private var fromSearch : Boolean, fragmentManager: FragmentManager, private var draft : Boolean,  private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,
+                       private val listener : PublicPlanFragment.PublicPlanFragmentListener?, private val privateListener : PrivatePlanFragment.PrivatePlanFragmentListener?)
     : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) /*, PublicPlanFragment.PublicPlanFragmentListener*/ {
 
     private val stringArray = arrayOf("Private", "Public")
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> PublicPlanFragment(draft, eventId, listener, editButtonClicked, deleteButtonClicked, true)
-            1 -> PrivatePlanFragment(draft, eventId, null , editButtonClicked, deleteButtonClicked, false)
-            else -> PublicPlanFragment(draft, eventId, listener, editButtonClicked, deleteButtonClicked, true)
+            0 -> PublicPlanFragment(fromSearch, draft, eventId, listener, editButtonClicked, deleteButtonClicked, true)
+            1 -> PrivatePlanFragment(fromSearch, draft, eventId, privateListener , editButtonClicked, deleteButtonClicked, false)
+            else -> PublicPlanFragment(fromSearch, draft, eventId, listener, editButtonClicked, deleteButtonClicked, true)
         }
     }
 

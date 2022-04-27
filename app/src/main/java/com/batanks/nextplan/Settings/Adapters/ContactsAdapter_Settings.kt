@@ -13,6 +13,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
@@ -33,8 +34,9 @@ import com.batanks.nextplan.swagger.model.ContactsList
 import kotlinx.android.synthetic.main.layout_settings_contacts_item.view.*
 import java.security.AccessController.getContext
 
-class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val contactsViewModel: ContactsViewModel
-                                /*, private val listener : userInfoListener*/) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
+class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val contactsViewModel: ContactsViewModel, private val friendsExpanded : Boolean
+                                , private val groupsExpanded : Boolean, private val usersExpanded : Boolean
+                                /*, private val listener : UserInfoListener*/) : RecyclerView.Adapter<ContactsAdapter_Settings.MyViewHolder>() {
 
     private var context: Context? = null
 
@@ -62,7 +64,6 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
         holder.contactName.setOnClickListener {
 
             //listener.itemClicked(myList[position])
-
             val intent = Intent(context, UsersInfo::class.java)
             intent.putExtra("ID",myList.get(position).id)
             intent.putExtra("NAME",myList.get(position).username)
@@ -72,8 +73,9 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
             intent.putExtra("PHNO",myList.get(position).phone_number)
             intent.putExtra("PIC",myList.get(position).picture)
             intent.putExtra("CONTACT",true)
-            context?.startActivity(intent)
-            //(context as Activity).finish()
+            intent.putExtra("FROM_SETTINS_PAGE", true)
+            (context as Activity).startActivityForResult(intent,1)
+        //(context as Activity).finish()
         }
     }
 
@@ -100,9 +102,9 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
 
         addToGroup.setOnClickListener {
 
-            val intent : Intent = Intent(context, AddToGroupActivity:: class.java)
+            val intent = Intent(context, AddToGroupActivity:: class.java)
             intent.putExtra("Id", id)
-            ContextCompat.startActivity(context, intent, null)
+            (context as Activity).startActivityForResult(intent, 2)
             dialog.dismiss()
         }
 
@@ -110,7 +112,7 @@ class ContactsAdapter_Settings (private val myList: ArrayList<ContactsList>, val
 
     }
 
-    interface userInfoListener{
+    interface UserInfoListener{
 
         fun itemClicked(friendInfo : ContactsList)
     }

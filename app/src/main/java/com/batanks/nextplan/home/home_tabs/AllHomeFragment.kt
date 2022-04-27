@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -91,6 +92,12 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
 
                     eventList = homePlanPreviewViewModel.response!!.results
 
+                   /* if (eventList.size <= 1) {
+                        val params = recyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        recyclerView.setLayoutParams(params)
+                    }*/
+
                     /*for (item in homePlanPreviewViewModel.eventList){
 
                         if(item.private == true){
@@ -109,7 +116,7 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }
                     }*/
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, eventList)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -161,7 +168,9 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
 
                            homePlanPreviewViewModel.eventList()
 
-                           recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                           recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
+
+                           filter = null
 
                            //Collections.shuffle(filteredEventList)
                        }
@@ -216,7 +225,7 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }*/
                     }
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
                 } else if (filterType == "FOLLOWUP"){
 
@@ -232,11 +241,11 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }*/
                     }
 
-                    recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                    recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
                 } else if (filterType == "EVENTTYPE"){
 
-                    if (filter == "Drafts"){
+                    if (filter == "Drafts" || filter == "Brouillon"){
 
                         for(item in eventList){
 
@@ -250,9 +259,9 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
-                    } else if (filter == "Mines"){
+                    } else if (filter == "Mines" || filter == "Mes plans crées"){
 
                         for(item in eventList){
 
@@ -266,9 +275,9 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
 
-                    } else if (filter == "Invited to"){
+                    } else if (filter == "Invited to" || filter == " Mes invitations reçues"){
 
                         for(item in eventList){
 
@@ -282,12 +291,12 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
                         }*/
                         }
 
-                        recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+                        recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
                     }
                 }
             }else {
 
-                recyclerView?.adapter = HomePlanPreviewAdapter(eventList)
+                recyclerView?.adapter = HomePlanPreviewAdapter(true, eventList)
             }
         }
     }
@@ -341,7 +350,7 @@ class AllHomeFragment : BaseFragment()/*, PublicPlanFragment.PublicPlanFragmentL
 
         } else {
 
-            recyclerView?.adapter = HomePlanPreviewAdapter(filteredEventList)
+            recyclerView?.adapter = HomePlanPreviewAdapter(true, filteredEventList)
         }
     }
 

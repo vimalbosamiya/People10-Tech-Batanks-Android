@@ -31,8 +31,10 @@ class InvitationStatus : BaseAppCompatActivity() {
 
         invitationstatusToolBar.setNavigationOnClickListener {
 
-          /*  intent = Intent(this, EventDetailViewAdmin :: class.java)
-            startActivity(intent)*/
+            intent = Intent(this, EventDetailViewAdmin :: class.java)
+            intent.putExtra("ID", eventId)
+            intent.putExtra("FROM_HOME", false)
+            startActivity(intent)
             finish()
         }
 
@@ -42,8 +44,7 @@ class InvitationStatus : BaseAppCompatActivity() {
         tabs.setupWithViewPager(view_pager)
 
         val tabOne = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
-        tabOne.text = getString(R.string.guests)
-
+        tabOne.text = getString(R.string.guests_caps)
         tabOne.setTextColor(resources.getColor(R.color.colorLittleBlue))
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_event_details_people_outline, 0, 0)
         tabs.getTabAt(0)?.customView = tabOne

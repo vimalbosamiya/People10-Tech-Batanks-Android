@@ -26,6 +26,7 @@ import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.home.fragment.CreatePlanFragment
+import com.batanks.nextplan.home.fragment.tabfragment.privateplan.PrivatePlanFragment
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
 import com.batanks.nextplan.home.home_tabs.HomeTabsAdapter
 import com.batanks.nextplan.home.viewmodel.HomePlanPreviewViewModel
@@ -36,7 +37,9 @@ import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.InlineResponse2002
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPlanFragment.PublicPlanFragmentListener/*, HomePlanPreviewAdapter.HomePlanPreviewAdapterListener*/ {
+class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener,
+                        PublicPlanFragment.PublicPlanFragmentListener,
+                        PrivatePlanFragment.PrivatePlanFragmentListener/*, HomePlanPreviewAdapter.HomePlanPreviewAdapterListener*/ {
 
     var list : InlineResponse2002? = null
 
@@ -145,9 +148,22 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
 
     override fun onBackPressed() {
 
-        showDialog()
+        if (frameLayout.visibility.equals(View.VISIBLE)){
 
-        //println("working fine proceed.")
+            supportFragmentManager.findFragmentById(R.id.frameLayout)?.let {
+                supportFragmentManager.beginTransaction().remove(it).commit() }
+
+            frameLayout.visibility = View.GONE
+            appBarLayout.visibility = View.VISIBLE
+            search.visibility = View.VISIBLE
+            notification.visibility = View.VISIBLE
+            img_settings.visibility = View.VISIBLE
+            extFab.visibility = View.VISIBLE
+
+        } else {
+
+            showDialog()
+        }
     }
 
     private fun showDialog() {
@@ -215,9 +231,9 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
                 val edit: Boolean = false
 
                 extFab.visibility = View.GONE
-
+                
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.frameLayout, CreatePlanFragment(edit, null, false, false, this),CreatePlanFragment.TAG)
+                        .add(R.id.frameLayout, CreatePlanFragment(false, false,true, edit, null, false, false, this, this),CreatePlanFragment.TAG)
                         .addToBackStack(CreatePlanFragment.TAG).commit()  //uncomment
 
                 Handler().postDelayed({
@@ -304,12 +320,10 @@ class HomePlanPreview : BaseAppCompatActivity(), View.OnClickListener, PublicPla
     override fun refreshHomeFragmentData(success: Boolean) {
 
         if (success){
-
             println("Came to HomePlanPreview and it's working fine now")
             val intent = intent
             finish()
             startActivity(intent)
-
         }
 
         /*finish()

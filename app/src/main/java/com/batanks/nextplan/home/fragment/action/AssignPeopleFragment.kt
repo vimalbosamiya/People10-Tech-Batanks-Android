@@ -24,7 +24,8 @@ import com.batanks.nextplan.swagger.model.*
 import kotlinx.android.synthetic.main.assign_people_fragment.*
 
 class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner,private val event : Event?, private val fromAction : Boolean,
-                            private var defaultSelectedGuests : ArrayList<ActivityParticipant>?) : BaseDialogFragment(), View.OnClickListener,
+                            private var defaultSelectedGuests : ArrayList<ActivityParticipant>?,  private var defaultSelectedAssigne : String?,
+                            /*private var defaultSelectedGuests : ArrayList<String>?*/) : BaseDialogFragment(), View.OnClickListener,
                             Assign_People_Adapter.assignPeopleRecyclerViewCallBack, AssignActivityParticipantsAdapter.assignPeopleActivityRecyclerViewCallBack {
 
     protected lateinit var rootView: View
@@ -61,15 +62,22 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner,pr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
         if(fromAction == true){
 
-            assign_people_recyclerview.adapter = Assign_People_Adapter(this, event!!.guests)
+            assign_people_recyclerview.adapter =
+                event!!.guests?.let { Assign_People_Adapter(this, it, defaultSelectedAssigne) }
 
         } else {
 
-            assign_people_recyclerview.adapter = AssignActivityParticipantsAdapter(this, event!!.guests, defaultSelectedGuests)
+            assign_people_header.setText(getString(R.string.add_guest_caps))
+            assign_people_Button.setText(getString(R.string.add_guest_all_caps))
+
+            assign_people_recyclerview.adapter = event!!.guests?.let {
+                AssignActivityParticipantsAdapter(this,
+                    it, defaultSelectedGuests)
+            }
         }
 
         /*contactsViewModel.getContactsList()
@@ -105,13 +113,14 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner,pr
 
     override fun assignSelectedContact(selection: Guests?, selected: Boolean, id: Int?) {
         selected_Contact = selection
-        selected_assignee = selection?.name
+        selected_assignee = selection?.user?.username
         assigneeId = id
     }
 
     override fun assignSelectedContactsActivity(selection: ArrayList<Guests>?) {
 
         activityParticipants = selection
+        println(selection)
     }
 
     interface AssignPeopleFragmentListner {

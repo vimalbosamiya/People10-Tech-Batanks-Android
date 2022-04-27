@@ -97,7 +97,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
                     followUpList?.add(str)
 
-                    saveData()
+                    saveData(false)
 
                     loadData()
 
@@ -157,7 +157,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
                 followUpList.set(position,str)
 
-                saveData()
+                saveData(true)
 
                 loadData()
 
@@ -184,7 +184,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         }
     }
 
-    private fun saveData(){
+    private fun saveData(fromEdit :Boolean){
 
         val sharedPreference =  getSharedPreferences("FOLLOW _UP_PREFERENCE",Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
@@ -193,6 +193,10 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         val json = gson.toJson(followUpList)
         editor.putString("follow up list", json)
         editor.apply()
+
+        if (fromEdit == true){ Toast.makeText(this,getString(R.string.filter_updated),Toast.LENGTH_SHORT).show()
+        }else if (fromEdit == false){Toast.makeText(this,getString(R.string.filter_created),Toast.LENGTH_SHORT).show()}
+
     }
 
     private fun loadData() {
@@ -247,7 +251,6 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
     }
 
     override fun closeButtonFollowUpItemListener(pos: Int) {
-
         rv_settings_followups?.adapter?.notifyDataSetChanged()
     }
 }

@@ -75,24 +75,24 @@
               app:layout_constraintTop_toTopOf="@+id/eventInfoBackground" />
 
           <ImageView
-              android:id="@+id/dollarPerPersonUpperHalfIcon"
+              android:id="@+id/activity_img_cost_per_person"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="18dp"
-              android:layout_marginTop="29dp"
-              android:background="@drawable/ic_event_details_dollar_per_person_icon_upper_half"
+              android:src="@drawable/ic_cost_perperson_icon"
               app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-              app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
+              app:layout_constraintTop_toTopOf="@+id/textViewCostPerPerson"
+              app:layout_constraintBottom_toBottomOf="@+id/textViewCostPerPerson" />
 
-          <ImageView
+          <!--<ImageView
               android:id="@+id/dollarPerPersonLowerHalfIcon"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="19.35dp"
               android:layout_marginTop="34.07dp"
-              android:background="@drawable/ic_event_details_dollar_per_person_icon_lower_half"
+              android:src="@drawable/ic_event_details_dollar_per_person_icon_lower_half"
               app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-              app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
+              app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />-->
 
           <TextView
               android:id="@+id/textViewCostPerPerson"
@@ -103,7 +103,7 @@
               android:text="Cost Per Person"
               android:textColor="#DEFFFFFF"
               android:textSize="14sp"
-              app:layout_constraintStart_toEndOf="@+id/dollarPerPersonLowerHalfIcon"
+              app:layout_constraintStart_toEndOf="@+id/activity_img_cost_per_person"
               app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
 
           <TextView
@@ -246,13 +246,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible" />
 
-                <ImageView
+               <!-- <ImageView
                     android:id="@+id/hideMapImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:background="@drawable/ic_event_details_hide_map_background"
+                    app:layout_constraintStart_toStartOf="@+id/eventMapbackgroundVisible"
+                    app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible" />-->
+
+                <TextView
+                    android:id="@+id/hideMapImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/hide_map"
                     app:layout_constraintStart_toStartOf="@+id/eventMapbackgroundVisible"
                     app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible" />
 
@@ -315,7 +325,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:text="Show Map"
+                    android:text="@string/show_map"
                     android:textColor="#DEFFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/eventMapbackgroundHide"
@@ -475,7 +485,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21.02dp"
-
                     android:background="@drawable/ic_event_details_everybody_come_icon"
                     app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeVisible" />
@@ -486,7 +495,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="19.02dp"
                     android:layout_marginStart="16.98dp"
-                    android:text="Everybody come"
+                    android:text="@string/everybody_come"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/everybodyCome"
@@ -550,121 +559,6 @@
                         app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
                         app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />
 
-                <!--<ImageView
-                    android:id="@+id/contactBackground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/ic_event_details_contact_background"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />
-
-                <ImageView
-                    android:id="@+id/contactStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/ic_event_details_contact_not_confirmed"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toBottomOf="@+id/everybodyComeTextView" />
-
-                <TextView
-                    android:id="@+id/contactName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Graphiste"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/contactBackground"
-                    app:layout_constraintTop_toTopOf="@+id/contactBackground" />
-
-                <ImageView
-                    android:id="@+id/contactSettings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_event_details_settings"
-                    app:layout_constraintEnd_toEndOf="@+id/contactBackground"
-                    app:layout_constraintTop_toTopOf="@+id/contactBackground" />
-
-
-                <ImageView
-                    android:id="@+id/contactConfirmed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/ic_event_details_contact_background"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toBottomOf="@+id/contactBackground" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/ic_event_details_contact_confirmed"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toTopOf="@+id/contactConfirmed" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Dev Back"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/contactConfirmed"
-                    app:layout_constraintTop_toTopOf="@+id/contactConfirmed" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_event_details_settings"
-                    app:layout_constraintEnd_toEndOf="@+id/contactConfirmed"
-                    app:layout_constraintTop_toTopOf="@+id/contactConfirmed" />
-
-
-                <ImageView
-                    android:id="@+id/contactDeclined"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/ic_event_details_contact_background"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toBottomOf="@+id/contactConfirmed" />
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/ic_event_details_contact_declined"
-                    app:layout_constraintStart_toStartOf="@+id/activityEverybodyComeVisible"
-                    app:layout_constraintTop_toTopOf="@+id/contactDeclined" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginTop="12dp"
-                    android:text="Dev Front"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/contactDeclined"
-                    app:layout_constraintTop_toTopOf="@+id/contactDeclined" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_event_details_settings"
-                    app:layout_constraintEnd_toEndOf="@+id/contactDeclined"
-                    app:layout_constraintTop_toTopOf="@+id/contactDeclined" />-->
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -693,7 +587,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="19.02dp"
                     android:layout_marginStart="16.98dp"
-                    android:text="Everybody come"
+                    android:text="@string/everybody_come"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/everybodyComeHide"
@@ -710,30 +604,6 @@
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/everybodyComeTextViewHide"
                     app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />
-
-              <!--  <TextView
-                    android:id="@+id/votesSeperatorHide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="19.02dp"
-                    android:layout_marginStart="4dp"
-                    android:text="/"
-                    android:textColor="#DEFFFFFF"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/comingVotesHide"
-                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />
-
-                <TextView
-                    android:id="@+id/totalNoOfVotesHide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="19.02dp"
-                    android:layout_marginStart="4dp"
-                    android:text="999"
-                    android:textColor="#90CAF9"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/votesSeperatorHide"
-                    app:layout_constraintTop_toTopOf="@+id/activityEverybodyComeHide" />-->
 
                 <ImageView
                     android:id="@+id/hideEverybodyComeHide"
@@ -810,13 +680,14 @@
 
 
         <ImageView
+            android:id="@+id/activity_img_cost_per_person_expanded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/ic_event_details_contact_dollar"
+            android:src="@drawable/ic_event_details_contact_dollar"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"
-            app:layout_constraintTop_toBottomOf="@+id/participateIconHolder" />
+            app:layout_constraintTop_toTopOf="@+id/textViewCostPerPersonMulti"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewCostPerPersonMulti" />
 
 
         <TextView
@@ -825,7 +696,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:layout_marginTop="28dp"
-            android:text="Cost Per Person"
+            android:text="@string/cost_per_person"
             android:textColor="#DEFFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/eventInfobackgroundMulti"

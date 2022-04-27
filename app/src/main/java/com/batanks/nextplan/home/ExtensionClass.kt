@@ -3,12 +3,14 @@ package com.batanks.nextplan.home
 import android.graphics.Color
 import android.util.Patterns
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import com.batanks.nextplan.home.ExtensionClass.Companion.PhoneNumberPattern
 import com.batanks.nextplan.home.ExtensionClass.Companion.textPattern
 import com.batanks.nextplan.home.ExtensionClass.Companion.userNamePattern
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
@@ -35,6 +37,23 @@ import java.util.regex.Pattern
         color(Color.RED) { append(" *") }
     })
 }
+
+internal fun TextInputEditText.markInRed() {
+
+    setText( buildSpannedString {
+        append(text)
+        color(Color.RED) { append(" *") }
+    })
+}
+
+internal fun TextView.markInRed() {
+
+    setText( buildSpannedString {
+        append(text)
+        color(Color.RED) { append(" *") }
+    })
+}
+
 
  internal fun isEmailValid(email: CharSequence?): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
  internal fun isValidPassword(textToCheck: String?): Boolean = textPattern.matcher(textToCheck).matches()

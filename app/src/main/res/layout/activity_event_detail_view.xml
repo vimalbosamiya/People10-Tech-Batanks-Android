@@ -57,9 +57,6 @@
   </androidx.appcompat.widget.Toolbar>
 
   <ScrollView
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
       android:id="@+id/scrollview"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -361,10 +358,23 @@
             app:layout_constraintTop_toTopOf="@+id/flightBlackBackground" />-->
 
         <ImageView
-            android:id="@+id/tripIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/acceptedStatus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_publiceventcategoryiconaccepted"
+            app:layout_constraintBottom_toBottomOf="@+id/tripHolder"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+        <ImageView
+            android:id="@+id/tripIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:scaleType="center"
@@ -421,10 +431,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:visibility="visible"
-            android:background="@drawable/ic_event_details_private_icon"
+            android:src="@drawable/ic_private_icon_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tripHolder" />
+
+        <ImageView
+            android:id="@+id/privateIconMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_private_icon_mini"
+            app:layout_constraintStart_toStartOf="@+id/privateIcon"
+            app:layout_constraintTop_toTopOf="@+id/privateIcon" />
+
+        <TextView
+            android:id="@+id/eventType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:text="@string/_private"
+            android:textColor="#90CAF9"
+            android:textSize="12sp"
+            android:lineSpacingExtra="1sp"
+            app:layout_constraintStart_toEndOf="@+id/privateIconMini"
+            app:layout_constraintTop_toTopOf="@+id/privateIcon" />
 
         <!--<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/takePartImage"
@@ -4320,7 +4353,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -4346,12 +4379,12 @@
                 android:id="@+id/takePartImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/take_part_caps"
                 android:padding="10dp"
+                android:text="@string/take_part_caps"
                 app:backgroundTint="#34CBFE"
                 app:icon="@drawable/ic_take_part_icon"
                 app:layout_constraintStart_toStartOf="@+id/takePartVisible"
-                app:layout_constraintTop_toTopOf="@+id/takePartVisible"  />
+                app:layout_constraintTop_toTopOf="@+id/takePartVisible" />
 
             <!-- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                  android:id="@+id/followup_extFab"
@@ -4373,13 +4406,24 @@
               app:layout_constraintStart_toStartOf="@+id/takePartAddGuestHolder"
               app:layout_constraintTop_toTopOf="@+id/takePartAddGuestHolder">
 
-            <ImageView
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/addGuestImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_guest_all_caps"
+                android:padding="10dp"
+                app:backgroundTint="#34CBFE"
+                app:icon="@drawable/ic_take_part_icon"
+                app:layout_constraintStart_toStartOf="@+id/addGuestVisible"
+                app:layout_constraintTop_toTopOf="@+id/addGuestVisible"  />
+
+            <!--<ImageView
                 android:id="@+id/addGuestImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_add_guest_button"
                 app:layout_constraintStart_toStartOf="@+id/addGuestVisible"
-                app:layout_constraintTop_toTopOf="@+id/addGuestVisible" />
+                app:layout_constraintTop_toTopOf="@+id/addGuestVisible" />-->
 
           </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -4423,6 +4467,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
   </ScrollView>
+
+  <!--<FrameLayout
+
+      android:id="@+id/frameLayoutUser"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -67,21 +67,16 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
                 .append(zipcode)
 
         val stringBuilderAddress = StringBuilder()
-                .append(name)
-
-                .append(" ")
+                /*.append(name)
+                .append(" ")*/
                 .append(address)
-
+                .append("\n")
+                .append(zipcode)
                 .append(" ")
                 .append(city)
-
-                .append("\n")
-
                 .append(" ")
                 .append(country)
-
                 .append(" ")
-                .append(zipcode)
 
         if (!stringBuilderAddress.toString().isNullOrEmpty()){
 
@@ -93,10 +88,9 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
             holder.placeAddress.visibility = View.GONE
         }
 
-        val result: List<Address> = Geocoder(context).getFromLocationName(stringBuilder.toString(), 5)
+        //val result: List<Address> = Geocoder(context).getFromLocationName(stringBuilder.toString(), 5)
 
-
-        if (result.isEmpty()) {
+       /* if (result.isEmpty()) {
             //showMessage("We are unable to find the location info, Please enter a different location.")
             Toast.makeText(context,context.getString(R.string.place_not_found), Toast.LENGTH_LONG).show()
 
@@ -105,7 +99,7 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
             longitude = result[0].longitude
 
             //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
-        }
+        }*/
 
         if (modelList[position].map == false){
 
@@ -140,8 +134,6 @@ class AddPlaceRecyclerView(private val callBack: AddPlaceRecyclerViewCallBack, p
 
             callBack.editButtonAddPlaceItemListener(position)
         }
-
-
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.layout_contact.view.*
 class ParticipantsAdapter (private val myList: ArrayList<ContactsList>, private val addContactViewModel : AddContactViewModel) : RecyclerView.Adapter<ParticipantsAdapter.MyViewHolder>() {
 
     private var context: Context? = null
-    var id : Int? = 0
+    //var id : Int? = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -39,13 +39,16 @@ class ParticipantsAdapter (private val myList: ArrayList<ContactsList>, private 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        id = myList[position].id
+        holder.close.setImageResource(R.drawable.ic_event_details_settings)
 
+        //id = myList[position].id
+
+        println(myList[position].username)
         holder.contactName.text = myList[position].username
 
-        holder.contactSettings.setOnClickListener {
+        holder.close.setOnClickListener {
 
-            context?.let { it1 -> showDialog(it1) }
+            context?.let { it1 -> showDialog(it1, myList[position].id!!) }
 
         }
 
@@ -57,10 +60,10 @@ class ParticipantsAdapter (private val myList: ArrayList<ContactsList>, private 
         //val contactImage : ImageView = itemView.contactImage
         //val contactImage : ImageView = itemView.contactImage
         val contactName : TextView = itemView.contactName
-        val contactSettings : ImageView = itemView.contactSettings
+        val close : ImageView = itemView.close
     }
 
-    private fun showDialog(context : Context) {
+    private fun showDialog(context : Context, id : Int) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

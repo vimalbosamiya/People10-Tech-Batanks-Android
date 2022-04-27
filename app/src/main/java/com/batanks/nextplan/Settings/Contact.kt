@@ -30,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -98,6 +99,10 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
     private var sort: Int = 0
     private var sortFilter: String? = null
 
+    /*var friendsExpanded : Boolean = false
+    var groupsExpanded : Boolean = false
+    var usersExpanded : Boolean = false*/
+
     companion object {
         val PERMISSIONS_REQUEST_READ_CONTACTS = 100
     }
@@ -150,6 +155,10 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact)
 
+        /*friendsExpanded = intent.getBooleanExtra("IS_FRIENDS_EXPANDED",false)
+        groupsExpanded = intent.getBooleanExtra("IS_GROUPS_EXPANDED",false)
+        usersExpanded = intent.getBooleanExtra("IS_USERS_EXPANDED",false)*/
+
         rv_settings_contacts = findViewById(R.id.rv_settings_contacts)
         rv_settings_contacts.layoutManager = LinearLayoutManager(this)
 
@@ -158,6 +167,22 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
 
         rv_users = findViewById(R.id.rv_users)
         rv_users.layoutManager = LinearLayoutManager(this)
+
+        /*if (friendsExpanded == true){
+
+            rv_settings_contacts.visibility = VISIBLE
+
+        }
+
+        if (groupsExpanded == true){
+
+            rv_settings_groups.visibility = VISIBLE
+        }
+
+        if (usersExpanded == true){
+
+            rv_users.visibility = VISIBLE
+        }*/
 
         /*rv_phone_contacts  = findViewById(R.id.rv_phone_contacts)
         rv_phone_contacts.layoutManager = LinearLayoutManager(this)*/
@@ -220,7 +245,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                                 }
 
                                 //contactsRecyclerViewResize()
-                                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel)
+                                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel,rv_settings_contacts.isVisible, rv_settings_groups.isVisible, rv_users.isVisible)
                                 rv_settings_contacts.adapter = adapter
 
                                 if (contactListSearched.size > 0) {
@@ -306,7 +331,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                                     params.height = 700
                                     rv_settings_contacts.setLayoutParams(params)
                                 }
-                                adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
+                                adapter = ContactsAdapter_Settings(contactList, contactsViewModel, rv_settings_contacts.isVisible, rv_settings_groups.isVisible, rv_users.isVisible)
                                 rv_settings_contacts.adapter = adapter
                                 hideContactsRecyclerView()
 
@@ -370,7 +395,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                         sort = 1
                     }
 
-                    adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
+                    adapter = ContactsAdapter_Settings(contactList, contactsViewModel ,rv_settings_contacts.isVisible, rv_settings_groups.isVisible, rv_users.isVisible)
 
                     rv_settings_contacts.adapter = adapter
                 }
@@ -413,6 +438,8 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                     groupsViewModel.response = response.data as ArrayList<Group>
 
                     groupList = response.data
+
+                    groupList.sortBy { it.name?.toLowerCase(Locale.ROOT) }
 
                     groups_adapter = GroupsAdapter_Settings(groupList, groupListViewModel)
 
@@ -592,7 +619,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                     sort = 0
                 }
 
-                adapter = ContactsAdapter_Settings(contactList, contactsViewModel)
+                adapter = ContactsAdapter_Settings(contactList, contactsViewModel, rv_settings_contacts.isVisible, rv_settings_groups.isVisible, rv_users.isVisible)
 
                 rv_settings_contacts.adapter = adapter
 
@@ -611,7 +638,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
                     sort = 0
                 }
 
-                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel)
+                adapter = ContactsAdapter_Settings(contactListSearched, contactsViewModel, rv_settings_contacts.isVisible, rv_settings_groups.isVisible, rv_users.isVisible)
 
                 rv_settings_contacts.adapter = adapter
             }
@@ -687,7 +714,44 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
 
         img_contacts_close.setOnClickListener {
 
+            intent = Intent(this, Settings :: class.java)
+            startActivity(intent)
             finish()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1){
+
+                contactsViewModel.getContactsList()
+                groupsViewModel.getGroupsList()
+                searchViewModel.getSearchUsers(" ")
+
+                if (contactsViewModel.isFriendsExpanded){ rv_settings_contacts.visibility = VISIBLE }
+                if (contactsViewModel.isGroupsExpanded){ rv_settings_groups.visibility = VISIBLE}
+                if (contactsViewModel.isusersExpanded){ rv_users.visibility = VISIBLE}
+
+        } else if (requestCode == 2){
+
+            contactsViewModel.getContactsList()
+            groupsViewModel.getGroupsList()
+            searchViewModel.getSearchUsers(" ")
+
+            if (contactsViewModel.isFriendsExpanded){ rv_settings_contacts.visibility = VISIBLE }
+            if (contactsViewModel.isGroupsExpanded){ rv_settings_groups.visibility = VISIBLE}
+            if (contactsViewModel.isusersExpanded){ rv_users.visibility = VISIBLE}
+
+        } else if (requestCode == 3){
+
+            contactsViewModel.getContactsList()
+            groupsViewModel.getGroupsList()
+            searchViewModel.getSearchUsers(" ")
+
+            if (contactsViewModel.isFriendsExpanded){ rv_settings_contacts.visibility = VISIBLE }
+            if (contactsViewModel.isGroupsExpanded){ rv_settings_groups.visibility = VISIBLE}
+            if (contactsViewModel.isusersExpanded){ rv_users.visibility = VISIBLE}
         }
     }
 
@@ -772,6 +836,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
         rv_settings_contacts.visibility = VISIBLE
         img_settings_contacts_contacts_downarrow.visibility = GONE
         img_settings_contacts_contacts_uparrow.visibility = VISIBLE
+        contactsViewModel.isFriendsExpanded = true
     }
 
     private fun hideContactsRecyclerView() {
@@ -781,6 +846,7 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
         img_settings_contacts_contacts_filter.visibility = GONE
         view_seperator_settings_contactlist.visibility = GONE
         rv_settings_contacts.visibility = GONE
+        contactsViewModel.isFriendsExpanded = false
         img_settings_contacts_contacts_downarrow.visibility = VISIBLE
         img_settings_contacts_contacts_uparrow.visibility = GONE
     }
@@ -791,11 +857,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
         rl_settings_create_new_groups.visibility = VISIBLE
         img_settings_contacts_groups_downarrow.visibility = GONE
         img_settings_contacts_groups_uparrow.visibility = VISIBLE
+        contactsViewModel.isGroupsExpanded = true
     }
 
     private fun hideGroupsRecyclerView() {
 
         rv_settings_groups.visibility = GONE
+        contactsViewModel.isGroupsExpanded = false
         rl_settings_create_new_groups.visibility = GONE
         img_settings_contacts_groups_downarrow.visibility = VISIBLE
         img_settings_contacts_groups_uparrow.visibility = GONE
@@ -806,11 +874,13 @@ class Contact : BaseAppCompatActivity(), CoroutineScope{
         rv_users.visibility = VISIBLE
         img_users_downarrow.visibility = GONE
         img_users_uparrow.visibility = VISIBLE
+        contactsViewModel.isusersExpanded = true
     }
 
     private fun hideUsersRecyclerView() {
 
         rv_users.visibility = GONE
+        contactsViewModel.isusersExpanded = false
         img_users_downarrow.visibility = VISIBLE
         img_users_uparrow.visibility = GONE
     }

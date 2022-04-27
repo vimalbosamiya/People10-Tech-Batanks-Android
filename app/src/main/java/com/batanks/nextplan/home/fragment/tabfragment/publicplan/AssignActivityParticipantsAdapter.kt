@@ -11,8 +11,9 @@ import com.batanks.nextplan.swagger.model.ActivityParticipant
 import com.batanks.nextplan.swagger.model.Guests
 import kotlinx.android.synthetic.main.item_assign_people.view.*
 
-class AssignActivityParticipantsAdapter(private val listner : assignPeopleActivityRecyclerViewCallBack, private val myList: ArrayList<Guests>,
-                                        private var defaultSelectedGuests : ArrayList<ActivityParticipant>?) : RecyclerView.Adapter<AssignActivityParticipantsAdapter.MyViewHolder>() {
+class AssignActivityParticipantsAdapter(private val listner : assignPeopleActivityRecyclerViewCallBack, private val myList: ArrayList<Guests>
+                                        ,private var defaultSelectedGuests : ArrayList<ActivityParticipant>?
+                                        /*,private var defaultSelectedGuests : ArrayList<String>?*/) : RecyclerView.Adapter<AssignActivityParticipantsAdapter.MyViewHolder>() {
 
     private val selectedActivityParticipants : ArrayList<Guests> = arrayListOf()
 
@@ -26,43 +27,24 @@ class AssignActivityParticipantsAdapter(private val listner : assignPeopleActivi
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.txt_assign_people_name.text = myList.get(position).name
+        //println(myList)
 
-        if (myList[position].selection){
+        holder.txt_assign_people_name.text = myList.get(position).user.username
+
+        if (myList[position].selection == true){
 
             holder.checkBox.isChecked = true
 
-        } else {
+            if (!selectedActivityParticipants.contains(myList[position])){
+
+                selectedActivityParticipants.add(myList[position])
+            }
+
+            listner.assignSelectedContactsActivity(selectedActivityParticipants)
+
+        } else if (myList[position].selection == false) {
 
             holder.checkBox.isChecked = false
-        }
-
-        if (defaultSelectedGuests != null){
-
-            for (item in defaultSelectedGuests!!){
-
-                if (item.id == myList[position].user_id){
-
-                    myList[position].selection = true
-
-                    holder.checkBox.isChecked = true
-
-                    println("Box which is checked is : " + myList[position].name)
-
-                    if (!selectedActivityParticipants.contains(myList[position])){
-
-                        selectedActivityParticipants.add(myList[position])
-                    }
-
-                    listner.assignSelectedContactsActivity(selectedActivityParticipants)
-
-                } else {
-
-                    myList[position].selection = false
-
-                    holder.checkBox.isChecked = false
-                }
-            }
         }
 
         holder.checkBox.setOnClickListener{

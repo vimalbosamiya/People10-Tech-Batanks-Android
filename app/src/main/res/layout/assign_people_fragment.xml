@@ -7,13 +7,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/assign_people_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:gravity="center_vertical"
-        android:text="Assign People"
+        android:text="@string/assignee_people"
         android:textSize="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -52,7 +53,7 @@
         android:layout_width="272dp"
         android:layout_height="48dp"
         android:layout_marginTop="23dp"
-        android:text="ASSIGN People"
+        android:text="@string/assignee_people_all_caps"
         android:textColor="#ffffff"
         app:cornerRadius="20dp"
         app:icon="@drawable/ic_add_person"

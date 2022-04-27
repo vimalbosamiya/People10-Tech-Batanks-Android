@@ -75,7 +75,7 @@
             android:id="@+id/toResponseTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="To Response"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/toTextView"
             app:layout_constraintStart_toStartOf="@+id/fromResponseTextView"
             app:layout_constraintEnd_toEndOf="@+id/fromResponseTextView"

@@ -1,11 +1,8 @@
 package com.batanks.nextplan.eventdetails.viewmodel
 
-import ActivitySubscribe
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
-import com.batanks.nextplan.network.RetrofitClient
-import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -160,7 +157,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
     }
 
-    fun assignAction (id: String?, data: AsssignTask?){
+    fun assignAction (id: String?, data: AssignTask?){
 
         disposables.add(eventApi.apiEventAssignCreate(id,data)
             .subscribeOn(Schedulers.io())

@@ -16,8 +16,8 @@
     <string name="username_condition">Le pseudonymé doit contenir au moins 2 caractères sans espace</string>
     <string name="first_name">Nom</string>
     <string name="last_name">Prénom</string>
-    <string name="firstname_condition">Le Nom doit contenir au moins 2 caractères sans espace</string>
-    <string name="lastname_condition">Le Prénom doit contenir au moins 2 caractères sans espace</string>
+    <string name="firstname_condition">Le Nom doit contenir au moins 2 caractères</string>
+    <string name="lastname_condition">Le Prénom doit contenir au moins 2 caractères</string>
     <string name="email">Email</string>
     <string name="valid_email">Entrez une adresse mail valide</string>
     <string name="password_condition">Le mot de passe doit contenir au moins 6 caractères avec 1 lettre miniscule, 1 lettre majuscule, 1 chiffre et 1 caractère spécial sans espace</string>
@@ -37,7 +37,7 @@
     <string name="cancel">Annuler</string>
     <string name="myplans">Mes Plans</string>
     <string name="all">Tous</string>
-    <string name="_private">" Privé"</string>
+    <string name="_private">"Privé"</string>
     <string name="_public">Publique</string>
     <string name="add_plan">Nouveau Plan</string>
     <string name="news">Accueil</string>
@@ -171,9 +171,9 @@
     <string name="place_name_error">Le nom du lieu doit contenir au moins 2 caractères</string>
     <string name="max_participants">Nombre max de participants</string>
     <string name="number">Nombre</string>
-    <string name="save_draft">Sauvegarder le brouillon</string>
+    <string name="save_draft">Brouillon</string>
     <string name="create_plan">Créer un plan</string>
-    <string name="from">"De "</string>
+    <string name="from">"Du "</string>
     <string name="total_cost_caps">Cout total</string>
     <string name="declin_caps">Refuser</string>
     <string name="guests_caps">Invités</string>
@@ -216,7 +216,7 @@
     <string name="delete_contact">Retirer des contacts</string>
     <string name="add_to_contact">Ajouter un contact</string>
     <string name="add_period_error">Date de début requise</string>
-    <string name="to">Jusqu\'au</string>
+    <string name="to">Au</string>
     <string name="place_title">Lieu</string>
     <string name="activity_cost_hint">Cout de la tâche</string>
     <string name="custom">Personnaliser</string>
@@ -225,6 +225,44 @@
     <string name="invitation_status">Status</string>
     <string name="vote_for_place">Lieu</string>
     <string name="event_deleted">Plan supprimé !</string>
-
+    <string name="add_guest_caps">Inviter</string>
+    <string name="invite_by_mail">Inviter par email</string>
+    <string name="add_guest_all_caps">Inviter</string>
+    <string name="add_comment">Commenter</string>
+    <string name="activity_everybody_come">Liste des invités</string>
+    <string name="add_guests">Inviter</string>
+    <string name="profile">Profil</string>
+    <string name="cost_per_person">Cout par personne</string>
+    <string name="add_place_title">Nouveau lieu</string>
+    <string name="null_if_no_cost">Null si pas de coût</string>
+    <string name="enter_an_email">Entrez votre email</string>
+    <string name="draft_updated">Brouillon mis à jour !</string>
+    <string name="plan_created">Plan créée !</string>
+    <string name="draft_created">Brouillon créée !</string>
+    <string name="plan_updated">Plan mis à jour !</string>
+    <string name="activity_cost">Coût de l\'activité</string>
+    <string name="per_person">"Par personne "</string>
+    <string name="add_friend">Ajouter Ami</string>
+    <string name="tell_what_you_think">Commentez</string>
+    <string name="assign_me">Je prends</string>
+    <string name="invite_accepted">Invitation accepté</string>
+    <string name="invite_declined">Invitation refusé</string>
+    <string name="guests_added">Invité ajouté</string>
+    <string name="comment_field_error">Ne peut etre vide</string>
+    <string name="comment_added">Commentaire ajouté</string>
+    <string name="comment_updated">Commentaire mis à jour</string>
+    <string name="comment_deleted">Commentaire supprimé</string>
+    <string name="remove_from_action">Retiré</string>
+    <string name="assign_successful">Affecté</string>
+    <string name="force_the_answer_to">Mettre à</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="edit_propriety">Editez</string>
+    <string name="activity_hours_error">La durée en heures est requise</string>
+    <string name="activity_mins_error">La durée en minutes est requise</string>
+    <string name="cannot_add_activity_when_have_multiple_dates">" Merci de ne choisir qu'une seule date"</string>
+    <string name="cannot_add_multiple_dates">Une seule date possible</string>
+    <string name="cannot_add_task">Pas de tâches quand le plan est publique</string>
+    <string name="cannot_add_activity">Pas d\'activité quand le plan est publique</string>
 
 </resources>

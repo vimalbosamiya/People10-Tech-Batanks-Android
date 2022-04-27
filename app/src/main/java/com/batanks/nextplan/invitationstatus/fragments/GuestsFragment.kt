@@ -70,7 +70,7 @@ class GuestsFragment(private val eventId : Int) : BaseFragment() {
 
                     event = response.data as Event
 
-                    guestsList = event!!.guests
+                    guestsList = event!!.guests!!
 
                     invitationStatusRecyclerview.adapter = InvitationStatusListAdapter(guestsList, eventDetailViewModel, eventId)
                 }
@@ -107,16 +107,6 @@ class GuestsFragment(private val eventId : Int) : BaseFragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-
-        /*if (view != null && isVisibleToUser) {
-
-            isViewShown = true
-
-            eventDetailViewModel.getEventData(eventId.toString())
-
-        } else {
-            isViewShown = false
-        }*/
 
         if (isVisibleToUser && isResumed()){
 

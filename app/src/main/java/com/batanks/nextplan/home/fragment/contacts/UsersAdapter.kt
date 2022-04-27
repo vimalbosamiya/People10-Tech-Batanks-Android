@@ -7,10 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.search.viewmodel.SearchViewModel
-import com.batanks.nextplan.swagger.model.ActivityParticipants
 import com.batanks.nextplan.swagger.model.ContactsList
-import com.batanks.nextplan.swagger.model.UserSearch
-import com.batanks.nextplan.swagger.model.UserSearchResults
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.contact_item.view.*
 

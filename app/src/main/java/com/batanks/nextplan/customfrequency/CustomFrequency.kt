@@ -23,9 +23,65 @@ import java.util.*
 
 class CustomFrequency : BaseAppCompatActivity(), View.OnClickListener {
 
+    private var periodicity : Periodicity? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_frequency)
+
+        val unit : String? = intent.getStringExtra("UNIT")
+        val occurrences : String? = intent.getStringExtra("Occurrences")
+        println(occurrences)
+        val end_date : String? = intent.getStringExtra("End_Date")
+
+        if (unit != null){
+
+            if (unit == "d"){
+
+                repeatEditText.setText(R.string.day)
+
+            }else if (unit == "w"){
+
+                repeatEditText.setText(R.string.week)
+
+            }else if (unit == "m"){
+
+                repeatEditText.setText(R.string.month)
+
+            }else if (unit == "y"){
+
+                repeatEditText.setText(R.string.year)
+            }
+        }
+
+        if (occurrences != null && occurrences != "0"){
+
+            howManyTimesEditText.setText(occurrences)
+            howManyTimesTextField.visibility = VISIBLE
+            howManyTimesCheckBox.isChecked = true
+
+        } else if(occurrences == "0" || occurrences == null){
+
+            howManyTimesTextField.visibility = GONE
+            howManyTimesCheckBox.isChecked = false
+        }
+
+        if (end_date != null){
+
+            var endDate : Date?
+            var formattedEndDate : String? = null
+
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+            val outputFormat = SimpleDateFormat("EEE, MMM d yyyy")
+
+            endDate = inputFormat.parse(end_date)
+            formattedEndDate = outputFormat.format(endDate)
+
+            untilWhenEditText.setText(formattedEndDate)
+            untilWhenTextField.visibility = VISIBLE
+            UntilWhenCheckBox.isChecked = true
+
+        }else{}
 
         ok.setOnClickListener(this)
         closeButton.setOnClickListener(this)
@@ -33,6 +89,7 @@ class CustomFrequency : BaseAppCompatActivity(), View.OnClickListener {
         repeatEditText.setOnClickListener(this)
         howManyTimesCheckBox.setOnClickListener(this)
         UntilWhenCheckBox.setOnClickListener(this)
+        //untilWhenTextField.setOnClickListener(this)
         untilWhenEditText.setOnClickListener(this)
     }
 
@@ -145,6 +202,8 @@ class CustomFrequency : BaseAppCompatActivity(), View.OnClickListener {
 
                     UntilWhenCheckBox.isChecked = false
 
+                    untilWhenEditText.setText(null)
+
                 } else{
 
                     howManyTimesTextField.visibility = GONE
@@ -152,7 +211,9 @@ class CustomFrequency : BaseAppCompatActivity(), View.OnClickListener {
             }
 
             R.id.UntilWhenCheckBox -> { untilWhen() }
-            //R.id.untilWhenEditText -> { untilWhen() }
+
+            //R.id.untilWhenTextField -> { untilWhen() }
+            R.id.untilWhenEditText -> { untilWhen() }
         }
     }
 

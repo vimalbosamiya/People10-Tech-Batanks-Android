@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/App_Application_Theme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Settings.UsersInfo"></activity>
+        <activity android:name=".eventdetailsadmin.EditFromAdminView" />
+        <activity android:name=".Settings.UsersInfo" />
         <activity android:name=".invitationstatus.InvitationStatus" />
         <activity android:name=".notifications.Notification" />
         <activity android:name=".search.Search" />
@@ -66,4 +67,5 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
+
 </manifest>

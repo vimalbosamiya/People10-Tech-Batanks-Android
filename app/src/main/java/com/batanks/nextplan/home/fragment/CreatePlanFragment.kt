@@ -11,13 +11,24 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseFragment
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.tabfragment.TabsPagerAdapter
+import com.batanks.nextplan.home.fragment.tabfragment.privateplan.PrivatePlanFragment
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
+import com.batanks.nextplan.swagger.model.Empty
+import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.GetEventListHome
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_notification.*
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.fragment_add_new_plan.*
+import kotlinx.android.synthetic.main.fragment_add_new_plan.tabs
+import kotlinx.android.synthetic.main.fragment_add_new_plan.view_pager
 
-class CreatePlanFragment (private val draft : Boolean, private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,
-                          private val listener : PublicPlanFragment.PublicPlanFragmentListener?): BaseFragment() {
+class CreatePlanFragment (private val fromNotifications : Boolean, private val fromSearch : Boolean, private val isPrivate : Boolean, private val draft : Boolean, private val eventId : Int?, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,
+                          private val listener : PublicPlanFragment.PublicPlanFragmentListener?, private val privateListener : PrivatePlanFragment.PrivatePlanFragmentListener?): BaseFragment() {
+
+
+    //lateinit var arr : ArrayList<Empty>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +40,8 @@ class CreatePlanFragment (private val draft : Boolean, private val eventId : Int
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+         //arr.add(Empty(""))
+
         val ref = requireActivity() as AppCompatActivity
         ref.setSupportActionBar(toolBar)
         ref.supportActionBar?.setTitle(R.string.add_plan)
@@ -39,22 +52,36 @@ class CreatePlanFragment (private val draft : Boolean, private val eventId : Int
 
             requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
 
-            if (editButtonClicked == false && deleteButtonClicked == false){
+            if (editButtonClicked == false && deleteButtonClicked == false && fromSearch == false && fromNotifications == false){
 
                 homeScreenItemsVisible()
 
-            } else if (editButtonClicked == true ){
+            } else if (fromSearch == true){
 
+                activity?.searchAppBarLayout?.visibility = View.VISIBLE
 
+            } else if ((editButtonClicked == true || deleteButtonClicked == true) && fromSearch == false){
+
+                adminDetailViewItemsVisible()
+
+            }else if (fromNotifications == true){
+
+                notificationItemsVisible()
             }
 
             //Toast.makeText(activity,"Back Button Working from Navigation" , Toast.LENGTH_SHORT).show()
         }
 
-        val tabsPagerAdapter = TabsPagerAdapter(childFragmentManager, draft, eventId, editButtonClicked, deleteButtonClicked, listener)
+        val tabsPagerAdapter = TabsPagerAdapter(fromSearch, childFragmentManager, draft, eventId, editButtonClicked, deleteButtonClicked, listener, privateListener)
         view_pager.adapter = tabsPagerAdapter
 
-        tabs.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
+        if (isPrivate == false){
+
+            view_pager.setCurrentItem(1,true)
+        }
+
+
+        tabs.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"))
 
         tabs.setupWithViewPager(view_pager)
 
@@ -74,6 +101,8 @@ class CreatePlanFragment (private val draft : Boolean, private val eventId : Int
         tabs.getTabAt(1)?.icon = ref.getDrawable(R.drawable.ic_public_plan_tablayout)
     }
 
+
+
     companion object {
         const val TAG = "CreatePlanFragment"
     }
@@ -89,5 +118,16 @@ class CreatePlanFragment (private val draft : Boolean, private val eventId : Int
         activity?.search!!.visibility = View.VISIBLE
         activity?.notification!!.visibility = View.VISIBLE
         activity?.img_settings!!.visibility = View.VISIBLE
+    }
+
+    private fun notificationItemsVisible(){
+
+        activity?.notificationAppBarLayout?.visibility = View.VISIBLE
+        activity?.rl_notifications_category_bottom?.visibility = View.VISIBLE
+    }
+
+    private fun adminDetailViewItemsVisible(){
+
+        activity?.customToolBar?.visibility = View.VISIBLE
     }
 }

@@ -13,6 +13,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import com.google.gson.GsonBuilder
+
+import com.google.gson.Gson
+import retrofit2.Converter
+
 
 class RetrofitClient private constructor() {
 
@@ -53,6 +58,15 @@ class RetrofitClient private constructor() {
             var token : String? =  context.getSharedPreferences(USER_TOKEN_PREF, Context.MODE_PRIVATE).
                     getString("USER_LOGIN_TOKEN",null)
 
+            /*val builder = GsonBuilder()
+            builder.serializeNulls()
+            val gson = builder.create()
+            val gson = GsonBuilder().serializeNulls().create()
+            val gson = GsonBuilder().create()
+            gson.serializeNulls()*/
+
+            val converterFactory: Converter.Factory = GsonConverterFactory.create(GsonBuilder().serializeNulls().create())
+
             val okHttpClient = OkHttpClient.Builder()
                     .addNetworkInterceptor(StethoInterceptor())
                     /*.cookieJar(cookieJar)*/
@@ -77,33 +91,33 @@ class RetrofitClient private constructor() {
                 retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(okHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(/*GsonConverterFactory.create()*/converterFactory)
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build()
 
-                println("OkHttpClient without Header is being called")
+                //println("OkHttpClient without Header is being called")
 
             } else if (retrofit != null && token != null)  {
 
                     retrofit = Retrofit.Builder()
                             .baseUrl(BASE_URL)
                             .client(okHttpClientWithToken)
-                            .addConverterFactory(GsonConverterFactory.create())
+                            .addConverterFactory(/*GsonConverterFactory.create()*/converterFactory)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .build()
 
-                println("OkHttpClient with Header when we have both instance and token is being called")
+                //println("OkHttpClient with Header when we have both instance and token is being called")
 
             } else if (retrofit == null && token != null){
 
                 retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(okHttpClientWithToken)
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(/*GsonConverterFactory.create()*/converterFactory)
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build()
 
-                println("OkHttpClient with Header when we don't have instance but have token is being called")
+                //println("OkHttpClient with Header when we don't have instance but have token is being called")
 
             }
 

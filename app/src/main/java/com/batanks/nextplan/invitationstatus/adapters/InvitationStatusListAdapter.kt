@@ -44,7 +44,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
         val guest  = invitatioStatusList[position]
 
-        holder.userName.text = guest.name
+        holder.userName.text = guest.user.username
         holder.guestsCount.text = guest.people_coming.toString()
 
         if (guest.status == "AC"){
@@ -79,19 +79,19 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
         holder.settings.setOnClickListener {
 
-            if (guest.user_id != null){
+            if (guest.user.id != null){
 
                 if(guest.status == "PD"){
 
-                    context?.let { it1 -> showDialog(it1, guest.user_id!!, guest.invitation_id.toString()) }
+                    context?.let { it1 -> showDialog(it1, guest.user.id!!, guest.invitation_id.toString(), "PD", guest.people_coming.toString()) }
 
                 } else if (guest.status == "AC"){
 
-                    context?.let { it1 -> showDialogNo(it1, guest.user_id!!, guest.invitation_id.toString()) }
+                    context?.let { it1 -> showDialogNo(it1, guest.user.id!!, guest.invitation_id.toString(), "AC", guest.people_coming.toString()) }
 
                 } else if (guest.status == "DN") {
 
-                    context?.let { it1 -> showDialogYes(it1, guest.user_id!!, guest.invitation_id.toString()) }
+                    context?.let { it1 -> showDialogYes(it1, guest.user.id!!, guest.invitation_id.toString(), "DN", guest.people_coming.toString()) }
                 }
             }
         }
@@ -112,7 +112,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         val settings : ImageView = itemView.settings
     }
 
-    private fun showDialog(context :Context, guestId : Int, invitationId: String) {
+    private fun showDialog(context : Context, guestId : Int, invitationId : String, guestStatus : String, totalGuests : String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -127,6 +127,8 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         val noCheckbox = dialog.findViewById(R.id.noCheckbox) as MaterialCheckBox
         val okButton = dialog.findViewById(R.id.okButton) as MaterialButton
         val cancelButton = dialog.findViewById(R.id.cancelButton) as MaterialButton
+
+        countTextview.setText(totalGuests)
 
         substract.setOnClickListener {
 
@@ -174,6 +176,10 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
             }else if (noCheckbox.isChecked == true){
 
                 accept(countTextview.text.toString().toInt(), invitationId, false)
+
+            }else {
+
+                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(PENDING,countTextview.text.toString().toInt()))
             }
 
             dialog.dismiss()
@@ -194,7 +200,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         dialog.show()
     }
 
-    private fun showDialogNo(context :Context, guestId : Int, invitationId: String) {
+    private fun showDialogNo(context :Context, guestId : Int, invitationId: String , guestStatus : String, totalGuests : String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -209,6 +215,8 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         val noCheckbox = dialog.findViewById(R.id.noCheckbox) as MaterialCheckBox
         val okButton = dialog.findViewById(R.id.okButton) as MaterialButton
         val cancelButton = dialog.findViewById(R.id.cancelButton) as MaterialButton
+
+        countTextview.setText(totalGuests)
 
         substract.setOnClickListener {
 
@@ -252,6 +260,10 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
             if (noCheckbox.isChecked == true){
 
                 accept(countTextview.text.toString().toInt(), invitationId, false)
+
+            }else {
+
+                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(ACCEPT,countTextview.text.toString().toInt()))
             }
 
             dialog.dismiss()
@@ -272,7 +284,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         dialog.show()
     }
 
-    private fun showDialogYes(context :Context, guestId : Int, invitationId: String) {
+    private fun showDialogYes(context :Context, guestId : Int, invitationId: String, guestStatus : String, totalGuests : String) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -287,6 +299,8 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         //val noCheckbox = dialog.findViewById(R.id.noCheckbox) as MaterialCheckBox
         val okButton = dialog.findViewById(R.id.okButton) as MaterialButton
         val cancelButton = dialog.findViewById(R.id.cancelButton) as MaterialButton
+
+        if (totalGuests.isNullOrEmpty() || totalGuests == "0"){ countTextview.setText("1") } else { countTextview.setText(totalGuests) }
 
         substract.setOnClickListener {
 
@@ -330,6 +344,10 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
             if (yesCheckbox.isChecked == true){
 
                 accept(countTextview.text.toString().toInt(), invitationId, true)
+
+            }else {
+
+                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(DECLINE,countTextview.text.toString().toInt()))
             }
 
             dialog.dismiss()

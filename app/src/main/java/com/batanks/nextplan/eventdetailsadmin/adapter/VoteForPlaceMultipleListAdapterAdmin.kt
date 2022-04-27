@@ -58,15 +58,12 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
 
         val stringBuilder = StringBuilder()
                 .append(place.place?.address)
-
+                .append("\n")
+                .append(place.place?.zipcode)
                 .append(" ")
                 .append(place.place?.city)
-
                 .append(" ")
                 .append(place.place?.country)
-
-                .append(" ")
-                .append(place.place?.zipcode)
 
         holder.address.text = stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.total_votes.toString()

@@ -94,6 +94,8 @@ class PlanSorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sortin
                 Status.SUCCESS -> {
                     hideLoader()
 
+                    filterData()
+
                     categoryViewModel.response = response.data as InlineResponse200
 
                     categoryViewModel.categoryList = categoryViewModel.response!!.results
@@ -114,6 +116,9 @@ class PlanSorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sortin
                     //rv_category?.adapter = PlanSortingAdapter(categoryList)
                     rv_category?.adapter = Filter_Sorting_Adapter(filters, this, sFilter, sFilterType)
 
+
+                    loadData()
+
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -123,8 +128,8 @@ class PlanSorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sortin
             }
         })
 
-        filterData()
-        loadData()
+        /*filterData()
+        loadData()*/
 
         /* adapter = Filter_Sorting_Adapter(filters*//*, true*//*)
          rv_filters.adapter = adapter*/
@@ -212,9 +217,4 @@ class PlanSorting : BaseAppCompatActivity(), View.OnClickListener, Filter_Sortin
 
         selectedFilter = filter
     }
-
-    /* private fun filter(category: String?, filter: String? ,followUp : String?){
-
-
-     }*/
 }

@@ -28,6 +28,7 @@ import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.eventdetailsadmin.AddCommentImplementation
 import com.batanks.nextplan.eventdetailsadmin.AddCommentsFragment
 import com.batanks.nextplan.home.HomePlanPreview
+import com.batanks.nextplan.home.fragment.action.AddActionFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.notifications.Notification
 import com.batanks.nextplan.swagger.api.EventAPI
@@ -50,7 +51,9 @@ import kotlinx.android.synthetic.main.vote_for_place_card.*
 import kotlin.collections.ArrayList
 
 class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
-        AddCommentImplementation, AddCommentsFragment.AddCommentsFragmentListener, CommentsListAdapter.AddCommentsRecyclerViewCallBack/*, OnClickFunImplementation*/ {
+        AddCommentImplementation, AddCommentsFragment.AddCommentsFragmentListener, CommentsListAdapter.AddCommentsRecyclerViewCallBack
+        /*, OnClickFunImplementation*/,  EventActivityListAdapter.EventActivityListAdapterListener, EventActionListAdapter.AssignMeClicked,
+    AddActionFragment.AddActionFragmentListener{
 
     private val eventDetailViewModel: EventDetailViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -75,7 +78,9 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
     private val amount : Int = 1
     private var acceptResponse : Invitation? = null
     private var guestResponse : Invitation? = null
-    private var activityAcceptResponse : ActivitySubscribe? = null
+    private var activityAcceptResponse : Activity? = null
+    private var assigneeResponse : Task? = null
+
     var getDates : ArrayList<EventDate>? = arrayListOf()
     var getPlaces : ArrayList<EventPlace> = arrayListOf()
     var getTasks : ArrayList<Task> = arrayListOf()
@@ -85,14 +90,23 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
     var getComments : ArrayList<Comment> = arrayListOf()
     private var id : Int = 0
     private var fromHome : Boolean = true
+    private var fromActivityResponse : Boolean = false
     private var userId : Int = 0
     private var userName : String? = null
     private var eventAccepted : Boolean = false
     lateinit var commentsList : RecyclerView
+    private var activitySubscribePosition : Int = 0
+
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var adapter : EventActivityListAdapter
+    private lateinit var actionRecyclerView : RecyclerView
+    private lateinit var actionAdapter : EventActionListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail_view)
+
+        //loadingDialog = this.getLoadingDialog(0, R.string.loading_page_please_wait, theme = R.style.AlertDialogCustom)
 
         commentsList = findViewById(R.id.commentsList)
         commentsList.layoutManager = LinearLayoutManager(this)
@@ -103,7 +117,10 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         userId = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).getInt("ID",0)
         userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME",null)
 
-        //loadingDialog = this.getLoadingDialog(0, R.string.loading_page_please_wait, theme = R.style.AlertDialogCustom)
+        recyclerView = findViewById<RecyclerView>(R.id.activityRecyclerView) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
+        actionRecyclerView.layoutManager = LinearLayoutManager(this)
 
         eventDetailViewModel.getEventData(id.toString())
 
@@ -130,7 +147,32 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     organizerEmail.text = creator!!.email
                     organizerMobileNumber.text = creator!!.phone_number.toString()
 
-                    val perPersonCost = (event_obj!!.price)!! /event_obj!!.guests.size
+                    if(event_obj!!.status == "AC" && event_obj!!._private == true){
+
+                        acceptedStatus.setImageResource(R.drawable.ic_privateeventcategoryacceptedicon)
+
+                    } else if(event_obj!!.status == "AC" && event_obj!!._private == false) {
+
+                        acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
+
+
+                    } else if (event_obj!!.status == "DN" && event_obj!!._private == false){
+
+                        acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
+
+
+                    } else if (event_obj!!.status == "DN" && event_obj!!._private == true){
+
+                        acceptedStatus.setImageResource(R.drawable.ic_private_event_category_icon_declined)
+
+
+                    } else if (event_obj!!.status == null && event_obj!!._private == true){
+
+                        acceptedStatus.setImageResource(R.drawable.ic_eventprivatecategoryicon)
+
+                    }
+
+                    val perPersonCost = (event_obj!!.price)!! /event_obj!!.guests!!.size
                     perPersonAmount.text = String.format("%.2f",perPersonCost)
 
                     if (!TextUtils.isEmpty(creator!!.picture)){
@@ -147,8 +189,8 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     }
 
                     eventName.text = event_obj!!.title
-                    category.text = event_obj!!.category.name
-                    Glide.with(this).load(event_obj!!.category.picture).circleCrop().into(tripIcon)
+                    category.text = event_obj!!.category!!.name
+                    Glide.with(this).load(event_obj!!.category!!.picture).circleCrop().into(tripIcon)
 
                     if (event_obj!!._private == true){
 
@@ -159,9 +201,9 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                         privateIcon.visibility = GONE
                     }
 
-                    noOfGuests.text = event_obj!!.guests.size.toString()
+                    noOfGuests.text = event_obj!!.guests!!.size.toString()
 
-                    for(item in event_obj!!.guests){
+                    for(item in event_obj!!.guests!!){
 
                         if (item.is_current_user == true){
 
@@ -190,12 +232,10 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
                     val acceptedGuests : ArrayList<Guests> = arrayListOf()
 
-                    for (item in event_obj!!.guests){
+                    for (item in event_obj!!.guests!!){
 
                         if (item.status == "AC"){
-
                             acceptedGuests.add(item)
-
                             noOfParticipants.text = /*event_obj!!.guests.size.toString()*/acceptedGuests.size.toString()
                         }
                     }
@@ -203,35 +243,18 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     costPerPerson.text = event_obj!!.price.toString()
                     costPerPersonSymbol.text = event_obj!!.price_currency
                     eventDescription.text = event_obj!!.detail
-
                     getDates = event_obj!!.dates
-
                     getDates?.let { dateInit(it) }
-
-                    getPlaces = event_obj!!.places
-
+                    getPlaces = event_obj!!.places!!
                     getPlaces?.let { placeInit(it) }
-
-                    getTasks = event_obj!!.tasks
-
+                    getTasks = event_obj!!.tasks!!
                     getTasks?.let { taskInit(it) }
-
-                    getActivities = event_obj!!.activities
-
+                    getActivities = event_obj!!.activities!!
                     getActivities?.let { activityInit(it) }
-
-                    getGuests = event_obj!!.guests
-
-                    getGuests?.let { everyBodyComeInit(it) }
-
-                    getComments = event_obj!!.comments
-
+                    getGuests = event_obj!!.guests!!
+                    getGuests?.let { everyBodyComeInit(it, event_obj!!.status) }
+                    getComments = event_obj!!.comments!!
                     getComments?.let { commentsInit(it) }
-
-                    //everyBodyComeListAdapter(getGuests)
-
-                    //if(getGuests.size != null)
-
                     attendingGuests.clear()
 
                     for (item in getGuests){
@@ -246,19 +269,11 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     }
 
                     textViewAttendingMulti.text = attendingGuests.size.toString()
-
                     textViewAttending.text = attendingGuests.size.toString()
-
                     textViewTotalParticipantsMulti.text = getGuests.size.toString()
-
                     textViewTotalParticipants.text = getGuests.size.toString()
-
-                    textViewTotalComments.text = event_obj!!.comments.size.toString()
-
-                    textViewTotalCommentsMulti.text = event_obj!!.comments.size.toString()
-
-                    //if (event_obj!!.vote_date_closed == true){ inVotingDate.visibility = GONE }else if (event_obj!!.vote_date_closed == false){ inVotingDate.visibility = VISIBLE }
-                    //if (event_obj!!.vote_place_closed == true){ inVotingPlace.visibility = GONE }else if (event_obj!!.vote_place_closed == false){ inVotingPlace.visibility = VISIBLE }
+                    textViewTotalComments.text = event_obj!!.comments?.size.toString()
+                    textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
                 }
 
                 Status.ERROR -> {
@@ -282,12 +297,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     hideLoader()
 
                     acceptResponse = response.data as Invitation
-
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
 
                     //guestsComing.text = acceptResponse!!.amount.toString()
 
-                    if (eventAccepted == false && acceptResponse!!.amount >= 1){
+                   /* if (eventAccepted == false && acceptResponse!!.amount >= 1){
 
                         eventAccepted = true
 
@@ -298,6 +313,23 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                         Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
 
                     }else if (acceptResponse!!.amount == 0){
+
+                        eventAccepted = false
+
+                        Toast.makeText(context() , getString(R.string.invite_declined), Toast.LENGTH_SHORT).show()
+                    }*/
+
+                    if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount == 0){
+
+                        eventAccepted = true
+
+                        Toast.makeText(context() , getString(R.string.invite_accepted), Toast.LENGTH_SHORT).show()
+
+                    }else if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount >= 1){
+
+                        Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
+
+                    }else if (acceptResponse!!.status.equals("DN")){
 
                         eventAccepted = false
 
@@ -337,17 +369,15 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 }
 
                 Status.SUCCESS -> {
-
                     hideLoader()
-
-                    activityAcceptResponse = response.data as ActivitySubscribe
-
-                    eventDetailViewModel.getEventData(id.toString())
+                    activityAcceptResponse = response.data as Activity
+                    getActivities.set(activitySubscribePosition, activityAcceptResponse!!)
+                    adapter.notifyItemChanged(activitySubscribePosition)
+                    adapter.notifyDataSetChanged()
                 }
 
                 Status.ERROR -> {
                     hideLoader()
-
                     showMessage(response.error?.message.toString())
                     println(response.error)
                 }
@@ -362,17 +392,15 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 }
 
                 Status.SUCCESS -> {
-
                     hideLoader()
-
-                    activityAcceptResponse = response.data as ActivitySubscribe
-
-                    eventDetailViewModel.getEventData(id.toString())
+                    activityAcceptResponse = response.data as Activity
+                    getActivities.set(activitySubscribePosition, activityAcceptResponse!!)
+                    adapter.notifyItemChanged(activitySubscribePosition)
+                    adapter.notifyDataSetChanged()
                 }
 
                 Status.ERROR -> {
                     hideLoader()
-
                     showMessage(response.error?.message.toString())
                     println(response.error)
                 }
@@ -414,7 +442,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 Status.SUCCESS -> {
 
                     hideLoader()
-
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -437,7 +465,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 Status.SUCCESS -> {
 
                     hideLoader()
-
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -462,7 +490,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     hideLoader()
 
                     Toast.makeText(this, getString(R.string.comment_added),Toast.LENGTH_SHORT).show()
-
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -486,6 +514,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
                     hideLoader()
                     Toast.makeText(this, getString(R.string.comment_updated), Toast.LENGTH_SHORT).show()
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -509,6 +538,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
                     hideLoader()
                     Toast.makeText(this, getString(R.string.comment_deleted), Toast.LENGTH_SHORT).show()
+                    fromActivityResponse = false
                     eventDetailViewModel.getEventData(id.toString())
                 }
 
@@ -521,7 +551,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
             }
         })
 
-        eventDetailViewModel.responseLiveDataAssignAction.observe(this, Observer { response ->
+        /*eventDetailViewModel.responseLiveDataAssignAction.observe(this, Observer { response ->
 
             when (response.status) {
                 Status.LOADING -> {
@@ -531,8 +561,17 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 Status.SUCCESS -> {
 
                     hideLoader()
-                    Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
-                    eventDetailViewModel.getEventData(id.toString())
+
+                    //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
+                    //assigneeResponse = response.data as AssignTaskResponse
+                    //fromActivityResponse = false
+                    *//*eventDetailViewModel.apiEventTaskPatch(id.toString(),userTask?.id.toString(),
+                        TaskPatch(price , userTask?.name, userTask?.description, perPerson, ""))*//*
+                    eventDetailViewModel.apiEventTaskPatch(id.toString(),assigneeResponse?.id.toString(),
+                        TaskPatch(assigneeResponse!!.price.toString(), assigneeResponse?.name, assigneeResponse?.description, assigneeResponse!!.per_person,
+                                    assigneeResponse!!.assignee?.id.toString()))
+
+                    //eventDetailViewModel.getEventData(id.toString())
                 }
 
                 Status.ERROR -> {
@@ -543,6 +582,35 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                 }
             }
         })
+
+        eventDetailViewModel.responseLiveDataTaskPatch.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+
+                    //hideLoader()
+                    //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                    //assigneeResponse = response.data as AssignTaskResponse
+                    //fromActivityResponse = false
+                    //eventDetailViewModel.getEventData(id.toString())
+                }
+
+                Status.ERROR -> {
+                    hideLoader()
+
+                    showMessage(response.error?.message.toString())
+                    println(response.error)
+                }
+            }
+        })*/
 
         addContactViewModel.responseLiveData.observe(this, Observer { response ->
 
@@ -622,27 +690,27 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
     fun taskInit(tasks : List<Task>){
 
-        val recyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
+        actionRecyclerView.layoutManager = LinearLayoutManager(this)
 
         if (tasks.size <= 3){
 
-            val params = recyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+            val params = actionRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
             params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-            recyclerView.setLayoutParams(params)
+            actionRecyclerView.setLayoutParams(params)
         }
 
-        val adapter = EventActionListAdapter(tasks,this,eventDetailViewModel, id)
-        recyclerView.adapter = adapter
+        actionAdapter = EventActionListAdapter(tasks,this,eventDetailViewModel, id, this)
+        actionRecyclerView.adapter = actionAdapter
 
     }
 
     fun activityInit(activity : ArrayList<Activity>){
 
-        val recyclerView = findViewById<RecyclerView>(R.id.activityRecyclerView) as RecyclerView
+        recyclerView = findViewById<RecyclerView>(R.id.activityRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EventActivityListAdapter(activity,this,eventDetailViewModel, id.toString())
+        adapter = EventActivityListAdapter(activity,this,eventDetailViewModel, id.toString(), this)
         recyclerView.adapter = adapter
 
     }
@@ -656,12 +724,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         recyclerView.adapter = adapter
     }
 
-    fun everyBodyComeInit(guestsList :ArrayList<Guests>){
+    fun everyBodyComeInit(guestsList :ArrayList<Guests>, acceptedStatus : String){
 
         val recyclerView = findViewById<RecyclerView>(R.id.everybodyComeList) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EveryBodyComeListAdapter(guestsList,this)
+        val adapter = EveryBodyComeListAdapter(guestsList,this, acceptedStatus)
         recyclerView.adapter = adapter
 
     }
@@ -931,6 +999,38 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
         commentsList.adapter?.notifyDataSetChanged()
 
+    }
+
+    override fun activityParticipantClickedPos(pos: Int) {
+
+        activitySubscribePosition = pos
+    }
+
+    override fun iTakeClicked(position: Int) {
+
+        this.supportFragmentManager
+            .beginTransaction()
+            .add(AddActionFragment(this, -2, arrayListOf(), event_obj, false, getTasks[position], position), AddActionFragment::class.java.canonicalName)
+            .commitAllowingStateLoss()
+    }
+
+    override fun addActionFragmentFetch(updatedPosition: Int, task: PostTasks?, taskResponse : Task?) {
+
+        (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
+                as? AddActionFragment)?.dismiss()
+
+
+        getTasks.set(updatedPosition, taskResponse!!)
+        actionAdapter.notifyItemChanged(updatedPosition)
+        actionAdapter.notifyDataSetChanged()
+
+        //eventDetailViewModel.getEventData(id.toString())
+    }
+
+    override fun cancelActionFragmentFetch() {
+
+        (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
+                as? AddActionFragment)?.dismiss()
     }
 }
 

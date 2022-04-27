@@ -14,7 +14,7 @@ import com.batanks.nextplan.swagger.model.Guests
 import kotlinx.android.synthetic.main.item_assign_people.view.*
 
 
-class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: ArrayList<Guests>) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
+class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: ArrayList<Guests>, private var defaultSelectedAssigne : String?) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
 
     private var lastChecked: CheckBox? = null
     private var lastCheckedPos = -1
@@ -42,7 +42,12 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
         //val itemView = holder.itemView
 
-        holder.txt_assign_people_name.text = myList.get(position).name
+        holder.txt_assign_people_name.text = myList.get(position).user.username
+
+        if (myList.get(position).user.username == defaultSelectedAssigne){
+
+            holder.checkBox.isChecked = true
+        }
         //println(myList.get(position).user_id)
 
         //myList.get(position).id
@@ -89,8 +94,8 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
                 myList.get(clickedPos).selection = (cb.isChecked)
                 //Toast.makeText(v.context , "" + myList.get(clickedPos).contactname , Toast.LENGTH_SHORT).show()
-                val selection = myList.get(clickedPos).name /*+ " " + myList.get(clickedPos).contactNumber;*/
-                val selectedId = myList.get(position).user_id
+                val selection = myList.get(clickedPos).user.username /*+ " " + myList.get(clickedPos).contactNumber;*/
+                val selectedId = myList.get(position).user.id
                 println(selectedId)
                 listner.assignSelectedContact(myList.get(clickedPos), cb.isChecked, selectedId)
 

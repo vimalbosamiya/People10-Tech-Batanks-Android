@@ -1,6 +1,6 @@
 package com.batanks.nextplan.swagger.model
 
-data class UserSearchResults (
+data class GuestUser (
 
         val id : Int,
         val username : String,

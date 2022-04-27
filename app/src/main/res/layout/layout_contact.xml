@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/ic_event_details_contact_background"
+        android:background="@drawable/rounded_corners"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -66,11 +66,11 @@
             app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
 
         <ImageView
-            android:id="@+id/contactSettings"
+            android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:background="@drawable/ic_event_details_settings"
+            android:src="@drawable/ic_menu_settings"
             app:layout_constraintStart_toEndOf="@+id/contactName"
             app:layout_constraintEnd_toEndOf="@+id/contactBackground"
             app:layout_constraintTop_toTopOf="@+id/contactBackground"/>

@@ -77,34 +77,36 @@
         android:id="@+id/rl_edit_contact_add_to_groups"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/rl_edit_contact_delete">
+        android:layout_below="@id/rl_edit_contact_delete"
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:id="@+id/img_contact_add_to_group_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_groups"
+            android:layout_centerVertical="true"
             android:padding="10dp"
-            android:layout_centerVertical="true"/>
+            android:src="@drawable/ic_groups" />
+
         <TextView
             android:id="@+id/txt_contact_add_to_group_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_to_group"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/img_contact_add_to_group_icon"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:layout_centerVertical="true"/>
+            android:text="@string/add_to_group"
+            android:textAppearance="?android:textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/img_contact_add_to_group_right_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_right_arrow_white"
-            android:padding="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_right_arrow_white" />
 
     </RelativeLayout>
 

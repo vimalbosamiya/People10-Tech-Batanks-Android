@@ -38,6 +38,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.layout_rename_group.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Group : BaseAppCompatActivity() {
 
@@ -73,7 +75,6 @@ class Group : BaseAppCompatActivity() {
         val groupName : String? = intent.getStringExtra("Group_Name")
 
         //textViewGroup.text = groupName
-
         //loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
 
         groupListViewModel.getGroupList(id.toString())
@@ -104,6 +105,8 @@ class Group : BaseAppCompatActivity() {
                     textViewGroup.text = group!!.name
 
                     groupList = group!!.users
+
+                    groupList.sortBy { it.username?.toLowerCase(Locale.ROOT) }
 
                     groupListViewModel.response = group!!.users
 
@@ -208,13 +211,10 @@ class Group : BaseAppCompatActivity() {
                         hideLoader()
 
                         finish()
-                        val intent = Intent(this, com.batanks.nextplan.Settings.Contact :: class.java)
-                        startActivity(intent)
+                        /*val intent = Intent(this, com.batanks.nextplan.Settings.Contact :: class.java)
+                        startActivity(intent)*/
 
-                        Toast.makeText(this, "Coming into Success",Toast.LENGTH_LONG).show()
-
-                        println("Coming into Success")
-
+                        Toast.makeText(this, getString(R.string.group_deleted),Toast.LENGTH_LONG).show()
                     }
                     Status.ERROR -> {
                         hideLoader()

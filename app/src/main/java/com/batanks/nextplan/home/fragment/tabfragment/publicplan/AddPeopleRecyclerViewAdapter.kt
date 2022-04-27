@@ -12,7 +12,7 @@ import com.batanks.nextplan.swagger.model.ActivityParticipant
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_contact.view.*
 
-class AddPeopleRecyclerViewAdapter (val eventParticipantsList: ArrayList<ActivityParticipant>) : RecyclerView.Adapter<AddPeopleRecyclerViewAdapter.ViewHolder>() {
+class AddPeopleRecyclerViewAdapter (val eventParticipantsList: ArrayList<String>, private val callBack: AddPeopleRecyclerViewCallBack) : RecyclerView.Adapter<AddPeopleRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
 
@@ -29,31 +29,30 @@ class AddPeopleRecyclerViewAdapter (val eventParticipantsList: ArrayList<Activit
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val contact: ActivityParticipant = eventParticipantsList[position]
+        //val contact: ActivityParticipant = eventParticipantsList[position]
+        val contact = eventParticipantsList[position]
 
-        holder.contactName.text = contact.username
+        holder.contactName.text = contact
         holder.contactStatus.setBackgroundResource(R.drawable.ic_event_details_contact_confirmed)
-        context?.let { Glide.with(it).load(contact.picture).circleCrop().into(holder.contactStatus) }
+        holder.close.setImageResource(R.drawable.ic_close_button)
+        //context?.let { Glide.with(it).load(contact.picture).circleCrop().into(holder.contactStatus) }
 
-        /*if (contact.status == "AC"){
+        holder.close.setOnClickListener {
 
-            holder.contactStatus.setImageResource(R.drawable.ic_user_accepted)
-
-        } else if(contact.status == "DN"){
-
-            holder.contactStatus.setImageResource(R.drawable.ic_user_declined)
-        }*/
-
-       /* holder.contactSettings.setOnClickListener {
-
-        }*/
+            callBack.closeButtonItemListener(position)
+            //eventParticipantsList[position].selection = false
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val contactStatus : ImageView = itemView.contactStatus
         val contactName: TextView = itemView.contactName
-        val contactSettings: ImageView = itemView.contactSettings
+        val close: ImageView = itemView.close
 
+    }
+
+    interface AddPeopleRecyclerViewCallBack {
+        fun closeButtonItemListener(pos: Int)
     }
 }

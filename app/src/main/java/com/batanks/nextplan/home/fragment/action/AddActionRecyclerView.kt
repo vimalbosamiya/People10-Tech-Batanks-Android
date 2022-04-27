@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetailsadmin.adapter.ActivityEverybodyComeListAdapterAdmin
 import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.PostTasks
 import com.batanks.nextplan.swagger.model.Task
@@ -40,19 +41,48 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
             callBack.closeButtonAddActionItemListener(position)
         }
 
+        if(editButtonClicked == true){
+
+            if (modelList != null) {
+
+                if (modelList.size > 0){
+
+                    if (modelList.get(position)?.assignee != null){
+
+                        holder.contactBackground.visibility = View.VISIBLE
+                        //holder.userImage.visibility = View.GONE
+
+                        holder.contactName.setText(modelList.get(position).assigneeName)
+                        //holder.contactName.setText(modelList[position].assigneeName)
+                        //Glide.with(context).load(event!!.tasks?.get(position)?.assignee?.picture).circleCrop().into(holder.contactImage)
+
+                    } else if (modelList.get(position).assignee == null) {
+
+                        holder.contactBackground.visibility = View.GONE
+
+                    }
+
+                } else {}
+
+            }else {}
+
+        } else{}
+
         var costTitle : String? = null
 
         if (modelList[position].per_person == true){
 
             costTitle = "Cost Per Person"
-
+            holder.txt_add_action_cost_title.setText(R.string.cost_per_person)
             holder.img_add_action_cost.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         } else if (modelList[position].per_person == false) {
 
-            costTitle = "Total Cost" }
+            costTitle = "Total Cost"
+            holder.txt_add_action_cost_title.setText(R.string.total_cost)
+            holder.img_add_action_cost.setImageResource(R.drawable.ic_action_cost_icon)}
 
-        holder.txt_actionname.text = modelList[position].name
+            holder.txt_actionname.text = modelList[position].name
 
         if (!TextUtils.isEmpty(modelList[position].description)){
 
@@ -61,12 +91,15 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
         } else { holder.txt_description.visibility = View.GONE }
 
-        if (modelList[position].price > 0){ holder.txt_add_action_cost_value.text = String.format("%,d",modelList[position].price) }
+        if (modelList[position].price.isNotEmpty()) {
+            val price = modelList[position].price.substringBefore(".")
+            holder.txt_add_action_cost_value.text = price
+                //if (modelList[position].price.toDouble() > 0){holder.txt_add_action_cost_value.text = String.format("%,d",modelList[position].price)}
+        }else{ holder.txt_add_action_cost_value.text = "0" }
 
         val id: Int = context?.getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE)?.getInt("ID", 0)!!
         val currency : String? = context?.getSharedPreferences("SAVED_CURREN", AppCompatActivity.MODE_PRIVATE)?.getString("SAVED_CURRENCY","USD")
 
-        holder.txt_add_action_cost_title.text = costTitle
         holder.txt_add_action_cost_symbol.text = currency
 
         if (editButtonClicked == true){
@@ -83,16 +116,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
         holder.actionEditButtonIcon.setOnClickListener { callBack.editButtonAddActionItemListener(position) }
 
-        if(editButtonClicked == true){
 
-            if (event!!.tasks[position].assignee != null){
-
-                holder.contactBackground.visibility = View.VISIBLE
-
-                holder.contactName.setText(event!!.tasks[position].assignee?.username)
-                Glide.with(context).load(event!!.tasks[position].assignee?.picture).circleCrop().into(holder.contactImage)
-            }
-        } else{}
 
         //holder.txt_add_action_assignee_name.text = modelList[position].assigneeName
 
@@ -133,6 +157,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
         val actionEditButtonIcon: ImageView = item.actionEditButtonIcon
         val img_add_action_cost: ImageView = item.img_add_action_cost
         val contactImage: ImageView = item.contactImage
+        val userImage: ImageView = item.userImage
 
     }
 

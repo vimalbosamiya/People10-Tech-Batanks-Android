@@ -71,10 +71,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18.02dp"
-            android:layout_marginTop="19.98dp"
-            android:background="@drawable/ic_event_details_dollar_icon"
+            android:src="@drawable/ic_event_details_dollar_icon"
             app:layout_constraintStart_toStartOf="@+id/totalCostBackground"
-            app:layout_constraintTop_toBottomOf="@+id/totalCostDivider" />
+            app:layout_constraintTop_toTopOf="@+id/textViewTotalCost"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTotalCost" />
 
         <TextView
             android:id="@+id/textViewTotalCost"
@@ -165,13 +165,11 @@
             android:id="@+id/textViewEventDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginEnd="60dp"
             android:text="Un de chaque saveur Description (facultative)  Cupcake ipsum dolor sit amet sugar plum soufflé. Jelly beans I love I love cotton candy icing sweet roll pastry brownie."
             android:textColor="#DEFFFFFF"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull"
-            app:layout_constraintEnd_toEndOf="@+id/totalCostBackgroundFull"
+            app:layout_constraintStart_toStartOf="@+id/textViewEventNameMulti"
+            app:layout_constraintEnd_toStartOf="@+id/actionDropDownMulti"
             app:layout_constraintTop_toBottomOf="@+id/textViewEventNameMulti" />
 
         <!-- <ImageView
@@ -210,7 +208,7 @@
                 android:id="@+id/assignMeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Assign Me"
+                android:text="@string/assign_me"
                 android:textSize="16sp"
                 android:textColor="#000000"
                 android:layout_marginTop="12dp"
@@ -301,10 +299,10 @@
             android:id="@+id/dollarIconMulti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27.98dp"
             android:layout_marginStart="18.02dp"
-            android:background="@drawable/ic_event_details_dollar_icon"
-            app:layout_constraintTop_toBottomOf="@+id/assigneHolder"
+            android:src="@drawable/ic_event_details_dollar_icon"
+            app:layout_constraintTop_toTopOf="@+id/textViewTotalCostMulti"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTotalCostMulti"
             app:layout_constraintStart_toStartOf="@+id/totalCostBackgroundFull" />
 
         <TextView

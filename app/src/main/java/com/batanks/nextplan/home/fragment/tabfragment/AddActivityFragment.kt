@@ -1,17 +1,18 @@
 package com.batanks.nextplan.home.fragment.tabfragment
 
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.batanks.nextplan.R
@@ -41,14 +42,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.arch.response.Status
 import kotlinx.android.synthetic.main.activity_registration.view.*
+import kotlinx.android.synthetic.main.fragment_add_action.*
+import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostIcon
+import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostTextView
 
 
 class AddActivityFragment(val listner : AddActivityFragmentListener, private val position : Int, private val activityList : ArrayList<PostActivities>, private val event : Event?,
-                          private val editButtonClicked : Boolean) : BaseDialogFragment() , View.OnClickListener, AssignPeopleFragment.AssignPeopleFragmentListner {
+                          private val editButtonClicked : Boolean) : BaseDialogFragment() , View.OnClickListener, AssignPeopleFragment.AssignPeopleFragmentListner,
+                          AddPeopleRecyclerViewAdapter.AddPeopleRecyclerViewCallBack {
 
     private val newActivity : Int = -1
+    private var activityId : Int? = 0
     private var fromDate : String? = null
-    private val postParticipantsList : ArrayList<String> = arrayListOf()
+    private var postParticipantsList : ArrayList<String> = arrayListOf()
     private val finalActivityParticipant: ArrayList<ActivityParticipant> = arrayListOf()
     private var defaultSelectedGuests : ArrayList<ActivityParticipant>? = arrayListOf()
     private lateinit var ccp: CountryCodePicker
@@ -100,6 +106,8 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
         if (position >= 0){
 
+            //activityId = activityList[position].id
+
             val hours = activityList[position].duration?.div(60)
             val mins = activityList[position].duration?.rem(60)
             var natureOfCost : String? = null
@@ -107,10 +115,11 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
             if (activityList[position].per_person == true){ natureOfCost = "Cost Per Person" } else { natureOfCost = "Total Cost" }
 
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss") /*"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"*/
-            val outputFormat = SimpleDateFormat("EEE, MMM d yyyy")
+            val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
 
-            val fromDate = inputFormat.parse(activityList[position].date)
-            val formattedFromDate = outputFormat.format(fromDate)
+            fromDate = activityList[position].date
+            val from= inputFormat.parse(activityList[position].date)
+            val formattedFromDate = outputFormat.format(from)
 
             activityNameEditText.setText(activityList[position].title)
             et_from_date_activity.setText(formattedFromDate)
@@ -125,32 +134,61 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
             ccp_activity_country.setCountryForNameCode(countrycode)
 
             costOfTheActivityEditText.setText(activityList[position].price.toString())
-            actv_activity_nature_of_the_cost.setText(natureOfCost)
+            natureOfCostTextView.setText(natureOfCost)
             max_participantsEditText.setText(activityList[position].max_participants.toString())
 
-            defaultSelectedGuests = event!!.activities[position].participants
+            //defaultSelectedGuests = activityList[position].participants
+            defaultSelectedGuests?.clear()
+            //defaultSelectedGuests = event!!.activities?.get(position)?.participants
 
-            if(event!!.activities[position].participants.size > 0){
+            if (activityList[position].participants != null){
+
+                postParticipantsList.clear()
+                postParticipantsList = activityList[position].participants!!
+            }
+
+            if (event != null) {
+
+                if (event!!.activities != null){
+
+                    for (item in event.guests!!){
+
+                        if (event.activities!!.size > position){
+
+                            for (i in event.activities!!.get(position).participants){
+
+                                if (item.user.id == i.id){
+
+                                    item.selection = true
+
+                                } /*else if (item.user.id != i.id) {
+
+                                    i.selection = false
+                                }*/
+                            }
+                        }
+                    }
+                }
+            }
+
+            //if(event!!.activities?.get(position)?.participants!!.size > 0){
+            if(activityList.get(position).participants!!.size > 0){
 
                 addPeopleRecyclerViewEdit.visibility = View.VISIBLE
-                addPeopleRecyclerViewEdit.adapter = AddPeopleRecyclerViewAdapter(event!!.activities[position].participants)
+                addPeopleRecyclerViewEdit.adapter = /*activityList[position].participants?*/postParticipantsList.let {
+                    AddPeopleRecyclerViewAdapter(/*event!!.activities!![position].participants*/it, this)
+                }
             }
         }
 
-        loadingDialog = requireContext().getLoadingDialog(0, R.string.gathering_information, theme = R.style.AlertDialogCustom)
-
-
+       // loadingDialog = requireContext().getLoadingDialog(0, R.string.gathering_information, theme = R.style.AlertDialogCustom)
 
         et_from_date_activity.setOnClickListener(this)
         //activity_copy_plan_address.setOnClickListener(this)
         btn_activity_ok.setOnClickListener(this)
         activity_cancel.setOnClickListener(this)
         activity_add_people.setOnClickListener(this)
-
-       /* actv_activity_nature_of_the_cost.setOnClickListener {
-
-            populateCategory()
-        }*/
+        natureOfTheCostTextFieldActivity.setOnClickListener(this)
 
         ccp_activity_country.setOnClickListener {
 
@@ -162,47 +200,10 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
             println("Relative layout clicked")
         }
 
-
         ccp_activity_country.setOnCountryChangeListener(OnCountryChangeListener {
 
             //Toast.makeText(context, "Updated " + ccp_activity_country.getSelectedCountryName(), Toast.LENGTH_SHORT).show()
         })
-
-        val nature_of_the_cost = arrayOf("Cost Per Person" , "Total Cost")
-
-        val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
-        actv_activity_nature_of_the_cost.setAdapter(adapter)
-        actv_activity_nature_of_the_cost.threshold = 1
-
-        /*val adapter = ArrayAdapter(requireContext(), R.layout.list_item, nature_of_the_cost)
-        actv_activity_nature_of_the_cost.setAdapter(adapter)
-        actv_activity_nature_of_the_cost.threshold = 1*/
-        //actv_activity_nature_of_the_cost.setDropDownBackgroundResource(R.color.colorLightBlue)
-
-        // Set an item click listener for auto complete text view
-        actv_activity_nature_of_the_cost.onItemClickListener = AdapterView.OnItemClickListener{
-            parent,view,position,id->
-            val selectedItem = parent.getItemAtPosition(position).toString()
-            // Display the clicked item using toast
-            //Toast.makeText(activity,"Selected : $selectedItem",Toast.LENGTH_SHORT).show()
-        }
-
-
-        // Set a dismiss listener for auto complete text view
-        actv_activity_nature_of_the_cost.setOnDismissListener {
-            //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
-
-            //totalCostTextField.hint = null
-        }
-        // Set a focus change listener for auto complete text view
-        actv_activity_nature_of_the_cost.onFocusChangeListener = View.OnFocusChangeListener{
-            view, b ->
-            if(b){
-                // Display the suggestion dropdown on focus
-                actv_activity_nature_of_the_cost.showDropDown()
-                dismissKeyboard()
-            }
-        }
 
         view.setOnTouchListener(object : View.OnTouchListener {
 
@@ -227,20 +228,6 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
         return attributes.softInputMode
     }
 
-    private fun populateCategory() {
-        val customSpinner = CustomArrayAdapterForAll(requireContext(), listOf(
-                SpinnerModelForAll("Trip"),
-                SpinnerModelForAll("Professional"),
-                SpinnerModelForAll("Leisure"),
-                SpinnerModelForAll("Institutional"),
-                SpinnerModelForAll("Other")))
-        (totalCostTextField.editText as? AutoCompleteTextView)?.setAdapter(customSpinner)
-        (totalCostTextField.editText as? AutoCompleteTextView)?.setOnItemClickListener { parent, _, position, id ->
-            val obj = parent.adapter.getItem(position) as SpinnerModel?
-            actv_activity_nature_of_the_cost.setText(obj?.title)
-        }
-    }
-
     fun addActivityPeriodClicked() {
 
         /*fragmentManager?.let { AddPeriodFragment().show(it, AddPeriodFragment::class.java.simpleName) }*/
@@ -252,25 +239,31 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
         val mHour = mCal.get(Calendar.HOUR_OF_DAY)
         val mMin = mCal.get(Calendar.MINUTE)
 
-        val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener
-        { fromDatePicker, fromYear, fromMonth, fromDay ->
-                    val cal = Calendar.getInstance()
-                    cal.set(fromYear, fromMonth, fromDay)
-                    /*FromDate*/
-                    val dateFormatter = SimpleDateFormat("E, MMM dd yyyy")
-                    val startDate = dateFormatter.format(cal.time)
+        val fromDate = DatePickerDialog(requireContext(), R.style.AlertDialogTheme, DatePickerDialog.OnDateSetListener { fromDatePicker, fromYear, fromMonth, fromDay ->
 
-                    fromTextField.editText?.setText(startDate)
+            val fromTime = TimePickerDialog(requireContext(), R.style.AlertDialogTheme, TimePickerDialog.OnTimeSetListener { fromTimePicker, fromHourOfDay, fromMinute ->
+
+                    val cal = Calendar.getInstance()
+                    cal.set(fromYear, fromMonth, fromDay, fromHourOfDay, fromMinute)
+                    /*FromDate*/
+                    val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm")/*SimpleDateFormat("E, MMM dd yyyy")*/
+                    val startDate = dateFormatter.format(cal.time)
 
                     val dateFormatter1 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")  //2020-08-27T15:36:28.811Z
                     fromDate = dateFormatter1.format(cal.time)
 
+                    fromTextField.editText?.setText(startDate)
+
             /*publicPlanViewModel.activityDate.add(EventDate(id = publicPlanViewModel.activityDate.size, start = startDate,
                             end = "", votes = mutableListOf()))*/
 
+            }, mHour, mMin, false)
+            fromTime.show()
+
         }, mYear, mMonth, mDay)
         fromDate.datePicker.minDate = System.currentTimeMillis()
-        fromDate.setCanceledOnTouchOutside(false)
+        fromDate.setCanceledOnTouchOutside(true)
+        //fromDate.setCanceledOnTouchOutside(false)
         fromDate.show()
     }
 
@@ -354,11 +347,11 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
                                 var perPerson : Boolean = false
 
-                                if (totalCostTextField.editText?.text.toString() == "Cost Per Person"){
+                                if (natureOfCostTextView.text.toString() == "Cost Per Person"){
 
                                     perPerson = true
 
-                                } else if (totalCostTextField.editText?.text.toString() == "Total Cost"){
+                                } else if (natureOfCostTextView.text.toString() == "Total Cost"){
 
                                     perPerson = false
                                 }
@@ -386,7 +379,6 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
                                 val duration : Int = hour + mins
 
-
                                 if (!TextUtils.isEmpty(costOfTheActivityTextField?.editText?.text.toString())){
 
                                     price = costOfTheActivityTextField?.editText?.text.toString().toInt()
@@ -394,7 +386,7 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
                                     println(price)
                                 }
 
-                                val activity = PostActivities(place = place, price = price, participants = list,
+                                val activity = PostActivities(/*activityId,*/ place = place, price = price, participants = postParticipantsList,
                                         title = activityNameTextField?.editText?.text.toString(), detail = "", date = fromDate ,
                                         max_participants = maxParticipants , per_person = perPerson , duration = duration )
 
@@ -403,12 +395,12 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
                                     if (position >= 0){
 
-                                        val inputFormatter = SimpleDateFormat("E, MMM dd yyyy")
+                                        /*val inputFormatter = SimpleDateFormat("E, MMM dd yyyy")
                                         val outputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                                         val inputDate = inputFormatter.parse(et_from_date_activity.text.toString())
                                         val date =  outputFormatter.format(inputDate)
 
-                                        eventDetailViewModel.apiEventActivityUpdate(event!!.activities[position].id.toString(),event!!.id.toString(),
+                                        eventDetailViewModel.apiEventActivityUpdate(event!!.activities?.get(position)?.id.toString(),event!!.id.toString(),
                                                 PostActivities(place, price, postParticipantsList, activityNameTextField?.editText?.text.toString(), "",
                                                         date, maxParticipants, perPerson, duration))
 
@@ -431,11 +423,13 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
                                                     println(response.error?.message.toString())
                                                 }
                                             }
-                                        })
+                                        })*/
+
+                                        listner.AddActivityFragmentFetch(position, activity)
 
                                     } else {
 
-                                            eventDetailViewModel.apiEventActivityCreate(event!!.id.toString(), PostActivities(place, price, postParticipantsList,
+                                            /*eventDetailViewModel.apiEventActivityCreate(event!!.id.toString(), PostActivities(place, price, postParticipantsList,
                                                     activityNameTextField?.editText?.text.toString(), "", fromDate, maxParticipants, perPerson, duration))
 
                                         eventDetailViewModel.responseLiveDataActivityCreate.observe(viewLifecycleOwner, Observer { response ->
@@ -457,15 +451,15 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
                                                     println(response.error?.message.toString())
                                                 }
                                             }
-                                        })
+                                        })*/
 
+                                        listner.AddActivityFragmentFetch(position, activity)
                                     }
 
                                 }else {
 
                                     listner.AddActivityFragmentFetch(newActivity, activity)
-                                    hideLoader()
-
+                                    //hideLoader()
                                 }
                             } else {
 
@@ -513,20 +507,58 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
                 if (editButtonClicked == true){
 
-               /* requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .add(AddContactsFragment(), AddContactsFragment::class.java.canonicalName)
-                        .commitAllowingStateLoss()*/
-
                     requireActivity().supportFragmentManager
                             .beginTransaction()
-                            .add(AssignPeopleFragment(this, event, false, defaultSelectedGuests), AssignPeopleFragment::class.java.canonicalName)
+                            .add(AssignPeopleFragment(this, event, false, defaultSelectedGuests, null/*, postParticipantsList*/), AssignPeopleFragment::class.java.canonicalName)
                             .commitAllowingStateLoss()
                 } else {
 
                     Toast.makeText(activity,getString(R.string.add_people_toast),Toast.LENGTH_LONG).show()
                 }
             }
+
+            R.id.natureOfTheCostTextFieldActivity -> {
+
+                context?.let { showNatureOfCostDialog(it) }
+            }
+        }
+    }
+
+    private fun showNatureOfCostDialog(context : Context) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.nature_of_cost_pop_up)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val perPersonTextView = dialog.findViewById(R.id.perPersonTextView) as TextView
+        val totalCostTextView = dialog.findViewById(R.id.totalCostTextView) as TextView
+
+        perPersonTextView.setOnClickListener {
+
+            natureOfCostTextView.setText(R.string.cost_per_person)
+            natureOfCostIcon.setImageResource(R.drawable.ic_cost_perperson_icon)
+            dialog.dismiss()
+        }
+
+        totalCostTextView.setOnClickListener {
+
+            natureOfCostTextView.setText(R.string.total_cost)
+            natureOfCostIcon.setImageResource(R.drawable.ic_action_cost_icon)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                v.clearFocus()
+            }
+            false
         }
     }
 
@@ -541,16 +573,13 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
     override fun AddSelectedActivityParticipants(activityParticipants: ArrayList<Guests>?) {
 
+        postParticipantsList.clear()
         finalActivityParticipant.clear()
 
         if (activityParticipants != null) {
-
             for (item in activityParticipants){
-
                 val participant = item.toActivityParticipant()
-
                 if (!finalActivityParticipant.contains(participant)){
-
                     finalActivityParticipant.add(participant)
                 }
             }
@@ -561,7 +590,9 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
             val name = participant.username
 
             if (name != null) {
-                postParticipantsList.add(name)
+                if (!postParticipantsList.contains(name)){
+                    postParticipantsList?.add(name)
+                }
             }
         }
 
@@ -569,18 +600,31 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
 
 
         addPeopleRecyclerViewEdit.visibility = View.VISIBLE
-        addPeopleRecyclerViewEdit.adapter = AddPeopleRecyclerViewAdapter(finalActivityParticipant)
+        addPeopleRecyclerViewEdit.adapter = AddPeopleRecyclerViewAdapter(/*finalActivityParticipant*/postParticipantsList, this)
 
+    }
+
+    override fun closeButtonItemListener(pos: Int) {
+
+        postParticipantsList?.removeAt(pos)
+
+        //finalActivityParticipant[pos].selection = false
+        //finalActivityParticipant.removeAt(pos)
+        //defaultSelectedGuests = finalActivityParticipant
+        addPeopleRecyclerViewEdit.adapter = AddPeopleRecyclerViewAdapter(/*finalActivityParticipant*/postParticipantsList, this)
+        addPeopleRecyclerViewEdit.adapter?.notifyDataSetChanged()
+        //println("working")
     }
 
     fun Guests.toActivityParticipant() = ActivityParticipant(
 
-            id = user_id,
-            username = name,
+            id = user.id,
+            username = user.username,
             email = email,
-            first_name = null,
-            last_name = null,
+            first_name = user.first_name,
+            last_name = user.last_name,
             phone_number = phone_number,
-            picture = null
+            picture = user.picture
     )
+    /*fun String.toActivityParticipant() = ActivityParticipant()*/
 }

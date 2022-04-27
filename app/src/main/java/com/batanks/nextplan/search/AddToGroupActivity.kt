@@ -42,6 +42,8 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_add_to_groups.*
 import kotlinx.android.synthetic.main.layout_create_group.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
@@ -51,8 +53,12 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
     var Id : Int? = 0
 
-    lateinit var groupList : List<Group>
+    lateinit var groupList : ArrayList<Group>
     //lateinit var groupAdapter : AddToGroupsAdapter
+
+    /*var friendsExpanded : Boolean = false
+    var groupsExpanded : Boolean = false
+    var usersExpanded : Boolean = false*/
 
     private val groupsViewModel: GroupsViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -64,55 +70,6 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
     override fun onResume() {
         super.onResume()
-
-        /*groupsRecyclerView = findViewById(R.id.groupsRecyclerView)
-        groupsRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        //groupsRecyclerView.adapter?.notifyDataSetChanged()
-
-        loadingDialog = this.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
-
-        groupsViewModel.getGroupsList()
-        //groupAdapter.notifyDataSetChanged()
-
-        //groupsRecyclerView.adapter?.notifyDataSetChanged()
-
-        groupsViewModel.responseLiveData.observe(this, Observer{ response ->
-
-            when(response.status){
-                Status.LOADING -> {
-                    showLoader()
-                }
-                Status.SUCCESS -> {
-                    hideLoader()
-
-                    groupsViewModel.response = response.data as List<Group>
-
-                    groupList = response.data
-
-                    //groupAdapter = AddToGroupsAdapter(groupList)
-
-                    if(groupList.size <=5) {
-                        val params = groupsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
-                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-                        groupsRecyclerView.setLayoutParams(params)
-                    }
-                    groupsRecyclerView.adapter = AddToGroupsAdapter(groupList)
-                    //groupAdapter.notifyDataSetChanged()
-
-                    groupsRecyclerView.adapter?.notifyDataSetChanged()
-
-                    println(groupList)
-
-                }
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                }
-            }
-        })
-
-        //groupAdapter.notifyDataSetChanged()*/
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,6 +81,9 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
         val intent = intent
 
         Id = intent.getIntExtra("Id", 0)
+        /*friendsExpanded = intent.getBooleanExtra("IS_FRIENDS_EXPANDED",true)
+        groupsExpanded = intent.getBooleanExtra("IS_GROUPS_EXPANDED",false)
+        usersExpanded = intent.getBooleanExtra("IS_USERS_EXPANDED",false)*/
         //println(Id!!)
 
         groupsRecyclerView = findViewById(R.id.groupsRecyclerView)
@@ -144,9 +104,11 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
                 Status.SUCCESS -> {
                     hideLoader()
 
-                    groupsViewModel.response = response.data as List<Group>
+                    groupsViewModel.response = response.data as ArrayList<Group>
 
                     groupList = response.data
+
+                    groupList.sortBy { it.name?.toLowerCase(Locale.ROOT) }
 
                     //groupAdapter = AddToGroupsAdapter(groupList)
 
@@ -249,7 +211,11 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
             finish()
 
             /*val contactIntent = Intent(this, Contact::class.java)
-            startActivity(contactIntent)*/
+            contactIntent.putExtra("IS_FRIENDS_EXPANDED", true)
+            contactIntent.putExtra("IS_GROUPS_EXPANDED", groupsExpanded)
+            contactIntent.putExtra("IS_USERS_EXPANDED", usersExpanded)
+            startActivity(contactIntent)
+            finish()*/
 
            /* supportFragmentManager.beginTransaction()
                     .add(R.id.frameLayout, SearchFragment())
@@ -397,7 +363,7 @@ class AddToGroupActivity : BaseAppCompatActivity(), View.OnClickListener  {
 
                     groupsViewModel.response = response.data as List<Group>
 
-                    groupList = listOf()
+                    groupList = arrayListOf()
                     groupList += response.data
 
                     //groupAdapter = AddToGroupsAdapter(groupList)

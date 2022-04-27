@@ -1,45 +1,58 @@
 package com.batanks.nextplan.home.fragment.action
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
+import com.batanks.nextplan.home.markInRed
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.search.adapters.CategoryAdapter
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_add_action.*
 import kotlinx.android.synthetic.main.fragment_add_action_card.*
+import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 
 class AddActionFragment (val listner : AddActionFragmentListener, private val position : Int, private val taskList : ArrayList<PostTasks>, private val event : Event?,
-                         private val editButtonClicked : Boolean): BaseDialogFragment() , View.OnClickListener,
+                         private val editButtonClicked : Boolean, private val userTask : Task?, private val updatedActionPosition : Int): BaseDialogFragment() , View.OnClickListener,
                          AssignPeopleFragment.AssignPeopleFragmentListner{
 
-    private val newTask : Int = -1
+    private var taskId : Int? = 0
 
+    private var isUserAssigned : Boolean = false
     private var assignee : Int? = null
+    private var userName : String? = null
+    private var defaultSelectedAssigne : String? = null
+
+    var perPerson : Boolean = false
+    var price : String = ""
+    private var assigneeResponse : Task? = null
 
     private val eventDetailViewModel: EventDetailViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
-            getContext()?.let {
+            context?.let {
                 RetrofitClient.getRetrofitInstance(it)?.create(EventAPI::class.java)?.let {
                     EventDetailViewModel(it)
                 }
@@ -59,104 +72,97 @@ class AddActionFragment (val listner : AddActionFragmentListener, private val po
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         actionNameTextField.markRequiredInRed()
+        userName  = context?.getSharedPreferences("USER_DETAILS", AppCompatActivity.MODE_PRIVATE)?.getString("USERNAME",null)
 
         if(position >= 0){
 
             var natureOfCost : String? = null
-
+            //taskId = taskList[position].id
             //txt_add_action_assignee_id.setText(taskList[position].assignee!!)
             actionNameEditText.setText(taskList[position].name)
             actionDescriptionEditText.setText(taskList[position].description)
             costActionEditText.setText(taskList[position].price.toString())
-
             if (taskList[position].per_person == true){ natureOfCost = "Cost Per Person" } else { natureOfCost = "Total Cost" }
+            natureOfCostTextView.text = natureOfCost
 
-            actv_action_nature_of_the_cost.setText(natureOfCost)
-
-            if (event!!.tasks[position].assignee != null){
+            if (taskList.get(position).assignee != null){
 
                 rl_add_action_assignee_holder.visibility = View.VISIBLE
+                txt_add_action_assignee_name.text = taskList.get(position).assigneeName
+                defaultSelectedAssigne = taskList.get(position).assigneeName
+                assignee = taskList.get(position).assignee
 
-                txt_add_action_assignee_name.setText(event!!.tasks[position].assignee?.username)
+               /* if (event!!.tasks?.get(position)?.assignee?.picture != null){
 
-                if (event!!.tasks[position].assignee?.picture != null){
+                    activity?.let { Glide.with(it).load(event!!.tasks?.get(position)?.assignee?.picture).circleCrop().into(img_add_action_assignee) }
+                }*/
+            }
 
-                    activity?.let { Glide.with(it).load(event!!.tasks[position].assignee?.picture).circleCrop().into(img_add_action_assignee) }
-                }
+        } else if (position == -2){
+
+            actionNameEditText.isEnabled = false
+            actionDescriptionEditText.isEnabled = false
+            actionNameTextField.isEndIconVisible = false
+            actionNameTextField.endIconMode = TextInputLayout.END_ICON_NONE
+            assignParticipantButton.visibility = View.GONE
+            assignMeButton.visibility = View.VISIBLE
+            var natureOfCost : String? = null
+            actionNameEditText.setText(userTask?.name)
+            actionDescriptionEditText.setText(userTask?.description)
+            costActionEditText.setText(userTask?.price.toString())
+            if (userTask?.per_person == true){ natureOfCost = "Cost Per Person" } else { natureOfCost = "Total Cost" }
+            natureOfCostTextView.text = natureOfCost
+
+            if (userTask?.assignee != null){
+                assignMeButton.visibility = View.GONE
+                assignParticipantHolder.visibility = View.GONE
+                txt_addAction_assignee_who_with.visibility = View.GONE
+                view_seperator_whowith_tetx.visibility = View.GONE
+                rl_add_action_assignee_holder.visibility = View.VISIBLE
+                txt_add_action_assignee_name.text = userTask.assignee.username
+                isUserAssigned = true
             }
         }
 
-        loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        eventDetailViewModel.responseLiveDataAssignAction.observe(viewLifecycleOwner, Observer{ response ->
 
-      /*  if (!actionNameTextField.isEndIconVisible){
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
 
-            actionNameEditText.setPadding(16,16,16,16)
-        }*/
+                    assigneeResponse = response.data as Task
 
-        assignParticipantButton.setOnClickListener(this)
-        ok.setOnClickListener(this)
-        add_action_cancel.setOnClickListener(this)
-
-        costActionEditText.addTextChangedListener(object: TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                //costActionEditText.setText(costActionEditText.getText().toString() + "€")
+                    eventDetailViewModel.apiEventTaskPatch(id.toString(),assigneeResponse?.id.toString(),
+                        TaskPatch(price, assigneeResponse?.name, assigneeResponse?.description, perPerson, assigneeResponse!!.assignee!!.id.toString()))
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
             }
-            override fun beforeTextChanged(s:CharSequence, start:Int, count:Int, after:Int) {}
-            override fun onTextChanged(s:CharSequence, start:Int, before:Int, count:Int) {}
         })
 
-        val nature_of_the_cost = arrayOf("Cost Per Person" , "Total Cost")
+        eventDetailViewModel.responseLiveDataTaskPatch.observe(viewLifecycleOwner, Observer{ response ->
 
-        val adapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, nature_of_the_cost) }
-        actv_action_nature_of_the_cost.setAdapter(adapter)
-        actv_action_nature_of_the_cost.threshold = 1
-
-        // Set an item click listener for auto complete text view
-
-        actv_action_nature_of_the_cost.onItemClickListener = AdapterView.OnItemClickListener{
-            parent,view,position,id->
-            val selectedItem = parent.getItemAtPosition(position).toString()
-
-            // Display the clicked item using toast
-            //Toast.makeText(activity,"Selected : $selectedItem",Toast.LENGTH_SHORT).show()
-        }
-
-
-        // Set a dismiss listener for auto complete text view
-        actv_action_nature_of_the_cost.setOnDismissListener {
-            //Toast.makeText(activity,"Suggestion closed.",Toast.LENGTH_SHORT).show()
-
-            //natureOfTheCostTextField.hint = null
-        }
-        // Set a focus change listener for auto complete text view
-        actv_action_nature_of_the_cost.onFocusChangeListener = View.OnFocusChangeListener{
-            view, b ->
-            if(b){
-                // Display the suggestion dropdown on focus
-                actv_action_nature_of_the_cost.showDropDown()
-                dismissKeyboard()
-            }
-        }
-
-        /*view.setOnTouchListener(object : View.OnTouchListener {
-
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
-                if (event?.action == MotionEvent.ACTION_DOWN) {
-                    if(v is EditText) {
-                        val outRect = Rect()
-                        v.getGlobalVisibleRect(outRect)
-                        if (!outRect.contains(event.rawX as Int, event.rawY as Int)) {
-                            v.clearFocus()
-                            val imm = v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                        }
-                    }
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
                 }
-                return false
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    assigneeResponse = response.data as Task
+                    listner.addActionFragmentFetch(updatedActionPosition, null, assigneeResponse)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
             }
-        })*/
+        })
 
         view.setOnTouchListener(object : View.OnTouchListener {
 
@@ -164,14 +170,23 @@ class AddActionFragment (val listner : AddActionFragmentListener, private val po
 
                 if (event?.action == MotionEvent.ACTION_DOWN) {
 
-                    val imm = v?.getContext()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    val imm = v?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
                     v.clearFocus()
                 }
 
                 return false
             }
         })
+
+        assignParticipantButton.setOnClickListener(this)
+        assignMeButton.setOnClickListener(this)
+        img_add_action_assignee_dots.setOnClickListener(this)
+        ok.setOnClickListener(this)
+        add_action_cancel.setOnClickListener(this)
+        natureOfTheCostTextField.setOnClickListener(this)
+
+        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
     }
 
     override fun onClick(view: View?) {
@@ -183,7 +198,7 @@ class AddActionFragment (val listner : AddActionFragmentListener, private val po
 
                     requireActivity().supportFragmentManager
                        .beginTransaction()
-                       .add(AssignPeopleFragment(this, event, true, null), AssignPeopleFragment::class.java.canonicalName)
+                       .add(AssignPeopleFragment(this, event, true, null, defaultSelectedAssigne), AssignPeopleFragment::class.java.canonicalName)
                        .commitAllowingStateLoss()
 
                 }else {
@@ -192,270 +207,150 @@ class AddActionFragment (val listner : AddActionFragmentListener, private val po
                 }
             }
 
+            R.id.assignMeButton -> {
+
+                assignMeButton.visibility = View.GONE
+                assignParticipantHolder.visibility = View.GONE
+                txt_addAction_assignee_who_with.visibility = View.GONE
+                view_seperator_whowith_tetx.visibility = View.GONE
+                rl_add_action_assignee_holder.visibility = View.VISIBLE
+                txt_add_action_assignee_name.text = userName
+                isUserAssigned = true
+            }
+
             R.id.ok -> {
 
                 if (actionNameTextField?.editText?.length()!! >= 2) {
 
-                    var perPerson : Boolean = false
-
-
-                    if (natureOfTheCostTextField.editText?.text.toString() == "Cost Per Person"){
-
-                        perPerson = true
-
-                    } else if (natureOfTheCostTextField.editText?.text.toString() == "Total Cost"){
-
-                        perPerson = false
-                    }
-
-                   /* if (!TextUtils.isEmpty(txt_add_action_assignee_id.text.toString())){
-
-                        assignee = txt_add_action_assignee_id.text.toString().toInt()
-                    }*/
-
-                    var price : Int = 0
+                    if (natureOfCostTextView.text.toString() == "Cost Per Person"){ perPerson = true }
+                    else if (natureOfCostTextView.text.toString() == "Total Cost"){ perPerson = false }
 
                     if (!TextUtils.isEmpty(costActionTextField?.editText?.text.toString())){
+                        price = costActionTextField?.editText?.text.toString() }
 
-                        price = costActionTextField?.editText?.text.toString().toInt()
-                    }
-
-                    val task = PostTasks(price =  price,
+                    val task = PostTasks( /*id = taskId,*/
+                            price =  price,
                             name = actionNameTextField?.editText?.text.toString(),
                             description = actionDescriptionTextField?.editText?.text.toString(),
                             per_person = perPerson,
-                            assignee = /*txt_add_action_assignee_name.text.toString())*/ /*txt_add_action_assignee_id.text.toString().toInt()*/ assignee
-                            /*assigneeName = txt_add_action_assignee_name.text.toString()*/)
+                            assignee =  assignee,
+                            assigneeName = txt_add_action_assignee_name.text.toString())
 
-                    if (editButtonClicked == true ){
+                    if (position == -2){
+
+                        /*if (isUserAssigned){
+
+                            eventDetailViewModel.assignAction(event?.id.toString(), AssignTask(userTask?.id!!))
+
+                        } else if (!isUserAssigned){
+
+                            eventDetailViewModel.apiEventTaskPatch(id.toString(),userTask?.id.toString(),
+                                TaskPatch(price , userTask?.name, userTask?.description, perPerson, ""))
+                        }*/
+
+                        if (userTask?.assignee == null && rl_add_action_assignee_holder.isVisible){
+
+                            eventDetailViewModel.assignAction(event?.id.toString(), AssignTask(userTask?.id!!))
+
+                        }else if(userTask?.assignee != null && !rl_add_action_assignee_holder.isVisible){
+
+                            eventDetailViewModel.apiEventTaskPatch(id.toString(), userTask.id.toString(),
+                                TaskPatch(price , userTask.name, userTask.description, perPerson, ""))
+
+                        } else if(userTask?.assignee != null && rl_add_action_assignee_holder.isVisible){
+
+                            eventDetailViewModel.apiEventTaskPatch(id.toString(), userTask.id.toString(),
+                                TaskPatch(price, userTask.name,
+                                    userTask.description, perPerson, userTask.assignee.id.toString()))
+
+                        } else {  Toast.makeText(activity,"You must assign yourself first",Toast.LENGTH_LONG).show() }
+
+                    } else if (editButtonClicked){
 
                         if (position >= 0){
-
-                            if (assignee!= null){
-
-                                eventDetailViewModel.apiEventFullTaskPatch(event?.id.toString(), event!!.tasks[position].id.toString(), TaskPost(price.toString(),
-                                        actionNameTextField?.editText?.text.toString(),actionDescriptionTextField?.editText?.text.toString(),
-                                        perPerson, assignee!!))
-
-                                eventDetailViewModel.responseLiveDataTaskPatchFull.observe(viewLifecycleOwner, Observer { response ->
-
-                                    when (response.status) {
-                                        Status.LOADING -> {
-                                            showLoader()
-                                        }
-
-                                        Status.SUCCESS -> {
-                                            hideLoader()
-
-                                            //eventDetailViewModel.getEventData(eventId.toString())
-
-                                            listner.AddActionFragmentFetch(position,task)
-
-                                            //println("patch action is working fine without assignee")
-                                        }
-                                        Status.ERROR -> {
-                                            hideLoader()
-                                            showMessage(response.error?.message.toString())
-                                            println(response.error?.message.toString())
-                                        }
-                                    }
-                                })
-
-                            } else if (assignee == null) {
-
-                                eventDetailViewModel.apiEventTaskPatchWithoutAssignee(event?.id.toString(), event!!.tasks[position].id.toString(),
-                                        TaskPostWithoutAssignee(price.toString(), actionNameTextField?.editText?.text.toString(),actionDescriptionTextField?.editText?.text.toString(),
-                                                perPerson))
-
-                                eventDetailViewModel.responseLiveDataTaskPatchWithoutAssignee.observe(viewLifecycleOwner, Observer { response ->
-
-                                    when (response.status) {
-                                        Status.LOADING -> {
-                                            showLoader()
-                                        }
-
-                                        Status.SUCCESS -> {
-                                            hideLoader()
-
-                                            //eventDetailViewModel.getEventData(eventId.toString())
-
-                                            listner.AddActionFragmentFetch(position,task)
-
-                                            //println("patch action is working fine without assignee")
-                                        }
-                                        Status.ERROR -> {
-                                            hideLoader()
-
-                                            showMessage(response.error?.message.toString())
-                                            println(response.error?.message.toString())
-                                        }
-                                    }
-                                })
-                            }
-                        } else {
-
-                            eventDetailViewModel.apiEventTaskCreate(event?.id.toString(), TaskPost(price.toString(), actionNameTextField?.editText?.text.toString(),
-                                    actionDescriptionTextField?.editText?.text.toString(), perPerson, assignee))
-
-                            eventDetailViewModel.responseLiveDataCreateTask.observe(viewLifecycleOwner, Observer { response ->
-
-                                when (response.status) {
-                                    Status.LOADING -> {
-                                        showLoader()
-                                    }
-
-                                    Status.SUCCESS -> {
-                                        hideLoader()
-
-                                        //eventDetailViewModel.getEventData(eventId.toString())
-
-                                        listner.AddActionFragmentFetch(position,task)
-
-                                        //println("patch action is working fine without assignee")
-                                    }
-                                    Status.ERROR -> {
-                                        hideLoader()
-
-                                        showMessage(response.error?.message.toString())
-                                        println(response.error?.message.toString())
-                                    }
-                                }
-                            })
-
-
-                            /*listner.AddActionFragmentFetch(newTask,task)
-                            actionNameTextField.error = null*/
-                        }
+                            if (assignee!= null){ listner.addActionFragmentFetch(position,task, null) }
+                            else if (assignee == null) { listner.addActionFragmentFetch(position,task, null) }
+                        } else { listner.addActionFragmentFetch(position,task, null) }
 
                     }else {
-
-                        listner.AddActionFragmentFetch(newTask,task)
+                       listner.addActionFragmentFetch(position, task, null)
                     }
 
-                    /*if (position >= 0){
+                } else {
 
-                        if (assignee!= null){
-
-                            eventDetailViewModel.apiEventFullTaskPatch(event?.id.toString(), event!!.tasks[position].id.toString(), TaskPost(price.toString(),
-                                    actionNameTextField?.editText?.text.toString(),actionDescriptionTextField?.editText?.text.toString(),
-                                    perPerson, assignee!!))
-
-                            eventDetailViewModel.responseLiveDataTaskPatchFull.observe(viewLifecycleOwner, Observer { response ->
-
-                                when (response.status) {
-                                    Status.LOADING -> {
-                                        showLoader()
-                                    }
-
-                                    Status.SUCCESS -> {
-                                        hideLoader()
-
-                                        //eventDetailViewModel.getEventData(eventId.toString())
-
-                                        listner.AddActionFragmentFetch(position,task)
-
-                                        //println("patch action is working fine without assignee")
-                                    }
-                                    Status.ERROR -> {
-                                        hideLoader()
-                                        showMessage(response.error?.message.toString())
-                                        println(response.error?.message.toString())
-                                    }
-                                }
-                            })
-
-                        } else if (assignee == null) {
-
-                            eventDetailViewModel.apiEventTaskPatchWithoutAssignee(event?.id.toString(), event!!.tasks[position].id.toString(),
-                                    TaskPostWithoutAssignee(price.toString(), actionNameTextField?.editText?.text.toString(),actionDescriptionTextField?.editText?.text.toString(),
-                                    perPerson))
-
-                            eventDetailViewModel.responseLiveDataTaskPatchWithoutAssignee.observe(viewLifecycleOwner, Observer { response ->
-
-                                when (response.status) {
-                                    Status.LOADING -> {
-                                        showLoader()
-                                    }
-
-                                    Status.SUCCESS -> {
-                                        hideLoader()
-
-                                        //eventDetailViewModel.getEventData(eventId.toString())
-
-                                        listner.AddActionFragmentFetch(position,task)
-
-                                        //println("patch action is working fine without assignee")
-                                    }
-                                    Status.ERROR -> {
-                                        hideLoader()
-
-                                        showMessage(response.error?.message.toString())
-                                        println(response.error?.message.toString())
-                                    }
-                                }
-                            })
-                        }
-
-
-                    } else {
-
-                        eventDetailViewModel.apiEventTaskCreate(event?.id.toString(), TaskPost(price.toString(), actionNameTextField?.editText?.text.toString(),
-                                actionDescriptionTextField?.editText?.text.toString(), perPerson, assignee))
-
-                        eventDetailViewModel.responseLiveDataCreateTask.observe(viewLifecycleOwner, Observer { response ->
-
-                            when (response.status) {
-                                Status.LOADING -> {
-                                    showLoader()
-                                }
-
-                                Status.SUCCESS -> {
-                                    hideLoader()
-
-                                    //eventDetailViewModel.getEventData(eventId.toString())
-
-                                    listner.AddActionFragmentFetch(position,task)
-
-                                    //println("patch action is working fine without assignee")
-                                }
-                                Status.ERROR -> {
-                                    hideLoader()
-
-                                    showMessage(response.error?.message.toString())
-                                    println(response.error?.message.toString())
-                                }
-                            }
-                        })
-
-
-                        *//*listner.AddActionFragmentFetch(newTask,task)
-                        actionNameTextField.error = null*//*
-                    }*/
-
-
-                    println("for test purpose only ")
-
-                    /*listner.AddActionFragmentFetch(position,task)
-                    actionNameTextField.error = null*/
-                    } else {
-
-                        //actionNameTextField.error = "Action name is Required"
-                        actionNameTextField.editText?.setError(getString(R.string.action_name_error))
+                    actionNameTextField.editText?.error = getString(R.string.action_name_error)
                         actionNameTextField.requestFocus()
-                        //Toast.makeText(activity,"Action name cannot be empty",Toast.LENGTH_SHORT).show()
                 }
-                hideLoader()
+
             }
 
             R.id.add_action_cancel -> {
 
                 listner.cancelActionFragmentFetch()
             }
+
+            R.id.img_add_action_assignee_dots -> {
+
+                if (position == -2){
+
+                    assignMeButton.visibility = View.VISIBLE
+                    assignParticipantHolder.visibility = View.VISIBLE
+                    isUserAssigned = false
+                }
+
+                rl_add_action_assignee_holder.visibility = View.GONE
+                txt_add_action_assignee_name.text = ""
+                assignee = null
+                defaultSelectedAssigne = null
+            }
+
+            R.id.natureOfTheCostTextField -> {
+
+                context?.let { showNatureOfCostDialog(it) }
+            }
+        }
+    }
+
+    private fun showNatureOfCostDialog(context : Context) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.nature_of_cost_pop_up)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val perPersonTextView = dialog.findViewById(R.id.perPersonTextView) as TextView
+        val totalCostTextView = dialog.findViewById(R.id.totalCostTextView) as TextView
+
+        perPersonTextView.setOnClickListener {
+
+            natureOfCostTextView.setText(R.string.cost_per_person)
+            natureOfCostIcon.setImageResource(R.drawable.ic_cost_perperson_icon)
+            dialog.dismiss()
+        }
+
+        totalCostTextView.setOnClickListener {
+
+            natureOfCostTextView.setText(R.string.total_cost)
+            natureOfCostIcon.setImageResource(R.drawable.ic_action_cost_icon)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+        dialog.window?.decorView?.setOnTouchListener { v, event ->
+
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+
+                val imm = v?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                v.clearFocus()
+            }
+            false
         }
     }
 
     interface AddActionFragmentListener {
-        fun AddActionFragmentFetch(updatedPosition : Int, task : PostTasks)
+        fun addActionFragmentFetch(updatedPosition : Int, task : PostTasks?, taskResponse : Task?)
         fun cancelActionFragmentFetch()
     }
 
@@ -464,7 +359,8 @@ class AddActionFragment (val listner : AddActionFragmentListener, private val po
         //Toast.makeText(activity , "" + test , Toast.LENGTH_SHORT).show()
         //assignParticipantButton.text = test
         rl_add_action_assignee_holder.visibility = View.VISIBLE
-        txt_add_action_assignee_name.text = contact?.name
+        txt_add_action_assignee_name.text = contact?.user?.username
+        defaultSelectedAssigne = contact?.user?.username
         txt_add_action_assignee_id.text = id.toString()
         assignee = id
     }

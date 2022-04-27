@@ -186,13 +186,25 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible"/>
 
-                    <ImageView
+                    <!--<ImageView
                         android:id="@+id/hideMapImg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:background="@drawable/ic_event_details_hide_map_background"
+                        app:layout_constraintStart_toStartOf="@+id/eventMapbackgroundVisible"
+                        app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible"/>-->
+
+                    <TextView
+                        android:id="@+id/hideMapImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/hide_map"
+                        android:textSize="14sp"
+                        android:textColor="#DEFFFFFF"
                         app:layout_constraintStart_toStartOf="@+id/eventMapbackgroundVisible"
                         app:layout_constraintTop_toTopOf="@+id/eventMapbackgroundVisible"/>
 
@@ -522,16 +534,16 @@
                  />
 
             <ImageView
-                android:id="@+id/dollarPerPersonUpperHalfIcon"
+                android:id="@+id/activity_img_cost_per_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
-                android:layout_marginTop="29dp"
-                android:background="@drawable/ic_event_details_dollar_per_person_icon_upper_half"
+                android:src="@drawable/ic_cost_perperson_icon"
                 app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-                app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
+                app:layout_constraintTop_toTopOf="@+id/textViewCostPerPerson"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewCostPerPerson" />
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/dollarPerPersonLowerHalfIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -539,7 +551,7 @@
                 android:layout_marginTop="34.07dp"
                 android:background="@drawable/ic_event_details_dollar_per_person_icon_lower_half"
                 app:layout_constraintStart_toStartOf="@+id/eventInfoBackground"
-                app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
+                app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />-->
 
             <TextView
                 android:id="@+id/textViewCostPerPerson"
@@ -550,7 +562,7 @@
                 android:text="Cost Per Person"
                 android:textColor="#DEFFFFFF"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/dollarPerPersonLowerHalfIcon"
+                app:layout_constraintStart_toEndOf="@+id/activity_img_cost_per_person"
                 app:layout_constraintTop_toBottomOf="@+id/perPersonCostDivider" />
 
             <TextView

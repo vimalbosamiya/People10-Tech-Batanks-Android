@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,18 +99,27 @@ class SearchPrivateEventFragment : BaseFragment(), CoroutineScope, CategoryAdapt
 
                             searchKeyword = searchText
 
+                            if (!searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = searchText
+
+                            }else if(searchText.isNullOrEmpty()){
+
+                                SearchViewModel.searchText = null
+                            }
+
                             if (searchCategory != null){
 
                                 searchCategoryId = searchCategory!!.pk.toString()
 
-                                searchViewModel.getSearchList(getString(R.string._private),searchCategoryId.toString(),searchKeyword)
+                                searchViewModel.getSearchList("PRIVATE",searchCategoryId.toString(),searchKeyword)
 
                             } else if (searchCategory == null){
 
-                                searchViewModel.apiSearchListWithTypeAndKeyword(getString(R.string._private),searchKeyword)
+                                searchViewModel.apiSearchListWithTypeAndKeyword("PRIVATE",searchKeyword)
                             }
 
-                            view.hideKeyboard()
+                            //view.hideKeyboard()
 
                             println(searchText )
                             //loadList(searchText)
@@ -124,12 +134,12 @@ class SearchPrivateEventFragment : BaseFragment(), CoroutineScope, CategoryAdapt
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
-        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        apiSearch()
 
-        searchViewModel.apiSearchListWithType("PRIVATE")
+        //loadingDialog = context?.getLoadingDialog(0, R.string.loading_list_please_wait, theme = R.style.AlertDialogCustom)
+        //searchViewModel.apiSearchListWithType("PRIVATE")
 
         searchViewModel.responseLiveData.observe(viewLifecycleOwner, Observer { response ->
 
@@ -144,7 +154,79 @@ class SearchPrivateEventFragment : BaseFragment(), CoroutineScope, CategoryAdapt
 
                     eventList = searchViewModel.response!!.results
 
-                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithType.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndCategory.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
+        searchViewModel.responseLiveDataWithTypeAndKeyword.observe(viewLifecycleOwner, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    searchViewModel.response = response.data as InlineResponse2002
+
+                    eventList = searchViewModel.response!!.results
+
+                    if (eventList.size <= 1) {
+                        val params = eventsRecyclerView.getLayoutParams() as ConstraintLayout.LayoutParams
+                        params.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        eventsRecyclerView.setLayoutParams(params)
+                    }
+
+                    eventsRecyclerView?.adapter = HomePlanPreviewAdapter(false, eventList/*,this*/)
                 }
                 Status.ERROR -> {
                     hideLoader()
@@ -184,6 +266,20 @@ class SearchPrivateEventFragment : BaseFragment(), CoroutineScope, CategoryAdapt
         sort.setOnClickListener {
 
             showSortDialog(view!!.context)
+        }
+    }
+
+    private fun apiSearch(){
+
+        if (!SearchViewModel.searchText.isNullOrEmpty()){
+
+            addcontactSearchEditText.setText(SearchViewModel.searchText)
+            searchViewModel.apiSearchListWithTypeAndKeyword("PRIVATE",SearchViewModel.searchText)
+
+        }else if (SearchViewModel.searchText.isNullOrEmpty()){
+
+            //searchViewModel.getSearchList(getString(R.string.all),searchCategoryId.toString(),searchKeyword)
+            searchViewModel.apiSearchListWithType("PRIVATE")
         }
     }
 
@@ -264,10 +360,12 @@ class SearchPrivateEventFragment : BaseFragment(), CoroutineScope, CategoryAdapt
 
         if (!getUserVisibleHint()) { return }
 
-        searchViewModel.apiSearchListWithType("PRIVATE")
+        apiSearch()
 
+        /*searchViewModel.apiSearchListWithType("PRIVATE")
+        addcontactSearchEditText.setText("")*/
         //eventsRecyclerView?.adapter = HomePlanPreviewAdapter(eventList/*,this*/)
-        addcontactSearchEditText.setText("")
+
 
         println("private visible working fine")
     }

@@ -15,6 +15,11 @@ class ContactsViewModel (private val contactsApi: ContactsAPI) : ViewModel() {
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataDel: MutableLiveData<ApiResponse> = MutableLiveData()
     var response : InlineResponse2001? = null
+    var isFriendsExpanded : Boolean = false
+    var isGroupsExpanded : Boolean = false
+    var isusersExpanded : Boolean = false
+    var searchKeyword : String? = null
+
 
     fun getContactsList() {
 

@@ -15,11 +15,15 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
 
     private val disposables = CompositeDisposable()
     val responseLiveData: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataWithType: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataWithTypeAndCategory: MutableLiveData<ApiResponse> = MutableLiveData()
+    val responseLiveDataWithTypeAndKeyword: MutableLiveData<ApiResponse> = MutableLiveData()
     val responseLiveDataUsers: MutableLiveData<ApiResponse> = MutableLiveData()
     var response : InlineResponse2002? = null
     var participantsListUsers : ArrayList<ContactsList> = arrayListOf()
     var participantsUsers : ArrayList<ContactsList> = arrayListOf()
     //var usersSearchResponse : UserSearch? = null
+
 
     fun getSearchList(type:String, category:String?, keywords:String?) {
 
@@ -46,14 +50,14 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
+                    responseLiveDataWithType.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
                     //println(it)
                 }.subscribe({ result ->
-                    responseLiveData.setValue(ApiResponse.success(result))
+                responseLiveDataWithType.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
+                responseLiveDataWithType.setValue(ApiResponse.error(throwable))
                 })
     }
 
@@ -64,14 +68,14 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
+                    responseLiveDataWithTypeAndCategory.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
                     //println(it)
                 }.subscribe({ result ->
-                    responseLiveData.setValue(ApiResponse.success(result))
+                responseLiveDataWithTypeAndCategory.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
+                responseLiveDataWithTypeAndCategory.setValue(ApiResponse.error(throwable))
                 })
     }
 
@@ -82,14 +86,14 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
-                    responseLiveData.setValue(ApiResponse.loading())
+                    responseLiveDataWithTypeAndKeyword.setValue(ApiResponse.loading())
                 }
                 .doOnNext {
                     //println(it)
                 }.subscribe({ result ->
-                    responseLiveData.setValue(ApiResponse.success(result))
+                responseLiveDataWithTypeAndKeyword.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveData.setValue(ApiResponse.error(throwable))
+                responseLiveDataWithTypeAndKeyword.setValue(ApiResponse.error(throwable))
                 })
     }
 
@@ -113,5 +117,10 @@ class SearchViewModel (private val searchApi: SearchAPI) : ViewModel() {
 
     override fun onCleared() {
         disposables.clear()
+    }
+
+    companion object{
+
+        var searchText : String? = null
     }
 }

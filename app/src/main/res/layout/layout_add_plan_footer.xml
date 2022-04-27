@@ -31,6 +31,7 @@
             android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/createPlanButton"
             app:strokeColor="#34CBFE" />
@@ -40,6 +41,8 @@
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="160dp"
             android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:backgroundTint="#90CAF9"
             android:enabled="true"
@@ -48,8 +51,6 @@
             android:textColor="@color/colorBlack"
             android:textCursorDrawable="@color/colorWhite"
             app:cornerRadius="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentRight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/saveDraftButton"
             app:layout_constraintRight_toRightOf="parent" />

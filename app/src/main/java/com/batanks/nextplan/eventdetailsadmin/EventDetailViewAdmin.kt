@@ -36,6 +36,8 @@ import com.batanks.nextplan.home.fragment.contacts.AddContactsFragment
 import com.batanks.nextplan.home.fragment.place.AddPlaceFragment
 import com.batanks.nextplan.home.fragment.tabfragment.AddActivityFragment
 import com.batanks.nextplan.home.fragment.tabfragment.ButtonContract
+import com.batanks.nextplan.home.fragment.tabfragment.privateplan.PrivatePlanFragment
+import com.batanks.nextplan.home.fragment.tabfragment.publicplan.PublicPlanFragment
 import com.batanks.nextplan.invitationstatus.InvitationStatus
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.notifications.Notification
@@ -46,6 +48,7 @@ import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.addGuestBackground
 import kotlinx.android.synthetic.main.comments_card_admin.*
 import kotlinx.android.synthetic.main.everybody_come_card_admin.*
+import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.vote_for_date_card_admin.*
 import kotlinx.android.synthetic.main.vote_for_place_card_admin.*
@@ -55,6 +58,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddCommentImplementation,View.OnClickListener,
+        PublicPlanFragment.PublicPlanFragmentListener,
+        PrivatePlanFragment.PrivatePlanFragmentListener,
         VoteForDateMultipleListAdapterAdmin.AddPeriodRecyclerViewCallBack,
         VoteForPlaceMultipleListAdapterAdmin.AddPlaceRecyclerViewCallBack,
         AddPlaceFragment.AddPlaceFragmentListener,
@@ -67,6 +72,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         CommentsListAdapterAdmin.AddCommentsRecyclerViewCallBack,
         AddContactsFragment.AddContactsFragmentListner {
 
+    private var isPrivate : Boolean = false
     var event_obj: Event? = null
     var creator: Creator? = null
     private var creatorId: Int = 0
@@ -92,6 +98,8 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     var postGuests: PostGuests? = null
     var postComments: ArrayList<PostComments> = arrayListOf()
     var postContacts: ArrayList<String> = arrayListOf()
+
+    private var periodicity : Periodicity? = null
 
     lateinit var addPeopleRecyclerView: RecyclerView
     lateinit var commentsListRecyclerViewAdmin: RecyclerView
@@ -130,6 +138,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     event_obj = response.data as Event
 
+                    isPrivate = event_obj!!._private
                     creator = event_obj!!.creator
                     creatorId = creator!!.id
                     organizer.text = creator!!.username
@@ -138,6 +147,17 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                     organizerLastName.text = creator!!.last_name
                     organizerEmail.text = creator!!.email
                     organizerMobileNumber.text = creator!!.phone_number.toString()
+
+                    periodicity = event_obj!!.periodicity
+
+                    if (periodicity != null){
+
+                        howOftenEditTextAdmin.setText(R.string.custom)
+
+                    }else if (periodicity == null){
+
+                        howOftenEditTextAdmin.setText(R.string.once)
+                    }
 
                     if (!TextUtils.isEmpty(creator!!.picture)) {
 
@@ -153,24 +173,28 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                     }
 
                     eventName.text = event_obj!!.title
-                    category.text = event_obj!!.category.name
-                    Glide.with(this).load(event_obj!!.category.picture).circleCrop().into(tripIcon)
+                    category.text = event_obj!!.category?.name
+                    Glide.with(this).load(event_obj!!.category?.picture).circleCrop().into(tripIcon)
 
                     if (event_obj!!._private == true) {
 
                         privateIcon.visibility = VISIBLE
+                        privateIconMini.visibility = VISIBLE
+                        eventType.visibility = VISIBLE
 
                     } else {
 
                         privateIcon.visibility = GONE
+                        privateIconMini.visibility = GONE
+                        eventType.visibility = GONE
                     }
 
-                    noOfGuests.text = event_obj!!.guests.size.toString()
+                    noOfGuests.text = event_obj!!.guests?.size.toString()
 
                     val acceptedGuests: ArrayList<Guests> = arrayListOf()
                     val DeclinedGuests: ArrayList<Guests> = arrayListOf()
 
-                    for (item in event_obj!!.guests) {
+                    for (item in event_obj!!.guests!!) {
 
                         if (item.status == "AC") {
 
@@ -190,27 +214,27 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                     costPerPersonSymbol.text = event_obj!!.price_currency
                     eventDescription.text = event_obj!!.detail
 
-                    getDates = event_obj!!.dates
+                    getDates = event_obj!!.dates!!
 
                     getDates?.let { dateInitAdmin(it) }
 
-                    getPlaces = event_obj!!.places
+                    getPlaces = event_obj!!.places!!
 
                     getPlaces?.let { placeInitAdmin(it) }
 
-                    getTasks = event_obj!!.tasks
+                    getTasks = event_obj!!.tasks!!
 
                     getTasks?.let { taskInitAdmin(it) }
 
-                    getActivities = event_obj!!.activities
+                    getActivities = event_obj!!.activities!!
 
                     getActivities?.let { activityInitAdmin(it) }
 
-                    getGuests = event_obj!!.guests
+                    getGuests = event_obj!!.guests!!
 
                     getGuests?.let { peopleInitAdmin(it) }
 
-                    getComments = event_obj!!.comments
+                    getComments = event_obj!!.comments!!
 
                     getComments?.let { commentsInitAdmin(it) }
 
@@ -235,9 +259,9 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     textViewTotalParticipants.text = getGuests.size.toString()
 
-                    textViewTotalComments.text = event_obj!!.comments.size.toString()
+                    textViewTotalComments.text = event_obj!!.comments?.size.toString()
 
-                    textViewTotalCommentsMulti.text = event_obj!!.comments.size.toString()
+                    textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
 
                 }
 
@@ -305,6 +329,8 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
                     hideLoader()
                     eventDetailViewModel.getEventData(id.toString())
+
+                    println(response)
                 }
 
                 Status.ERROR -> {
@@ -450,7 +476,24 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         guestsHolder.setOnClickListener(this)
         addCommentsImg.setOnClickListener(this)
         backArrow.setOnClickListener(this)
-        removeConstraint.setOnClickListener(this)
+        takePartImage.setOnClickListener(this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        if (frameLayoutAdmin.visibility.equals(View.VISIBLE)){
+
+            supportFragmentManager.findFragmentById(R.id.frameLayoutAdmin)?.let {
+                supportFragmentManager.beginTransaction().remove(it).commit() }
+
+            customToolBar.visibility = VISIBLE
+            frameLayoutAdmin.visibility = GONE
+
+        } else {
+
+            backArrowPressed()
+        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -630,7 +673,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         this.supportFragmentManager
                 .beginTransaction()
-                .add(AddActionFragment(this, position, arrayListOf(), null, false), AddActionFragment::class.java.canonicalName)
+                .add(AddActionFragment(this, position, arrayListOf(), null, false, null, 0), AddActionFragment::class.java.canonicalName)
                 .commitAllowingStateLoss()
 
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
@@ -689,13 +732,13 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
                 as? AddPlaceFragment)?.dismiss()
     }
 
-    override fun AddActionFragmentFetch(updatedPosition: Int, task: PostTasks) {
+    override fun addActionFragmentFetch(updatedPosition: Int, task: PostTasks?, taskResponse : Task?) {
 
         (this.supportFragmentManager.findFragmentByTag(AddActionFragment::class.java.canonicalName)
                 as? AddActionFragment)?.dismiss()
 
         //tasks.add(Task(tasks.size + 1,task.price, task.name, task.description, task.price_currency, task.per_person, task.assignee/*,task.assigneeName*/))
-        postTasks.add(PostTasks(task.price, task.name, task.description, task.per_person, task.assignee))
+        postTasks.add(PostTasks(/*null,*/ task!!.price, task!!.name, task!!.description, task!!.per_person, task!!.assignee, ""))
         val actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerViewAdmin) as RecyclerView
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
@@ -711,7 +754,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         (this.supportFragmentManager.findFragmentByTag(AddActivityFragment::class.java.canonicalName)
                 as? AddActivityFragment)?.dismiss()
 
-        postActivities.add(PostActivities(activity.place, activity.price, activity.participants, activity.title, activity.detail, activity.date,
+        postActivities.add(PostActivities(/*null,*/ activity.place, activity.price, activity.participants, activity.title, activity.detail, activity.date,
                 activity.max_participants, activity.per_person, activity.duration))
 
         /*activities.add(Activity(activities.size + 1,activity.place,activity.price,acti,activity.title,activity.detail,activity.date,
@@ -768,7 +811,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         actionRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
-    override fun settingsButtonAddActionItemListener(pos: Int) { editDialog() }
+    override fun settingsButtonAddActionItemListener(pos: Int) { editDialog(isPrivate) }
 
     override fun closeButtonAddActivityItemListener(pos: Int) {
 
@@ -776,7 +819,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         activityRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
-    override fun settingsButtonAddActivityItemListener(pos: Int) { editDialog() }
+    override fun settingsButtonAddActivityItemListener(pos: Int) { editDialog(isPrivate) }
 
     override fun closeButtonAddCommentItemListener(pos: Int) {
 
@@ -884,48 +927,53 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
             R.id.backArrow -> {
 
-                if (fromHome == true){
-
-                    intent = Intent(this, HomePlanPreview :: class.java)
-                    startActivity(intent)
-                    finish()
-
-                }else{
-
-                    intent = Intent(this, Notification :: class.java)
-                    startActivity(intent)
-                    finish()
-                }
-
-                /*intent = Intent(this, HomePlanPreview::class.java)
-                startActivity(intent)
-                finish()*/
+               backArrowPressed()
             }
 
             R.id.hamburger -> {
 
-                editDialog()
+                editDialog(isPrivate)
             }
 
-            R.id.removeConstraint -> {
+            R.id.takePartImage -> {
 
                 eventDetailViewModel.apiEventDelete(id.toString())
+               // Toast.makeText(this,"Click worked", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun editPlan(editButtonClicked: Boolean, deleteButtonClicked: Boolean) {
+    private fun backArrowPressed() {
+
+        if (fromHome == true){
+
+            intent = Intent(this, HomePlanPreview :: class.java)
+            startActivity(intent)
+            finish()
+
+        }else{
+
+            intent = Intent(this, Notification :: class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun editPlan(isPrivatePlan : Boolean, editButtonClicked: Boolean, deleteButtonClicked: Boolean) {
 
         val draft: Boolean = false
 
+        /*val intent = Intent(this, EditFromAdminView ::class.java)
+        startActivity(intent)*/
+
         supportFragmentManager.beginTransaction()
-                .add(R.id.frameLayoutAdmin, CreatePlanFragment(draft, id, editButtonClicked, deleteButtonClicked, null), CreatePlanFragment.TAG)
+                .add(R.id.frameLayoutAdmin, CreatePlanFragment(false,false, isPrivatePlan, draft, id, editButtonClicked, deleteButtonClicked, this, this), CreatePlanFragment.TAG)
                 .addToBackStack(CreatePlanFragment.TAG).commit()
 
         frameLayoutAdmin.visibility = View.VISIBLE
     }
 
-    private fun editDialog() {
+    private fun editDialog(isPrivate : Boolean) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -936,13 +984,14 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
         edit.setOnClickListener {
 
-            editPlan(true, false)
+            editPlan(isPrivate,true, false)
+            customToolBar.visibility = GONE
             dialog.dismiss()
         }
         delete.setOnClickListener {
 
-            editPlan(false, true)
-
+            editPlan(isPrivate,false, true)
+            customToolBar.visibility = GONE
             dialog.dismiss()
 
         }
@@ -954,6 +1003,17 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
     }
 
     override fun AddSelectedParticipants(participants: ArrayList<ContactsList>) { println() }
+
+    override fun refreshHomeFragmentData(success: Boolean) {
+
+        if (success){
+
+            println("Came to EventDetailView and it's working fine now")
+            val intent = intent
+            finish()
+            startActivity(intent)
+        }
+    }
 }
 
 

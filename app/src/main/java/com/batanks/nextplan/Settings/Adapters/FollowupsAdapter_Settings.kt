@@ -11,6 +11,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -74,6 +75,7 @@ class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_Setting
         delete.setOnClickListener {
 
            myList.removeAt(position)
+           Toast.makeText(context,context.getString(R.string.filter_deleted), Toast.LENGTH_SHORT).show()
            callBack.closeButtonFollowUpItemListener(position)
            removeData()
            dialog.dismiss()

@@ -103,15 +103,12 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
 
             val stringBuilder = StringBuilder()
                     .append(activity.place.address)
-
+                    .append("\n")
+                    .append(activity.place.zipcode)
                     .append(" ")
                     .append(activity.place.city)
-
                     .append(" ")
                     .append(activity.place.country)
-
-                    .append(" ")
-                    .append(activity.place.zipcode)
 
             holder.fullLocation.text = stringBuilder.toString()
 
@@ -148,14 +145,27 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         if (activity.per_person == true){
 
             holder.textViewCostPerPerson.setText(R.string.cost_per_person)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         }else {
 
             holder.textViewCostPerPerson.setText(R.string.total_cost)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_action_cost_icon)
         }
 
+        var participantsArray : ArrayList<String> = arrayListOf()
+
+            for (item in activity.participants){
+
+                if (!participantsArray.contains(item.username)){
+
+                    item.username?.let { participantsArray.add(it) }
+                }
+            }
+
+
         holder.activityParticipantsListAdmin.layoutManager = LinearLayoutManager(context)
-        holder.activityParticipantsListAdmin.adapter = ActivityEverybodyComeListAdapterAdmin(activity.participants,context)
+        holder.activityParticipantsListAdmin.adapter = ActivityEverybodyComeListAdapterAdmin(participantsArray /*activity.participants*/,context)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -176,6 +186,7 @@ class EventActivityListAdapterAdmin (val activityList : ArrayList<Activity>, val
         val textViewActivityStartDate :TextView = itemView.textViewActivityStartDate
         //val activitySettingsIcon : ImageView = itemView.activitySettingsIcon
         val activityParticipantsListAdmin : RecyclerView = itemView.activityParticipantsListAdmin
+        val activity_img_cost_per_person : ImageView = itemView.activity_img_cost_per_person
     }
 
     interface AddActivityRecyclerViewCallBack {

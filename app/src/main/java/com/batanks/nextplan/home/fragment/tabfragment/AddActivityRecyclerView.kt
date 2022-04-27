@@ -46,6 +46,8 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
 
         //val itemView = holder.itemView
 
+        println(modelList)
+
         holder.closeButton.setOnClickListener {
             //modelList.removeAt(position)
             callBack.closeButtonAddActivityItemListener(position)
@@ -63,19 +65,34 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
         var latitude : Double = 0.0
         var longitude : Double = 0.0
 
-        val stringBuilder = StringBuilder()
-                .append(placeName)
-                .append(" ")
+        val stringBuilder1 = StringBuilder()
+
+        if (address != null){
+
+            stringBuilder1
                 .append(address)
+                .append(placeCountry)
+
+        }else {
+
+            stringBuilder1
+                .append(placeZipcode)
                 .append(" ")
                 .append(placeCity)
                 .append(" ")
                 .append(placeCountry)
-                .append(" ")
-                .append(placeZipcode)
+        }
+
+        val stringBuilder = StringBuilder()
+            .append(address)
+            .append("\n")
+            .append(placeZipcode)
+            .append(" ")
+            .append(placeCity)
+            .append(" ")
+            .append(placeCountry)
 
         val result: List<Address> = Geocoder(context).getFromLocationName(stringBuilder.toString(), 5)
-
 
         if (result.isEmpty()) {
             //showMessage("We are unable to find the location info, Please enter a different location.")
@@ -88,11 +105,12 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
             //Toast.makeText(activity,place.toString(),Toast.LENGTH_LONG).show()
         }
 
+        holder.txt_activity_place_name.text = placeName
+        holder.txt_activity_location_name.text = stringBuilder1.toString()
 
-        holder.txt_activity_location_name.text = stringBuilder.toString()
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss") /*"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"*/
-        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy")
+        val outputFormat = SimpleDateFormat("EEE, MMM d yyyy HH:mm")
 
         val fromDate = inputFormat.parse(modelList.get(position).date)
         val formattedFromDate = outputFormat.format(fromDate)
@@ -108,7 +126,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
         if (modelList.get(position).price!! > 0){
 
             holder.activity_textViewCostPerPersonAmount.text = String.format("%,d",modelList.get(position).price)
-        }
+        } else {}
 
         val currency : String? = context?.getSharedPreferences("SAVED_CURREN", AppCompatActivity.MODE_PRIVATE)?.getString("SAVED_CURRENCY","USD")
 
@@ -116,11 +134,13 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
 
         if (modelList.get(position).per_person == true){
 
-            holder.activity_textViewCostPerPerson.text = "Cost Per Person"
+            holder.activity_textViewCostPerPerson.setText(R.string.cost_per_person)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         } else if (modelList.get(position).per_person == false){
 
-           holder.activity_textViewCostPerPerson.text = "Total Cost"
+           holder.activity_textViewCostPerPerson.setText(R.string.total_cost)
+            holder.activity_img_cost_per_person.setImageResource(R.drawable.ic_action_cost_icon)
         }
 
         if (modelList[position].place?.map == true){
@@ -143,6 +163,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
 
             holder.activityMapbackgroundHolder.visibility = View.GONE
             holder.activitylocationIcon.visibility = GONE
+            holder.txt_activity_place_name.visibility = GONE
             holder.txt_activity_location_name.visibility = GONE
         }
 
@@ -160,16 +181,44 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
 
         holder.activity_eventContactList.layoutManager = LinearLayoutManager(context)
 
-        if (event != null) {
-            if (event.activities[position].participants != null){
+        if (editButtonClicked == true) {
 
-                holder.activity_eventContactList.adapter = ActivityEverybodyComeListAdapterAdmin(event!!.activities[position].participants, context)
-                holder.activity_comingVotes.text = event!!.activities[position].participants.size.toString()
-                //holder.activity_totalNoOfVotes.text = event!!.activities[position].participants.size.toString()
+            if (modelList != null){
 
-            }else { }
+                if (modelList.size >0){
+
+                    if (modelList.get(position)?.participants!!.size > 0 /*!= null*/){
+
+                        holder.activity_eventContactList.adapter = modelList[position].participants?.let {
+                            ActivityEverybodyComeListAdapterAdmin(
+                                it, context)
+                        }
+                        holder.activity_comingVotes.text = modelList.get(position)?.participants?.size.toString()
+                        //holder.activity_totalNoOfVotes.text = event!!.activities[position].participants.size.toString()
+                    } else {}
+
+                } else { }
+
+            } else {}
+
         }
 
+       /* if (event != null) {
+
+            if (event.activities?.size!! > 0){
+
+                if (event.activities?.get(position)?.participants != null){
+
+                    holder.activity_eventContactList.adapter = ActivityEverybodyComeListAdapterAdmin(
+                        event!!.activities!![position].participants, context)
+                    holder.activity_comingVotes.text = event!!.activities?.get(position)?.participants?.size.toString()
+                    //holder.activity_totalNoOfVotes.text = event!!.activities[position].participants.size.toString()
+
+                }else { }
+
+            } else {}
+
+        }*/
 
         holder.activity_showEverybodyCome.setOnClickListener {
 
@@ -184,11 +233,6 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
             holder.activity_eventContactList.visibility = View.GONE
             holder.activity_showEverybodyCome.visibility = VISIBLE
         }
-
-
-
-        /*holder.activity_comingVotes.text = event!!.activities[position].participants.size.toString()
-        holder.activity_totalNoOfVotes.text = event!!.activities[position].participants.size.toString()*/
 
         if (editButtonClicked == true){
 
@@ -212,6 +256,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
         val hideMapIconHide : ImageView = item.hideMapIconHide
         val activity_showEverybodyCome : ImageView = item.activity_showEverybodyCome
         val activity_hideEverybodyCome : ImageView = item.activity_hideEverybodyCome
+        val activity_img_cost_per_person : ImageView = item.activity_img_cost_per_person
 
         val activity_txt_date :TextView = item.activity_txt_date
         val activity_txt_time : TextView = item.activity_txt_time
@@ -219,6 +264,7 @@ class AddActivityRecyclerView (private val callBack: AddActivityRecyclerViewCall
         val txt_activity_name : TextView = item.txt_activity_name
         val activity_textViewCostPerPerson :TextView = item.activity_textViewCostPerPerson
         val txt_activity_location_name : TextView = item.txt_activity_location_name
+        val txt_activity_place_name : TextView = item.txt_activity_place_name
         val activity_textViewCostPerPersonAmount : TextView = item.activity_textViewCostPerPersonAmount
         val activity_textViewCostPerPersonCurrency : TextView = item.activity_textViewCostPerPersonCurrency
         val activity_comingVotes : TextView = item.activity_comingVotes

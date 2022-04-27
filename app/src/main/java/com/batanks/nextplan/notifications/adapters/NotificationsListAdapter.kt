@@ -15,11 +15,17 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetailsadmin.EventDetailViewAdmin
 import com.batanks.nextplan.home.HomePlanPreview
+import com.batanks.nextplan.home.fragment.CreatePlanFragment
+import com.batanks.nextplan.notifications.Notification
 import com.batanks.nextplan.notifications.viewmodel.NotificationsViewModel
+import com.batanks.nextplan.search.Search
 import com.batanks.nextplan.swagger.model.NotificationModel
 import com.batanks.nextplan.swagger.model.NotificationRead
 import com.batanks.nextplan.swagger.model.NotificationsList
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_notification.*
+import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_search.searchScreenFrameLayout
 import kotlinx.android.synthetic.main.layout_notifications_item.view.*
 
 class NotificationsListAdapter (private val notificationsList : ArrayList<NotificationModel>, private val notificationsViewModel: NotificationsViewModel)
@@ -63,7 +69,7 @@ class NotificationsListAdapter (private val notificationsList : ArrayList<Notifi
 
             notificationsViewModel.apiNotificationMarkAsRead(NotificationRead(notificationId))
 
-            if (notificationsList.get(position).event_creator_id == userId){
+            if (notificationsList.get(position).event_creator_id == userId && notificationsList.get(position).event_is_draft == false){
 
                 val intent = Intent(context, EventDetailViewAdmin::class.java)
                 intent.putExtra("ID", notificationsList.get(position).event_id)
@@ -72,7 +78,7 @@ class NotificationsListAdapter (private val notificationsList : ArrayList<Notifi
                 //(context as HomePlanPreview).finish()
                 (context as Activity).finish()
 
-            } else {
+            } else  if(notificationsList.get(position).event_creator_id != userId) {
 
                 val intent = Intent(context, EventDetailView::class.java)
                 intent.putExtra("ID", notificationsList.get(position).event_id)
@@ -80,8 +86,17 @@ class NotificationsListAdapter (private val notificationsList : ArrayList<Notifi
                 ContextCompat.startActivity(context, intent, null)
                 //(context as HomePlanPreview).finish()
                 (context as Activity).finish()
-            }
 
+            } else if (notificationsList.get(position).event_creator_id == userId && notificationsList.get(position).event_is_draft == true){
+
+                (context as Notification).supportFragmentManager.beginTransaction().
+                add(R.id.notificationsFrameLayout, CreatePlanFragment(true,false, notificationsList.get(position).event_is_private, notificationsList.get(position).event_is_draft, notificationsList.get(position).event_id, false, false,null, null), CreatePlanFragment.TAG).addToBackStack(
+                    CreatePlanFragment.TAG).commit()
+                (context as Notification).notificationsFrameLayout.visibility = View.VISIBLE
+
+                (context as Notification).notificationAppBarLayout.visibility = View.GONE
+                (context as Notification).rl_notifications_category_bottom.visibility = View.GONE
+            }
         }
     }
 

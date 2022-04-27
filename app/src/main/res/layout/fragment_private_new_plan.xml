@@ -81,7 +81,71 @@
                 android:textCursorDrawable="@null"  />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <RelativeLayout
+            android:id="@+id/categoryTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailDescriptionTextField"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/rl_black_curved">
+
+            <ImageView
+                android:id="@+id/categoryIconPublic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_category"
+                android:layout_alignParentBottom="true"/>
+
+            <TextView
+                android:id="@+id/textViewCategoryPublic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/category"
+                android:textColor="#DEFFFFFF"
+                android:textSize="18sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/categoryIconPublic"/>
+
+            <ImageView
+                android:id="@+id/dropDownIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ccp_ic_arrow_drop_down"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"/>
+
+            <!--<ImageView
+                android:id="@+id/sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_filter_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventsHolderConst"/>-->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEFFFFFF"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/categoryTextField"
             style="@style/MaterialTextInputLayoutTheme"
             android:layout_width="match_parent"
@@ -114,7 +178,7 @@
                 android:editable="false"
                 android:inputType="none"
                 android:text="@string/category" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <include
             android:id="@+id/addPeriodLayout"

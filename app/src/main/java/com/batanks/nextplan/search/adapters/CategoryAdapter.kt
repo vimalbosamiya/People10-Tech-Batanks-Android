@@ -37,9 +37,12 @@ class CategoryAdapter (private val categoryList: ArrayList<CategoryList>, var co
         holder.categoryName.text = category.name
         Glide.with(context).load(category.picture).circleCrop().into(holder.categoryIcon)
 
-        if (categoryId == category.pk){
+        if (categoryId != null){
 
-            holder.checkbox.isChecked = true
+            if (categoryId == category.pk){
+
+                holder.checkbox.isChecked = true
+            }
         }
 
         if (holder.checkbox.isChecked){

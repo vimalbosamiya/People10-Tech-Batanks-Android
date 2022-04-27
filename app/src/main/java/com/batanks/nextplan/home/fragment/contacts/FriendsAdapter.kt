@@ -27,22 +27,6 @@ class FriendsAdapter (private val listner : friendsAdapterRecyclerViewCallBack, 
 
         holder.contactName.text = myList.get(position).username
 
-        /*for (item in participants){
-
-            if (item.participantName == myList.get(position).username && item.id == myList.get(position).id){
-
-                holder.cb_select_contact.isChecked = true
-                myList[position].selection = true
-                participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
-                listner.addSelectedContactsFriends(participantsFriends)
-
-            } else {
-
-                holder.cb_select_contact.isChecked = false
-                myList[position].selection = false
-            }
-        }*/
-
         if (myList[position].selection){
 
             holder.cb_select_contact.isChecked = true
@@ -60,32 +44,7 @@ class FriendsAdapter (private val listner : friendsAdapterRecyclerViewCallBack, 
 
                 myList[position].selection = true
 
-                //participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
                 participants.add(myList[position])
-
-                /*if (participantsFriends.size > 0){
-
-                    while(iterator.hasNext()){
-
-                        val item = iterator.next()
-
-                        if (item.participantName != myList[position].username && item.id != myList[position].id){
-
-                            participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
-                        }
-                    }
-
-                    *//*for (item in participantsFriends){
-
-                        if (item.participantName != myList[position].username && item.id != myList[position].id){
-
-                            participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
-                        }
-                    }*//*
-                } else {
-
-                    participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
-                }*/
 
                 listner.addSelectedContactsFriends(participants)
                 listner.addSelectedFriends(participants)
@@ -95,28 +54,6 @@ class FriendsAdapter (private val listner : friendsAdapterRecyclerViewCallBack, 
                 myList[position].selection = false
 
                 val iterator = participants.iterator()
-                //val iterator = participantsFriends.iterator()
-
-                /*if (participantsFriends.size > 0) {
-
-                    while(iterator.hasNext()){
-
-                        val item = iterator.next()
-
-                        if (item.participantName == myList[position].username && item.id == myList[position].id){
-
-                            iterator.remove()
-                        }
-                    }
-
-                   *//* for (item in participantsFriends) {
-
-                        if (item.participantName != myList[position].username && item.id != myList[position].id){
-
-                            participantsFriends.remove(ActivityParticipants(myList[position].username,myList[position].id))
-                        }
-                    }*//*
-                }*/
 
                 if (participants.size > 0) {
 
@@ -129,37 +66,12 @@ class FriendsAdapter (private val listner : friendsAdapterRecyclerViewCallBack, 
                             iterator.remove()
                         }
                     }
-
-                    /* for (item in participantsFriends) {
-
-                         if (item.participantName != myList[position].username && item.id != myList[position].id){
-
-                             participantsFriends.remove(ActivityParticipants(myList[position].username,myList[position].id))
-                         }
-                     }*/
                 }
 
                 listner.addSelectedContactsFriends(participants)
                 listner.addSelectedFriends(participants)
             }
         }
-
-        /*holder.cb_select_contact.setOnClickListener {
-
-            *//*if (holder.cb_select_contact.isChecked){
-
-                participantsFriends.add(ActivityParticipants(myList[position].username,myList[position].id))
-
-                if (!AddContactsFragment.participants.contains(ActivityParticipants(myList[position].username,myList[position].id))){
-
-                    AddContactsFragment.participants.add(ActivityParticipants(myList[position].username,myList[position].id))
-                }
-            }
-
-            listner.addSelectedContactsFriends(participantsFriends) *//*
-
-
-        }*/
     }
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {

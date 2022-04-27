@@ -8,17 +8,19 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
+import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
-import com.batanks.nextplan.swagger.model.AsssignTask
+import com.batanks.nextplan.home.fragment.action.AddActionFragment
+import com.batanks.nextplan.swagger.model.AssignTask
 import com.batanks.nextplan.swagger.model.Task
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_action_display.view.*
 
 class EventActionListAdapter (val actionList : List<Task>, val context: Context, private val eventDetailViewModel: EventDetailViewModel,
-                              private val eventId : Int) : RecyclerView.Adapter<EventActionListAdapter.ViewHolder>() {
+                              private val eventId : Int, private val listener : AssignMeClicked ) : RecyclerView.Adapter<EventActionListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -47,15 +49,26 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context,
 
         val action : Task = actionList[position]
 
-        holder.contactSettings.visibility = View.GONE
+        val userId : Int = context.getSharedPreferences("USER_DETAILS", AppCompatActivity.MODE_PRIVATE).getInt("ID",0)
+
+        //holder.contactSettings.visibility = View.GONE
         holder.textViewEventName.text = action.name
         holder.textViewEventNameMulti.text = action.name
 
         if (action.assignee != null){
 
+            println("User Id is : $userId")
+            println("Assignee Id is : " + action.assignee.id)
+
             holder.contactBackground.visibility = View.VISIBLE
             holder.assignMeButton.visibility = View.GONE
             holder.contactName.text = action.assignee.username
+
+            if (userId == action.assignee.id){
+
+                holder.contactSettings.visibility = VISIBLE
+
+            }else {holder.contactSettings.visibility = GONE }
 
             if (!action.assignee?.picture.isNullOrEmpty()){
 
@@ -70,10 +83,12 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context,
             holder.assignMeButton.visibility = View.VISIBLE
         }
 
-        if (action.per_person == true){
+        if (action.per_person){
 
             holder.textViewTotalCost.setText(R.string.cost_per_person)
             holder.textViewTotalCostMulti.setText(R.string.cost_per_person)
+            holder.dollarIcon.setImageResource(R.drawable.ic_cost_perperson_icon)
+            holder.dollarIconMulti.setImageResource(R.drawable.ic_cost_perperson_icon)
 
         }else {
 
@@ -87,10 +102,9 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context,
         holder.textViewTotalAmountSymbol.text = action.price_currency
         holder.textViewEventDescription.text = action.description
 
-        holder.assignMeButton.setOnClickListener {
+        holder.contactSettings.setOnClickListener { listener.iTakeClicked(position) }
 
-            eventDetailViewModel.assignAction(eventId.toString(), AsssignTask(action.id))
-        }
+        holder.assignMeButton.setOnClickListener { listener.iTakeClicked(position) }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -109,7 +123,13 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context,
         val contactImage : ImageView = itemView.contactImage
         val userImage : ImageView = itemView.userImage
         val contactSettings : ImageView = itemView.contactSettings
+        val dollarIcon : ImageView = itemView.dollarIcon
+        val dollarIconMulti : ImageView = itemView.dollarIconMulti
         val contactBackground : ConstraintLayout = itemView.contactBackground
         val assignMeButton : ConstraintLayout = itemView.assignMeButton
     }
+
+     interface AssignMeClicked{
+         fun iTakeClicked(position :Int)
+     }
 }

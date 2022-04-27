@@ -32,8 +32,6 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
     var participants : PostGuests? = null
     var publicParticipants : PostGuests? = null
 
-
-
     fun createEvent(data: PostEvent?){
 
         disposables.add(eventApi.apiEventCreate(data)
@@ -51,7 +49,7 @@ class PublicPlanViewModel (private val eventApi: EventAPI) : ViewModel() {
 
     fun updateEvent(id: String?, data: PostEvent?){
 
-        disposables.add(eventApi.apiEventUpdate(id, data)
+        disposables.add(eventApi.apiEventPartialUpdate(id, data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {

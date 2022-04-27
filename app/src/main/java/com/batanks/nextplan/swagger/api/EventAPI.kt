@@ -18,10 +18,10 @@ interface EventAPI {
     fun apiEventActivityRead(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?): Call<Activity>
 
     @POST("api/event/{event_pk}/activity/{activity_pk}/subscribe/")
-    fun apiEventActivitySubscribeCreate(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?, @Body data: Empty?): Observable<ActivitySubscribe>
+    fun apiEventActivitySubscribeCreate(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?, @Body data: Empty?): Observable<Activity>
 
     @POST("api/event/{event_pk}/activity/{activity_pk}/unsubscribe/")
-    fun apiEventActivityUnsubscribe(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?, @Body data: Empty?): Observable<ActivitySubscribe>
+    fun apiEventActivityUnsubscribe(@Path("activity_pk") activityPk: String?, @Path("event_pk") eventPk: String?, @Body data: Empty?): Observable<Activity>
 
     @PATCH("api/event/{id}/answer/")
     fun apiEventAnswerPartialUpdate(@Path("id") id: String?, @Body data: Invitation): Call<Invitation>
@@ -33,7 +33,7 @@ interface EventAPI {
     fun apiEventAnswerUpdate(@Path("id") id: String?, @Body data: EventAccept?): Observable<Invitation>
 
     @POST("api/event/{id}/assign/")
-    fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AsssignTask?): Observable<AsssignTask>
+    fun apiEventAssignCreate(@Path("id") id: String?, @Body data: AssignTask?): Observable<Task>
 
     @POST("api/event/")
     fun apiEventCreate(@Body data: PostEvent?): Observable<GetEventListHome>
@@ -76,7 +76,7 @@ interface EventAPI {
     fun apiEventTaskUpdate(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: Task?): Call<Task>
 
     @PATCH("api/event/{event_pk}/task/{task_pk}/")
-    fun apiEventTaskPatch(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: TaskPatch?): Observable<TaskResponse>
+    fun apiEventTaskPatch(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: TaskPatch?): Observable<Task>
 
     @PATCH("api/event/{event_pk}/task/{task_pk}/")
     fun apiEventFullTaskPatch(@Path("event_pk") eventPk: String?, @Path("task_pk") taskPk: String?, @Body data: TaskPost?): Observable<Task>
