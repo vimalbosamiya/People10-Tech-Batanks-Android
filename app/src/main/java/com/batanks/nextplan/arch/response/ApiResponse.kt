@@ -11,6 +11,10 @@ class ApiResponse private constructor(val status: Status, val data: Any?, val er
             return ApiResponse(Status.SUCCESS, data, null)
         }
 
+        fun failure(failure:String):ApiResponse{
+            return ApiResponse(Status.FAILURE,failure,null)
+        }
+
         fun error(error: Throwable): ApiResponse {
             return ApiResponse(Status.ERROR, null, error)
         }

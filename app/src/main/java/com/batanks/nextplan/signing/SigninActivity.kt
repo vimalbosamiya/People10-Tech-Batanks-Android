@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
@@ -34,6 +35,7 @@ import com.batanks.nextplan.swagger.api.AuthenticationAPI
 import com.batanks.nextplan.swagger.model.Login
 import com.batanks.nextplan.swagger.model.User
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.regex.Pattern
@@ -99,9 +101,10 @@ class SigninActivity : BaseAppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
                     finish()
                 }
-                Status.ERROR -> {
+                Status.FAILURE -> {
                     hideLoader()
-                    showMessage(response.error?.message.toString())
+                    Log.e("login error response",Gson().toJson(response.data))
+                    showMessage(response.data.toString())
                 }
             }
         })

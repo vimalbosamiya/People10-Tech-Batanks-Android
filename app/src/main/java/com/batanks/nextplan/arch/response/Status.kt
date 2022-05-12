@@ -1,5 +1,5 @@
 package com.batanks.nextplan.arch.response
 
 enum class Status {
-    LOADING, SUCCESS, ERROR
+    LOADING, SUCCESS, FAILURE,ERROR
 }
