@@ -155,7 +155,8 @@
     <string name="participants">Participants</string>
     <string name="declin">Refuser</string>
     <!--<string name="add_contact">Invite</string>-->
-    <string name="vote_for_date">" Voter pour une date"</string>
+<!--    <string name="vote_for_date">" Voter pour une date"</string>-->
+    <string name="vote_for_date">"Date"</string>
     <string name="in_voting">Votes ouverts</string>
     <string name="place_name">Nom du lieu</string>
     <string name="place_name_hint">" Le lieu est obligatoire"</string>

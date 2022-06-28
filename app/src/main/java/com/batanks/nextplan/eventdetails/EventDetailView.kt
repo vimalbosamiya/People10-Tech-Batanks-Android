@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -40,12 +41,39 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_event_detail_view.*
 import kotlinx.android.synthetic.main.activity_event_detail_view.addGuestBackground
+import kotlinx.android.synthetic.main.activity_event_detail_view.addguestIcon
+import kotlinx.android.synthetic.main.activity_event_detail_view.backArrow
+import kotlinx.android.synthetic.main.activity_event_detail_view.category
+import kotlinx.android.synthetic.main.activity_event_detail_view.costPerPerson
+import kotlinx.android.synthetic.main.activity_event_detail_view.costPerPersonSymbol
+import kotlinx.android.synthetic.main.activity_event_detail_view.eventDescription
+import kotlinx.android.synthetic.main.activity_event_detail_view.eventName
+import kotlinx.android.synthetic.main.activity_event_detail_view.eventType
+import kotlinx.android.synthetic.main.activity_event_detail_view.noOfGuests
+import kotlinx.android.synthetic.main.activity_event_detail_view.noOfParticipants
+import kotlinx.android.synthetic.main.activity_event_detail_view.privateIcon
+import kotlinx.android.synthetic.main.activity_event_detail_view.privateIconMini
+import kotlinx.android.synthetic.main.activity_event_detail_view.takePartImage
+import kotlinx.android.synthetic.main.activity_event_detail_view.tripCalenderBackground
+import kotlinx.android.synthetic.main.activity_event_detail_view.tripIcon
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.comments_card.*
 import kotlinx.android.synthetic.main.everybody_come_card.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.add
 import kotlinx.android.synthetic.main.layout_add_guests.substract
 import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizer
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerEmail
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerFirstName
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerFull
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerInFull
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerInitial
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerLastName
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.organizerMobileNumber
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.textViewAddContact
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.userIcon
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.userIconInFull
 import kotlinx.android.synthetic.main.vote_for_date_card.*
 import kotlinx.android.synthetic.main.vote_for_place_card.*
 import kotlin.collections.ArrayList
@@ -148,11 +176,10 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     organizerMobileNumber.text = creator!!.phone_number.toString()
 
                     if(event_obj!!.status == "AC" && event_obj!!._private == true){
-
                         acceptedStatus.setImageResource(R.drawable.ic_privateeventcategoryacceptedicon)
 
-                    } else if(event_obj!!.status == "AC" && event_obj!!._private == false) {
 
+                    } else if(event_obj!!.status == "AC" && event_obj!!._private == false) {
                         acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
 
 
@@ -192,13 +219,13 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     category.text = event_obj!!.category!!.name
                     Glide.with(this).load(event_obj!!.category!!.picture).circleCrop().into(tripIcon)
 
-                    if (event_obj!!._private == true){
+                    Log.e("private",event_obj!!._private.toString())
 
+                    if (event_obj!!._private){
                         privateIcon.visibility = VISIBLE
-
                     }else {
-
-                        privateIcon.visibility = GONE
+                        privateIcon.visibility = VISIBLE
+                        eventType.text = resources.getString(R.string._public)
                     }
 
                     noOfGuests.text = event_obj!!.guests!!.size.toString()
