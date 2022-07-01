@@ -1,6 +1,5 @@
 package com.batanks.nextplan.Settings.Adapters
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -12,19 +11,24 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Followups
-import com.batanks.nextplan.home.fragment.contacts.ContactsModel
+import com.batanks.nextplan.Settings.viewmodel.FiltersViewModel
 import com.batanks.nextplan.search.Search
+import com.batanks.nextplan.swagger.model.FilterResultsList
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_settings_followups.view.*
 
-class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_SettingsCallBack, private val myList: ArrayList<String>) : RecyclerView.Adapter<FollowupsAdapter_Settings.MyViewHolder>() {
+class FollowupsAdapter_Settings(
+    private val callBack: FollowupsAdapter_SettingsCallBack,
+    private val myList: ArrayList<FilterResultsList>,
+    private val filtersViewModel: FiltersViewModel
+) : RecyclerView.Adapter<FollowupsAdapter_Settings.MyViewHolder>() {
 
     lateinit var context : Context
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
@@ -38,15 +42,15 @@ class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_Setting
 
         //val itemView = holder.itemView
 
-        holder.contactName.text = myList.get(position)
+        holder.contactName.text = myList.get(position).name
         holder.img_groups_list_item_dots.setOnClickListener(View.OnClickListener {
-            context?.let { it1 -> showDialog(it1,position) }
+            context?.let { it1 -> showDialog(it1,position,myList.get(position).id) }
         })
 
         holder.txt_followups_list_item.setOnClickListener {
 
             val intent = Intent(context, Search::class.java)
-            intent.putExtra("FILTER", myList.get(position))
+            intent.putExtra("FILTER", myList[position].keyword)
             startActivity(context, intent, null)
             (context as Followups).finish()
         }
@@ -58,7 +62,7 @@ class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_Setting
         val txt_followups_list_item : TextView = item.txt_followups_list_item
     }
 
-    private fun showDialog(context : Context, position: Int) {
+    private fun showDialog(context: Context, position: Int, id: Int?) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -68,16 +72,17 @@ class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_Setting
 
         edit.setOnClickListener {
 
-            callBack.editButtonFollowUpItemListener(position)
+            callBack.editButtonFollowUpItemListener(myList.get(position).id!!,myList.get(position).name,myList.get(position).keyword)
             dialog.dismiss()
         }
 
         delete.setOnClickListener {
-
-           myList.removeAt(position)
+            filtersViewModel.deleteFilter(id)
+            //myList.removeAt(position)
            Toast.makeText(context,context.getString(R.string.filter_deleted), Toast.LENGTH_SHORT).show()
            callBack.closeButtonFollowUpItemListener(position)
-           removeData()
+            filtersViewModel.getFiltersList()
+           //removeData()
            dialog.dismiss()
         }
 
@@ -98,7 +103,7 @@ class FollowupsAdapter_Settings (private val callBack : FollowupsAdapter_Setting
 
     interface FollowupsAdapter_SettingsCallBack{
 
-        fun editButtonFollowUpItemListener(pos: Int)
+        fun editButtonFollowUpItemListener(pos: Int, name: String?, keyword: String?)
         fun closeButtonFollowUpItemListener(pos: Int)
     }
 }

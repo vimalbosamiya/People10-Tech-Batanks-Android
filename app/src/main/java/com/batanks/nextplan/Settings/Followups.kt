@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
@@ -13,31 +14,52 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Adapters.FollowupsAdapter_Settings
+import com.batanks.nextplan.Settings.viewmodel.FiltersViewModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.arch.response.Status
+import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.home.markRequiredInRed
+import com.batanks.nextplan.network.RetrofitClient
+import com.batanks.nextplan.search.viewmodel.SearchViewModel
+import com.batanks.nextplan.swagger.api.FilterAPI
+import com.batanks.nextplan.swagger.model.AddFilter
+import com.batanks.nextplan.swagger.model.FilterResultsList
+import com.batanks.nextplan.swagger.model.Filters
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_followups.*
-import kotlinx.android.synthetic.main.layout_edit_followups.*
-import java.lang.reflect.Type
 
 class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAdapter_SettingsCallBack {
 
     lateinit var rv_settings_followups : RecyclerView
     lateinit var adapter : FollowupsAdapter_Settings
     var followUpList : ArrayList<String> = arrayListOf()
+    var filtersList : ArrayList<FilterResultsList> = arrayListOf()
+
+
+    private val filtersViewModel:FiltersViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(FilterAPI::class.java)?.let {
+                FiltersViewModel(it)
+            }
+        }).get(FiltersViewModel::class.java)
+    }
+
+    var filter_obj : Filters? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_followups)
 
+        filtersViewModel.getFiltersList()
         loadData()
 
         followup_extFab.setOnClickListener(View.OnClickListener {
@@ -48,6 +70,24 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
             finish()
         }
+
+        filtersViewModel.updateresponseLiveData.observe(this, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    Toast.makeText(this,getString(R.string.filter_updated), Toast.LENGTH_SHORT).show()
+                }
+                Status.FAILURE -> {
+                    hideLoader()
+                    showMessage(response.data.toString())
+                }
+            }
+        })
 
         /*rv_settings_followups = findViewById(R.id.rv_settings_followups)
         rv_settings_followups.layoutManager = LinearLayoutManager(this)*/
@@ -126,7 +166,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         }
     }
 
-    private fun editFollowUpDialog(position : Int) {
+    private fun editFollowUpDialog(position: Int, name: String?, keyword: String?) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -136,32 +176,46 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
       /*  val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)*/
 
+
+
+
         val btn_edit_followups_cancel = dialog.findViewById(R.id.btn_edit_followups_cancel) as Button
         val btn_edit_followups_ok = dialog.findViewById(R.id.btn_edit_followups_ok) as Button
         val tip_edit_followups_name = dialog.findViewById(R.id.tip_edit_followups_name) as TextInputLayout
         val input_edit_followups_name = dialog.findViewById(R.id.input_edit_followups_name) as TextInputEditText
 
-        input_edit_followups_name.setText(followUpList[position])
+        input_edit_followups_name.setText(name)
 
         btn_edit_followups_cancel.setOnClickListener {
 
             dismissKeyboard()
             dialog.dismiss()
         }
-
+        println(keyword)
         btn_edit_followups_ok.setOnClickListener {
 
             if (tip_edit_followups_name.editText?.length()!! >= 1){
 
-                val str: String = tip_edit_followups_name.editText?.text.toString()
+                filtersViewModel.updateFilter(
+                        AddFilter(input_edit_followups_name.text.toString(),keyword),position)
 
-                followUpList.set(position,str)
+                    Toast.makeText(this,getString(R.string.filter_updated),Toast.LENGTH_SHORT).show()
 
-                saveData(true)
+                    dialog.dismiss()
 
-                loadData()
+                    dismissKeyboard()
 
-                dialog.dismiss()
+                   filtersViewModel.getFiltersList()
+
+//                val str: String = tip_edit_followups_name.editText?.text.toString()
+//
+//                followUpList.set(position,str)
+//
+//                saveData(true)
+//
+              // loadData()
+
+                //dialog.dismiss()
 
             } else {
 
@@ -200,31 +254,54 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
     }
 
     private fun loadData() {
+        filtersViewModel.responseLiveData.observe(this, Observer { response ->
 
-        val sharedPreferences = getSharedPreferences("FOLLOW _UP_PREFERENCE", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("follow up list", null)
-        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
 
-        if (json != null){
+                Status.SUCCESS -> {
+                    hideLoader()
+                    filter_obj = response.data as Filters?
+                    filtersList = filter_obj?.results!!
+                    println(filtersList.size)
+                    buildRecyclerView()
+                }
 
-            followUpList = gson?.fromJson<ArrayList<String>>(json, type)
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+                else -> {}
+            }
+        })
 
-        } else{
 
-            //println()
-        }
-
-        if (followUpList.size == 0) { followUpList = ArrayList() }
-
-        buildRecyclerView()
+//        val sharedPreferences = getSharedPreferences("FOLLOW _UP_PREFERENCE", Context.MODE_PRIVATE)
+//        val gson = Gson()
+//        val json = sharedPreferences.getString("follow up list", null)
+//        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+//
+//        if (json != null){
+//
+//            followUpList = gson?.fromJson<ArrayList<String>>(json, type)
+//
+//        } else{
+//
+//            //println()
+//        }
+//
+//        if (followUpList.size == 0) { followUpList = ArrayList() }
+//
+//        buildRecyclerView()
     }
 
     private fun buildRecyclerView() {
         rv_settings_followups = findViewById(R.id.rv_settings_followups)
         rv_settings_followups.layoutManager = LinearLayoutManager(this)
         rv_settings_followups.setHasFixedSize(true)
-        adapter = followUpList?.let { FollowupsAdapter_Settings(this,it) }!!
+        adapter = filtersList?.let { FollowupsAdapter_Settings(this,it,filtersViewModel) }!!
         rv_settings_followups.adapter = adapter
         //rv_settings_followups?.getAdapter()?.getItemCount()?.let { rv_settings_followups.smoothScrollToPosition(it) }
 }
@@ -245,9 +322,9 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         return super.dispatchTouchEvent(event)
     }
 
-    override fun editButtonFollowUpItemListener(pos: Int) {
+    override fun editButtonFollowUpItemListener(pos: Int, name: String?, keyword: String?) {
 
-        editFollowUpDialog(pos)
+        editFollowUpDialog(pos,name,keyword)
     }
 
     override fun closeButtonFollowUpItemListener(pos: Int) {

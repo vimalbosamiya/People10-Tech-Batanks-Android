@@ -18,19 +18,29 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.Followups
+import com.batanks.nextplan.Settings.viewmodel.FiltersViewModel
 import com.batanks.nextplan.arch.BaseAppCompatActivity
+import com.batanks.nextplan.arch.response.Status
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.dismissKeyboard
+import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.search.viewmodel.SearchViewModel
 import com.batanks.nextplan.swagger.api.EventAPI
+import com.batanks.nextplan.swagger.api.FilterAPI
+import com.batanks.nextplan.swagger.api.GroupsAPI
 import com.batanks.nextplan.swagger.api.SearchAPI
+import com.batanks.nextplan.swagger.model.AddContact
+import com.batanks.nextplan.swagger.model.AddFilter
+import com.batanks.nextplan.swagger.model.FilterResultsList
+import com.batanks.nextplan.swagger.model.Filters
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
@@ -46,6 +56,17 @@ class Search : BaseAppCompatActivity() {
 
     var followUpList : ArrayList<String> = arrayListOf()
     //val followups = Followups()
+    var filtersList : ArrayList<FilterResultsList> = arrayListOf()
+    var filter_obj : Filters? = null
+
+
+    private val filterViewModel: FiltersViewModel by lazy {
+        ViewModelProvider(this, GenericViewModelFactory {
+            RetrofitClient.getRetrofitInstance(this)?.create(FilterAPI::class.java)?.let {
+                FiltersViewModel(it)
+            }
+        }).get(FiltersViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +97,25 @@ class Search : BaseAppCompatActivity() {
             //followups.createFollowUpDialog()
             createFollowUpDialog()
         }
+
+        filterViewModel.postresponseLiveData.observe(this, Observer{ response ->
+
+            when(response.status){
+                Status.LOADING -> {
+                    showLoader()
+                }
+                Status.SUCCESS -> {
+                    hideLoader()
+
+                    Toast.makeText(this,getString(R.string.filter_created), Toast.LENGTH_SHORT).show()
+                }
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+            }
+        })
+
 
         val tabsPagerAdapter = SearchTabsAdapter(supportFragmentManager, filter)
         view_pager.adapter = tabsPagerAdapter
@@ -122,43 +162,59 @@ class Search : BaseAppCompatActivity() {
 
         tip_create_followups_name.markRequiredInRed()
 
+
         btn_create_followups_cancel.setOnClickListener { dialog.dismiss() }
+
+
 
         btn_create_followups_ok.setOnClickListener {
 
+
+
             if (tip_create_followups_name.editText?.length()!! >= 1){
 
-                val str: String = tip_create_followups_name.editText?.text.toString()
+                filterViewModel.addFilter(
+                    AddFilter(input_create_followups_name.text.toString(),SearchViewModel.searchText))
+                Toast.makeText(this,getString(R.string.filter_created),Toast.LENGTH_SHORT).show()
 
-                var present : Boolean = false
-
-                for (item in followUpList){
-
-                    if (!followUpList.contains(str)){
-
-                        present = false
-
-                    } else {
-
-                        //present = true
-                        //Toast.makeText(this,getString(R.string.follow_up_exist),Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                if (present == false){
-
-                    followUpList?.add(str)
-                    saveData()
                     loadData()
 
                     dialog.dismiss()
                     dismissKeyboard()
-                }
+
+//                val str: String = tip_create_followups_name.editText?.text.toString()
+//
+//                var present : Boolean = false
+//
+//                for (item in followUpList){
+//
+//                    if (!followUpList.contains(str)){
+//
+//                        present = false
+//
+//                    } else {
+//
+//                        //present = true
+//                        //Toast.makeText(this,getString(R.string.follow_up_exist),Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//                if (present == false){
+//
+//                    followUpList?.add(str)
+//                    saveData()
+//                    loadData()
+//
+//                    dialog.dismiss()
+//                    dismissKeyboard()
+//                }
 
             } else {
 
                 tip_create_followups_name.editText?.setError(getString(R.string.follow_up_name_empty))
+
                 input_create_followups_name.requestFocus()
+
             }
         }
 
@@ -190,21 +246,43 @@ class Search : BaseAppCompatActivity() {
 
     private fun loadData() {
 
-        val sharedPreferences = getSharedPreferences("FOLLOW _UP_PREFERENCE", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("follow up list", null)
-        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+        filterViewModel.responseLiveData.observe(this, Observer { response ->
 
-        if (json != null){
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
 
-            followUpList = gson?.fromJson<ArrayList<String>>(json, type)
+                Status.SUCCESS -> {
+                    hideLoader()
+                    filter_obj = response.data as Filters?
+                    filtersList = filter_obj?.results!!
+                    println(filtersList.size)
+                }
 
-        } else{
+                Status.FAILURE -> {
+                    hideLoader()
+                    showMessage(response.data.toString())
+                }
+                else -> {}
+            }
+        })
 
-            //println()
-        }
-
-        if (followUpList.size == 0) { followUpList = ArrayList() }
+//        val sharedPreferences = getSharedPreferences("FOLLOW _UP_PREFERENCE", Context.MODE_PRIVATE)
+//        val gson = Gson()
+//        val json = sharedPreferences.getString("follow up list", null)
+//        val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+//
+//        if (json != null){
+//
+//            followUpList = gson?.fromJson<ArrayList<String>>(json, type)
+//
+//        } else{
+//
+//            //println()
+//        }
+//
+//        if (followUpList.size == 0) { followUpList = ArrayList() }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

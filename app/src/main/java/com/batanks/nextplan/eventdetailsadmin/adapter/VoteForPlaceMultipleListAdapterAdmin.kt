@@ -24,6 +24,8 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
                                             : RecyclerView.Adapter<VoteForPlaceMultipleListAdapterAdmin.ViewHolder>() {
 
     private var voteList : ArrayList<Int> = arrayListOf()
+    private var lastClick: Long = 0
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -101,9 +103,11 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         }
 
         holder.placeFavouriteIcon.setOnClickListener {
-
-            voteList.add(place.id)
-            eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
+            if (System.currentTimeMillis() - lastClick >= 1000) {
+                lastClick = System.currentTimeMillis()
+                voteList.add(place.id)
+                eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
+            }
         }
 
         holder.placeCloseButton.setOnClickListener {

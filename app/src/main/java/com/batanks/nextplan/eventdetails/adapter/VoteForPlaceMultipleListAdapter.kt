@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
@@ -22,6 +23,7 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
                                         : RecyclerView.Adapter<VoteForPlaceMultipleListAdapter.ViewHolder>() {
 
 
+    private var lastClick: Long = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -80,12 +82,12 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         }
 
         if (place.current_user_have_vote == true){
-
             holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite)
 
         } else {
 
             holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite_border)
+
         }
 
         holder.placeCloseButton.visibility = GONE
@@ -114,8 +116,11 @@ class VoteForPlaceMultipleListAdapter (val placesList: List<EventPlace>, val con
         }
 
         holder.placeFavouriteIcon.setOnClickListener {
+            if (System.currentTimeMillis() - lastClick >= 1000) {
+                lastClick = System.currentTimeMillis()
+                eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
+            }
 
-            eventDetailViewModel.placeVoteClicked(eventId, place.id.toString())
         }
     }
 

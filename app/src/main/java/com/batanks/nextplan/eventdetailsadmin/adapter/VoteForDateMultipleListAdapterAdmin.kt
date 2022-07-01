@@ -22,6 +22,8 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
                                            private val callBack: AddPeriodRecyclerViewCallBack, private val eventId : String): RecyclerView.Adapter<VoteForDateMultipleListAdapterAdmin.ViewHolder>() {
 
     private var voteList : ArrayList<Int> = arrayListOf()
+    private var lastClick: Long = 0
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -84,9 +86,11 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         }
 
         holder.dateFavouriteIcon.setOnClickListener {
-
-            voteList.add(date.id)
-            eventDetailViewModel.dateVoteClicked(eventId, date.id.toString())
+            if (System.currentTimeMillis() - lastClick >= 1000) {
+                lastClick = System.currentTimeMillis()
+                voteList.add(date.id)
+                eventDetailViewModel.dateVoteClicked(eventId, date.id.toString())
+            }
         }
     }
 

@@ -20,6 +20,9 @@ import kotlin.collections.ArrayList
 class VoteForDateMultipleListAdapter(val datesList: ArrayList<EventDate>, val context: Context, private val eventDetailViewModel: EventDetailViewModel,
                                      private val eventId : String) : RecyclerView.Adapter<VoteForDateMultipleListAdapter.ViewHolder>(){
 
+    private var lastClick: Long = 0
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_date_display, parent, false)
@@ -80,7 +83,11 @@ class VoteForDateMultipleListAdapter(val datesList: ArrayList<EventDate>, val co
 
         holder.dateFavouriteIcon.setOnClickListener {
 
-            eventDetailViewModel.dateVoteClicked(eventId, date.id.toString())
+            if (System.currentTimeMillis() - lastClick >= 1000) {
+                lastClick = System.currentTimeMillis()
+
+                eventDetailViewModel.dateVoteClicked(eventId, date.id.toString())
+            }
         }
     }
 
