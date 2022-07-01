@@ -63,6 +63,7 @@
         app:elevation="6dp"
         android:text="@string/create_follow_up"
         app:backgroundTint="#34CBFE"
+        android:visibility="gone"
         app:icon="@drawable/ic_followup_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
