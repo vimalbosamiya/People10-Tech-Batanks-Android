@@ -1,7 +1,6 @@
 package com.batanks.nextplan.swagger.api
 
 import com.batanks.nextplan.swagger.model.AddFilter
-import com.batanks.nextplan.swagger.model.EditFilter
 import com.batanks.nextplan.swagger.model.FilterResultsList
 import com.batanks.nextplan.swagger.model.Filters
 import io.reactivex.Observable
