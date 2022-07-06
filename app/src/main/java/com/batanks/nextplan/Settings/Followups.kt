@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.Window
@@ -27,7 +26,6 @@ import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
 import com.batanks.nextplan.common.dismissKeyboard
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
-import com.batanks.nextplan.search.viewmodel.SearchViewModel
 import com.batanks.nextplan.swagger.api.FilterAPI
 import com.batanks.nextplan.swagger.model.AddFilter
 import com.batanks.nextplan.swagger.model.FilterResultsList
@@ -301,7 +299,7 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
         rv_settings_followups = findViewById(R.id.rv_settings_followups)
         rv_settings_followups.layoutManager = LinearLayoutManager(this)
         rv_settings_followups.setHasFixedSize(true)
-        adapter = filtersList?.let { FollowupsAdapter_Settings(this,it,filtersViewModel) }!!
+        adapter = filtersList?.let { FollowupsAdapter_Settings(this,it) }!!
         rv_settings_followups.adapter = adapter
         //rv_settings_followups?.getAdapter()?.getItemCount()?.let { rv_settings_followups.smoothScrollToPosition(it) }
 }
@@ -329,5 +327,30 @@ class Followups : BaseAppCompatActivity(), FollowupsAdapter_Settings.FollowupsAd
 
     override fun closeButtonFollowUpItemListener(pos: Int) {
         rv_settings_followups?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun deleteButtonFollowUpItemListener(pos: Int?) {
+        filtersViewModel.deleteFilter(pos)
+        filtersViewModel.deleteresponseLiveData.observe(this, Observer { response ->
+
+            when (response.status) {
+                Status.LOADING -> {
+                    showLoader()
+                }
+
+                Status.SUCCESS -> {
+                    hideLoader()
+                    Toast.makeText(this,response.data.toString(),Toast.LENGTH_SHORT).show()
+                    //showMessage(response.data.toString())
+                    filtersViewModel.getFiltersList()
+                }
+
+                Status.ERROR -> {
+                    hideLoader()
+                    showMessage(response.error?.message.toString())
+                }
+                else -> {}
+            }
+        })
     }
 }

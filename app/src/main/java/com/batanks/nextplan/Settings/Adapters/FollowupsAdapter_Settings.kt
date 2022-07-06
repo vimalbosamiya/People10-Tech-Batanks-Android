@@ -10,7 +10,6 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
@@ -23,8 +22,8 @@ import kotlinx.android.synthetic.main.layout_settings_followups.view.*
 
 class FollowupsAdapter_Settings(
     private val callBack: FollowupsAdapter_SettingsCallBack,
-    private val myList: ArrayList<FilterResultsList>,
-    private val filtersViewModel: FiltersViewModel
+    private val myList: ArrayList<FilterResultsList>
+
 ) : RecyclerView.Adapter<FollowupsAdapter_Settings.MyViewHolder>() {
 
     lateinit var context : Context
@@ -77,12 +76,13 @@ class FollowupsAdapter_Settings(
         }
 
         delete.setOnClickListener {
-            filtersViewModel.deleteFilter(id)
-            //myList.removeAt(position)
-           Toast.makeText(context,context.getString(R.string.filter_deleted), Toast.LENGTH_SHORT).show()
-           callBack.closeButtonFollowUpItemListener(position)
-            filtersViewModel.getFiltersList()
-           //removeData()
+            callBack.deleteButtonFollowUpItemListener(myList[position].id)
+//            filtersViewModel.deleteFilter(id)
+//            //myList.removeAt(position)
+//           Toast.makeText(context,context.getString(R.string.filter_deleted), Toast.LENGTH_SHORT).show()
+//           callBack.closeButtonFollowUpItemListener(position)
+//            filtersViewModel.getFiltersList()
+//           //removeData()
            dialog.dismiss()
         }
 
@@ -105,5 +105,6 @@ class FollowupsAdapter_Settings(
 
         fun editButtonFollowUpItemListener(pos: Int, name: String?, keyword: String?)
         fun closeButtonFollowUpItemListener(pos: Int)
+        fun deleteButtonFollowUpItemListener(pos: Int?)
     }
 }

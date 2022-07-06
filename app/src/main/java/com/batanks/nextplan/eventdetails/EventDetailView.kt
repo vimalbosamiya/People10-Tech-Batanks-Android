@@ -1,6 +1,5 @@
 package com.batanks.nextplan.eventdetails
 
-import ActivitySubscribe
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -56,7 +55,6 @@ import kotlinx.android.synthetic.main.activity_event_detail_view.privateIconMini
 import kotlinx.android.synthetic.main.activity_event_detail_view.takePartImage
 import kotlinx.android.synthetic.main.activity_event_detail_view.tripCalenderBackground
 import kotlinx.android.synthetic.main.activity_event_detail_view.tripIcon
-import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.comments_card.*
 import kotlinx.android.synthetic.main.everybody_come_card.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
@@ -225,6 +223,7 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                         privateIcon.visibility = VISIBLE
                     }else {
                         privateIcon.visibility = VISIBLE
+                        privateIconMini.setImageResource(R.drawable.blank_black_shape)
                         eventType.text = resources.getString(R.string._public)
                     }
 

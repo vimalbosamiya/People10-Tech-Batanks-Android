@@ -143,6 +143,7 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/ic_settings_followup"
                 />
+
             <TextView
                 android:id="@+id/txt_settings_followup"
                 android:layout_width="wrap_content"
