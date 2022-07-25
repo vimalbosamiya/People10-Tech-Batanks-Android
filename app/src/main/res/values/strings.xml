@@ -76,6 +76,7 @@
     <string name="filter_deleted">Filter Deleted successfully</string>
 
 
+
     <!-- Search All Fragment -->
 
     <string name="search_for">Search for…</string>
@@ -117,6 +118,7 @@
     <string name="friends">Friends</string>
     <string name="contacts">Contacts</string>
     <string name="follow_ups">Filters</string>
+    <string name="filter">Filter</string>
     <string name="logout">Logout</string>
     <string name="by_email">E-mail</string>
     <string name="comments">Comments</string>
