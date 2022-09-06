@@ -13,11 +13,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.batanks.nextplan.R
 import com.batanks.nextplan.Settings.UsersInfo
+import com.batanks.nextplan.swagger.model.Event
 import com.batanks.nextplan.swagger.model.EventInvitation
 import com.batanks.nextplan.swagger.model.Guests
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_contact.view.*
+import kotlinx.android.synthetic.main.layout_eventdetails_organizer_details.*
 
-class EveryBodyComeListAdapter (val guestsList : ArrayList<Guests>, val context: Context, val acceptedStatus : String): RecyclerView.Adapter<EveryBodyComeListAdapter.ViewHolder>() {
+class EveryBodyComeListAdapter(val guestsList: ArrayList<Guests>, val context: Context, val acceptedStatus: Event?): RecyclerView.Adapter<EveryBodyComeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -43,14 +46,17 @@ class EveryBodyComeListAdapter (val guestsList : ArrayList<Guests>, val context:
 
             holder.contactStatus.setImageResource(R.drawable.ic_user_accepted)
 
+
         } else if(guest.status == "DN"){
 
             holder.contactStatus.setImageResource(R.drawable.ic_user_declined)
+
         }
+
 
         holder.contactBackground.setOnClickListener {
 
-            if (acceptedStatus.equals("AC")){
+            if (acceptedStatus?.status.equals("AC")){
 
                 val intent = Intent(context, UsersInfo::class.java)
                 if (guestsList.get(position).user != null){

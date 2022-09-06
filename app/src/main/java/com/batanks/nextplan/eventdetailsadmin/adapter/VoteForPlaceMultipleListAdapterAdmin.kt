@@ -70,6 +70,19 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         holder.address.text = stringBuilder.toString()
         holder.noOfVotesPlaceTextview.text = place.total_votes.toString()
 
+        if (placesList.size > 1){
+
+            holder.placeFavouriteIcon.visibility = View.VISIBLE
+            holder.placePersonIcon.visibility = View.VISIBLE
+            holder.noOfVotesPlaceTextview.visibility = View.VISIBLE
+
+        }else {
+
+            holder.placeFavouriteIcon.visibility = View.GONE
+            holder.placePersonIcon.visibility = View.GONE
+            holder.noOfVotesPlaceTextview.visibility = View.GONE
+        }
+
         if (place.current_user_have_vote == true){
 
             holder.placeFavouriteIcon.setImageResource(R.drawable.ic_date_display_favourite)
@@ -142,6 +155,8 @@ class VoteForPlaceMultipleListAdapterAdmin (val placesList: ArrayList<EventPlace
         val hideMapLayout : ConstraintLayout = itemView.hideMapLayout
         val seeOnMapLoader : ImageView = itemView.seeOnMapLoader
         val placeCloseButton : ImageView = itemView.placeCloseButton
+        val placePersonIcon : ImageView = itemView.placePersonIcon
+
 
     }
 

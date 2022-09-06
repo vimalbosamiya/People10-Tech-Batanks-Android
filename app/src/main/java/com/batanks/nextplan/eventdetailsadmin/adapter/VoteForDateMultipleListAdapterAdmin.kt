@@ -47,6 +47,19 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         val formattedStartDate = outFormat.format(startDate)
         val formattedFromDate = outputFormat.format(startDate)
 
+        if (datesList.size > 1){
+
+            holder.noOfVotesTextview.visibility = View.VISIBLE
+            holder.dateFavouriteIcon.visibility = View.VISIBLE
+            holder.datePersonIcon.visibility = View.VISIBLE
+
+        } else {
+
+            holder.noOfVotesTextview.visibility = View.GONE
+            holder.dateFavouriteIcon.visibility = View.GONE
+            holder.datePersonIcon.visibility = View.GONE
+        }
+
         if (date.end != null){
 
             endDate = inputFormat.parse(date?.end)
@@ -104,6 +117,8 @@ class VoteForDateMultipleListAdapterAdmin (val datesList: ArrayList<EventDate>, 
         val toTextview : TextView = itemView.toTextview
         val noOfVotesTextview : TextView = itemView.noOfVotesTextview
         val dateFavouriteIcon : ImageView = itemView.dateFavouriteIcon
+        val datePersonIcon : ImageView = itemView.datePersonIcon
+
     }
 
     interface AddPeriodRecyclerViewCallBack {
