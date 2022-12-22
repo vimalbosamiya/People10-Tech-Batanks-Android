@@ -945,10 +945,10 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     private fun backArrowPressed() {
 
-        if (fromHome == true){
+        if (fromHome){
 
-            intent = Intent(this, HomePlanPreview :: class.java)
-            startActivity(intent)
+//            intent = Intent(this, HomePlanPreview :: class.java)
+//            startActivity(intent)
             finish()
 
         }else{

@@ -718,7 +718,9 @@ class PrivatePlanFragment (private var fromSearch : Boolean, private var draft :
                             //item.start?.let { item.end?.let { it1 -> PostDates(it, it1) } }?.let { publicPlanViewModel.eventDate.add(it) }
                         }
 
-                        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate /*getDates*/, editButtonClicked, deleteButtonClicked)
+                        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate /*getDates*/, editButtonClicked, deleteButtonClicked,
+                            activity!!
+                        )
                         //addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
 
                         for(item in event!!.places!!){
@@ -1395,7 +1397,7 @@ class PrivatePlanFragment (private var fromSearch : Boolean, private var draft :
         addPeriodRecyclerViewPublic = requireActivity().findViewById(R.id.periodRecyclerViewPublic)
         addPeriodRecyclerViewPublic?.setHasFixedSize(true)
         addPeriodRecyclerViewPublic?.layoutManager = LinearLayoutManager(requireActivity())
-        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked)
+        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked,activity!!)
     }
 
     private fun populateAddPlaceRecyclerViewIfAny() {
@@ -1719,7 +1721,7 @@ class PrivatePlanFragment (private var fromSearch : Boolean, private var draft :
                     } else {
 
                         publicPlanViewModel.publicEventDate.add(PostDates(start = fromDate, end = toDate))
-                        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked)
+                        addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked,activity!!)
                         //addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         addPeriodButton.setText(getString(R.string.add_another_period))
                     }
@@ -1739,13 +1741,13 @@ class PrivatePlanFragment (private var fromSearch : Boolean, private var draft :
                 if (pos >= 0){
 
                     publicPlanViewModel.publicEventDate.set(pos, PostDates(start = fromDate, end = null))
-                    addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked,deleteButtonClicked)
+                    addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked,deleteButtonClicked,activity!!)
                     //addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
 
                 }else {
 
                     publicPlanViewModel.publicEventDate.add(PostDates(start = fromDate, end = null))
-                    addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked)
+                    addPeriodRecyclerViewPublic?.adapter = AddPeriodRecyclerViewPublic(this, publicPlanViewModel.publicEventDate, editButtonClicked, deleteButtonClicked,activity!!)
                     addPeriodRecyclerViewPublic?.adapter?.notifyDataSetChanged()
                     addPeriodButton.setText(getString(R.string.add_another_period))
                 }

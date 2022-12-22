@@ -1,5 +1,6 @@
 package com.batanks.nextplan.home.fragment.period
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -18,7 +19,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
-                            private val modelList: ArrayList<PostDates>, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean)
+                            private val modelList: ArrayList<PostDates>, private val editButtonClicked : Boolean, private val deleteButtonClicked : Boolean,private val context: Context)
     : RecyclerView.Adapter<AddPeriodRecyclerView.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -54,19 +55,32 @@ class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
             val startDate : Date = inputFormatter.parse(tempStartDate)
             val finalStartDate = Formatter.format(startDate)
             holder.from.text = finalStartDate
+            val editor = context.getSharedPreferences("START_DATE", Context.MODE_PRIVATE).edit()
+            editor.putString("from", holder.from.text.toString())
+            editor.apply()
+
 
             if (modelList[position].end != null){
-
                 val tempEndDate : String = modelList[position]?.end!!
                 val endDate : Date = inputFormatter.parse(tempEndDate)
                 val finalEndDate = Formatter.format(endDate)
                 holder.to.text = finalEndDate
+                    val editor = context.getSharedPreferences("END_DATE", Context.MODE_PRIVATE).edit()
+                    editor.putString("to", holder.to.text.toString())
+                    editor.apply()
+
             }
         } else {
             val tempStartDate : String = modelList[position].start!!
             val startDate : Date = inputFormatter.parse(tempStartDate)
             val finalStartDate = Formatter.format(startDate)
             holder.from.text = finalStartDate
+
+
+                val editor = context.getSharedPreferences("START_DATE", Context.MODE_PRIVATE).edit()
+                editor.putString("from", holder.from.text.toString())
+                editor.apply()
+
 
             if (modelList[position].end.isNullOrEmpty()){
 
@@ -78,6 +92,10 @@ class AddPeriodRecyclerView(private val callBack: AddPeriodRecyclerViewCallBack,
                 val endDate : Date = inputFormatter.parse(tempEndDate)
                 val finalEndDate = Formatter.format(endDate)
                 holder.to.text = finalEndDate
+                val editor = context.getSharedPreferences("END_DATE", Context.MODE_PRIVATE).edit()
+                editor.putString("to", holder.to.text.toString())
+                editor.apply()
+
             }
 
         }

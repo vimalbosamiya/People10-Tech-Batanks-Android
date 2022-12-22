@@ -3,11 +3,15 @@ package com.batanks.nextplan.eventdetails.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
+import com.batanks.nextplan.eventdetails.EventDetailView
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
+import org.json.JSONObject
 
 class EventDetailViewModel (private val eventApi: EventAPI /*, private val authApi: AuthenticationAPI*/) : ViewModel() {
 
@@ -140,7 +144,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
     }
 
-    fun acceptEvent (id: String?, data: EventAccept?){
+    fun acceptEvent (id1: EventDetailView, id: String?, data: EventAccept?){
 
         disposables.add(eventApi.apiEventAnswerUpdate(id, data)
                 .subscribeOn(Schedulers.io())
@@ -153,7 +157,23 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 }.subscribe({ result ->
                     responseLiveDataAccept.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveDataAccept.setValue(ApiResponse.error(throwable))
+                   //responseLiveDataAccept.value = ApiResponse.error(throwable)
+                if (throwable is retrofit2.HttpException) {
+                    val response = throwable.response()?.errorBody()?.string()
+                    val responseBody = JSONObject(response)
+                    val jArray: JSONArray = responseBody.getJSONArray("amount")
+                    for (i in 0 until jArray.length()) {
+                        val value = jArray.getString(i)
+                        val amount = value.split(":".toRegex()).toTypedArray()
+                        MaterialAlertDialogBuilder(id1)
+                            .setTitle(amount[0])
+                            .setMessage(null)
+                            .setNegativeButton(id1.getString(android.R.string.no)) { _, _ -> }
+                            .setPositiveButton(id1.getString(android.R.string.yes)){_, _ ->}
+                            .setCancelable(false)
+                            .show()
+                    }
+                }
                 })
     }
 

@@ -723,7 +723,7 @@ class PublicPlanFragment (private var fromSearch : Boolean, private var draft : 
                             //item.start?.let { item.end?.let { it1 -> PostDates(it, it1) } }?.let { publicPlanViewModel.eventDate.add(it) }
                         }
 
-                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate /*getDates*/, editButtonClicked, deleteButtonClicked)
+                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate /*getDates*/, editButtonClicked, deleteButtonClicked,activity!!)
                         //addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
 
                         for(item in event!!.places!!){
@@ -1455,7 +1455,9 @@ class PublicPlanFragment (private var fromSearch : Boolean, private var draft : 
         addPeriodRecyclerView = requireActivity().findViewById(R.id.periodRecyclerView)
         addPeriodRecyclerView?.setHasFixedSize(true)
         addPeriodRecyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
+        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked,
+            activity!!
+        )
         //addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!! - 1)
     }
 
@@ -1905,13 +1907,13 @@ class PublicPlanFragment (private var fromSearch : Boolean, private var draft : 
                     if (pos >= 0){
 
                         publicPlanViewModel.eventDate.set(pos,PostDates(start = fromDate, end = toDate))
-                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
+                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked,activity!!)
 
                     } else {
 
                         publicPlanViewModel.eventDate.add(PostDates(start = fromDate, end = toDate))
                         //publicPlanViewModel.eventDate.add(0, PostDates(start = fromDate, end = toDate))
-                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
+                        addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked,activity!!)
                         addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                         //publicPlanScrollView.smoothScrollTo(0,addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
                         //addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!! - 1)
@@ -1931,7 +1933,7 @@ class PublicPlanFragment (private var fromSearch : Boolean, private var draft : 
             if (pos >= 0){
 
                 publicPlanViewModel.eventDate.set(pos,PostDates(start = fromDate, end = null))
-                addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
+                addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked,activity!!)
                 //addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
 
             }else {
@@ -1939,7 +1941,7 @@ class PublicPlanFragment (private var fromSearch : Boolean, private var draft : 
                 publicPlanViewModel.eventDate.add(PostDates(start = fromDate, end = null))
                 //publicPlanViewModel.eventDate.add(0, PostDates(start = fromDate, end = null))
                 //Collections.reverse(publicPlanViewModel.eventDate)
-                addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked)
+                addPeriodRecyclerView?.adapter = AddPeriodRecyclerView(this, publicPlanViewModel.eventDate, editButtonClicked, deleteButtonClicked,activity!!)
                 addPeriodRecyclerView?.adapter?.notifyDataSetChanged()
                 //addPeriodRecyclerView?.smoothScrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)
                 //addPeriodRecyclerView?.scrollToPosition(addPeriodRecyclerView?.getAdapter()?.getItemCount()!!)

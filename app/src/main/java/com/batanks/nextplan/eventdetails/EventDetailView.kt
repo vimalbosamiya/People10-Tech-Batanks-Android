@@ -27,7 +27,6 @@ import com.batanks.nextplan.eventdetails.viewmodel.AddContactViewModel
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.eventdetailsadmin.AddCommentImplementation
 import com.batanks.nextplan.eventdetailsadmin.AddCommentsFragment
-import com.batanks.nextplan.home.HomePlanPreview
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.notifications.Notification
@@ -278,7 +277,8 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
                     getActivities = event_obj!!.activities!!
                     getActivities?.let { activityInit(it) }
                     getGuests = event_obj!!.guests!!
-                    getGuests?.let { everyBodyComeInit(it, event_obj!!.status) }
+                    getGuests?.let { everyBodyComeInit(it) }
+                    //getGuests?.let { everyBodyComeInit(it, event_obj!!.status) }
                     getComments = event_obj!!.comments!!
                     getComments?.let { commentsInit(it) }
                     attendingGuests.clear()
@@ -750,12 +750,12 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         recyclerView.adapter = adapter
     }
 
-    fun everyBodyComeInit(guestsList :ArrayList<Guests>, acceptedStatus : String){
+    fun everyBodyComeInit(guestsList :ArrayList<Guests>){
 
         val recyclerView = findViewById<RecyclerView>(R.id.everybodyComeList) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EveryBodyComeListAdapter(guestsList,this, acceptedStatus)
+        val adapter = EveryBodyComeListAdapter(guestsList,this,event_obj)
         recyclerView.adapter = adapter
 
     }
@@ -912,10 +912,9 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
             R.id.backArrow -> {
 
-                if (fromHome == true){
-
-                    intent = Intent(this, HomePlanPreview :: class.java)
-                    startActivity(intent)
+                if (fromHome){
+//                    intent = Intent(this, HomePlanPreview :: class.java)
+//                    startActivity(intent)
                     finish()
 
                 }else{
@@ -942,12 +941,13 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
 
     private fun accept(amount: Int){
 
-        eventDetailViewModel.acceptEvent(id.toString(), EventAccept(ACCEPT, amount))
+        eventDetailViewModel.acceptEvent(this,id.toString(), EventAccept(ACCEPT, amount))
+
     }
 
     private fun decline(){
 
-        eventDetailViewModel.acceptEvent(id.toString(), EventAccept(DECLINE,0))
+        eventDetailViewModel.acceptEvent(this, id.toString(), EventAccept(DECLINE,0))
     }
 
     private fun accepted(){

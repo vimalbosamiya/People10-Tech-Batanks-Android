@@ -299,7 +299,7 @@ class   HomePlanPreviewAdapter(private val fromHome : Boolean, private val myLis
                 intent.putExtra("ID", myList.get(position).pk)
                 intent.putExtra("FROM_HOME", true)
                 startActivity(context,intent,null)
-                (context as Activity).finish()
+//                (context as Activity).finish()
 
             } else if (event.creator.username != userName){
 
@@ -307,7 +307,8 @@ class   HomePlanPreviewAdapter(private val fromHome : Boolean, private val myLis
                 intent.putExtra("ID", myList.get(position).pk)
                 intent.putExtra("FROM_HOME", true)
                 startActivity(context,intent,null)
-                (context as Activity).finish()
+                //                (context as Activity).finish()
+
             }
         }
 

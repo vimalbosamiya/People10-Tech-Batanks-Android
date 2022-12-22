@@ -4,12 +4,15 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -18,33 +21,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseDialogFragment
 import com.batanks.nextplan.arch.viewmodel.GenericViewModelFactory
-import com.batanks.nextplan.common.getLoadingDialog
 import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.home.fragment.action.AssignPeopleFragment
-import com.batanks.nextplan.home.fragment.spinner.CustomArrayAdapterForAll
-import com.batanks.nextplan.home.fragment.spinner.SpinnerModel
-import com.batanks.nextplan.home.fragment.spinner.SpinnerModelForAll
 import com.batanks.nextplan.home.fragment.tabfragment.publicplan.AddPeopleRecyclerViewAdapter
 import com.batanks.nextplan.home.markRequiredInRed
 import com.batanks.nextplan.network.RetrofitClient
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.hbb20.CountryCodePicker
 import com.hbb20.CountryCodePicker.OnCountryChangeListener
+import kotlinx.android.synthetic.main.activity_registration.view.*
+import kotlinx.android.synthetic.main.fragment_add_action.*
 import kotlinx.android.synthetic.main.fragment_add_activity.*
 import kotlinx.android.synthetic.main.fragment_add_activity_how_much.*
+import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostIcon
+import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostTextView
 import kotlinx.android.synthetic.main.fragment_add_activity_when.*
 import kotlinx.android.synthetic.main.fragment_add_activity_where.*
 import kotlinx.android.synthetic.main.fragment_add_activity_who_with.*
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
-import com.batanks.nextplan.arch.response.Status
-import kotlinx.android.synthetic.main.activity_registration.view.*
-import kotlinx.android.synthetic.main.fragment_add_action.*
-import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostIcon
-import kotlinx.android.synthetic.main.fragment_add_activity_how_much.natureOfCostTextView
 
 
 class AddActivityFragment(val listner : AddActivityFragmentListener, private val position : Int, private val activityList : ArrayList<PostActivities>, private val event : Event?,
@@ -261,7 +259,47 @@ class AddActivityFragment(val listner : AddActivityFragmentListener, private val
             fromTime.show()
 
         }, mYear, mMonth, mDay)
-        fromDate.datePicker.minDate = System.currentTimeMillis()
+
+          val json = Gson()
+        Log.e("dates",json.toJson(event?.dates))
+        if (!event?.dates.isNullOrEmpty()) {
+            try {
+                  val dateFormatter1 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    val date = event?.dates?.get(0)?.start
+                    val startDateFormat = dateFormatter1.parse(date)
+                    fromDate.datePicker.minDate = startDateFormat.time-1000
+                   Log.e("fromdate", dateFormatter1.parse(date).toString())
+                    val endDate = event?.dates!![0].end
+                    val endDateFormat = dateFormatter1.parse(endDate)
+                    fromDate.datePicker.maxDate = endDateFormat.time-1000
+            } catch (ex: Exception) {
+                   ex.printStackTrace()
+            }
+
+        }
+
+        try {
+            val prefs: SharedPreferences = activity?.getSharedPreferences("START_DATE", MODE_PRIVATE)!!
+            val selectedStartDate = prefs.getString("from","")
+            val prefs1: SharedPreferences = activity?.getSharedPreferences("END_DATE", MODE_PRIVATE)!!
+
+            val selectedEndDate = prefs1.getString("to", "")
+            val dateFormatter = SimpleDateFormat("E, MMM dd yyyy HH:mm")
+            if (selectedStartDate.isNullOrEmpty() || selectedEndDate.isNullOrEmpty()){
+                fromDate.datePicker.minDate = mCal.timeInMillis
+            }else {
+                val startDateFormat = dateFormatter.parse(selectedStartDate)
+                val endDateFormat = dateFormatter.parse(selectedEndDate)
+                fromDate.datePicker.minDate = startDateFormat.time - 1000
+                fromDate.datePicker.maxDate = endDateFormat.time
+        }
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+
+
         fromDate.setCanceledOnTouchOutside(true)
         //fromDate.setCanceledOnTouchOutside(false)
         fromDate.show()
