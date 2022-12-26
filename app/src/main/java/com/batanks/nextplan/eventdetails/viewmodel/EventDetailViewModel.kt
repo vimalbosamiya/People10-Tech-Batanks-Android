@@ -1,5 +1,6 @@
 package com.batanks.nextplan.eventdetails.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.batanks.nextplan.arch.response.ApiResponse
@@ -165,13 +166,7 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                     for (i in 0 until jArray.length()) {
                         val value = jArray.getString(i)
                         val amount = value.split(":".toRegex()).toTypedArray()
-                        MaterialAlertDialogBuilder(id1)
-                            .setTitle(amount[0])
-                            .setMessage(null)
-                            .setNegativeButton(id1.getString(android.R.string.no)) { _, _ -> }
-                            .setPositiveButton(id1.getString(android.R.string.yes)){_, _ ->}
-                            .setCancelable(false)
-                            .show()
+                        errorDialog(id1,amount)
                     }
                 }
                 })
@@ -228,7 +223,12 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                 })
     }
 
-    fun eventInvitationAccepted(id: String?, invitationPk: String?, data: GuestAmount?){
+    fun eventInvitationAccepted(
+        context: Context,
+        id: String?,
+        invitationPk: String?,
+        data: GuestAmount?
+    ){
 
         disposables.add(eventApi.apiEventInvitationUpdate(id, invitationPk, data)
                 .subscribeOn(Schedulers.io())
@@ -239,8 +239,28 @@ class EventDetailViewModel (private val eventApi: EventAPI /*, private val authA
                     //RetrofitClient.cookieJar?.persist()
                     responseLiveDataGuest.setValue(ApiResponse.success(result))
                 }) { throwable ->
-                    responseLiveDataGuest.setValue(ApiResponse.error(throwable))
+                    //responseLiveDataGuest.setValue(ApiResponse.error(throwable))
+                if (throwable is retrofit2.HttpException) {
+                    val response = throwable.response()?.errorBody()?.string()
+                    val responseBody = JSONObject(response)
+                    val jArray: JSONArray = responseBody.getJSONArray("amount")
+                    for (i in 0 until jArray.length()) {
+                        val value = jArray.getString(i)
+                        val amount = value.split(":".toRegex()).toTypedArray()
+                        errorDialog(context,amount)
+                    }
+                }
                 })
+    }
+
+    private fun errorDialog(context: Context, value: Array<String>){
+        MaterialAlertDialogBuilder(context)
+            .setTitle(value[0])
+            .setMessage(null)
+            .setNegativeButton(context.getString(android.R.string.no)) { _, _ -> }
+            .setPositiveButton(context.getString(android.R.string.yes)){_, _ ->}
+            .setCancelable(false)
+            .show()
     }
 
     fun dateVoteClicked(eventPk: String?, datePk: String?){

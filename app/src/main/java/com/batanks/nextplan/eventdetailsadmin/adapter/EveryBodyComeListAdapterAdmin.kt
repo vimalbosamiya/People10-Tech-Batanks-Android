@@ -291,11 +291,21 @@ class EveryBodyComeListAdapterAdmin (val contactsList: ArrayList<Guests>, val co
 
         if (accept == true){
 
-            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(ACCEPT,amount))
+            eventDetailViewModel.eventInvitationAccepted(
+                context,
+                eventId.toString(),
+                invitationId,
+                GuestAmount(ACCEPT,amount)
+            )
 
         } else if (accept == false){
 
-            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(DECLINE,0))
+            eventDetailViewModel.eventInvitationAccepted(
+                context,
+                eventId.toString(),
+                invitationId,
+                GuestAmount(DECLINE,0)
+            )
         }
     }
 

@@ -18,7 +18,6 @@ import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.GuestAmount
 import com.batanks.nextplan.swagger.model.Guests
-import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.layout_invitation_status_item.view.*
@@ -179,7 +178,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
             }else {
 
-                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(PENDING,countTextview.text.toString().toInt()))
+                eventDetailViewModel.eventInvitationAccepted(context,eventId.toString(), invitationId, GuestAmount(PENDING,countTextview.text.toString().toInt()))
             }
 
             dialog.dismiss()
@@ -263,7 +262,12 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
             }else {
 
-                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(ACCEPT,countTextview.text.toString().toInt()))
+                eventDetailViewModel.eventInvitationAccepted(
+                    context,
+                    eventId.toString(),
+                    invitationId,
+                    GuestAmount(ACCEPT,countTextview.text.toString().toInt())
+                )
             }
 
             dialog.dismiss()
@@ -347,7 +351,12 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
             }else {
 
-                eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(DECLINE,countTextview.text.toString().toInt()))
+                eventDetailViewModel.eventInvitationAccepted(
+                    context,
+                    eventId.toString(),
+                    invitationId,
+                    GuestAmount(DECLINE,countTextview.text.toString().toInt())
+                )
             }
 
             dialog.dismiss()
@@ -372,11 +381,21 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
 
         if (accept == true){
 
-            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(ACCEPT,amount))
+            eventDetailViewModel.eventInvitationAccepted(
+                context,
+                eventId.toString(),
+                invitationId,
+                GuestAmount(ACCEPT,amount)
+            )
 
         } else if (accept == false){
 
-            eventDetailViewModel.eventInvitationAccepted(eventId.toString(), invitationId, GuestAmount(DECLINE,0))
+            eventDetailViewModel.eventInvitationAccepted(
+                context,
+                eventId.toString(),
+                invitationId,
+                GuestAmount(DECLINE,0)
+            )
         }
     }
 
