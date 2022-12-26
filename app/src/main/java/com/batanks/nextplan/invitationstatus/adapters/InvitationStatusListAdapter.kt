@@ -73,7 +73,9 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         holder.totalCost
 
         holder.cost.text = guest.price
+        holder.currencySymbol.text = guest.price_currency
         holder.costInTotal.text = guest.price
+        holder.currencySymbolForTotal.text = guest.price_currency
 
 
         holder.settings.setOnClickListener {
