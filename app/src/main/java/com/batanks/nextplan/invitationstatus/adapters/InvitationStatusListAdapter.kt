@@ -18,6 +18,7 @@ import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.search.AddToGroupActivity
 import com.batanks.nextplan.swagger.model.GuestAmount
 import com.batanks.nextplan.swagger.model.Guests
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.android.synthetic.main.layout_invitation_status_item.view.*
@@ -47,15 +48,15 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         holder.guestsCount.text = guest.people_coming.toString()
 
         if (guest.status == "AC"){
-
+            Glide.with(context).load(guest.user.picture).circleCrop().into(holder.userIcon)
             holder.userStatus.setImageResource(R.drawable.ic_user_accepted)
 
         } else if(guest.status == "DN"){
-
+            Glide.with(context).load(guest.user.picture).circleCrop().into(holder.userIcon)
             holder.userStatus.setImageResource(R.drawable.ic_user_declined)
 
         } else if(guest.status == "PD"){
-
+            Glide.with(context).load(guest.user.picture).circleCrop().into(holder.userIcon)
             holder.userStatus.setImageResource(R.drawable.ic_user_pending)
         }
 
@@ -111,6 +112,7 @@ class InvitationStatusListAdapter (private val invitatioStatusList : ArrayList<G
         val currencySymbolForTotal : TextView = itemView.currencySymbolForTotal
         val userStatus : ImageView = itemView.userStatus
         val settings : ImageView = itemView.settings
+        val userIcon:ImageView = itemView.userIcon
     }
 
     private fun showDialog(context : Context, guestId : Int, invitationId : String, guestStatus : String, totalGuests : String) {
