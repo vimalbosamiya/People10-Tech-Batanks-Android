@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -20,6 +21,7 @@ import com.batanks.nextplan.swagger.model.PostComments
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,6 +70,18 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
         holder.comment.text = comment.message
         holder.closeButtonIcon.visibility = View.GONE
 
+
+
+        if (comment.user_status == "AC"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_accepted)
+
+        } else if(comment.user_status == "DN"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_declined)
+
+        } else if(comment.user_status == "PD"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_pending)
+        }
+
         holder.commentsSettings.setOnClickListener {
 
             editDialog(context, comment.id, eventId, comment.message)
@@ -81,6 +95,7 @@ class CommentsListAdapter (val commentsList : ArrayList<Comment> , val context :
         val comment : TextView = itemView.comment
         val closeButtonIcon : ImageView = itemView.commentsCloseButoon
         val commentsSettings : ImageView = itemView.commentsSettings
+        val commentUserIcon : ImageView = itemView.commentUserIcon
     }
 
     private fun editDialog(context : Context, id : Int, eventId : Int, comment: String) {

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.batanks.nextplan.swagger.model.Comment
 import com.batanks.nextplan.swagger.model.PostComments
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_comment_display.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,7 +39,6 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val comment : Comment = commentsList[position]
-
 
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
@@ -64,6 +65,16 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
         holder.commentDateTime.text = formattedCreateDate
         holder.comment.text = comment.message
 
+        if (comment.user_status == "AC"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_accepted)
+
+        } else if(comment.user_status == "DN"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_declined)
+
+        } else if(comment.user_status == "PD"){
+            holder.commentUserIcon.setImageResource(R.drawable.ic_user_pending)
+        }
+
         holder.commentsSettings.setOnClickListener {
 
             editCommentDialog(context, comment.id, eventId, comment.message)
@@ -77,6 +88,7 @@ class CommentsListAdapterAdmin (val commentsList : ArrayList<Comment>, val conte
         val comment : TextView = itemView.comment
         val closeButtonIcon : ImageView = itemView.commentsCloseButoon
         val commentsSettings : ImageView = itemView.commentsSettings
+        val commentUserIcon : ImageView = itemView.commentUserIcon
     }
 
     private fun editCommentDialog(context : Context, id : Int, eventId : Int, comment: String) {

@@ -5,6 +5,7 @@ data class Comment(
         val id : Int,
         val created : String,
         val author : String,
-        val message  : String
+        val message  : String,
+        val user_status : String
         //var visibility : Boolean = false
           )
