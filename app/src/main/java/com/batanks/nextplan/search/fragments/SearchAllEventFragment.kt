@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -142,7 +143,7 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
                             println(searchText )
 
                             SearchViewModel.searchText = searchText
-                            //loadList(searchText)
+                        //                            loadList(searchText)
                         }
                     }
                 }
@@ -400,11 +401,18 @@ class SearchAllEventFragment (val filter : String?) : BaseFragment(), CoroutineS
     }
 
     private fun apiSearch(){
-
         if (!SearchViewModel.searchText.isNullOrEmpty()){
-
-            addcontactSearchEditText.setText(SearchViewModel.searchText)
-            searchViewModel.apiSearchListWithTypeAndKeyword("ALL",SearchViewModel.searchText)
+            addcontactSearchEditText.setOnKeyListener { _, keyCode, keyEvent ->
+                if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    addcontactSearchEditText.setText(SearchViewModel.searchText)
+                    Log.d("Android view component", "Enter button was pressed")
+                    searchViewModel.apiSearchListWithTypeAndKeyword("ALL",SearchViewModel.searchText)
+                    view?.hideKeyboard()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+//            searchViewModel.apiSearchListWithTypeAndKeyword("ALL",SearchViewModel.searchText)
 
         }else if (SearchViewModel.searchText.isNullOrEmpty()){
 
