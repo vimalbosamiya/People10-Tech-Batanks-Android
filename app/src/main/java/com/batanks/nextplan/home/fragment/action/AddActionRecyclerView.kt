@@ -54,7 +54,7 @@ class AddActionRecyclerView (private val callBack: AddActionRecyclerViewCallBack
 
                         holder.contactName.setText(modelList.get(position).assigneeName)
                         //holder.contactName.setText(modelList[position].assigneeName)
-                        //Glide.with(context).load(event!!.tasks?.get(position)?.assignee?.picture).circleCrop().into(holder.contactImage)
+                        Glide.with(context).load(event!!.tasks?.get(position)?.assignee?.picture).circleCrop().into(holder.contactImage)
 
                     } else if (modelList.get(position).assignee == null) {
 

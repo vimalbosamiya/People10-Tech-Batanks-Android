@@ -1,9 +1,12 @@
 package com.batanks.nextplan.home.fragment.action
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +14,11 @@ import com.batanks.nextplan.R
 import com.batanks.nextplan.home.fragment.contacts.ContactsModel
 import com.batanks.nextplan.swagger.model.ContactsList
 import com.batanks.nextplan.swagger.model.Guests
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_assign_people.view.*
 
 
-class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: ArrayList<Guests>, private var defaultSelectedAssigne : String?) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
+class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallBack , private val myList: ArrayList<Guests>, private var defaultSelectedAssigne : String?,private var context: Context) : RecyclerView.Adapter<Assign_People_Adapter.MyViewHolder>() {
 
     private var lastChecked: CheckBox? = null
     private var lastCheckedPos = -1
@@ -41,8 +45,13 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         //val itemView = holder.itemView
-
-        holder.txt_assign_people_name.text = myList.get(position).user.username
+        if (myList[position].status?.equals("AC") == true) {
+            holder.txt_assign_people_name.text = myList[position].user.username
+            Glide.with(context).load(myList[position].user.picture).circleCrop().into(holder.userImage)
+            holder.userImageStatus.background = context.resources.getDrawable(R.drawable.ic_user_accepted)
+        }else{
+            holder.assignLayout.visibility = View.GONE
+        }
 
         if (myList.get(position).user.username == defaultSelectedAssigne){
 
@@ -126,6 +135,9 @@ class Assign_People_Adapter (private val listner : assignPeopleRecyclerViewCallB
 
     class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val txt_assign_people_name: TextView = item.txt_assign_people_name
+        val userImageStatus:ImageView = item.img_assing_people_item
+        val assignLayout:RelativeLayout =item.assign_layout
+        val userImage:ImageView = item.userImage
         val checkBox : CheckBox = item.cb_assign_contact
     }
 

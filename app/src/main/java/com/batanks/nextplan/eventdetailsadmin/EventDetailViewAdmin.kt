@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
@@ -46,8 +47,10 @@ import com.batanks.nextplan.swagger.model.*
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.addGuestBackground
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.pullToRefresh
 import kotlinx.android.synthetic.main.comments_card_admin.*
 import kotlinx.android.synthetic.main.everybody_come_card_admin.*
+import kotlinx.android.synthetic.main.fragment_all_home.*
 import kotlinx.android.synthetic.main.fragment_public_new_plan.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.vote_for_date_card_admin.*
@@ -120,363 +123,391 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         fromHome = intent.getBooleanExtra("FROM_HOME",true)
 
         userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME", null)
-
-        //loadingDialog = this.getLoadingDialog(0, R.string.loading_page_please_wait, theme = R.style.AlertDialogCustom)
-
         eventDetailViewModel.getEventData(id.toString())
 
-        eventDetailViewModel.responseLiveData.observe(this, Observer { response ->
+        //loadingDialog = this.getLoadingDialog(0, R.string.loading_page_please_wait, theme = R.style.AlertDialogCustom)
+        pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                eventDetailViewModel.getEventData(id.toString())
+                pullToRefresh.setRefreshing(false)
+            }
+        })
+        eventDetailViewModel.responseLiveData.observe(this@EventDetailViewAdmin, Observer { response ->
 
-            when (response.status) {
-                Status.LOADING -> {
-                    //showLoader()
-                }
+                    when (response.status) {
+                        Status.LOADING -> {
+                            //showLoader()
+                        }
 
-                Status.SUCCESS -> {
+                        Status.SUCCESS -> {
 
-                    //hideLoader()
+                            //hideLoader()
 
-                    event_obj = response.data as Event
+                            event_obj = response.data as Event
 
-                    isPrivate = event_obj!!._private
-                    creator = event_obj!!.creator
-                    creatorId = creator!!.id
-                    organizer.text = creator!!.username
-                    organizerInFull.text = creator!!.username
-                    organizerFirstName.text = creator!!.first_name
-                    organizerLastName.text = creator!!.last_name
-                    organizerEmail.text = creator!!.email
-                    organizerMobileNumber.text = creator!!.phone_number.toString()
+                            isPrivate = event_obj!!._private
+                            creator = event_obj!!.creator
+                            creatorId = creator!!.id
+                            organizer.text = creator!!.username
+                            organizerInFull.text = creator!!.username
+                            organizerFirstName.text = creator!!.first_name
+                            organizerLastName.text = creator!!.last_name
+                            organizerEmail.text = creator!!.email
+                            organizerMobileNumber.text = creator!!.phone_number.toString()
 
-                    periodicity = event_obj!!.periodicity
+                            periodicity = event_obj!!.periodicity
 
-                    if (periodicity != null){
+                            if (periodicity != null) {
 
-                        howOftenEditTextAdmin.setText(R.string.custom)
+                                howOftenEditTextAdmin.setText(R.string.custom)
 
-                    }else if (periodicity == null){
+                            } else if (periodicity == null) {
 
-                        howOftenEditTextAdmin.setText(R.string.once)
-                    }
+                                howOftenEditTextAdmin.setText(R.string.once)
+                            }
 
-                    if (!TextUtils.isEmpty(creator!!.picture)) {
+                            if (!TextUtils.isEmpty(creator!!.picture)) {
 
-                        userIcon.background = null
-                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIcon)
-                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIconInFull)
-                    }
+                                userIcon.background = null
+                                Glide.with(this@EventDetailViewAdmin).load(creator!!.picture).circleCrop().into(userIcon)
+                                Glide.with(this@EventDetailViewAdmin).load(creator!!.picture).circleCrop()
+                                    .into(userIconInFull)
+                            }
 
-                    if (creator!!.is_in_contacts == true) {
+                            if (creator!!.is_in_contacts == true) {
 
-                        textViewAddContact.visibility = GONE
-                        addToContact.visibility = GONE
-                    }
+                                textViewAddContact.visibility = GONE
+                                addToContact.visibility = GONE
+                            }
 
-                    eventName.text = event_obj!!.title
-                    category.text = event_obj!!.category?.name
-                    Glide.with(this).load(event_obj!!.category?.picture).circleCrop().into(tripIcon)
+                            eventName.text = event_obj!!.title
+                            category.text = event_obj!!.category?.name
+                            Glide.with(this@EventDetailViewAdmin).load(event_obj!!.category?.picture).circleCrop()
+                                .into(tripIcon)
 
-                    if (event_obj!!._private == true) {
+                            if (event_obj!!._private == true) {
 
-                        privateIcon.visibility = VISIBLE
-                        privateIconMini.visibility = VISIBLE
-                        eventType.visibility = VISIBLE
+                                privateIcon.visibility = VISIBLE
+                                privateIconMini.visibility = VISIBLE
+                                eventType.visibility = VISIBLE
 
-                    } else {
+                            } else {
 
-                        privateIcon.visibility = GONE
-                        privateIconMini.visibility = GONE
-                        eventType.visibility = GONE
-                    }
+                                privateIcon.visibility = GONE
+                                privateIconMini.visibility = GONE
+                                eventType.visibility = GONE
+                            }
 
-                    noOfGuests.text = event_obj!!.guests?.size.toString()
+                            noOfGuests.text = event_obj!!.guests?.size.toString()
 
-                    val acceptedGuests: ArrayList<Guests> = arrayListOf()
-                    val DeclinedGuests: ArrayList<Guests> = arrayListOf()
+                            val acceptedGuests: ArrayList<Guests> = arrayListOf()
+                            val DeclinedGuests: ArrayList<Guests> = arrayListOf()
 
-                    for (item in event_obj!!.guests!!) {
+                            for (item in event_obj!!.guests!!) {
 
-                        if (item.status == "AC") {
+                                if (item.status == "AC") {
 
-                            acceptedGuests.add(item)
+                                    acceptedGuests.add(item)
 
-                            noOfParticipants.text = acceptedGuests.size.toString()
+                                    noOfParticipants.text = acceptedGuests.size.toString()
 
-                        } else if (item.status == "DN") {
+                                } else if (item.status == "DN") {
 
-                            DeclinedGuests.add(item)
+                                    DeclinedGuests.add(item)
 
-                            declinedGuests.text = DeclinedGuests.size.toString()
+                                    declinedGuests.text = DeclinedGuests.size.toString()
+                                }
+                            }
+
+                            costPerPerson.text = event_obj!!.price.toString()
+                            costPerPersonSymbol.text = event_obj!!.price_currency
+                            eventDescription.text = event_obj!!.detail
+
+                            getDates = event_obj!!.dates!!
+
+                            getDates?.let { dateInitAdmin(it) }
+
+                            getPlaces = event_obj!!.places!!
+
+                            getPlaces?.let { placeInitAdmin(it) }
+
+                            getTasks = event_obj!!.tasks!!
+
+                            getTasks?.let { taskInitAdmin(it) }
+
+                            getActivities = event_obj!!.activities!!
+
+                            getActivities?.let { activityInitAdmin(it) }
+
+                            getGuests = event_obj!!.guests!!
+
+                            getGuests?.let { peopleInitAdmin(it) }
+
+                            getComments = event_obj!!.comments!!
+
+                            getComments?.let { commentsInitAdmin(it) }
+
+                            attendingGuests.clear()
+
+                            for (item in getGuests) {
+
+                                if (item.status == "AC") {
+
+                                    if (!attendingGuests.contains(item)) {
+
+                                        attendingGuests.add(item)
+                                    }
+                                }
+                            }
+
+                            textViewAttendingMulti.text = attendingGuests.size.toString()
+
+                            textViewAttending.text = attendingGuests.size.toString()
+
+                            textViewTotalParticipantsMulti.text = getGuests.size.toString()
+
+                            textViewTotalParticipants.text = getGuests.size.toString()
+
+                            textViewTotalComments.text = event_obj!!.comments?.size.toString()
+
+                            textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
+
+                        }
+
+                        Status.ERROR -> {
+                            // hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                            //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
                         }
                     }
+                })
 
-                    costPerPerson.text = event_obj!!.price.toString()
-                    costPerPersonSymbol.text = event_obj!!.price_currency
-                    eventDescription.text = event_obj!!.detail
+                eventDetailViewModel.responseLiveDataVoteDate.observe(this@EventDetailViewAdmin, Observer { response ->
 
-                    getDates = event_obj!!.dates!!
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                    getDates?.let { dateInitAdmin(it) }
+                        Status.SUCCESS -> {
 
-                    getPlaces = event_obj!!.places!!
+                            hideLoader()
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
 
-                    getPlaces?.let { placeInitAdmin(it) }
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
 
-                    getTasks = event_obj!!.tasks!!
+                eventDetailViewModel.responseLiveDataVotePlace.observe(this@EventDetailViewAdmin, Observer { response ->
 
-                    getTasks?.let { taskInitAdmin(it) }
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                    getActivities = event_obj!!.activities!!
+                        Status.SUCCESS -> {
 
-                    getActivities?.let { activityInitAdmin(it) }
+                            hideLoader()
 
-                    getGuests = event_obj!!.guests!!
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
 
-                    getGuests?.let { peopleInitAdmin(it) }
+                        Status.ERROR -> {
+                            hideLoader()
 
-                    getComments = event_obj!!.comments!!
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
 
-                    getComments?.let { commentsInitAdmin(it) }
+                eventDetailViewModel.responseLiveDataTaskPatch.observe(this@EventDetailViewAdmin, Observer { response ->
 
-                    attendingGuests.clear()
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                    for (item in getGuests) {
+                        Status.SUCCESS -> {
 
-                        if (item.status == "AC") {
+                            hideLoader()
+                            eventDetailViewModel.getEventData(id.toString())
 
-                            if (!attendingGuests.contains(item)) {
+                            println(response)
+                        }
 
-                                attendingGuests.add(item)
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+                eventDetailViewModel.responseLiveDataGuest.observe(this@EventDetailViewAdmin, Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+                            hideLoader()
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+                eventDetailViewModel.responseLiveDataComment.observe(this@EventDetailViewAdmin, Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+
+                            hideLoader()
+                            Toast.makeText(
+                                this@EventDetailViewAdmin,
+                                getString(R.string.comment_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+                eventDetailViewModel.responseLiveDataEditComment.observe(
+                    this@EventDetailViewAdmin,
+                    Observer { response ->
+
+                        when (response.status) {
+                            Status.LOADING -> {
+                                showLoader()
+                            }
+
+                            Status.SUCCESS -> {
+
+                                hideLoader()
+                                Toast.makeText(
+                                    this@EventDetailViewAdmin,
+                                    getString(R.string.comment_updated),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                eventDetailViewModel.getEventData(id.toString())
+                            }
+
+                            Status.ERROR -> {
+                                hideLoader()
+
+                                showMessage(response.error?.message.toString())
+                                println(response.error)
                             }
                         }
-                    }
+                    })
 
-                    textViewAttendingMulti.text = attendingGuests.size.toString()
+                eventDetailViewModel.responseLiveDataDeleteComment.observe(
+                    this@EventDetailViewAdmin,
+                    Observer { response ->
 
-                    textViewAttending.text = attendingGuests.size.toString()
+                        when (response.status) {
+                            Status.LOADING -> {
+                                showLoader()
+                            }
 
-                    textViewTotalParticipantsMulti.text = getGuests.size.toString()
+                            Status.SUCCESS -> {
 
-                    textViewTotalParticipants.text = getGuests.size.toString()
+                                hideLoader()
+                                Toast.makeText(
+                                    this@EventDetailViewAdmin,
+                                    getString(R.string.comment_deleted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                eventDetailViewModel.getEventData(id.toString())
+                            }
 
-                    textViewTotalComments.text = event_obj!!.comments?.size.toString()
+                            Status.ERROR -> {
+                                hideLoader()
 
-                    textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
+                                showMessage(response.error?.message.toString())
+                                println(response.error)
+                            }
+                        }
+                    })
 
-                }
+                eventDetailViewModel.responseLiveDataEventDelete.observe(
+                    this@EventDetailViewAdmin,
+                    Observer { response ->
 
-                Status.ERROR -> {
-                    // hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                    //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
+                        when (response.status) {
+                            Status.LOADING -> {
+                                showLoader()
+                            }
 
-        eventDetailViewModel.responseLiveDataVoteDate.observe(this, Observer { response ->
+                            Status.SUCCESS -> {
 
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
+                                hideLoader()
+                                intent = Intent(this@EventDetailViewAdmin, HomePlanPreview::class.java)
+                                startActivity(intent)
+                                finish()
+                                Toast.makeText(
+                                    this@EventDetailViewAdmin,
+                                    getString(R.string.event_deleted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                Status.SUCCESS -> {
+                            Status.ERROR -> {
+                                hideLoader()
+                                showMessage(response.error?.message.toString())
+                                println(response.error)
+                            }
+                        }
+                    })
 
-                    hideLoader()
-                    eventDetailViewModel.getEventData(id.toString())
-                }
+                dateInitAdmin(getDates)
+                placeInitAdmin(getPlaces)
+                taskInitAdmin(getTasks)
+                activityInitAdmin(getActivities)
+                peopleInitAdmin(getGuests)
+                commentsInitAdmin(getComments)
 
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataVotePlace.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataTaskPatch.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    eventDetailViewModel.getEventData(id.toString())
-
-                    println(response)
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataGuest.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-                    hideLoader()
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    Toast.makeText(this, getString(R.string.comment_added), Toast.LENGTH_SHORT).show()
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataEditComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    Toast.makeText(this, getString(R.string.comment_updated), Toast.LENGTH_SHORT).show()
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataDeleteComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    Toast.makeText(this, getString(R.string.comment_deleted), Toast.LENGTH_SHORT).show()
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataEventDelete.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    intent = Intent(this, HomePlanPreview::class.java)
-                    startActivity(intent)
-                    finish()
-                    Toast.makeText(this, getString(R.string.event_deleted), Toast.LENGTH_SHORT).show()
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        dateInitAdmin(getDates)
-        placeInitAdmin(getPlaces)
-        taskInitAdmin(getTasks)
-        activityInitAdmin(getActivities)
-        peopleInitAdmin(getGuests)
-        commentsInitAdmin(getComments)
-
-        userIcon.setOnClickListener(this)
-        userIconInFull.setOnClickListener(this)
-        hamburger.setOnClickListener(this)
-        dateDropDown.setOnClickListener(this)
-        dateDropDownMulti.setOnClickListener(this)
-        placeDropDown.setOnClickListener(this)
-        placeDropDownMulti.setOnClickListener(this)
-        totalParticipantsDropDown.setOnClickListener(this)
-        totalParticipantsDropDownMulti.setOnClickListener(this)
-        totalCommentsDropDown.setOnClickListener(this)
-        totalCommentsDropDownMulti.setOnClickListener(this)
-        tripCalenderBackground.setOnClickListener(this)
-        addGuestBackground.setOnClickListener(this)
-        guestsHolder.setOnClickListener(this)
-        addCommentsImg.setOnClickListener(this)
-        backArrow.setOnClickListener(this)
-        takePartImage.setOnClickListener(this)
+                userIcon.setOnClickListener(this@EventDetailViewAdmin)
+                userIconInFull.setOnClickListener(this@EventDetailViewAdmin)
+                hamburger.setOnClickListener(this@EventDetailViewAdmin)
+                dateDropDown.setOnClickListener(this@EventDetailViewAdmin)
+                dateDropDownMulti.setOnClickListener(this@EventDetailViewAdmin)
+                placeDropDown.setOnClickListener(this@EventDetailViewAdmin)
+                placeDropDownMulti.setOnClickListener(this@EventDetailViewAdmin)
+                totalParticipantsDropDown.setOnClickListener(this@EventDetailViewAdmin)
+                totalParticipantsDropDownMulti.setOnClickListener(this@EventDetailViewAdmin)
+                totalCommentsDropDown.setOnClickListener(this@EventDetailViewAdmin)
+                totalCommentsDropDownMulti.setOnClickListener(this@EventDetailViewAdmin)
+                tripCalenderBackground.setOnClickListener(this@EventDetailViewAdmin)
+                addGuestBackground.setOnClickListener(this@EventDetailViewAdmin)
+                guestsHolder.setOnClickListener(this@EventDetailViewAdmin)
+                addCommentsImg.setOnClickListener(this@EventDetailViewAdmin)
+                backArrow.setOnClickListener(this@EventDetailViewAdmin)
+                takePartImage.setOnClickListener(this@EventDetailViewAdmin)
     }
 
     override fun onBackPressed() {

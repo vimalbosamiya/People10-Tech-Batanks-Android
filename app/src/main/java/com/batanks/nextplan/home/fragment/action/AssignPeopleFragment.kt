@@ -67,7 +67,9 @@ class AssignPeopleFragment (private val listner : AssignPeopleFragmentListner,pr
         if(fromAction == true){
 
             assign_people_recyclerview.adapter =
-                event!!.guests?.let { Assign_People_Adapter(this, it, defaultSelectedAssigne) }
+                event!!.guests?.let { Assign_People_Adapter(this, it, defaultSelectedAssigne,
+                    context!!
+                ) }
 
         } else {
 

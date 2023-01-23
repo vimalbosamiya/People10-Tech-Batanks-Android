@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.batanks.nextplan.R
 import com.batanks.nextplan.arch.BaseAppCompatActivity
 import com.batanks.nextplan.arch.response.Status
@@ -51,11 +52,14 @@ import kotlinx.android.synthetic.main.activity_event_detail_view.noOfGuests
 import kotlinx.android.synthetic.main.activity_event_detail_view.noOfParticipants
 import kotlinx.android.synthetic.main.activity_event_detail_view.privateIcon
 import kotlinx.android.synthetic.main.activity_event_detail_view.privateIconMini
+import kotlinx.android.synthetic.main.activity_event_detail_view.pullToRefresh
 import kotlinx.android.synthetic.main.activity_event_detail_view.takePartImage
 import kotlinx.android.synthetic.main.activity_event_detail_view.tripCalenderBackground
 import kotlinx.android.synthetic.main.activity_event_detail_view.tripIcon
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.comments_card.*
 import kotlinx.android.synthetic.main.everybody_come_card.*
+import kotlinx.android.synthetic.main.fragment_all_home.*
 import kotlinx.android.synthetic.main.layout_add_guests.*
 import kotlinx.android.synthetic.main.layout_add_guests.add
 import kotlinx.android.synthetic.main.layout_add_guests.substract
@@ -136,566 +140,638 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         commentsList = findViewById(R.id.commentsList)
         commentsList.layoutManager = LinearLayoutManager(this)
 
-        id  = intent.getIntExtra("ID",0)
-        fromHome = intent.getBooleanExtra("FROM_HOME",true)
+        id = intent.getIntExtra("ID", 0)
+        fromHome = intent.getBooleanExtra("FROM_HOME", true)
 
-        userId = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).getInt("ID",0)
-        userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME",null)
+        userId = getSharedPreferences("USER_DETAILS", Context.MODE_PRIVATE).getInt("ID", 0)
+        userName = getSharedPreferences("USER_DETAILS", MODE_PRIVATE).getString("USERNAME", null)
 
         recyclerView = findViewById<RecyclerView>(R.id.activityRecyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         actionRecyclerView = findViewById<RecyclerView>(R.id.actionRecyclerView) as RecyclerView
         actionRecyclerView.layoutManager = LinearLayoutManager(this)
-
         eventDetailViewModel.getEventData(id.toString())
 
-        eventDetailViewModel.responseLiveData.observe(this, Observer { response ->
+        pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
+            override fun onRefresh() {
+                eventDetailViewModel.getEventData(id.toString())
+                pullToRefresh.isRefreshing = false
+            }
+        })
+            eventDetailViewModel.responseLiveData.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                Status.SUCCESS -> {
+                        Status.SUCCESS -> {
 
-                    hideLoader()
+                            hideLoader()
 
-                    event_obj = response.data as Event
-                    eventDetailViewModel.response = response.data as Event
+                            event_obj = response.data as Event
+                            eventDetailViewModel.response = response.data as Event
 
-                    creator = event_obj!!.creator
-                    creatorId = creator!!.id
-                    organizer.text = creator!!.username
-                    organizerInFull.text = creator!!.username
-                    organizerFirstName.text = creator!!.first_name
-                    organizerLastName.text = creator!!.last_name
-                    organizerEmail.text = creator!!.email
-                    organizerMobileNumber.text = creator!!.phone_number.toString()
+                            creator = event_obj!!.creator
+                            creatorId = creator!!.id
+                            organizer.text = creator!!.username
+                            organizerInFull.text = creator!!.username
+                            organizerFirstName.text = creator!!.first_name
+                            organizerLastName.text = creator!!.last_name
+                            organizerEmail.text = creator!!.email
+                            organizerMobileNumber.text = creator!!.phone_number.toString()
 
-                    if(event_obj!!.status == "AC" && event_obj!!._private == true){
-                        acceptedStatus.setImageResource(R.drawable.ic_privateeventcategoryacceptedicon)
-
-
-                    } else if(event_obj!!.status == "AC" && event_obj!!._private == false) {
-                        acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
-
-
-                    } else if (event_obj!!.status == "DN" && event_obj!!._private == false){
-
-                        acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
-
-
-                    } else if (event_obj!!.status == "DN" && event_obj!!._private == true){
-
-                        acceptedStatus.setImageResource(R.drawable.ic_private_event_category_icon_declined)
+                            if (event_obj!!.status == "AC" && event_obj!!._private == true) {
+                                acceptedStatus.setImageResource(R.drawable.ic_privateeventcategoryacceptedicon)
 
 
-                    } else if (event_obj!!.status == null && event_obj!!._private == true){
+                            } else if (event_obj!!.status == "AC" && event_obj!!._private == false) {
+                                acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryiconaccepted)
 
-                        acceptedStatus.setImageResource(R.drawable.ic_eventprivatecategoryicon)
 
+                            } else if (event_obj!!.status == "DN" && event_obj!!._private == false) {
+
+                                acceptedStatus.setImageResource(R.drawable.ic_publiceventcategoryicondeclined)
+
+
+                            } else if (event_obj!!.status == "DN" && event_obj!!._private == true) {
+
+                                acceptedStatus.setImageResource(R.drawable.ic_private_event_category_icon_declined)
+
+
+                            } else if (event_obj!!.status == null && event_obj!!._private == true) {
+
+                                acceptedStatus.setImageResource(R.drawable.ic_eventprivatecategoryicon)
+
+                            }
+
+                            val perPersonCost = (event_obj!!.price)!! / event_obj!!.guests!!.size
+                            perPersonAmount.text = String.format("%.2f", perPersonCost)
+
+                            if (!TextUtils.isEmpty(creator!!.picture)) {
+
+                                userIcon.background = null
+                                Glide.with(this@EventDetailView).load(creator!!.picture)
+                                    .circleCrop().into(userIcon)
+                                Glide.with(this@EventDetailView).load(creator!!.picture)
+                                    .circleCrop()
+                                    .into(userIconInFull)
+                            }
+
+                            if (creator!!.is_in_contacts == true) {
+
+                                textViewAddContact.visibility = GONE
+                                addContactIcon.visibility = GONE
+                            }
+
+                            eventName.text = event_obj!!.title
+                            category.text = event_obj!!.category!!.name
+                            Glide.with(this@EventDetailView).load(event_obj!!.category!!.picture)
+                                .circleCrop()
+                                .into(tripIcon)
+
+                            Log.e("private", event_obj!!._private.toString())
+
+                            if (event_obj!!._private) {
+                                privateIcon.visibility = VISIBLE
+                            } else {
+                                privateIcon.visibility = VISIBLE
+                                privateIconMini.setImageResource(R.drawable.blank_black_shape)
+                                eventType.text = resources.getString(R.string._public)
+                            }
+
+                            noOfGuests.text = event_obj!!.guests!!.size.toString()
+
+                            for (item in event_obj!!.guests!!) {
+
+                                if (item.is_current_user == true) {
+
+                                    guestsComing.text = item.people_coming.toString()
+
+                                    println(item.people_coming)
+
+                                    invitationId = item.invitation_id.toString()
+
+                                    if (item.status == "AC") {
+
+                                        eventAccepted = true
+
+                                        accepted()
+
+                                    } else if (item.status == "PD") {
+
+                                        pending()
+
+                                    } else if (item.status == "DN") {
+
+                                        declined()
+                                    }
+                                }
+                            }
+
+                            val acceptedGuests: ArrayList<Guests> = arrayListOf()
+
+                            for (item in event_obj!!.guests!!) {
+
+                                if (item.status == "AC") {
+                                    acceptedGuests.add(item)
+                                    noOfParticipants.text = /*event_obj!!.guests.size.toString()*/
+                                        acceptedGuests.size.toString()
+                                }
+                            }
+
+                            costPerPerson.text = event_obj!!.price.toString()
+                            costPerPersonSymbol.text = event_obj!!.price_currency
+                            eventDescription.text = event_obj!!.detail
+                            getDates = event_obj!!.dates
+                            getDates?.let { dateInit(it) }
+                            getPlaces = event_obj!!.places!!
+                            getPlaces?.let { placeInit(it) }
+                            getTasks = event_obj!!.tasks!!
+                            getTasks?.let { taskInit(it) }
+                            getActivities = event_obj!!.activities!!
+                            getActivities?.let { activityInit(it) }
+                            getGuests = event_obj!!.guests!!
+                            getGuests?.let { everyBodyComeInit(it) }
+                            //getGuests?.let { everyBodyComeInit(it, event_obj!!.status) }
+                            getComments = event_obj!!.comments!!
+                            getComments?.let { commentsInit(it) }
+                            attendingGuests.clear()
+
+                            for (item in getGuests) {
+
+                                if (item.status == "AC") {
+
+                                    if (!attendingGuests.contains(item)) {
+
+                                        attendingGuests.add(item)
+                                    }
+                                }
+                            }
+
+                            textViewAttendingMulti.text = attendingGuests.size.toString()
+                            textViewAttending.text = attendingGuests.size.toString()
+                            textViewTotalParticipantsMulti.text = getGuests.size.toString()
+                            textViewTotalParticipants.text = getGuests.size.toString()
+                            textViewTotalComments.text = event_obj!!.comments?.size.toString()
+                            textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                            //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
+                        }
                     }
+                })
 
-                    val perPersonCost = (event_obj!!.price)!! /event_obj!!.guests!!.size
-                    perPersonAmount.text = String.format("%.2f",perPersonCost)
+            eventDetailViewModel.responseLiveDataAccept.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                    if (!TextUtils.isEmpty(creator!!.picture)){
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                        userIcon.background = null
-                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIcon)
-                        Glide.with(this).load(creator!!.picture).circleCrop().into(userIconInFull)
-                    }
+                        Status.SUCCESS -> {
 
-                    if(creator!!.is_in_contacts == true){
+                            hideLoader()
 
-                        textViewAddContact.visibility = GONE
-                        addContactIcon.visibility = GONE
-                    }
+                            acceptResponse = response.data as Invitation
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
 
-                    eventName.text = event_obj!!.title
-                    category.text = event_obj!!.category!!.name
-                    Glide.with(this).load(event_obj!!.category!!.picture).circleCrop().into(tripIcon)
+                            //guestsComing.text = acceptResponse!!.amount.toString()
 
-                    Log.e("private",event_obj!!._private.toString())
-
-                    if (event_obj!!._private){
-                        privateIcon.visibility = VISIBLE
-                    }else {
-                        privateIcon.visibility = VISIBLE
-                        privateIconMini.setImageResource(R.drawable.blank_black_shape)
-                        eventType.text = resources.getString(R.string._public)
-                    }
-
-                    noOfGuests.text = event_obj!!.guests!!.size.toString()
-
-                    for(item in event_obj!!.guests!!){
-
-                        if (item.is_current_user == true){
-
-                            guestsComing.text = item.people_coming.toString()
-
-                            println(item.people_coming)
-
-                            invitationId = item.invitation_id.toString()
-
-                            if (item.status == "AC"){
+                            /* if (eventAccepted == false && acceptResponse!!.amount >= 1){
 
                                 eventAccepted = true
 
+                                Toast.makeText(context() , getString(R.string.invite_accepted), Toast.LENGTH_SHORT).show()
+
+                            }else if (eventAccepted == true && acceptResponse!!.amount >= 1){
+
+                                Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
+
+                            }else if (acceptResponse!!.amount == 0){
+
+                                eventAccepted = false
+
+                                Toast.makeText(context() , getString(R.string.invite_declined), Toast.LENGTH_SHORT).show()
+                            }*/
+
+                            if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount == 0) {
+
+                                eventAccepted = true
+
+                                Toast.makeText(
+                                    context(),
+                                    getString(R.string.invite_accepted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            } else if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount >= 1) {
+
+                                Toast.makeText(
+                                    context(),
+                                    getString(R.string.guests_added),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            } else if (acceptResponse!!.status.equals("DN")) {
+
+                                eventAccepted = false
+
+                                Toast.makeText(
+                                    context(),
+                                    getString(R.string.invite_declined),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            //noOfGuests.text = acceptResponse!!.amount.toString()
+
+                            if (acceptResponse!!.status == ACCEPT) {
+
                                 accepted()
 
-                            } else if(item.status == "PD"){
-
-                                pending()
-
-                            } else if(item.status == "DN"){
+                            } else if (acceptResponse!!.status == DECLINE) {
 
                                 declined()
+
+                            } else if (acceptResponse!!.status == PENDING) {
+
+                                pending()
                             }
                         }
-                    }
 
-                    val acceptedGuests : ArrayList<Guests> = arrayListOf()
+                        Status.ERROR -> {
+                            hideLoader()
 
-                    for (item in event_obj!!.guests!!){
-
-                        if (item.status == "AC"){
-                            acceptedGuests.add(item)
-                            noOfParticipants.text = /*event_obj!!.guests.size.toString()*/acceptedGuests.size.toString()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
                         }
                     }
+                })
 
-                    costPerPerson.text = event_obj!!.price.toString()
-                    costPerPersonSymbol.text = event_obj!!.price_currency
-                    eventDescription.text = event_obj!!.detail
-                    getDates = event_obj!!.dates
-                    getDates?.let { dateInit(it) }
-                    getPlaces = event_obj!!.places!!
-                    getPlaces?.let { placeInit(it) }
-                    getTasks = event_obj!!.tasks!!
-                    getTasks?.let { taskInit(it) }
-                    getActivities = event_obj!!.activities!!
-                    getActivities?.let { activityInit(it) }
-                    getGuests = event_obj!!.guests!!
-                    getGuests?.let { everyBodyComeInit(it) }
-                    //getGuests?.let { everyBodyComeInit(it, event_obj!!.status) }
-                    getComments = event_obj!!.comments!!
-                    getComments?.let { commentsInit(it) }
-                    attendingGuests.clear()
+            eventDetailViewModel.responseLiveDataActivityAccept.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                    for (item in getGuests){
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                        if (item.status == "AC"){
+                        Status.SUCCESS -> {
+                            hideLoader()
+                            activityAcceptResponse = response.data as Activity
+                            getActivities.set(
+                                activitySubscribePosition,
+                                activityAcceptResponse!!
+                            )
+                            adapter.notifyItemChanged(activitySubscribePosition)
+                            adapter.notifyDataSetChanged()
+                        }
 
-                            if (!attendingGuests.contains(item)){
-
-                                attendingGuests.add(item)
-                            }
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
                         }
                     }
+                })
 
-                    textViewAttendingMulti.text = attendingGuests.size.toString()
-                    textViewAttending.text = attendingGuests.size.toString()
-                    textViewTotalParticipantsMulti.text = getGuests.size.toString()
-                    textViewTotalParticipants.text = getGuests.size.toString()
-                    textViewTotalComments.text = event_obj!!.comments?.size.toString()
-                    textViewTotalCommentsMulti.text = event_obj!!.comments?.size.toString()
-                }
+            eventDetailViewModel.responseLiveDataActivityReject.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                    //Toast.makeText(context() , "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-        eventDetailViewModel.responseLiveDataAccept.observe(this, Observer { response ->
+                        Status.SUCCESS -> {
+                            hideLoader()
+                            activityAcceptResponse = response.data as Activity
+                            getActivities.set(
+                                activitySubscribePosition,
+                                activityAcceptResponse!!
+                            )
+                            adapter.notifyItemChanged(activitySubscribePosition)
+                            adapter.notifyDataSetChanged()
+                        }
 
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
 
-                Status.SUCCESS -> {
+            eventDetailViewModel.responseLiveDataGuest.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                    hideLoader()
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                    acceptResponse = response.data as Invitation
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
+                        Status.SUCCESS -> {
 
-                    //guestsComing.text = acceptResponse!!.amount.toString()
+                            hideLoader()
 
-                   /* if (eventAccepted == false && acceptResponse!!.amount >= 1){
+                            Toast.makeText(
+                                context(),
+                                getString(R.string.guests_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                        eventAccepted = true
+                            guestResponse = response.data as Invitation
+                        }
 
-                        Toast.makeText(context() , getString(R.string.invite_accepted), Toast.LENGTH_SHORT).show()
+                        Status.ERROR -> {
+                            hideLoader()
 
-                    }else if (eventAccepted == true && acceptResponse!!.amount >= 1){
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
 
-                        Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
+            eventDetailViewModel.responseLiveDataVoteDate.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                    }else if (acceptResponse!!.amount == 0){
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                        eventAccepted = false
+                        Status.SUCCESS -> {
 
-                        Toast.makeText(context() , getString(R.string.invite_declined), Toast.LENGTH_SHORT).show()
-                    }*/
+                            hideLoader()
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
 
-                    if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount == 0){
+                        Status.ERROR -> {
+                            hideLoader()
 
-                        eventAccepted = true
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
 
-                        Toast.makeText(context() , getString(R.string.invite_accepted), Toast.LENGTH_SHORT).show()
+            eventDetailViewModel.responseLiveDataVotePlace.observe(
+                this@EventDetailView,
+                Observer { response ->
 
-                    }else if (acceptResponse!!.status.equals("AC") && acceptResponse!!.amount >= 1){
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
 
-                        Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
+                        Status.SUCCESS -> {
 
-                    }else if (acceptResponse!!.status.equals("DN")){
+                            hideLoader()
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
 
-                        eventAccepted = false
+                        Status.ERROR -> {
+                            hideLoader()
 
-                        Toast.makeText(context() , getString(R.string.invite_declined), Toast.LENGTH_SHORT).show()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+            eventDetailViewModel.responseLiveDataComment.observe(
+                this@EventDetailView,
+                Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+
+                            hideLoader()
+
+                            Toast.makeText(
+                                this@EventDetailView,
+                                getString(R.string.comment_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+            eventDetailViewModel.responseLiveDataEditComment.observe(
+                this@EventDetailView,
+                Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+
+                            hideLoader()
+                            Toast.makeText(
+                                this@EventDetailView,
+                                getString(R.string.comment_updated),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+            eventDetailViewModel.responseLiveDataDeleteComment.observe(
+                this@EventDetailView,
+                Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+
+                            hideLoader()
+                            Toast.makeText(
+                                this@EventDetailView,
+                                getString(R.string.comment_deleted),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            fromActivityResponse = false
+                            eventDetailViewModel.getEventData(id.toString())
+                        }
+
+                        Status.ERROR -> {
+                            hideLoader()
+
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+            /*eventDetailViewModel.responseLiveDataAssignAction.observe(this, Observer { response ->
+
+                when (response.status) {
+                    Status.LOADING -> {
+                        showLoader()
                     }
 
-                    //noOfGuests.text = acceptResponse!!.amount.toString()
+                    Status.SUCCESS -> {
 
-                    if (acceptResponse!!.status == ACCEPT){
+                        hideLoader()
 
-                        accepted()
+                        //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
+                        //assigneeResponse = response.data as AssignTaskResponse
+                        //fromActivityResponse = false
+                        *//*eventDetailViewModel.apiEventTaskPatch(id.toString(),userTask?.id.toString(),
+                            TaskPatch(price , userTask?.name, userTask?.description, perPerson, ""))*//*
+                        eventDetailViewModel.apiEventTaskPatch(id.toString(),assigneeResponse?.id.toString(),
+                            TaskPatch(assigneeResponse!!.price.toString(), assigneeResponse?.name, assigneeResponse?.description, assigneeResponse!!.per_person,
+                                        assigneeResponse!!.assignee?.id.toString()))
 
-                    } else if (acceptResponse!!.status == DECLINE) {
+                        //eventDetailViewModel.getEventData(id.toString())
+                    }
 
-                        declined()
+                    Status.ERROR -> {
+                        hideLoader()
 
-                    } else if (acceptResponse!!.status == PENDING) {
-
-                        pending()
+                        showMessage(response.error?.message.toString())
+                        println(response.error)
                     }
                 }
+            })
 
-                Status.ERROR -> {
-                    hideLoader()
+            eventDetailViewModel.responseLiveDataTaskPatch.observe(this, Observer { response ->
 
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
+                when (response.status) {
+                    Status.LOADING -> {
+                        showLoader()
+                    }
+
+                    Status.SUCCESS -> {
+
+                        //hideLoader()
+                        //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
+                        //assigneeResponse = response.data as AssignTaskResponse
+                        //fromActivityResponse = false
+                        //eventDetailViewModel.getEventData(id.toString())
+                    }
+
+                    Status.ERROR -> {
+                        hideLoader()
+
+                        showMessage(response.error?.message.toString())
+                        println(response.error)
+                    }
+                }
+            })*/
+
+            addContactViewModel.responseLiveData.observe(
+                this@EventDetailView,
+                Observer { response ->
+
+                    when (response.status) {
+                        Status.LOADING -> {
+                            showLoader()
+                        }
+
+                        Status.SUCCESS -> {
+
+                            hideLoader()
+
+                            textViewAddContact.visibility = GONE
+                            addContactIcon.visibility = GONE
+
+                            Toast.makeText(
+                                context(),
+                                getString(R.string.contact_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        Status.ERROR -> {
+                            hideLoader()
+                            showMessage(response.error?.message.toString())
+                            println(response.error)
+                        }
+                    }
+                })
+
+            mapView.apply {
+
+                onCreate(null)
+                getMapAsync {
+
+                    val LATLNG = LatLng(13.03, 77.60)
+
+                    with(it) {
+
+                        onResume()
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
+                        addMarker(MarkerOptions().position(LATLNG))
+                    }
                 }
             }
-        })
 
-        eventDetailViewModel.responseLiveDataActivityAccept.observe(this, Observer { response ->
+            addguestIcon.setOnClickListener(this@EventDetailView)
+            addGuestImage.setOnClickListener(this@EventDetailView)
+            userIcon.setOnClickListener(this@EventDetailView)
+            userIconInFull.setOnClickListener(this@EventDetailView)
+            dateDropDown.setOnClickListener(this@EventDetailView)
+            dateDropDownMulti.setOnClickListener(this@EventDetailView)
+            placeDropDown.setOnClickListener(this@EventDetailView)
+            placeDropDownMulti.setOnClickListener(this@EventDetailView)
+            totalParticipantsDropDown.setOnClickListener(this@EventDetailView)
+            totalParticipantsDropDownMulti.setOnClickListener(this@EventDetailView)
+            totalCommentsDropDown.setOnClickListener(this@EventDetailView)
+            totalCommentsDropDownMulti.setOnClickListener(this@EventDetailView)
+            tripCalenderBackground.setOnClickListener(this@EventDetailView)
+            takePartImage.setOnClickListener(this@EventDetailView)
+            backArrow.setOnClickListener(this@EventDetailView)
+            addComment.setOnClickListener(this@EventDetailView)
+            textViewAddContact.setOnClickListener(this@EventDetailView)
+            declineInvitationTextView.setOnClickListener(this@EventDetailView)
 
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-                    hideLoader()
-                    activityAcceptResponse = response.data as Activity
-                    getActivities.set(activitySubscribePosition, activityAcceptResponse!!)
-                    adapter.notifyItemChanged(activitySubscribePosition)
-                    adapter.notifyDataSetChanged()
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataActivityReject.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-                    hideLoader()
-                    activityAcceptResponse = response.data as Activity
-                    getActivities.set(activitySubscribePosition, activityAcceptResponse!!)
-                    adapter.notifyItemChanged(activitySubscribePosition)
-                    adapter.notifyDataSetChanged()
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataGuest.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-
-                    Toast.makeText(context() , getString(R.string.guests_added), Toast.LENGTH_SHORT).show()
-
-                    guestResponse = response.data as Invitation
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataVoteDate.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataVotePlace.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-
-                    Toast.makeText(this, getString(R.string.comment_added),Toast.LENGTH_SHORT).show()
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataEditComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    Toast.makeText(this, getString(R.string.comment_updated), Toast.LENGTH_SHORT).show()
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataDeleteComment.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-                    Toast.makeText(this, getString(R.string.comment_deleted), Toast.LENGTH_SHORT).show()
-                    fromActivityResponse = false
-                    eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        /*eventDetailViewModel.responseLiveDataAssignAction.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-
-                    //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
-                    //assigneeResponse = response.data as AssignTaskResponse
-                    //fromActivityResponse = false
-                    *//*eventDetailViewModel.apiEventTaskPatch(id.toString(),userTask?.id.toString(),
-                        TaskPatch(price , userTask?.name, userTask?.description, perPerson, ""))*//*
-                    eventDetailViewModel.apiEventTaskPatch(id.toString(),assigneeResponse?.id.toString(),
-                        TaskPatch(assigneeResponse!!.price.toString(), assigneeResponse?.name, assigneeResponse?.description, assigneeResponse!!.per_person,
-                                    assigneeResponse!!.assignee?.id.toString()))
-
-                    //eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        eventDetailViewModel.responseLiveDataTaskPatch.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    //hideLoader()
-                    //Toast.makeText(this, getString(R.string.assign_successful), Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, "That worked like charm", Toast.LENGTH_SHORT).show()
-                    //assigneeResponse = response.data as AssignTaskResponse
-                    //fromActivityResponse = false
-                    //eventDetailViewModel.getEventData(id.toString())
-                }
-
-                Status.ERROR -> {
-                    hideLoader()
-
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })*/
-
-        addContactViewModel.responseLiveData.observe(this, Observer { response ->
-
-            when (response.status) {
-                Status.LOADING -> {
-                    showLoader()
-                }
-
-                Status.SUCCESS -> {
-
-                    hideLoader()
-
-                    textViewAddContact.visibility = GONE
-                    addContactIcon.visibility = GONE
-
-                    Toast.makeText(context() , getString(R.string.contact_added), Toast.LENGTH_SHORT).show()
-                }
-                Status.ERROR -> {
-                    hideLoader()
-                    showMessage(response.error?.message.toString())
-                    println(response.error)
-                }
-            }
-        })
-
-        mapView.apply {
-
-            onCreate(null)
-            getMapAsync{
-
-                val LATLNG = LatLng(13.03,77.60)
-
-                with(it){
-
-                    onResume()
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(LATLNG, 13f))
-                    addMarker(MarkerOptions().position(LATLNG))
-                }
-            }
-        }
-
-        addguestIcon.setOnClickListener(this)
-        addGuestImage.setOnClickListener(this)
-        userIcon.setOnClickListener(this)
-        userIconInFull.setOnClickListener (this)
-        dateDropDown.setOnClickListener(this)
-        dateDropDownMulti.setOnClickListener(this)
-        placeDropDown.setOnClickListener(this)
-        placeDropDownMulti.setOnClickListener(this)
-        totalParticipantsDropDown.setOnClickListener(this)
-        totalParticipantsDropDownMulti.setOnClickListener(this)
-        totalCommentsDropDown.setOnClickListener(this)
-        totalCommentsDropDownMulti.setOnClickListener(this)
-        tripCalenderBackground.setOnClickListener(this)
-        takePartImage.setOnClickListener(this)
-        backArrow.setOnClickListener(this)
-        addComment.setOnClickListener(this)
-        textViewAddContact.setOnClickListener(this)
-        declineInvitationTextView.setOnClickListener(this)
     }
 
     fun dateInit(dates : ArrayList<EventDate>){

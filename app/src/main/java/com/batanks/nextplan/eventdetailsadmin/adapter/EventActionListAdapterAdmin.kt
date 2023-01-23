@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,11 +65,10 @@ class EventActionListAdapterAdmin (val actionList : ArrayList<Task>, val context
             holder.contactNameFull.text = action.assignee.username
 
             if (!action.assignee?.picture.isNullOrEmpty()){
-
-                Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
-                Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatusFull)
-                holder.contactImage.visibility = View.GONE
-                holder.contactImageFull.visibility = View.GONE
+                Glide.with(context).load(action.assignee.picture).circleCrop().into(holder.contactImage)
+                Glide.with(context).load(action.assignee.picture).circleCrop().into(holder.contactImageFull)
+                holder.contactImage.visibility = View.VISIBLE
+                holder.contactImageFull.visibility = View.VISIBLE
                 holder.userImage.visibility = View.GONE
                 holder.userImageFull.visibility = View.GONE
             }
