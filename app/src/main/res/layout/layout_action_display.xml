@@ -233,7 +233,7 @@
                 android:id="@+id/contactStatus"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/ic_contact_not_confirmed"
+                android:background="@drawable/ic_user_accepted"
                 app:layout_constraintStart_toStartOf="@+id/contactBackground"
                 app:layout_constraintTop_toTopOf="@+id/contactBackground"/>
 

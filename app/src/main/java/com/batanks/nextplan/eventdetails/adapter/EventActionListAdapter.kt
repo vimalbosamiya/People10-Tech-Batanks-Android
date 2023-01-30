@@ -17,6 +17,7 @@ import com.batanks.nextplan.eventdetails.viewmodel.EventDetailViewModel
 import com.batanks.nextplan.home.fragment.action.AddActionFragment
 import com.batanks.nextplan.swagger.model.AssignTask
 import com.batanks.nextplan.swagger.model.Task
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_action_display.view.*
 
 class EventActionListAdapter (val actionList : List<Task>, val context: Context, private val eventDetailViewModel: EventDetailViewModel,
@@ -71,7 +72,7 @@ class EventActionListAdapter (val actionList : List<Task>, val context: Context,
             }else {holder.contactSettings.visibility = GONE }
 
             if (!action.assignee?.picture.isNullOrEmpty()){
-
+                Glide.with(context).load(action.assignee.picture).circleCrop().into(holder.contactImage)
                 //Glide.with(context).load(action.assignee?.picture).circleCrop().into(holder.contactStatus)
                 //holder.contactImage.visibility = GONE
                 //holder.userImage.visibility = GONE
