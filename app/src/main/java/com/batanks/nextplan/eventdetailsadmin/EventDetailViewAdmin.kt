@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,9 +46,25 @@ import com.batanks.nextplan.notifications.Notification
 import com.batanks.nextplan.swagger.api.EventAPI
 import com.batanks.nextplan.swagger.model.*
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_event_detail_view.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.*
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.addGuestBackground
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.backArrow
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.category
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.costPerPerson
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.costPerPersonSymbol
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.customToolBar
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.eventDescription
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.eventName
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.eventType
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.noOfGuests
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.noOfParticipants
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.privateIcon
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.privateIconMini
 import kotlinx.android.synthetic.main.activity_event_detail_view_admin.pullToRefresh
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.takePartImage
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.tripCalenderBackground
+import kotlinx.android.synthetic.main.activity_event_detail_view_admin.tripIcon
 import kotlinx.android.synthetic.main.comments_card_admin.*
 import kotlinx.android.synthetic.main.everybody_come_card_admin.*
 import kotlinx.android.synthetic.main.fragment_all_home.*
@@ -106,6 +123,7 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
 
     lateinit var addPeopleRecyclerView: RecyclerView
     lateinit var commentsListRecyclerViewAdmin: RecyclerView
+    lateinit var eventDetailLayout:ConstraintLayout
 
     private val eventDetailViewModel: EventDetailViewModel by lazy {
         ViewModelProvider(this, GenericViewModelFactory {
@@ -128,10 +146,13 @@ class EventDetailViewAdmin : BaseAppCompatActivity(), ButtonContract, AddComment
         //loadingDialog = this.getLoadingDialog(0, R.string.loading_page_please_wait, theme = R.style.AlertDialogCustom)
         pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
+                scrollview.isFillViewport = true
                 eventDetailViewModel.getEventData(id.toString())
-                pullToRefresh.setRefreshing(false)
+
+                pullToRefresh.isRefreshing = false
             }
         })
+
         eventDetailViewModel.responseLiveData.observe(this@EventDetailViewAdmin, Observer { response ->
 
                     when (response.status) {

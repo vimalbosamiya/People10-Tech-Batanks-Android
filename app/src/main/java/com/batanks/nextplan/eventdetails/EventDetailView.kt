@@ -12,6 +12,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.Window
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
@@ -152,12 +153,16 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
         actionRecyclerView.layoutManager = LinearLayoutManager(this)
         eventDetailViewModel.getEventData(id.toString())
 
+
         pullToRefresh.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
+                scrollview_view.isFillViewport = true
                 eventDetailViewModel.getEventData(id.toString())
+
                 pullToRefresh.isRefreshing = false
             }
         })
+
             eventDetailViewModel.responseLiveData.observe(
                 this@EventDetailView,
                 Observer { response ->
@@ -771,6 +776,8 @@ class EventDetailView : BaseAppCompatActivity(), View.OnClickListener,
             addComment.setOnClickListener(this@EventDetailView)
             textViewAddContact.setOnClickListener(this@EventDetailView)
             declineInvitationTextView.setOnClickListener(this@EventDetailView)
+
+
 
     }
 
